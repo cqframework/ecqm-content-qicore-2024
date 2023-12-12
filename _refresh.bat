@@ -1,5 +1,5 @@
 @ECHO OFF
-SET tooling_jar=tooling-cli-2.5.0.jar
+SET tooling_jar=tooling-3.0.0.jar
 SET input_cache_path=%~dp0input-cache
 SET ig_ini_path=%~dp0ig.ini
 
