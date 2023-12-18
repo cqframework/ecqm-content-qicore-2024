@@ -101,10 +101,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
       }, {
         "url": "displaySequence",
-        "valueInteger": 0
+        "valueString": "0"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -116,10 +116,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
+        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 1
+        "valueString": "1"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -131,10 +131,10 @@
         "valueString": "Qualifying Encounter during Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define \"Qualifying Encounter during Measurement Period\":\n  [Encounter: \"Encounter to Screen for Blood Pressure\"] ValidEncounter\n    where ValidEncounter.period during day of \"Measurement Period\"\n      and ValidEncounter.status ~ 'finished'\n      and ValidEncounter.class !~ \"virtual\""
+        "valueString": "define &quot;Qualifying Encounter during Measurement Period&quot;:\n  [Encounter: &quot;Encounter to Screen for Blood Pressure&quot;] ValidEncounter\n    where ValidEncounter.period during day of &quot;Measurement Period&quot;\n      and ValidEncounter.status ~ &#39;finished&#39;\n      and ValidEncounter.class !~ &quot;virtual&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 2
+        "valueString": "2"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -146,10 +146,10 @@
         "valueString": "Encounter with Normal Blood Pressure Reading"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Normal Blood Pressure Reading\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n        where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n          and BloodPressure.status in { 'final', 'amended', 'corrected' }\n        sort by start of effective.toInterval()\n    )\n    where EncounterLastBP.SystolicBP.value in Interval[1 'mm[Hg]', 120 'mm[Hg]' )\n      and EncounterLastBP.DiastolicBP.value in Interval[1 'mm[Hg]', 80 'mm[Hg]' )"
+        "valueString": "define &quot;Encounter with Normal Blood Pressure Reading&quot;:\n  &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n    let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n        where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n          and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        sort by start of effective.toInterval()\n    )\n    where EncounterLastBP.SystolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 120 &#39;mm[Hg]&#39; )\n      and EncounterLastBP.DiastolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 80 &#39;mm[Hg]&#39; )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 3
+        "valueString": "3"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -161,10 +161,10 @@
         "valueString": "Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n        where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n          and BloodPressure.status in { 'final', 'amended', 'corrected' }\n        sort by start of effective.toInterval()\n    )\n    where ( EncounterLastBP.SystolicBP.value in Interval[120 'mm[Hg]', 129 'mm[Hg]']\n        and EncounterLastBP.DiastolicBP.value in Interval[1 'mm[Hg]', 80 'mm[Hg]' )\n    )"
+        "valueString": "define &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot;:\n  &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n    let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n        where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n          and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        sort by start of effective.toInterval()\n    )\n    where ( EncounterLastBP.SystolicBP.value in Interval[120 &#39;mm[Hg]&#39;, 129 &#39;mm[Hg]&#39;]\n        and EncounterLastBP.DiastolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 80 &#39;mm[Hg]&#39; )\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 4
+        "valueString": "4"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -176,10 +176,10 @@
         "valueString": "Follow up with Rescreen in 2 to 6 Months"
       }, {
         "url": "statement",
-        "valueString": "define \"Follow up with Rescreen in 2 to 6 Months\":\n  ( [ServiceRequest: \"Follow-up 2-3 months (finding)\"]\n    union [ServiceRequest: \"Follow-up 4-6 months (finding)\"] ) FollowUp\n    where FollowUp.intent ~ 'order'"
+        "valueString": "define &quot;Follow up with Rescreen in 2 to 6 Months&quot;:\n  ( [ServiceRequest: &quot;Follow-up 2-3 months (finding)&quot;]\n    union [ServiceRequest: &quot;Follow-up 4-6 months (finding)&quot;] ) FollowUp\n    where FollowUp.intent ~ &#39;order&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 5
+        "valueString": "5"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -191,10 +191,10 @@
         "valueString": "NonPharmacological Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"NonPharmacological Interventions\":\n  ( [ServiceRequest: \"Lifestyle Recommendation\"]\n    union [ServiceRequest: \"Weight Reduction Recommended\"]\n    union [ServiceRequest: \"Dietary Recommendations\"]\n    union [ServiceRequest: \"Recommendation to Increase Physical Activity\"]\n    union [ServiceRequest: \"Referral or Counseling for Alcohol Consumption\"] ) NonPharmaInterventions\n    where NonPharmaInterventions.intent ~ 'order'"
+        "valueString": "define &quot;NonPharmacological Interventions&quot;:\n  ( [ServiceRequest: &quot;Lifestyle Recommendation&quot;]\n    union [ServiceRequest: &quot;Weight Reduction Recommended&quot;]\n    union [ServiceRequest: &quot;Dietary Recommendations&quot;]\n    union [ServiceRequest: &quot;Recommendation to Increase Physical Activity&quot;]\n    union [ServiceRequest: &quot;Referral or Counseling for Alcohol Consumption&quot;] ) NonPharmaInterventions\n    where NonPharmaInterventions.intent ~ &#39;order&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 6
+        "valueString": "6"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -206,10 +206,10 @@
         "valueString": "Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading"
       }, {
         "url": "statement",
-        "valueString": "define \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\":\n  [ServiceRequest: \"Referral to Primary Care or Alternate Provider\"] Referral\n    where Referral.reasonCode in \"Finding of Elevated Blood Pressure or Hypertension\"\n      and Referral.intent ~ 'order'"
+        "valueString": "define &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot;:\n  [ServiceRequest: &quot;Referral to Primary Care or Alternate Provider&quot;] Referral\n    where Referral.reasonCode in &quot;Finding of Elevated Blood Pressure or Hypertension&quot;\n      and Referral.intent ~ &#39;order&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 7
+        "valueString": "7"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -221,10 +221,10 @@
         "valueString": "Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions\":\n  ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n      with \"Follow up with Rescreen in 2 to 6 Months\" Twoto6MonthRescreen\n        such that Twoto6MonthRescreen.authoredOn during day of ElevatedEncounter.period\n      with \"NonPharmacological Interventions\" NonPharmInterventions\n        such that NonPharmInterventions.authoredOn during day of ElevatedEncounter.period\n  )\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n        with \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" Referral\n          such that Referral.authoredOn during day of ElevatedEncounter.period\n    )"
+        "valueString": "define &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions&quot;:\n  ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedEncounter\n      with &quot;Follow up with Rescreen in 2 to 6 Months&quot; Twoto6MonthRescreen\n        such that Twoto6MonthRescreen.authoredOn during day of ElevatedEncounter.period\n      with &quot;NonPharmacological Interventions&quot; NonPharmInterventions\n        such that NonPharmInterventions.authoredOn during day of ElevatedEncounter.period\n  )\n    union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedEncounter\n        with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; Referral\n          such that Referral.authoredOn during day of ElevatedEncounter.period\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 8
+        "valueString": "8"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -236,10 +236,10 @@
         "valueString": "Encounter with Hypertensive Reading Within Year Prior"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Hypertensive Reading Within Year Prior\":\n  ( \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n      let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n          where BloodPressure.effective.toInterval() ends 1 year or less before or on start of QualifyingEncounter.period\n            and BloodPressure.status in { 'final', 'amended', 'corrected' }\n          sort by start of effective.toInterval()\n      )\n      where ( EncounterLastBP.SystolicBP.value > 0 'mm[Hg]'\n          and EncounterLastBP.DiastolicBP.value > 0 'mm[Hg]'\n          and ( EncounterLastBP.SystolicBP.value >= 130 'mm[Hg]'\n              or EncounterLastBP.DiastolicBP.value >= 80 'mm[Hg]'\n          )\n      )\n  )"
+        "valueString": "define &quot;Encounter with Hypertensive Reading Within Year Prior&quot;:\n  ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n      let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n          where BloodPressure.effective.toInterval() ends 1 year or less before or on start of QualifyingEncounter.period\n            and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          sort by start of effective.toInterval()\n      )\n      where ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n          and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n          and ( EncounterLastBP.SystolicBP.value &gt;= 130 &#39;mm[Hg]&#39;\n              or EncounterLastBP.DiastolicBP.value &gt;= 80 &#39;mm[Hg]&#39;\n          )\n      )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 9
+        "valueString": "9"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -251,10 +251,10 @@
         "valueString": "Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\":\n  ( \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n      let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n          where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period\n          sort by start of effective.toInterval()\n      )\n      where ( ( EncounterLastBP.SystolicBP.value > 0 'mm[Hg]'\n            and EncounterLastBP.DiastolicBP.value > 0 'mm[Hg]'\n        )\n          and ( EncounterLastBP.SystolicBP.value >= 130 'mm[Hg]'\n              or EncounterLastBP.DiastolicBP.value >= 80 'mm[Hg]'\n          )\n      )\n  )\n    except \"Encounter with Hypertensive Reading Within Year Prior\""
+        "valueString": "define &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot;:\n  ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n      let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n          where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period\n          sort by start of effective.toInterval()\n      )\n      where ( ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n            and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n        )\n          and ( EncounterLastBP.SystolicBP.value &gt;= 130 &#39;mm[Hg]&#39;\n              or EncounterLastBP.DiastolicBP.value &gt;= 80 &#39;mm[Hg]&#39;\n          )\n      )\n  )\n    except &quot;Encounter with Hypertensive Reading Within Year Prior&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 10
+        "valueString": "10"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -266,10 +266,10 @@
         "valueString": "First Hypertensive Reading Interventions or Referral to Alternate Professional"
       }, {
         "url": "statement",
-        "valueString": "define \"First Hypertensive Reading Interventions or Referral to Alternate Professional\":\n  ( [ServiceRequest: \"Follow Up Within 4 Weeks\"] FourWeekRescreen\n      with \"NonPharmacological Interventions\" NonPharmInterventionsHTN\n        such that FourWeekRescreen.authoredOn during day of \"Measurement Period\"\n          and NonPharmInterventionsHTN.authoredOn during day of \"Measurement Period\"\n          and FourWeekRescreen.intent ~ 'order'\n  )\n    union ( \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" )"
+        "valueString": "define &quot;First Hypertensive Reading Interventions or Referral to Alternate Professional&quot;:\n  ( [ServiceRequest: &quot;Follow Up Within 4 Weeks&quot;] FourWeekRescreen\n      with &quot;NonPharmacological Interventions&quot; NonPharmInterventionsHTN\n        such that FourWeekRescreen.authoredOn during day of &quot;Measurement Period&quot;\n          and NonPharmInterventionsHTN.authoredOn during day of &quot;Measurement Period&quot;\n          and FourWeekRescreen.intent ~ &#39;order&#39;\n  )\n    union ( &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 11
+        "valueString": "11"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -281,10 +281,10 @@
         "valueString": "Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions\":\n  \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n    with \"First Hypertensive Reading Interventions or Referral to Alternate Professional\" FirstHTNIntervention\n      such that FirstHTNIntervention.authoredOn during day of FirstHTNEncounter.period"
+        "valueString": "define &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions&quot;:\n  &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter\n    with &quot;First Hypertensive Reading Interventions or Referral to Alternate Professional&quot; FirstHTNIntervention\n      such that FirstHTNIntervention.authoredOn during day of FirstHTNEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 12
+        "valueString": "12"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -296,10 +296,10 @@
         "valueString": "Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\":\n  ( \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n      let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n          where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period\n            and BloodPressure.status in { 'final', 'amended', 'corrected' }\n          sort by start of effective.toInterval()\n      )\n      where ( ( EncounterLastBP.SystolicBP.value in Interval[130 'mm[Hg]', 139 'mm[Hg]']\n            or EncounterLastBP.DiastolicBP.value in Interval[80 'mm[Hg]', 89 'mm[Hg]']\n        )\n          and not ( EncounterLastBP.SystolicBP.value >= 140 'mm[Hg]'\n              or EncounterLastBP.DiastolicBP.value >= 90 'mm[Hg]'\n          )\n      )\n        and ( exists \"Encounter with Hypertensive Reading Within Year Prior\" )\n  )"
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot;:\n  ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n      let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n          where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period\n            and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          sort by start of effective.toInterval()\n      )\n      where ( ( EncounterLastBP.SystolicBP.value in Interval[130 &#39;mm[Hg]&#39;, 139 &#39;mm[Hg]&#39;]\n            or EncounterLastBP.DiastolicBP.value in Interval[80 &#39;mm[Hg]&#39;, 89 &#39;mm[Hg]&#39;]\n        )\n          and not ( EncounterLastBP.SystolicBP.value &gt;= 140 &#39;mm[Hg]&#39;\n              or EncounterLastBP.DiastolicBP.value &gt;= 90 &#39;mm[Hg]&#39;\n          )\n      )\n        and ( exists &quot;Encounter with Hypertensive Reading Within Year Prior&quot; )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 13
+        "valueString": "13"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -311,10 +311,10 @@
         "valueString": "Laboratory Test or ECG for Hypertension"
       }, {
         "url": "statement",
-        "valueString": "define \"Laboratory Test or ECG for Hypertension\":\n  ( [ServiceRequest: \"12 lead EKG panel\"]\n    union [ServiceRequest: \"EKG study\"]\n    union [ServiceRequest: \"Laboratory Tests for Hypertension\"] ) EKGLab\n    where EKGLab.intent ~ 'order'"
+        "valueString": "define &quot;Laboratory Test or ECG for Hypertension&quot;:\n  ( [ServiceRequest: &quot;12 lead EKG panel&quot;]\n    union [ServiceRequest: &quot;EKG study&quot;]\n    union [ServiceRequest: &quot;Laboratory Tests for Hypertension&quot;] ) EKGLab\n    where EKGLab.intent ~ &#39;order&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 14
+        "valueString": "14"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -326,10 +326,10 @@
         "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\":\n  \"Follow up with Rescreen in 2 to 6 Months\" Rescreen2to6\n    with \"Laboratory Test or ECG for Hypertension\" LabECGIntervention\n      such that Rescreen2to6.authoredOn during day of \"Measurement Period\"\n        and LabECGIntervention.authoredOn during day of \"Measurement Period\"\n    with \"NonPharmacological Interventions\" NonPharmSecondIntervention\n      such that NonPharmSecondIntervention.authoredOn during day of \"Measurement Period\""
+        "valueString": "define &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot;:\n  &quot;Follow up with Rescreen in 2 to 6 Months&quot; Rescreen2to6\n    with &quot;Laboratory Test or ECG for Hypertension&quot; LabECGIntervention\n      such that Rescreen2to6.authoredOn during day of &quot;Measurement Period&quot;\n        and LabECGIntervention.authoredOn during day of &quot;Measurement Period&quot;\n    with &quot;NonPharmacological Interventions&quot; NonPharmSecondIntervention\n      such that NonPharmSecondIntervention.authoredOn during day of &quot;Measurement Period&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 15
+        "valueString": "15"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -341,10 +341,10 @@
         "valueString": "Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\":\n  ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\" SecondHTNEncounterReading\n      with \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\" EncounterInterventions\n        such that EncounterInterventions.authoredOn during day of SecondHTNEncounterReading.period\n  )\n    union ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\" SecondHTNEncounterReading\n        with \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" ReferralForHTN\n          such that ReferralForHTN.authoredOn during day of SecondHTNEncounterReading.period\n    )"
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot;:\n  ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounterReading\n      with &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot; EncounterInterventions\n        such that EncounterInterventions.authoredOn during day of SecondHTNEncounterReading.period\n  )\n    union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounterReading\n        with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; ReferralForHTN\n          such that ReferralForHTN.authoredOn during day of SecondHTNEncounterReading.period\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 16
+        "valueString": "16"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -356,10 +356,10 @@
         "valueString": "Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\":\n  ( \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n      let EncounterLastBP: Last([\"observation-bp\"] BloodPressure\n          where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n            and BloodPressure.status in { 'final', 'amended', 'corrected' }\n          sort by start of effective.toInterval()\n      )\n      where ( EncounterLastBP.SystolicBP.value > 0 'mm[Hg]'\n          and EncounterLastBP.DiastolicBP.value > 0 'mm[Hg]'\n          and ( EncounterLastBP.SystolicBP.value >= 140 'mm[Hg]'\n              or EncounterLastBP.DiastolicBP.value >= 90 'mm[Hg]'\n          )\n      )\n        and ( exists \"Encounter with Hypertensive Reading Within Year Prior\" )\n  )"
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot;:\n  ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n      let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure\n          where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period\n            and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          sort by start of effective.toInterval()\n      )\n      where ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n          and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;\n          and ( EncounterLastBP.SystolicBP.value &gt;= 140 &#39;mm[Hg]&#39;\n              or EncounterLastBP.DiastolicBP.value &gt;= 90 &#39;mm[Hg]&#39;\n          )\n      )\n        and ( exists &quot;Encounter with Hypertensive Reading Within Year Prior&quot; )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 17
+        "valueString": "17"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -371,10 +371,10 @@
         "valueString": "Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions\":\n  ( [ServiceRequest: \"Follow Up Within 4 Weeks\"] WeeksRescreen\n      with \"Laboratory Test or ECG for Hypertension\" ECGLabTest\n        such that WeeksRescreen.authoredOn during day of \"Measurement Period\"\n          and ECGLabTest.authoredOn during day of \"Measurement Period\"\n          and WeeksRescreen.intent ~ 'order'\n          and ECGLabTest.intent ~ 'order'\n      with \"NonPharmacological Interventions\" HTNInterventions\n        such that HTNInterventions.authoredOn during day of \"Measurement Period\"\n      with [\"MedicationRequest\": \"Pharmacologic Therapy for Hypertension\"] Medications\n        such that Medications.authoredOn during day of \"Measurement Period\"\n          and Medications.status ~ 'active'\n  )"
+        "valueString": "define &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions&quot;:\n  ( [ServiceRequest: &quot;Follow Up Within 4 Weeks&quot;] WeeksRescreen\n      with &quot;Laboratory Test or ECG for Hypertension&quot; ECGLabTest\n        such that WeeksRescreen.authoredOn during day of &quot;Measurement Period&quot;\n          and ECGLabTest.authoredOn during day of &quot;Measurement Period&quot;\n          and WeeksRescreen.intent ~ &#39;order&#39;\n          and ECGLabTest.intent ~ &#39;order&#39;\n      with &quot;NonPharmacological Interventions&quot; HTNInterventions\n        such that HTNInterventions.authoredOn during day of &quot;Measurement Period&quot;\n      with [&quot;MedicationRequest&quot;: &quot;Pharmacologic Therapy for Hypertension&quot;] Medications\n        such that Medications.authoredOn during day of &quot;Measurement Period&quot;\n          and Medications.status ~ &#39;active&#39;\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 18
+        "valueString": "18"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -386,10 +386,10 @@
         "valueString": "Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions\":\n  ( \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\" SecondHTNEncounterReading140Over90\n      with \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions\" SecondHTN140Over90Interventions\n        such that SecondHTN140Over90Interventions.authoredOn during day of SecondHTNEncounterReading140Over90.period\n  )\n    union \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\" SecondHTNEncounterReading140Over90\n      with \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" ReferralToProfessional\n        such that ReferralToProfessional.authoredOn during day of SecondHTNEncounterReading140Over90.period"
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions&quot;:\n  ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTNEncounterReading140Over90\n      with &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions&quot; SecondHTN140Over90Interventions\n        such that SecondHTN140Over90Interventions.authoredOn during day of SecondHTNEncounterReading140Over90.period\n  )\n    union &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTNEncounterReading140Over90\n      with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; ReferralToProfessional\n        such that ReferralToProfessional.authoredOn during day of SecondHTNEncounterReading140Over90.period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 19
+        "valueString": "19"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -401,10 +401,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define \"Numerator\":\n  \"Encounter with Normal Blood Pressure Reading\"\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions\" )\n    union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions\" )\n    union ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\" )\n    union ( \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions\" )"
+        "valueString": "define &quot;Numerator&quot;:\n  &quot;Encounter with Normal Blood Pressure Reading&quot;\n    union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions&quot; )\n    union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions&quot; )\n    union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot; )\n    union ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions&quot; )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 20
+        "valueString": "20"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -416,10 +416,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define \"Initial Population\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    where AgeInYearsAt(start of \"Measurement Period\") >= 18"
+        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n    where AgeInYearsAt(start of &quot;Measurement Period&quot;) &gt;= 18"
       }, {
         "url": "displaySequence",
-        "valueInteger": 21
+        "valueString": "21"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -431,10 +431,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define \"Denominator\":\n  \"Initial Population\""
+        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 22
+        "valueString": "22"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -446,10 +446,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 23
+        "valueString": "23"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -461,10 +461,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
+        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 24
+        "valueString": "24"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -476,10 +476,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 25
+        "valueString": "25"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -491,10 +491,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 26
+        "valueString": "26"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -506,10 +506,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define \"Denominator Exclusions\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    with [Condition: \"Diagnosis of Hypertension\"] Hypertension\n      such that ( Hypertension.isProblemListItem ( )\n          or Hypertension.isHealthConcern ( )\n      )\n        and Hypertension.isActive ( )\n        and Hypertension.prevalenceInterval ( ) starts before or on day of QualifyingEncounter.period"
+        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n    with [Condition: &quot;Diagnosis of Hypertension&quot;] Hypertension\n      such that ( Hypertension.isProblemListItem ( )\n          or Hypertension.isHealthConcern ( )\n      )\n        and Hypertension.isActive ( )\n        and Hypertension.prevalenceInterval ( ) starts before or on day of QualifyingEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 27
+        "valueString": "27"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -521,10 +521,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 28
+        "valueString": "28"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -536,10 +536,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
+        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueString": "29"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -551,10 +551,10 @@
         "valueString": "Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    with ( [ObservationNotDone: code ~ \"Systolic blood pressure\"]\n      union [ObservationNotDone: code ~ \"Diastolic blood pressure\"] ) NoBPScreen\n      such that NoBPScreen.issued during day of QualifyingEncounter.period\n        and ( NoBPScreen.notDoneReason in \"Patient Declined\"\n            or NoBPScreen.notDoneReason in \"Medical Reason\"\n        )\n        and NoBPScreen.status = 'cancelled'"
+        "valueString": "define &quot;Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement&quot;:\n  &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter\n    with ( [ObservationNotDone: code ~ &quot;Systolic blood pressure&quot;]\n      union [ObservationNotDone: code ~ &quot;Diastolic blood pressure&quot;] ) NoBPScreen\n      such that NoBPScreen.issued during day of QualifyingEncounter.period\n        and ( NoBPScreen.notDoneReason in &quot;Patient Declined&quot;\n            or NoBPScreen.notDoneReason in &quot;Medical Reason&quot;\n        )\n        and NoBPScreen.status = &#39;cancelled&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueString": "30"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -566,10 +566,10 @@
         "valueString": "NonPharmacological Intervention Not Ordered"
       }, {
         "url": "statement",
-        "valueString": "define \"NonPharmacological Intervention Not Ordered\":\n  ( [ServiceNotRequested: \"Lifestyle Recommendation\"]\n    union [ServiceNotRequested: \"Weight Reduction Recommended\"]\n    union [ServiceNotRequested: \"Dietary Recommendations\"]\n    union [ServiceNotRequested: \"Recommendation to Increase Physical Activity\"]\n    union [ServiceNotRequested: \"Referral or Counseling for Alcohol Consumption\"] ) NonPharmIntervention\n    where NonPharmIntervention.reasonRefused in \"Patient Declined\"\n      and NonPharmIntervention.status = 'completed'"
+        "valueString": "define &quot;NonPharmacological Intervention Not Ordered&quot;:\n  ( [ServiceNotRequested: &quot;Lifestyle Recommendation&quot;]\n    union [ServiceNotRequested: &quot;Weight Reduction Recommended&quot;]\n    union [ServiceNotRequested: &quot;Dietary Recommendations&quot;]\n    union [ServiceNotRequested: &quot;Recommendation to Increase Physical Activity&quot;]\n    union [ServiceNotRequested: &quot;Referral or Counseling for Alcohol Consumption&quot;] ) NonPharmIntervention\n    where NonPharmIntervention.reasonRefused in &quot;Patient Declined&quot;\n      and NonPharmIntervention.status = &#39;completed&#39;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
+        "valueString": "31"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -581,10 +581,10 @@
         "valueString": "Laboratory Test or ECG for Hypertension Not Ordered"
       }, {
         "url": "statement",
-        "valueString": "define \"Laboratory Test or ECG for Hypertension Not Ordered\":\n  ( [ServiceNotRequested: code = \"12 lead EKG panel\"]\n    union [ServiceNotRequested: code = \"EKG study\"]\n    union [ServiceNotRequested: \"Laboratory Tests for Hypertension\"] ) LabECGNotDone\n    where LabECGNotDone.reasonRefused in \"Patient Declined\""
+        "valueString": "define &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;:\n  ( [ServiceNotRequested: code = &quot;12 lead EKG panel&quot;]\n    union [ServiceNotRequested: code = &quot;EKG study&quot;]\n    union [ServiceNotRequested: &quot;Laboratory Tests for Hypertension&quot;] ) LabECGNotDone\n    where LabECGNotDone.reasonRefused in &quot;Patient Declined&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 32
+        "valueString": "32"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -596,10 +596,10 @@
         "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\":\n  ( ( ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: code = \"Follow-up 2-3 months (finding)\"]\n        union [ServiceNotRequested: code = \"Follow-up 4-6 months (finding)\"] ) SecondHTNDeclinedReferralAndFollowUp\n        where SecondHTNDeclinedReferralAndFollowUp.reasonRefused in \"Patient Declined\"\n          and SecondHTNDeclinedReferralAndFollowUp.status = 'completed'\n    )\n      union \"Laboratory Test or ECG for Hypertension Not Ordered\"\n      union \"NonPharmacological Intervention Not Ordered\"\n  )"
+        "valueString": "define &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined&quot;:\n  ( ( ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]\n        union [ServiceNotRequested: code = &quot;Follow-up 2-3 months (finding)&quot;]\n        union [ServiceNotRequested: code = &quot;Follow-up 4-6 months (finding)&quot;] ) SecondHTNDeclinedReferralAndFollowUp\n        where SecondHTNDeclinedReferralAndFollowUp.reasonRefused in &quot;Patient Declined&quot;\n          and SecondHTNDeclinedReferralAndFollowUp.status = &#39;completed&#39;\n    )\n      union &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;\n      union &quot;NonPharmacological Intervention Not Ordered&quot;\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 33
+        "valueString": "33"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -611,10 +611,10 @@
         "valueString": "Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined\":\n  ( ( ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: \"Follow Up Within 4 Weeks\"] ) SecondHTN140Over90ReferralFollowUpNotDone\n        where SecondHTN140Over90ReferralFollowUpNotDone.reasonRefused in \"Patient Declined\"\n          and SecondHTN140Over90ReferralFollowUpNotDone.status = 'completed'\n    )\n      union ( [MedicationNotRequested: \"Pharmacologic Therapy for Hypertension\"] MedicationRequestNotOrdered\n          where MedicationRequestNotOrdered.status = 'completed'\n      )\n      union \"Laboratory Test or ECG for Hypertension Not Ordered\"\n      union \"NonPharmacological Intervention Not Ordered\"\n  )"
+        "valueString": "define &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined&quot;:\n  ( ( ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]\n        union [ServiceNotRequested: &quot;Follow Up Within 4 Weeks&quot;] ) SecondHTN140Over90ReferralFollowUpNotDone\n        where SecondHTN140Over90ReferralFollowUpNotDone.reasonRefused in &quot;Patient Declined&quot;\n          and SecondHTN140Over90ReferralFollowUpNotDone.status = &#39;completed&#39;\n    )\n      union ( [MedicationNotRequested: &quot;Pharmacologic Therapy for Hypertension&quot;] MedicationRequestNotOrdered\n          where MedicationRequestNotOrdered.status = &#39;completed&#39;\n      )\n      union &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;\n      union &quot;NonPharmacological Intervention Not Ordered&quot;\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 34
+        "valueString": "34"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -626,10 +626,10 @@
         "valueString": "Encounter with Order for Hypertension Follow Up Declined by Patient"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Order for Hypertension Follow Up Declined by Patient\":\n  ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n      with ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: code = \"Follow-up 2-3 months (finding)\"]\n        union [ServiceNotRequested: code = \"Follow-up 4-6 months (finding)\"] ) ElevatedBPDeclinedInterventions\n        such that ElevatedBPDeclinedInterventions.reasonRefused in \"Patient Declined\"\n          and ElevatedBPDeclinedInterventions.authoredOn during day of ElevatedBPEncounter.period\n          and ElevatedBPDeclinedInterventions.status = 'completed'\n  )\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n        with \"NonPharmacological Intervention Not Ordered\" NotOrdered\n          such that NotOrdered.authoredOn during day of ElevatedBPEncounter.period\n    )\n    union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n        with ( [ServiceNotRequested: \"Follow Up Within 4 Weeks\"]\n          union [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"] ) FirstHTNDeclinedInterventions\n          such that FirstHTNDeclinedInterventions.reasonRefused in \"Patient Declined\"\n            and FirstHTNDeclinedInterventions.authoredOn during day of FirstHTNEncounter.period\n            and FirstHTNDeclinedInterventions.status = 'completed'\n    )\n    union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n        with \"NonPharmacological Intervention Not Ordered\" NoNonPharm\n          such that NoNonPharm.authoredOn during day of FirstHTNEncounter.period\n    )\n    union ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\" SecondHTNEncounter\n        with \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\" SecondHTNDeclinedInterventions\n          such that SecondHTNDeclinedInterventions.authoredOn during day of SecondHTNEncounter.period\n    )\n    union ( \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\" SecondHTN140Over90Encounter\n        with \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined\" SecondHTN140Over90DeclinedInterventions\n          such that SecondHTN140Over90DeclinedInterventions.authoredOn during day of SecondHTN140Over90Encounter.period\n    )"
+        "valueString": "define &quot;Encounter with Order for Hypertension Follow Up Declined by Patient&quot;:\n  ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedBPEncounter\n      with ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]\n        union [ServiceNotRequested: code = &quot;Follow-up 2-3 months (finding)&quot;]\n        union [ServiceNotRequested: code = &quot;Follow-up 4-6 months (finding)&quot;] ) ElevatedBPDeclinedInterventions\n        such that ElevatedBPDeclinedInterventions.reasonRefused in &quot;Patient Declined&quot;\n          and ElevatedBPDeclinedInterventions.authoredOn during day of ElevatedBPEncounter.period\n          and ElevatedBPDeclinedInterventions.status = &#39;completed&#39;\n  )\n    union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedBPEncounter\n        with &quot;NonPharmacological Intervention Not Ordered&quot; NotOrdered\n          such that NotOrdered.authoredOn during day of ElevatedBPEncounter.period\n    )\n    union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter\n        with ( [ServiceNotRequested: &quot;Follow Up Within 4 Weeks&quot;]\n          union [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;] ) FirstHTNDeclinedInterventions\n          such that FirstHTNDeclinedInterventions.reasonRefused in &quot;Patient Declined&quot;\n            and FirstHTNDeclinedInterventions.authoredOn during day of FirstHTNEncounter.period\n            and FirstHTNDeclinedInterventions.status = &#39;completed&#39;\n    )\n    union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter\n        with &quot;NonPharmacological Intervention Not Ordered&quot; NoNonPharm\n          such that NoNonPharm.authoredOn during day of FirstHTNEncounter.period\n    )\n    union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounter\n        with &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined&quot; SecondHTNDeclinedInterventions\n          such that SecondHTNDeclinedInterventions.authoredOn during day of SecondHTNEncounter.period\n    )\n    union ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTN140Over90Encounter\n        with &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined&quot; SecondHTN140Over90DeclinedInterventions\n          such that SecondHTN140Over90DeclinedInterventions.authoredOn during day of SecondHTN140Over90Encounter.period\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 35
+        "valueString": "35"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -641,10 +641,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define \"Denominator Exceptions\":\n  \"Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement\"\n    union \"Encounter with Order for Hypertension Follow Up Declined by Patient\""
+        "valueString": "define &quot;Denominator Exceptions&quot;:\n  &quot;Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement&quot;\n    union &quot;Encounter with Order for Hypertension Follow Up Declined by Patient&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueString": "36"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -659,7 +659,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueString": "37"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -674,7 +674,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueString": "38"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -689,7 +689,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 39
+        "valueString": "39"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -701,10 +701,10 @@
         "valueString": "isProblemListItem"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns true if the given condition is a problem list item.\n*/\ndefine fluent function isProblemListItem(condition Condition):\n  exists (condition.category C\n    where C ~ \"problem-list-item\"\n  )"
+        "valueString": "/*\n@description: Returns true if the given condition is a problem list item.\n*/\ndefine fluent function isProblemListItem(condition Condition):\n  exists (condition.category C\n    where C ~ &quot;problem-list-item&quot;\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 40
+        "valueString": "40"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -716,10 +716,10 @@
         "valueString": "isHealthConcern"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns true if the given condition is a health concern\n*/\ndefine fluent function isHealthConcern(condition Condition):\n  exists (condition.category C\n    where C ~ \"health-concern\"\n  )"
+        "valueString": "/*\n@description: Returns true if the given condition is a health concern\n*/\ndefine fluent function isHealthConcern(condition Condition):\n  exists (condition.category C\n    where C ~ &quot;health-concern&quot;\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 41
+        "valueString": "41"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -731,13 +731,12 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
       }, {
         "url": "displaySequence",
-        "valueInteger": 42
+        "valueString": "42"
       } ]
     } ],
-    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -849,12 +848,6 @@
       "max": "1",
       "type": "Period"
     }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -867,13 +860,31 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "SDE Payer",
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
+      "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -885,28 +896,16 @@
       "max": "1",
       "type": "Resource"
     }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Resource"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "ethnicity", "race" ]
+      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -914,13 +913,6 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1920"
-      }, {
-        "path": "status.value",
-        "code": [ {
-          "code": "finished"
-        } ]
-      }, {
-        "path": "class"
       } ]
     }, {
       "type": "Observation",
@@ -1029,23 +1021,6 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1578"
-      }, {
-        "path": "intent.value",
-        "code": [ {
-          "code": "order"
-        } ]
-      } ],
-      "dateFilter": [ {
-        "path": "authoredOn.value",
-        "valuePeriod": {
-          "extension": [ {
-            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
-            "valueExpression": {
-              "language": "text/cql-identifier",
-              "expression": "Measurement Period"
-            }
-          } ]
-        }
       } ]
     }, {
       "type": "ServiceRequest",
@@ -1054,31 +1029,7 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1580"
-      }, {
-        "path": "intent.value",
-        "code": [ {
-          "code": "order"
-        } ]
       } ]
-    }, {
-      "extension": [ {
-        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
-        "extension": [ {
-          "url": "targetId",
-          "valueString": "G10002"
-        }, {
-          "url": "targetProperty",
-          "valueString": "medication"
-        } ]
-      } ],
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
-    }, {
-      "id": "G10002",
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -1088,6 +1039,14 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.1577"
       } ]
     }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
       "type": "Coverage",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
       "mustSupport": [ "type", "period" ],
@@ -1095,6 +1054,10 @@
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
       } ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "clinicalStatus" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -1338,15 +1301,9 @@
       }
     } ]
   }, {
-    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
-    }
-  }, {
-    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
-    "valueReference": {
-      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/PCSBPScreeningFollowUpFHIR",
@@ -1399,7 +1356,7 @@
   "title": "Preventive Care and Screening: Screening for High Blood Pressure and Follow-Up DocumentedFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-14T16:00:02+00:00",
+  "date": "2023-11-16T17:29:36+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1426,13 +1383,6 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/PCSBPScreeningFollowUpFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "scoring" : {
-    "coding": [ {
-      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
-      "code": "proportion",
-      "display": "Proportion"
-    } ]
-  },
   "rationale": "Hypertension is a prevalent condition that affects approximately 66.9 million people in the United States. It is estimated that about 20-40% of the adult population has hypertension; the majority of people over age 65 have a hypertension diagnosis (Appleton et al., 2013 and Luehr et al., 2012). Winter (2013) noted that 1 in 3 American adults have hypertension and the lifetime risk of developing hypertension is 90%. The African American population or non-Hispanic Blacks, the elderly, diabetics and those with chronic kidney disease are at increased risk of stroke, myocardial infarction and renal disease. Non-Hispanic Blacks have the highest prevalence at 38.6% (Winter et al., 2013). Hypertension is a major risk factor for ischemic heart disease, left ventricular hypertrophy, renal failure, stroke and dementia (Luehr et al., 2012). Prevention of hypertension and the treatment of established hypertension are complementary approaches to reducing cardiovascular disease risk in the population, but prevention of hypertension provides the optimal means of reducing risk and avoiding harmful consequences. Periodic blood pressure (BP) screening can identify individuals who develop elevated BP over time. More frequent BP screening may be particularly important for individuals with elevated atherosclerotic cardiovascular disease (ASCVD) risk (Whelton et al., 2018).  \n\nHypertension is the most common reason for adult office visits other than pregnancy. Garrison (2013) stated that in 2007, 42 million ambulatory visits were attributed to hypertension (Garrison & Oberhelman, 2013). It also has the highest utilization of prescription drugs. Numerous resources and treatment options are available, yet only about 40-50% of the hypertensive patients have their blood pressure under control (<140/90) (Appleton et al., 2013 and Luehr et al., 2012). In addition to medication non-compliance, poor outcomes are also attributed to poor adherence to lifestyle changes such as a low-sodium diet, weight loss, increased exercise and limiting alcohol intake. Many adults find it difficult to continue medications and lifestyle changes when they are asymptomatic. Symptoms of elevated blood pressure usually do not occur until secondary problems arise such as with vascular diseases (myocardial infarction, stroke, heart failure and renal insufficiency) (Luehr et al., 2012).\n\nAppropriate follow-up after blood pressure measurement is a pivotal component in preventing the progression of hypertension and the development of heart disease. Detection of marginally or fully elevated blood pressure by a specialty clinician warrants referral to a provider familiar with the management of hypertension and prehypertension. \n\nThe American College of Cardiology/American Heart Association (ACC/AHA) 2017 Guidelines provide updated recommendations for ASCVD risk. For additional information please refer to the 2017 ACC/AHA guidelines: https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2017/11/09/11/41/2017-guideline-for-high-blood-pressure-in-adults.\n\nLifestyle modifications have demonstrated effectiveness in lowering blood pressure (U.S. Department of Health and Human Services, 2003). The synergistic effect of several lifestyle modifications results in greater benefits than a single modification alone. Baseline diagnostic/laboratory testing establishes if a co-existing underlying condition is the etiology of hypertension and evaluates if end organ damage from hypertension has already occurred. Landmark trials such as the Antihypertensive and Lipid-Lowering Treatment to Prevent Heart Attack Trial (ALLHAT) have repeatedly proven the efficacy of pharmacologic therapy to control blood pressure and reduce the complications of hypertension. A review of 35 studies found that the pharmacist-led interventions involved medication counseling and patient education. Twenty-nine of the 35 studies showed statistically significant improvement in BP levels of the intervention groups at follow-up (Reeves et al., 2020). Follow-up intervals based on blood pressure control have been established by the 2017 ACC/AHA guideline and the United States Preventive Services Task Force (Whelton et al., 2018; USPSTF, 2021).",
   "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (USPSTF, 2021) recommends screening for high blood pressure in adults aged 18 years and older. This is a grade A recommendation.",
   "group": [ {
