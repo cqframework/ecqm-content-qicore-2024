@@ -61,6 +61,7 @@ valueset "Venous Thromboembolism in Pregnancy": 'http://cts.nlm.nih.gov/fhir/Val
 valueset "White blood cells count lab test": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 
