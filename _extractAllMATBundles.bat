@@ -1,5 +1,5 @@
 @ECHO OFF
-SET tooling_jar=tooling-2.5.0.jar
+SET tooling_jar=tooling-cli-3.0.0.jar
 SET input_cache_path=%~dp0input-cache
 SET mat_bundle_dir=bundles\mat
 
