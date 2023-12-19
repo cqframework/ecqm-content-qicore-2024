@@ -49,6 +49,7 @@ code "VR-36 Physical component summary (PCS) score - oblique method T-score": '7
 code "VR-36 Physical component summary (PCS) score - orthogonal method T-score": '72007-8' from "LOINC" display 'VR-36 Physical component summary (PCS) score - orthogonal method T-score'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 
