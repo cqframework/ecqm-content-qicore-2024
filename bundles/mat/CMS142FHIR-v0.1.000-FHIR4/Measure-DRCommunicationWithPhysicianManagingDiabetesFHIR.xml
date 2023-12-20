@@ -1,0 +1,1055 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"/>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"/>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"/>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"/>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+               <code value="VR"/>
+               <display value="virtual"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+               <code value="active"/>
+               <display value="Active"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+               <code value="recurrence"/>
+               <display value="Recurrence"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+               <code value="relapse"/>
+               <display value="Relapse"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+               <code value="unconfirmed"/>
+               <display value="Unconfirmed"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+               <code value="refuted"/>
+               <display value="Refuted"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+               <code value="entered-in-error"/>
+               <display value="Entered in Error"/>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case       when Patient.gender = &amp;#39;male&amp;#39; then Code { code: &amp;#39;M&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Male&amp;#39; }       when Patient.gender = &amp;#39;female&amp;#39; then Code { code: &amp;#39;F&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Female&amp;#39; }       else null     end"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Qualifying Encounter During Measurement Period"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Qualifying Encounter During Measurement Period&amp;quot;:   ( [&amp;quot;Encounter&amp;quot;: &amp;quot;Office Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Ophthalmological Services&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Outpatient Consultation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Care Services in Long-Term Residential Facility&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Nursing Facility Visit&amp;quot;] ) QualifyingEncounter     where QualifyingEncounter.period during &amp;quot;Measurement Period&amp;quot;       and QualifyingEncounter.status = &amp;#39;finished&amp;#39;       and QualifyingEncounter.class !~ &amp;quot;virtual&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Diabetic Retinopathy Encounter"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Diabetic Retinopathy Encounter&amp;quot;:   &amp;quot;Qualifying Encounter During Measurement Period&amp;quot; ValidQualifyingEncounter     with [&amp;quot;Condition&amp;quot;: &amp;quot;Diabetic Retinopathy&amp;quot;] DiabeticRetinopathy       such that DiabeticRetinopathy.prevalenceInterval ( ) overlaps ValidQualifyingEncounter.period         and DiabeticRetinopathy.isActive ( )         and not ( DiabeticRetinopathy.verificationStatus ~ QICoreCommon.&amp;quot;unconfirmed&amp;quot;             or DiabeticRetinopathy.verificationStatus ~ QICoreCommon.&amp;quot;refuted&amp;quot;             or DiabeticRetinopathy.verificationStatus ~ QICoreCommon.&amp;quot;entered-in-error&amp;quot;         )"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Level of Severity of Retinopathy Findings Communicated"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Level of Severity of Retinopathy Findings Communicated&amp;quot;:   [&amp;quot;Communication&amp;quot;: &amp;quot;Level of Severity of Retinopathy Findings&amp;quot;] LevelOfSeverityCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that LevelOfSeverityCommunicated.sent after start of EncounterDiabeticRetinopathy.period         and LevelOfSeverityCommunicated.sent during day of &amp;quot;Measurement Period&amp;quot;     where LevelOfSeverityCommunicated.status = &amp;#39;completed&amp;#39;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Macular Edema Absence Communicated"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Macular Edema Absence Communicated&amp;quot;:   [&amp;quot;Communication&amp;quot;: &amp;quot;Macular edema absent (situation)&amp;quot;] MacularEdemaAbsentCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that MacularEdemaAbsentCommunicated.sent after start of EncounterDiabeticRetinopathy.period         and MacularEdemaAbsentCommunicated.sent during day of &amp;quot;Measurement Period&amp;quot;     where MacularEdemaAbsentCommunicated.status = &amp;#39;completed&amp;#39;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Macular Edema Presence Communicated"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Macular Edema Presence Communicated&amp;quot;:   [&amp;quot;Communication&amp;quot;: &amp;quot;Macular Edema Findings Present&amp;quot;] MacularEdemaPresentCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that MacularEdemaPresentCommunicated.sent after start of EncounterDiabeticRetinopathy.period         and MacularEdemaPresentCommunicated.sent during day of &amp;quot;Measurement Period&amp;quot;     where MacularEdemaPresentCommunicated.status = &amp;#39;completed&amp;#39;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator&amp;quot;:   exists &amp;quot;Level of Severity of Retinopathy Findings Communicated&amp;quot;     and ( exists &amp;quot;Macular Edema Absence Communicated&amp;quot;         or exists &amp;quot;Macular Edema Presence Communicated&amp;quot;     )"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   AgeInYearsAt(date from start of &amp;quot;Measurement Period&amp;quot;) &amp;gt;= 18     and exists &amp;quot;Diabetic Retinopathy Encounter&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Macular Exam Performed"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Macular Exam Performed&amp;quot;:   [&amp;quot;Observation&amp;quot;: &amp;quot;Macular Exam&amp;quot;] MacularExam     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that MacularExam.effective.toInterval ( ) during EncounterDiabeticRetinopathy.period     where MacularExam.value is not null       and MacularExam.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39;, &amp;#39;preliminary&amp;#39; }"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="9"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;     and exists &amp;quot;Macular Exam Performed&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="10"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="11"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="12"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="13"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="14"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="15"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="16"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Medical or Patient Reason for Not Communicating Level of Severity of Retinopathy"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Medical or Patient Reason for Not Communicating Level of Severity of Retinopathy&amp;quot;:   [CommunicationNotDone: &amp;quot;Level of Severity of Retinopathy Findings&amp;quot;] LevelOfSeverityNotCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that LevelOfSeverityNotCommunicated.recorded during EncounterDiabeticRetinopathy.period     where ( LevelOfSeverityNotCommunicated.statusReason in &amp;quot;Medical Reason&amp;quot;         or LevelOfSeverityNotCommunicated.statusReason in &amp;quot;Patient Reason&amp;quot;     )"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="17"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Medical or Patient Reason for Not Communicating Absence of Macular Edema"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* Note:  below definition workaround for  https://oncprojectracking.healthit.gov/support/browse/CQLIT-371. Using value set workaround has been applied for now but when QI Core STU 5 gets in the tool, it may be reverted back to a DRC */   define &amp;quot;Medical or Patient Reason for Not Communicating Absence of Macular Edema&amp;quot;:   [CommunicationNotDone: &amp;quot;Macular edema absent (situation)&amp;quot;] MacularEdemaAbsentNotCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that MacularEdemaAbsentNotCommunicated.recorded during EncounterDiabeticRetinopathy.period     where ( MacularEdemaAbsentNotCommunicated.statusReason in &amp;quot;Medical Reason&amp;quot;         or MacularEdemaAbsentNotCommunicated.statusReason in &amp;quot;Patient Reason&amp;quot;     )"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="18"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Medical or Patient Reason for Not Communicating Presence of Macular Edema"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Medical or Patient Reason for Not Communicating Presence of Macular Edema&amp;quot;:   [CommunicationNotDone: &amp;quot;Macular Edema Findings Present&amp;quot;] MacularEdemaPresentNotCommunicated     with &amp;quot;Diabetic Retinopathy Encounter&amp;quot; EncounterDiabeticRetinopathy       such that MacularEdemaPresentNotCommunicated.recorded during EncounterDiabeticRetinopathy.period     where ( MacularEdemaPresentNotCommunicated.statusReason in &amp;quot;Medical Reason&amp;quot;         or MacularEdemaPresentNotCommunicated.statusReason in &amp;quot;Patient Reason&amp;quot;     )"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="19"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator Exceptions"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator Exceptions&amp;quot;:   exists &amp;quot;Medical or Patient Reason for Not Communicating Level of Severity of Retinopathy&amp;quot;     or exists &amp;quot;Medical or Patient Reason for Not Communicating Absence of Macular Edema&amp;quot;     or exists &amp;quot;Medical or Patient Reason for Not Communicating Presence of Macular Edema&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="20"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"/>
+            </extension>
+            <extension url="name">
+               <valueString value="prevalenceInterval"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of ToAbatementInterval(condition)) abatementDate     return if abatementDate is null then       Interval[start of ToInterval(condition.onset), abatementDate)     else       Interval[start of ToInterval(condition.onset), abatementDate]"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="21"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"/>
+            </extension>
+            <extension url="name">
+               <valueString value="isActive"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* Candidates for FHIRCommon */  /* @description: Returns true if the given condition has a clinical status of active, recurrence, or relapse */ define fluent function isActive(condition Condition):   condition.clinicalStatus ~ &amp;quot;active&amp;quot;     or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;     or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot;"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="22"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"/>
+            </extension>
+            <extension url="name">
+               <valueString value="ToString"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function ToString(value uri): value.value"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="23"/>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"/>
+            </extension>
+            <extension url="name">
+               <valueString value="ToCode"/>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"/>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="24"/>
+            </extension>
+         </extension>
+         <status value="active"/>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"/>
+               <code value="module-definition"/>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Library SDE"/>
+            <resource value="Library/SupplementalDataElements|3.4.000"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Library FHIRHelpers"/>
+            <resource value="Library/FHIRHelpers|4.3.000"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Library QICoreCommon"/>
+            <resource value="Library/QICoreCommon|2.0.000"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Code system ActCode"/>
+            <resource value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Code system ConditionClinicalStatusCodes"/>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Code system ConditionVerificationStatusCodes"/>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Level of Severity of Retinopathy Findings"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1283"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Office Visit"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Ophthalmological Services"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1285"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Outpatient Consultation"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Care Services in Long-Term Residential Facility"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Nursing Facility Visit"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Diabetic Retinopathy"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.327"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Macular edema absent (situation)"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.2.1391"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Macular Edema Findings Present"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1320"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Macular Exam"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1251"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Payer Type"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Medical Reason"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1007"/>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"/>
+            <display value="Value set Patient Reason"/>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1008"/>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"/>
+            <use value="in"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="Period"/>
+         </parameter>
+         <parameter>
+            <name value="Numerator"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="boolean"/>
+         </parameter>
+         <parameter>
+            <name value="Denominator"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="boolean"/>
+         </parameter>
+         <parameter>
+            <name value="Initial Population"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="boolean"/>
+         </parameter>
+         <parameter>
+            <name value="Denominator Exceptions"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="boolean"/>
+         </parameter>
+         <parameter>
+            <name value="SDE Sex"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="Coding"/>
+         </parameter>
+         <parameter>
+            <name value="SDE Payer"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="*"/>
+            <type value="Resource"/>
+         </parameter>
+         <parameter>
+            <name value="SDE Ethnicity"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="Resource"/>
+         </parameter>
+         <parameter>
+            <name value="SDE Race"/>
+            <use value="out"/>
+            <min value="0"/>
+            <max value="1"/>
+            <type value="Resource"/>
+         </parameter>
+         <dataRequirement>
+            <type value="Patient"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"/>
+            <mustSupport value="gender"/>
+            <mustSupport value="gender.value"/>
+            <mustSupport value="url"/>
+            <mustSupport value="extension"/>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <mustSupport value="class"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <mustSupport value="class"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1285"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <mustSupport value="class"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <mustSupport value="class"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <mustSupport value="class"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"/>
+            <mustSupport value="clinicalStatus"/>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"/>
+            <mustSupport value="code"/>
+            <mustSupport value="verificationStatus"/>
+            <codeFilter>
+               <path value="code"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.327"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communication"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="sent"/>
+            <mustSupport value="sent.value"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1283"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communication"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="sent"/>
+            <mustSupport value="sent.value"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.2.1391"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communication"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="sent"/>
+            <mustSupport value="sent.value"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1320"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"/>
+            <mustSupport value="code"/>
+            <mustSupport value="effective"/>
+            <mustSupport value="value"/>
+            <mustSupport value="status"/>
+            <mustSupport value="status.value"/>
+            <codeFilter>
+               <path value="code"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1251"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Coverage"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"/>
+            <mustSupport value="type"/>
+            <mustSupport value="period"/>
+            <codeFilter>
+               <path value="type"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1283"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1283"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.2.1391"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.2.1391"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1320"/>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Communication"/>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-communicationnotdone"/>
+            <mustSupport value="reasonCode"/>
+            <mustSupport value="extension"/>
+            <mustSupport value="statusReason"/>
+            <codeFilter>
+               <path value="reasonCode"/>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1320"/>
+            </codeFilter>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension id="supplementalDataGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="usage">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
+               <code value="supplemental-data"/>
+               <display value="Supplemental Data"/>
+            </coding>
+            <text value="Supplemental Data Guidance"/>
+         </valueCodeableConcept>
+      </extension>
+   </extension>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"/>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+   <identifier>
+      <use value="usual"/>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
+            <code value="short-name"/>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"/>
+      <value value="CMS142FHIR"/>
+   </identifier>
+   <identifier>
+      <use value="official"/>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
+            <code value="version-independent"/>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"/>
+      <value value="urn:uuid:0f55e61f-dc17-4fe4-a604-7f030260618f"/>
+   </identifier>
+   <identifier>
+      <use value="official"/>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
+            <code value="version-specific"/>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"/>
+      <value value="urn:uuid:38530cf7-2fb5-4d66-9dba-c483e6664262"/>
+   </identifier>
+   <identifier>
+      <use value="official"/>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
+            <code value="publisher"/>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"/>
+      <value value="142FHIR"/>
+      <assigner>
+         <display value="CMS"/>
+      </assigner>
+   </identifier>
+   <version value="0.1.000"/>
+   <name value="DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+   <title value="Diabetic Retinopathy: Communication with the Physician Managing Ongoing Diabetes CareFHIR"/>
+   <status value="draft"/>
+   <experimental value="false"/>
+   <date value="2023-11-06T13:23:23+00:00"/>
+   <publisher value="American Academy of Ophthalmology"/>
+   <contact>
+      <telecom>
+         <system value="url"/>
+         <value value="www.aao.org"/>
+      </telecom>
+   </contact>
+   <description value="Percentage of patients aged 18 years and older with a diagnosis of diabetic retinopathy who had a dilated macular or fundus exam performed with documented communication to the physician who manages the ongoing care of the patient with diabetes mellitus regarding the findings of the macular or fundus exam at least once during the measurement period."/>
+   <purpose value="UNKNOWN"/>
+   <usage value="The measure, as written, does not specifically require documentation of laterality. Coding limitations in particular clinical terminologies do not currently allow for that level of specificity (ICD-10-CM includes laterality, but SNOMED-CT does not uniformly include this distinction). Therefore, at this time, it is not a requirement of this measure to indicate laterality of the diagnoses, findings or procedures. Available coding to capture the data elements specified in this measure has been provided. It is assumed that the eligible clinician will record laterality in the patient medical record, as quality care and clinical documentation should include laterality.  The communication of results to the primary care physician providing ongoing care of a patient's diabetes should be completed soon after the dilated exam is performed. Eligible clinicians reporting on this measure should note that all data for the reporting year is to be submitted by the deadline established by CMS. Therefore, eligible clinicians who see patients towards the end of the reporting period (i.e., December in particular), should communicate the results of the dilated macular exam as soon as possible in order for those patients to be counted in the measure numerator. Communicating the results as soon as possible after the date of the exam will ensure the data are included in the submission to CMS.  This eCQM is a patient-based measure.  Telehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.  This FHIR-based measure has been derived from the QDM-based measure: CMS142v12.  Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html)."/>
+   <copyright value="Copyright 2024 American Academy of Ophthalmology. All Rights Reserved."/>
+   <approvalDate value="2023-11-17"/>
+   <lastReviewDate value="2023-11-17"/>
+   <effectivePeriod>
+      <start value="2025-01-01"/>
+      <end value="2025-12-31"/>
+   </effectivePeriod>
+   <author>
+      <name value="American Academy of Ophthalmology"/>
+      <telecom>
+         <system value="url"/>
+         <value value="www.aao.org"/>
+      </telecom>
+   </author>
+   <author>
+      <name value="American Medical Association (AMA)"/>
+      <telecom>
+         <system value="url"/>
+         <value value="https://www.ama-assn.org/"/>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/DRCommunicationWithPhysicianManagingDiabetesFHIR"/>
+   <disclaimer value="The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   The Measure, while copyrighted, can be reproduced and distributed, without modification, for noncommercial purposes, e.g., use by health care providers in connection with their practices. Commercial use is defined as the sale, license, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain.   Commercial uses of the Measure require a license agreement between the user and the American Academy of Ophthalmology (Academy). Neither the Academy, its members, the American Medical Association (AMA), nor the former AMA-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI), nor PCPI, nor their members shall be responsible for any use of the Measure.  The PCPI’s and AMA’s significant past efforts and contributions to the development and updating of the Measures are acknowledged. The National Committee for Quality Assurance's significant past efforts and contributions to the development and updating of the Measure is acknowledged.   THE MEASURE AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.  Limited proprietary coding is contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measures. Any other use of CPT or other coding by the third party is strictly prohibited. The Academy, the AMA, and former members of the PCPI disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.  Due to technical limitations, registered trademarks are indicated by (R) or [R]."/>
+   <rationale value="Diabetic retinopathy is a prevalent complication of diabetes, estimated to affect 28.5% of diabetic patients in the US (Zhang et al., 2010). Diabetic retinopathy is a key indicator of systemic complications of diabetes (Zhang et al., 2010). Coordination of care between the eye care specialist and the physician managing a patient’s ongoing diabetes care is essential in stemming the progression of vision loss. Communication from the eye care specialist to a primary care physician facilitates the exchange of information about the severity and progression of a patient’s diabetic retinopathy, adherence to recommended ocular care, need for follow-up visits, and treatment plans (Storey et al., 2016). Data from the Diabetes Control and Complications Trial showed that diabetic treatment and maintenance of glucose control delays the onset and slows the progression of diabetic retinopathy (Aiello &amp; DCCT/EDIC Research Group, 2014)."/>
+   <clinicalRecommendationStatement value="The ophthalmologist should refer patients with diabetes to a primary care physician for appropriate management of their systemic condition and should communicate examination results to the physician managing the patient's ongoing diabetes care (III; Good Quality; Strong Recommendation) (Flaxel et al., 2020).  Ophthalmologists should communicate the ophthalmologic findings and level of retinopathy with the primary care physician as well as the need for optimizing metabolic control (III; Good Quality; Strong Recommendation) (Flaxel et al,, 2020).   Close partnership with the primary care physician is important to make sure that the care of the patient is optimized (III; Good Quality; Strong Recommendation) (Flaxel et al., 2020)."/>
+   <group id="64f75da456d636294b1581bb">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"/>
+               <code value="proportion"/>
+               <display value="Proportion"/>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="boolean"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"/>
+               <code value="outcome"/>
+               <display value="Outcome"/>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="716D9EB9-48AD-4D92-B67C-CF6985DF631E">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="initial-population"/>
+               <display value="Initial Population"/>
+            </coding>
+         </code>
+         <description value="All patients aged 18 years and older with a diagnosis of diabetic retinopathy"/>
+         <criteria>
+            <language value="text/cql-identifier"/>
+            <expression value="Initial Population"/>
+         </criteria>
+      </population>
+      <population id="8CEF1065-41F1-4AF8-B0C0-415F31E3F0CB">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="denominator"/>
+               <display value="Denominator"/>
+            </coding>
+         </code>
+         <description value="Equals Initial Population who had a dilated macular or fundus exam performed"/>
+         <criteria>
+            <language value="text/cql-identifier"/>
+            <expression value="Denominator"/>
+         </criteria>
+      </population>
+      <population id="2682b2c5-083d-4b56-9746-75f66d46778f">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="denominator-exclusion"/>
+               <display value="Denominator Exclusion"/>
+            </coding>
+         </code>
+         <criteria>
+            <language value="text/cql-identifier"/>
+         </criteria>
+      </population>
+      <population id="60B3780B-77DA-4908-8D2E-32759767D3A1">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="numerator"/>
+               <display value="Numerator"/>
+            </coding>
+         </code>
+         <description value="Patients with documentation, at least once within the measurement period, of the findings of the dilated macular or fundus exam via communication to the physician who manages the patient's diabetic care"/>
+         <criteria>
+            <language value="text/cql-identifier"/>
+            <expression value="Numerator"/>
+         </criteria>
+      </population>
+      <population id="75a7b945-33d1-4d8f-a195-9ae8c7e82d01">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="numerator-exclusion"/>
+               <display value="Numerator Exclusion"/>
+            </coding>
+         </code>
+         <description value="Not Applicable"/>
+         <criteria>
+            <language value="text/cql-identifier"/>
+         </criteria>
+      </population>
+      <population id="263226A4-54BD-43A7-8C11-30D202F4291D">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
+               <code value="denominator-exception"/>
+               <display value="Denominator Exception"/>
+            </coding>
+         </code>
+         <description value="Documentation of medical reason(s) for not communicating the findings of the dilated macular or fundus exam to the physician who manages the ongoing care of the patient with diabetes.  Documentation of patient reason(s) for not communicating the findings of the dilated macular or fundus exam to the physician who manages the ongoing care of the patient with diabetes."/>
+         <criteria>
+            <language value="text/cql-identifier"/>
+            <expression value="Denominator Exceptions"/>
+         </criteria>
+      </population>
+   </group>
+   <supplementalData id="sde-ethnicity">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
+            <code value="supplemental-data"/>
+         </coding>
+      </usage>
+      <description value="SDE Ethnicity"/>
+      <criteria>
+         <language value="text/cql-identifier"/>
+         <expression value="SDE Ethnicity"/>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-payer">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
+            <code value="supplemental-data"/>
+         </coding>
+      </usage>
+      <description value="SDE Payer"/>
+      <criteria>
+         <language value="text/cql-identifier"/>
+         <expression value="SDE Payer"/>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-race">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
+            <code value="supplemental-data"/>
+         </coding>
+      </usage>
+      <description value="SDE Race"/>
+      <criteria>
+         <language value="text/cql-identifier"/>
+         <expression value="SDE Race"/>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-sex">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
+            <code value="supplemental-data"/>
+         </coding>
+      </usage>
+      <description value="SDE Sex"/>
+      <criteria>
+         <language value="text/cql-identifier"/>
+         <expression value="SDE Sex"/>
+      </criteria>
+   </supplementalData>
+</Measure>
