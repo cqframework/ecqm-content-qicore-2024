@@ -66,10 +66,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -81,10 +81,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -96,10 +96,10 @@
         "valueString": "Qualifying Encounter During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter During Measurement Period&quot;:\n  ( [&quot;Encounter&quot;: &quot;Office Visit&quot;]\n    union [&quot;Encounter&quot;: &quot;Ophthalmological Services&quot;]\n    union [&quot;Encounter&quot;: &quot;Outpatient Consultation&quot;]\n    union [&quot;Encounter&quot;: &quot;Nursing Facility Visit&quot;]\n    union [&quot;Encounter&quot;: &quot;Care Services in Long-Term Residential Facility&quot;] ) QualifyingEncounter\n    where QualifyingEncounter.period during &quot;Measurement Period&quot;\n      and QualifyingEncounter.status = &#39;finished&#39;\n      and QualifyingEncounter.class !~ &quot;virtual&quot;"
+        "valueString": "define \"Qualifying Encounter During Measurement Period\":\n  ( [\"Encounter\": \"Office Visit\"]\n    union [\"Encounter\": \"Ophthalmological Services\"]\n    union [\"Encounter\": \"Outpatient Consultation\"]\n    union [\"Encounter\": \"Nursing Facility Visit\"]\n    union [\"Encounter\": \"Care Services in Long-Term Residential Facility\"] ) QualifyingEncounter\n    where QualifyingEncounter.period during \"Measurement Period\"\n      and QualifyingEncounter.status = 'finished'\n      and QualifyingEncounter.class !~ \"virtual\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -111,10 +111,10 @@
         "valueString": "Primary Open Angle Glaucoma Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Primary Open Angle Glaucoma Encounter&quot;:\n  &quot;Qualifying Encounter During Measurement Period&quot; ValidQualifyingEncounter\n    with [&quot;Condition&quot;: &quot;Primary Open-Angle Glaucoma&quot;] PrimaryOpenAngleGlaucoma\n      such that PrimaryOpenAngleGlaucoma.prevalenceInterval ( ) overlaps ValidQualifyingEncounter.period\n        and PrimaryOpenAngleGlaucoma.isActive ( )\n        and not ( PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.&quot;unconfirmed&quot;\n            or PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.&quot;refuted&quot;\n            or PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.&quot;entered-in-error&quot;\n        )"
+        "valueString": "define \"Primary Open Angle Glaucoma Encounter\":\n  \"Qualifying Encounter During Measurement Period\" ValidQualifyingEncounter\n    with [\"Condition\": \"Primary Open-Angle Glaucoma\"] PrimaryOpenAngleGlaucoma\n      such that PrimaryOpenAngleGlaucoma.prevalenceInterval ( ) overlaps ValidQualifyingEncounter.period\n        and PrimaryOpenAngleGlaucoma.isActive ( )\n        and not ( PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.\"unconfirmed\"\n            or PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.\"refuted\"\n            or PrimaryOpenAngleGlaucoma.verificationStatus ~ QICoreCommon.\"entered-in-error\"\n        )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -126,10 +126,10 @@
         "valueString": "Cup to Disc Ratio Performed with Result"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Cup to Disc Ratio Performed with Result&quot;:\n  [&quot;Observation&quot;: &quot;Cup to Disc Ratio&quot;] CupToDiscExamPerformed\n    with &quot;Primary Open Angle Glaucoma Encounter&quot; EncounterWithPOAG\n      such that CupToDiscExamPerformed.effective.toInterval ( ) during EncounterWithPOAG.period\n    where CupToDiscExamPerformed.value is not null\n      and CupToDiscExamPerformed.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }"
+        "valueString": "define \"Cup to Disc Ratio Performed with Result\":\n  [\"Observation\": \"Cup to Disc Ratio\"] CupToDiscExamPerformed\n    with \"Primary Open Angle Glaucoma Encounter\" EncounterWithPOAG\n      such that CupToDiscExamPerformed.effective.toInterval ( ) during EncounterWithPOAG.period\n    where CupToDiscExamPerformed.value is not null\n      and CupToDiscExamPerformed.status in { 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -141,10 +141,10 @@
         "valueString": "Optic Disc Exam Performed with Result"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Optic Disc Exam Performed with Result&quot;:\n  [&quot;Observation&quot;: &quot;Optic Disc Exam for Structural Abnormalities&quot;] OpticDiscExamPerformed\n    with &quot;Primary Open Angle Glaucoma Encounter&quot; EncounterWithPOAG\n      such that OpticDiscExamPerformed.effective.toInterval ( ) during EncounterWithPOAG.period\n    where OpticDiscExamPerformed.value is not null\n      and OpticDiscExamPerformed.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }"
+        "valueString": "define \"Optic Disc Exam Performed with Result\":\n  [\"Observation\": \"Optic Disc Exam for Structural Abnormalities\"] OpticDiscExamPerformed\n    with \"Primary Open Angle Glaucoma Encounter\" EncounterWithPOAG\n      such that OpticDiscExamPerformed.effective.toInterval ( ) during EncounterWithPOAG.period\n    where OpticDiscExamPerformed.value is not null\n      and OpticDiscExamPerformed.status in { 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -156,10 +156,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  exists &quot;Cup to Disc Ratio Performed with Result&quot;\n    and exists &quot;Optic Disc Exam Performed with Result&quot;"
+        "valueString": "define \"Numerator\":\n  exists \"Cup to Disc Ratio Performed with Result\"\n    and exists \"Optic Disc Exam Performed with Result\""
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -171,10 +171,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 18\n    and exists &quot;Primary Open Angle Glaucoma Encounter&quot;"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(date from start of \"Measurement Period\") >= 18\n    and exists \"Primary Open Angle Glaucoma Encounter\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -186,10 +186,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -201,10 +201,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -216,10 +216,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -231,10 +231,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -246,10 +246,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -261,10 +261,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -276,10 +276,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -291,10 +291,10 @@
         "valueString": "Medical Reason for Not Performing Cup to Disc Ratio"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Medical Reason for Not Performing Cup to Disc Ratio&quot;:\n  [&quot;ObservationNotDone&quot;: &quot;Cup to Disc Ratio&quot;] CupToDiscExamNotPerformed\n    with &quot;Primary Open Angle Glaucoma Encounter&quot; EncounterWithPOAG\n      such that CupToDiscExamNotPerformed.issued during EncounterWithPOAG.period\n    where CupToDiscExamNotPerformed.notDoneReason in &quot;Medical Reason&quot;"
+        "valueString": "define \"Medical Reason for Not Performing Cup to Disc Ratio\":\n  [\"ObservationNotDone\": \"Cup to Disc Ratio\"] CupToDiscExamNotPerformed\n    with \"Primary Open Angle Glaucoma Encounter\" EncounterWithPOAG\n      such that CupToDiscExamNotPerformed.issued during EncounterWithPOAG.period\n    where CupToDiscExamNotPerformed.notDoneReason in \"Medical Reason\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -306,10 +306,10 @@
         "valueString": "Medical Reason for Not Performing Optic Disc Exam"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Medical Reason for Not Performing Optic Disc Exam&quot;:\n  [&quot;ObservationNotDone&quot;: &quot;Optic Disc Exam for Structural Abnormalities&quot;] OpticDiscExamNotPerformed\n    with &quot;Primary Open Angle Glaucoma Encounter&quot; EncounterWithPOAG\n      such that OpticDiscExamNotPerformed.issued during EncounterWithPOAG.period\n    where OpticDiscExamNotPerformed.notDoneReason in &quot;Medical Reason&quot;"
+        "valueString": "define \"Medical Reason for Not Performing Optic Disc Exam\":\n  [\"ObservationNotDone\": \"Optic Disc Exam for Structural Abnormalities\"] OpticDiscExamNotPerformed\n    with \"Primary Open Angle Glaucoma Encounter\" EncounterWithPOAG\n      such that OpticDiscExamNotPerformed.issued during EncounterWithPOAG.period\n    where OpticDiscExamNotPerformed.notDoneReason in \"Medical Reason\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -321,10 +321,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exceptions&quot;:\n  exists &quot;Medical Reason for Not Performing Cup to Disc Ratio&quot;\n    or exists &quot;Medical Reason for Not Performing Optic Disc Exam&quot;"
+        "valueString": "define \"Denominator Exceptions\":\n  exists \"Medical Reason for Not Performing Cup to Disc Ratio\"\n    or exists \"Medical Reason for Not Performing Optic Disc Exam\""
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -336,10 +336,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -351,10 +351,10 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -369,7 +369,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -384,9 +384,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -466,6 +467,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -478,29 +485,17 @@
       "max": "1",
       "type": "boolean"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     }, {
       "name": "SDE Ethnicity",
       "use": "out",
@@ -513,11 +508,17 @@
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -558,10 +559,6 @@
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"
       } ]
-    }, {
-      "type": "Condition",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "clinicalStatus" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -645,6 +642,12 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
@@ -713,7 +716,7 @@
   "title": "Primary Open-Angle Glaucoma (POAG): Optic Nerve EvaluationFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-06T13:24:29+00:00",
+  "date": "2023-12-20T16:27:07+00:00",
   "publisher": "American Academy of Ophthalmology",
   "contact": [ {
     "telecom": [ {
