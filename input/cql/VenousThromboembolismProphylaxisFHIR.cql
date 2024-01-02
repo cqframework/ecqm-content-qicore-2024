@@ -54,6 +54,7 @@ valueset "Warfarin": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.1
 code "Risk for venous thromboembolism": '72136-5' from "LOINC" display 'Risk for venous thromboembolism'
 
 parameter "Measurement Period" Interval<DateTime>
+ default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 
