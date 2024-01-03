@@ -34,7 +34,7 @@ code "Dead (finding)": '419099009' from "SNOMEDCT" display 'Dead (finding'
 code "virtual": 'VR' from "ActCode" display 'virtual'
 code "Stage group.pathology Cancer": '21902-2' from "LOINC" display 'Stage group.pathology Cancer'
 
-parameter "Measurement Period" Interval<DateTime>
+parameter "Measurement Period" Interval<DateTime>default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0 )
 
 context Patient
 
@@ -69,7 +69,7 @@ define "Has Qualifying Encounter":
 define "First Qualifying Bladder Cancer Staging Procedure":
   "First Bladder Cancer Staging Procedure" FirstBladderCancerStaging
     where FirstBladderCancerStaging.performed.toInterval ( ) during day of Interval["July 1 of Year Prior to the Measurement Period", "June 30 of the Measurement Period"]
-    
+
 
 /*Ta High Grade only to be included.  Ta low grade is to be excluded from this measure.*/
 
@@ -187,7 +187,7 @@ define "June 30 of the Measurement Period":
 
 define function "NormalizePeriod"(pointInTime DateTime, dateTimeInterval Interval<DateTime>):
   if pointInTime is not null then Interval[pointInTime, pointInTime]
-    else if dateTimeInterval is not null then dateTimeInterval 
+    else if dateTimeInterval is not null then dateTimeInterval
     else null as Interval<DateTime>
 
 define fluent function isConfirmedActiveDiagnosis(Condition Condition):
