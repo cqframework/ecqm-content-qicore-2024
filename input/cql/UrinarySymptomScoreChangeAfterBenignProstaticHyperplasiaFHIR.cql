@@ -23,7 +23,7 @@ code "International Prostate Symptom Score [IPSS]": '80976-4' from "LOINC" displ
 code "survey": 'survey' from "ObservationCategoryCodes" display 'survey'
 code "virtual": 'VR' from "ActCode" display 'virtual'
 
-parameter "Measurement Period" Interval<DateTime>
+parameter "Measurement Period" Interval<DateTime>default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0 )
 
 context Patient
 
@@ -165,7 +165,7 @@ define "Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis":
 
 define "Initial BPH Diagnosis Starts Within 6 Months Before or After Start of Measurement Period":
   First([Condition: "Benign prostatic hyperplasia with lower urinary tract symptoms"] NewBPHDiagnosis
-      where NewBPHDiagnosis.prevalenceInterval() starts during day of Interval[start of "Measurement Period" - 6 months, 
+      where NewBPHDiagnosis.prevalenceInterval() starts during day of Interval[start of "Measurement Period" - 6 months,
       end of "Measurement Period"]
         and NewBPHDiagnosis.isConfirmedActiveDiagnosis()
       sort by start of onset.toInterval()
