@@ -61,47 +61,44 @@
       "url": "Patient/26408298-880b-468a-9b05-938cee6d8def"
     }
   }, {
-    "fullUrl": "Observation/hospice-care-minimum-data-set-93e7",
+    "fullUrl": "Condition/hospice-care-minimum-data-set-93e7",
     "resource": {
-      "resourceType": "Observation",
+      "resourceType": "Condition",
       "id": "hospice-care-minimum-data-set-93e7",
       "meta": {
-        "profile": [ "http://hl7.org/fhir/StructureDefinition/vitalsigns" ]
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
       },
-      "status": "final",
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
       "category": [ {
         "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-          "code": "vital-signs",
-          "display": "Vital Signs"
-        } ],
-        "text": "Vital Signs"
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "problem-list-item",
+          "userSelected": true
+        } ]
       } ],
       "code": {
         "coding": [ {
-          "system": "http://loinc.org",
-          "code": "45755-6",
-          "display": "Hospice care [Minimum Data Set]",
+          "system": "http://snomed.info/sct",
+          "code": "170935008",
+          "display": "Hospice care procedure",
           "userSelected": true
         } ]
       },
       "subject": {
-        "reference": "26408298-880b-468a-9b05-938cee6d8def"
+        "reference": "Patient/26408298-880b-468a-9b05-938cee6d8def"
       },
-      "effectiveDateTime": "2023-11-15T08:00:00.000+00:00",
-      "issued": "2023-11-15T08:00:00.000+00:00",
-      "valueCodeableConcept": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "373066001",
-          "display": "Yes (qualifier value)",
-          "userSelected": true
-        } ]
-      }
+      "onsetDateTime": "2025-01-15T08:00:00.000+00:00",
+      "recordedDate": "2025-01-15T08:00:00.000+00:00"
     },
     "request": {
       "method": "PUT",
-      "url": "Observation/hospice-care-minimum-data-set-93e7"
+      "url": "Condition/hospice-care-minimum-data-set-93e7"
     }
   }, {
     "fullUrl": "Condition/diabetes-93e8",
@@ -111,6 +108,19 @@
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
       },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "encounter-diagnosis",
+          "display": "Encounter Diagnosis"
+        } ]
+      } ],
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -120,8 +130,11 @@
           "userSelected": true
         } ]
       },
-      "onsetDateTime": "2023-11-15T08:00:00.000+00:00",
-      "recordedDate": "2023-11-15T08:00:00.000+00:00"
+      "subject": {
+        "reference": "Patient/26408298-880b-468a-9b05-938cee6d8def"
+      },
+      "onsetDateTime": "2020-11-15T08:00:00.000+00:00",
+      "recordedDate": "2020-11-15T08:00:00.000+00:00"
     },
     "request": {
       "method": "PUT",
@@ -135,6 +148,12 @@
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
       },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
       "type": [ {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -144,9 +163,12 @@
           "userSelected": true
         } ]
       } ],
+      "subject": {
+        "reference": "Patient/26408298-880b-468a-9b05-938cee6d8def"
+      },
       "period": {
-        "start": "2023-11-15T08:00:00.000+00:00",
-        "end": "2023-11-15T08:15:00.000+00:00"
+        "start": "2025-11-15T08:00:00.000+00:00",
+        "end": "2025-11-15T08:15:00.000+00:00"
       }
     },
     "request": {
@@ -161,6 +183,10 @@
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ]
       },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-recorded",
+        "valueDateTime": "2025-01-02T12:35:00.000Z"
+      } ],
       "status": "completed",
       "code": {
         "coding": [ {
@@ -171,23 +197,26 @@
           "userSelected": true
         } ]
       },
-      "performedDateTime": "2023-01-15T08:00:00.000+00:00"
+      "subject": {
+        "reference": "Patient/26408298-880b-468a-9b05-938cee6d8def"
+      },
+      "performedDateTime": "2025-01-15T08:00:00.000+00:00"
     },
     "request": {
       "method": "PUT",
       "url": "Procedure/hospice-care-ambulatory-93eb"
     }
   }, {
-    "fullUrl": "MeasureReport/7ebdaf4f-663c-410c-bf5a-5354c57bb1c0",
+    "fullUrl": "MeasureReport/fdc432b5-643a-4a19-82e8-f49f0317eb6e",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "7ebdaf4f-663c-410c-bf5a-5354c57bb1c0",
+      "id": "fdc432b5-643a-4a19-82e8-f49f0317eb6e",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "5016936f-51e8-4e0d-bc70-15e7b223d4ac-parameters",
+        "id": "85347fb3-8d79-449c-9d7f-9e1005689263-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "26408298-880b-468a-9b05-938cee6d8def"
@@ -196,7 +225,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#5016936f-51e8-4e0d-bc70-15e7b223d4ac-parameters"
+          "reference": "#85347fb3-8d79-449c-9d7f-9e1005689263-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -222,7 +251,7 @@
               "display": "Initial Population"
             } ]
           },
-          "count": 0
+          "count": 1
         }, {
           "code": {
             "coding": [ {
@@ -231,7 +260,7 @@
               "display": "Denominator"
             } ]
           },
-          "count": 0
+          "count": 1
         }, {
           "code": {
             "coding": [ {
@@ -240,7 +269,7 @@
               "display": "Denominator Exclusion"
             } ]
           },
-          "count": 0
+          "count": 1
         }, {
           "code": {
             "coding": [ {
@@ -255,7 +284,7 @@
       "evaluatedResource": [ {
         "reference": "Patient/26408298-880b-468a-9b05-938cee6d8def"
       }, {
-        "reference": "Observation/hospice-care-minimum-data-set-93e7"
+        "reference": "Condition/hospice-care-minimum-data-set-93e7"
       }, {
         "reference": "Condition/diabetes-93e8"
       }, {
@@ -266,7 +295,7 @@
     },
     "request": {
       "method": "PUT",
-      "url": "MeasureReport/7ebdaf4f-663c-410c-bf5a-5354c57bb1c0"
+      "url": "MeasureReport/fdc432b5-643a-4a19-82e8-f49f0317eb6e"
     }
   } ]
 }
