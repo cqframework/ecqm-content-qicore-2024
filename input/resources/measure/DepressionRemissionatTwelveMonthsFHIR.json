@@ -80,10 +80,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -95,10 +95,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -110,10 +110,10 @@
         "valueString": "Depression Assessments Greater than 9"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Depression Assessments Greater than 9&quot;:\n  [Observation: &quot;PHQ 9 and PHQ 9M Tools&quot;] DepressionAssessment\n    where DepressionAssessment.value &gt; 9\n      and DepressionAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }"
+        "valueString": "define \"Depression Assessments Greater than 9\":\n  [Observation: \"PHQ 9 and PHQ 9M Tools\"] DepressionAssessment\n    where DepressionAssessment.value > 9\n      and DepressionAssessment.status in { 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -125,10 +125,10 @@
         "valueString": "Depression Diagnoses"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Depression Diagnoses&quot;:\n  ( [Condition: &quot;Major Depression Including Remission&quot;]\n    union [Condition: &quot;Dysthymia&quot;] ) Depression\n    where Depression.isActive ( )\n      and Depression.verificationStatus ~ &quot;confirmed&quot;"
+        "valueString": "define \"Depression Diagnoses\":\n  ( [Condition: \"Major Depression Including Remission\"]\n    union [Condition: \"Dysthymia\"] ) Depression\n    where Depression.isActive ( )\n      and Depression.verificationStatus ~ \"confirmed\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -140,10 +140,10 @@
         "valueString": "Denominator Identification Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Identification Period&quot;:\n  Interval[start of &quot;Measurement Period&quot; - 14 months, start of &quot;Measurement Period&quot; - 2 months )"
+        "valueString": "define \"Denominator Identification Period\":\n  Interval[start of \"Measurement Period\" - 14 months, start of \"Measurement Period\" - 2 months )"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -155,10 +155,10 @@
         "valueString": "Depression Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Depression Encounter&quot;:\n  [Encounter: &quot;Contact or Office Visit&quot;] ValidEncounter\n    with &quot;Depression Diagnoses&quot; Depression\n      such that ValidEncounter.period overlaps Depression.prevalenceInterval ( )\n        and ValidEncounter.period ends during &quot;Denominator Identification Period&quot;\n        and ValidEncounter.status = &#39;finished&#39;"
+        "valueString": "define \"Depression Encounter\":\n  [Encounter: \"Contact or Office Visit\"] ValidEncounter\n    with \"Depression Diagnoses\" Depression\n      such that ValidEncounter.period overlaps Depression.prevalenceInterval ( )\n        and ValidEncounter.period ends during \"Denominator Identification Period\"\n        and ValidEncounter.status = 'finished'"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -170,10 +170,10 @@
         "valueString": "Index Depression Assessment"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Index Depression Assessment&quot;:\n  First(&quot;Depression Assessments Greater than 9&quot; DepressionAssessment\n      with &quot;Depression Encounter&quot; DepressionEncounter\n        such that DepressionAssessment.effective.toInterval() during day of Interval[ToDate((start of DepressionEncounter.period) - 7 days), \n        end of DepressionEncounter.period]\n      sort by start of effective.toInterval()\n  )"
+        "valueString": "define \"Index Depression Assessment\":\n  First(\"Depression Assessments Greater than 9\" DepressionAssessment\n      with \"Depression Encounter\" DepressionEncounter\n        such that DepressionAssessment.effective.toInterval() during day of Interval[ToDate((start of DepressionEncounter.period) - 7 days), \n        end of DepressionEncounter.period]\n      sort by start of effective.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -185,10 +185,10 @@
         "valueString": "Measure Assessment Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Measure Assessment Period&quot;:\n  &quot;Index Depression Assessment&quot; FirstIndexAssessment\n    let YearAfterIndexAssessment: date from start of FirstIndexAssessment.effective.toInterval ( ) + 12 months\n    return Interval[YearAfterIndexAssessment - 60 days, YearAfterIndexAssessment + 60 days]"
+        "valueString": "define \"Measure Assessment Period\":\n  \"Index Depression Assessment\" FirstIndexAssessment\n    let YearAfterIndexAssessment: date from start of FirstIndexAssessment.effective.toInterval ( ) + 12 months\n    return Interval[YearAfterIndexAssessment - 60 days, YearAfterIndexAssessment + 60 days]"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -200,10 +200,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  Last([Observation: &quot;PHQ 9 and PHQ 9M Tools&quot;] DepressionAssessment\n      where ToDate(start of DepressionAssessment.effective.toInterval()) during &quot;Measure Assessment Period&quot;\n        and DepressionAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n      sort by start of effective.toInterval()\n  ).value &lt; 5"
+        "valueString": "define \"Numerator\":\n  Last([Observation: \"PHQ 9 and PHQ 9M Tools\"] DepressionAssessment\n      where ToDate(start of DepressionAssessment.effective.toInterval()) during \"Measure Assessment Period\"\n        and DepressionAssessment.status in { 'final', 'amended', 'corrected' }\n      sort by start of effective.toInterval()\n  ).value < 5"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -215,10 +215,10 @@
         "valueString": "Stratification 2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Stratification 2&quot;:\n  &quot;Index Depression Assessment&quot; IndexAssessment\n    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) &gt;= 18"
+        "valueString": "define \"Stratification 2\":\n  \"Index Depression Assessment\" IndexAssessment\n    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) >= 18"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -230,10 +230,10 @@
         "valueString": "Stratification 1"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Stratification 1&quot;:\n  &quot;Index Depression Assessment&quot; IndexAssessment\n    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) in Interval[12, 17]"
+        "valueString": "define \"Stratification 1\":\n  \"Index Depression Assessment\" IndexAssessment\n    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) in Interval[12, 17]"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -245,10 +245,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  AgeInYearsAt(start of(&quot;Index Depression Assessment&quot;.effective.toInterval())) &gt;= 12"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(start of(\"Index Depression Assessment\".effective.toInterval())) >= 12"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -260,10 +260,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -275,10 +275,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -290,10 +290,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -305,10 +305,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -320,10 +320,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -335,10 +335,10 @@
         "valueString": "Has Hospice Services in the Measure Assessment Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services in the Measure Assessment Period&quot;:\n  exists ( [Encounter: &quot;Encounter Inpatient&quot;] InpatientEncounter\n      where ( InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period ends during day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n        and InpatientEncounter.status = &#39;finished&#39;\n  )\n    or exists ( [Encounter: &quot;Hospice Encounter&quot;] HospiceEncounter\n        where HospiceEncounter.period overlaps day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and not ( HospiceEncounter.status in { &#39;cancelled&#39;, &#39;entered-in-error&#39;, &#39;unknown&#39; } )\n    )\n    or exists ( [Observation: &quot;Hospice care [Minimum Data Set]&quot;] HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval ( ) overlaps day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and HospiceAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n    )\n    or exists ( [ServiceRequest: code in &quot;Hospice Care Ambulatory&quot;] HospiceOrder\n        where HospiceOrder.authoredOn during day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and HospiceOrder.status in { &#39;active&#39;, &#39;completed&#39; }\n          and HospiceOrder.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n    )\n    or exists ( [Procedure: &quot;Hospice Care Ambulatory&quot;] HospicePerformed\n        where HospicePerformed.performed.toInterval ( ) overlaps day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and not ( HospicePerformed.status in { &#39;not-done&#39;, &#39;entered-in-error&#39;, &#39;unknown&#39; } )\n    )\n    or exists ( [Condition: &quot;Hospice Diagnosis&quot;] HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval ( ) overlaps day of Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and HospiceCareDiagnosis.isActive ( )\n          and HospiceCareDiagnosis.verificationStatus ~ &quot;confirmed&quot;\n    )"
+        "valueString": "define \"Has Hospice Services in the Measure Assessment Period\":\n  exists ( [Encounter: \"Encounter Inpatient\"] InpatientEncounter\n      where ( InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period ends during day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n        and InpatientEncounter.status = 'finished'\n  )\n    or exists ( [Encounter: \"Hospice Encounter\"] HospiceEncounter\n        where HospiceEncounter.period overlaps day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and not ( HospiceEncounter.status in { 'cancelled', 'entered-in-error', 'unknown' } )\n    )\n    or exists ( [Observation: \"Hospice care [Minimum Data Set]\"] HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval ( ) overlaps day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and HospiceAssessment.status in { 'final', 'amended', 'corrected' }\n    )\n    or exists ( [ServiceRequest: code in \"Hospice Care Ambulatory\"] HospiceOrder\n        where HospiceOrder.authoredOn during day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and HospiceOrder.status in { 'active', 'completed' }\n          and HospiceOrder.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n    )\n    or exists ( [Procedure: \"Hospice Care Ambulatory\"] HospicePerformed\n        where HospicePerformed.performed.toInterval ( ) overlaps day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and not ( HospicePerformed.status in { 'not-done', 'entered-in-error', 'unknown' } )\n    )\n    or exists ( [Condition: \"Hospice Diagnosis\"] HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval ( ) overlaps day of Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and HospiceCareDiagnosis.isActive ( )\n          and HospiceCareDiagnosis.verificationStatus ~ \"confirmed\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -350,10 +350,10 @@
         "valueString": "Has Palliative Care in the Measure Assessment Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Palliative Care in the Measure Assessment Period&quot;:\n  exists ( [Observation: &quot;Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)&quot;] PalliativeAssessment\n      where PalliativeAssessment.effective.toInterval ( ) overlaps Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n        and PalliativeAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n  )\n    or exists ( [Condition: &quot;Palliative Care Diagnosis&quot;] PalliativeDiagnosis\n        where PalliativeDiagnosis.prevalenceInterval ( ) overlaps Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and PalliativeDiagnosis.isActive ( )\n          and PalliativeDiagnosis.verificationStatus ~ &quot;confirmed&quot;\n    )\n    or exists ( [Encounter: &quot;Palliative Care Encounter&quot;] PalliativeEncounter\n        where PalliativeEncounter.period overlaps Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and PalliativeEncounter.status = &#39;finished&#39;\n    )\n    or exists ( [Procedure: &quot;Palliative Care Intervention&quot;] PalliativeIntervention\n        where PalliativeIntervention.performed.toInterval ( ) overlaps Interval[start of &quot;Denominator Identification Period&quot;, end of &quot;Measure Assessment Period&quot;]\n          and not ( PalliativeIntervention.status in { &#39;not-done&#39;, &#39;entered-in-error&#39;, &#39;unknown&#39; } )\n    )"
+        "valueString": "define \"Has Palliative Care in the Measure Assessment Period\":\n  exists ( [Observation: \"Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)\"] PalliativeAssessment\n      where PalliativeAssessment.effective.toInterval ( ) overlaps Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n        and PalliativeAssessment.status in { 'final', 'amended', 'corrected' }\n  )\n    or exists ( [Condition: \"Palliative Care Diagnosis\"] PalliativeDiagnosis\n        where PalliativeDiagnosis.prevalenceInterval ( ) overlaps Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and PalliativeDiagnosis.isActive ( )\n          and PalliativeDiagnosis.verificationStatus ~ \"confirmed\"\n    )\n    or exists ( [Encounter: \"Palliative Care Encounter\"] PalliativeEncounter\n        where PalliativeEncounter.period overlaps Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and PalliativeEncounter.status = 'finished'\n    )\n    or exists ( [Procedure: \"Palliative Care Intervention\"] PalliativeIntervention\n        where PalliativeIntervention.performed.toInterval ( ) overlaps Interval[start of \"Denominator Identification Period\", end of \"Measure Assessment Period\"]\n          and not ( PalliativeIntervention.status in { 'not-done', 'entered-in-error', 'unknown' } )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -365,10 +365,10 @@
         "valueString": "Patient Expired"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Patient Expired&quot;:\n  Patient.deceased on or before end of &quot;Measure Assessment Period&quot;"
+        "valueString": "define \"Patient Expired\":\n  Patient.deceased on or before end of \"Measure Assessment Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -380,10 +380,10 @@
         "valueString": "Has Mental Health Disorder Diagnoses"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Mental Health Disorder Diagnoses&quot;:\n  exists ( ( [Condition: &quot;Bipolar Disorder&quot;]\n      union [Condition: &quot;Personality Disorder Emotionally Labile&quot;]\n      union [Condition: &quot;Schizophrenia or Psychotic Disorder&quot;]\n      union [Condition: &quot;Pervasive Developmental Disorder&quot;] ) MentalHealthDisorderDiagnoses\n      where ToDate(start of MentalHealthDisorderDiagnoses.prevalenceInterval()) on or before end of &quot;Measure Assessment Period&quot;\n        and MentalHealthDisorderDiagnoses.isActive ( )\n        and MentalHealthDisorderDiagnoses.verificationStatus ~ &quot;confirmed&quot;\n  )"
+        "valueString": "define \"Has Mental Health Disorder Diagnoses\":\n  exists ( ( [Condition: \"Bipolar Disorder\"]\n      union [Condition: \"Personality Disorder Emotionally Labile\"]\n      union [Condition: \"Schizophrenia or Psychotic Disorder\"]\n      union [Condition: \"Pervasive Developmental Disorder\"] ) MentalHealthDisorderDiagnoses\n      where ToDate(start of MentalHealthDisorderDiagnoses.prevalenceInterval()) on or before end of \"Measure Assessment Period\"\n        and MentalHealthDisorderDiagnoses.isActive ( )\n        and MentalHealthDisorderDiagnoses.verificationStatus ~ \"confirmed\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -395,10 +395,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Has Hospice Services in the Measure Assessment Period&quot;\n    or &quot;Has Palliative Care in the Measure Assessment Period&quot;\n    or &quot;Patient Expired&quot;\n    or &quot;Has Mental Health Disorder Diagnoses&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Has Hospice Services in the Measure Assessment Period\"\n    or \"Has Palliative Care in the Measure Assessment Period\"\n    or \"Patient Expired\"\n    or \"Has Mental Health Disorder Diagnoses\""
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -410,10 +410,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -425,10 +425,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -440,10 +440,10 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -455,10 +455,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -473,7 +473,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -488,9 +488,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -598,53 +599,17 @@
       "max": "1",
       "type": "Period"
     }, {
-      "name": "Numerator",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
       "name": "SDE Sex",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Coding"
     }, {
-      "name": "SDE Payer",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Ethnicity",
+      "name": "Numerator",
       "use": "out",
       "min": 0,
       "max": "1",
-      "type": "Resource"
-    }, {
-      "name": "SDE Race",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Resource"
+      "type": "boolean"
     }, {
       "name": "Stratification 2",
       "use": "out",
@@ -657,11 +622,47 @@
       "min": 0,
       "max": "1",
       "type": "boolean"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension", "deceased" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
@@ -673,10 +674,6 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
-      "mustSupport": [ "value", "effective" ]
-    }, {
-      "type": "Observation",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "value", "effective", "status", "status.value" ],
       "codeFilter": [ {
         "path": "code",
@@ -685,6 +682,8 @@
           "code": "45755-6",
           "display": "Hospice care [Minimum Data Set]"
         } ]
+      }, {
+        "path": "value"
       } ]
     }, {
       "type": "Observation",
@@ -698,10 +697,6 @@
           "display": "Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)"
         } ]
       } ]
-    }, {
-      "type": "Condition",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "clinicalStatus", "verificationStatus" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -725,6 +720,8 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1165"
+      }, {
+        "path": "verificationStatus"
       } ]
     }, {
       "type": "Condition",
@@ -733,6 +730,8 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1167"
+      }, {
+        "path": "verificationStatus"
       } ]
     }, {
       "type": "Condition",
@@ -773,6 +772,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1080.5"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -781,6 +794,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -797,6 +815,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1090"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Coverage",
@@ -849,9 +872,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/DepressionRemissionatTwelveMonthsFHIR",
@@ -917,7 +946,7 @@
   "title": "Depression Remission at Twelve MonthsFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-10-26T21:36:13+00:00",
+  "date": "2024-01-16T02:14:23+00:00",
   "publisher": "MN Community Measurement",
   "contact": [ {
     "telecom": [ {
@@ -943,6 +972,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/DepressionRemissionatTwelveMonthsFHIR" ],
+  "disclaimer": "The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -950,7 +980,6 @@
       "display": "Proportion"
     } ]
   },
-  "disclaimer": "The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "rationale": "Adults:\nDepression is a common and treatable mental disorder. During 2013-2016, 8.1% of American adults age 20 and over had depression in a given 2 week period. Women (10.4%) were almost twice as likely as men (5.5%) to have had depression. The prevalence of depression among adults decreased as family income levels increased. About 80% of adults with depression reported at least some difficulty with work, home, or social activities because of their depression symptoms (Brody, Pratt, and Hughes, 2018).\n\nDepression is a risk factor for development of chronic illnesses such as diabetes and coronary heart disease and adversely affects the course, complications and management of chronic medical illness. Both maladaptive health risk behaviors and psychobiological factors associated with depression may explain depression's negative effect on outcomes of chronic illness (Katon, 2011).\n\nAdolescents and Adults:\nThe Centers for Disease Control and Prevention states that during 2009-2012 an estimated 7.6% of the U.S. population aged 12 and over had depression, including 3% of Americans with severe depressive symptoms. Almost 43% of persons with severe depressive symptoms reported serious difficulties in work, home and social activities, yet only 35% reported having contact with a mental health professional in the past year (Pratt and Brody, 2014).\n\nDepression is associated with higher mortality rates in all age groups. Depression is also a leading cause of medical disability, and depressed people lose 5.6 hours of productive work every week when they are depressed, 50% of which is due to absenteeism and short-term disability (Stewart et al., 2003).\n\nAdolescents:\nIn 2014, an estimated 2.8 million adolescents age 12 to 17 in the United States had at least one major depressive episode (MDE) in the past year (Center for Behavioral Health Statistics and Quality, 2015). The 2013 Youth Risk Behavior Survey of students grades 9 to 12 indicated that during the past 12 months 39.1% (F) and 20.8% (M) indicated feeling sad or hopeless almost every day for at least 2 weeks, planned suicide attempt 16.9% (F) and 10.3% (M), with attempted suicide 10.6% (F) and 5.4% (M) (Kann et al., 2014). Adolescent-onset depression is associated with chronic depression in adulthood. Many mental health conditions (anxiety, bipolar, depression, eating disorders, and substance abuse) are evident by age 14. The 12-month prevalence of MDEs increased from 8.7% in 2005 to 11.3% in 2014 in adolescents and from 8.8% to 9.6% in young adults (both P < .001). The increase was larger and statistically significant only in the age range of 12 to 20 years. The trends remained significant after adjustment for substance use disorders and sociodemographic factors (Mojtabai, Olfson, and Han 2016). Mental health care contacts overall did not change over time; however, the use of specialty mental health providers increased in adolescents and young adults, and the use of prescription medications and inpatient hospitalizations increased in adolescents (Mojtabai, Olfson, and Han 2016).",
   "clinicalRecommendationStatement": "Adults:\n\nRecommendations and algorithm notations supporting depression outcomes and duration of treatment according to Institute for Clinical Systems Improvement Health Care Guideline (Trangle et al., 2016):\n\nRecommendation: Clinicians should establish and maintain follow-up with patients. Appropriate, reliable follow-up is highly correlated with improved response and remission scores. It is also correlated with the improved safety and efficacy of medications and helps prevent relapse (Trangle et al., 2016).\n\nProactive follow-up contacts (in person, telephone) based on the collaborative care model have been shown to significantly lower depression severity (Unutzer et al., 2002). In the available clinical effectiveness trials conducted in real clinical practice settings, even the addition of a care manager leads to modest remission rates (Trivedi et al., 2006; Unutzer et al., 2002). Interventions are critical to educating the patient regarding the importance of preventing relapse, safety and efficacy of medications, and management of potential side effects. Establish and maintain initial follow-up contact intervals (office, phone, other) (Hunkeler et al., 2000; Simon et al., 2000).\n\nThe Patient Health Questionnaire-9 (PHQ-9) is an effective monitoring and management tool, and should be used routinely for subsequent visits to monitor treatment outcomes and severity. It can also help the clinician decide if/how to modify the treatment plan (Duffy et al., 2008; Lowe et al., 2004). Using a measurement-based approach to depression care, PHQ-9 results and side effect evaluation should be combined with treatment algorithms to drive patients toward remission. A five-point drop in PHQ-9 score is considered the minimal clinically significant difference (Trivedi, 2009).\n\nThe goals of treatment should be to achieve remission, reduce relapse and recurrence, and return to previous level of occupational and psychosocial function.\n\nIf using a PHQ-9 tool, remission translates to PHQ-9 score of less than 5 (Kroenke, 2001). Results from the Sequenced Treatment Alternatives to Relieve Depression (STAR*D) study showed that remission rates lowered with more treatment steps, but the overall cumulative rate was 67% (Rush et al., 2006).\n\nResponse and remission take time. In the STAR*D study, longer times than expected were needed to reach response or remission. In fact, one-third of those who ultimately responded did so after six weeks. Of those who achieved remission by Quick Inventory of Depressive Symptomatology, 50% did so only at or after six weeks of treatment (Trivedi et al., 2006). If the primary care clinician is seeing some improvement, continue working with that patient to augment or increase dosage to reach remission. This can take up to three months.\n\nThis measure assesses achievement of remission, which is a desired outcome of effective depression treatment and monitoring.\n\nAdult Depression in Primary Care - Guideline Aims (Trangle et al., 2016): \n- Increase the percentage of patients with major depression or persistent depressive disorder who have improvement in outcomes from treatment for major depression or persistent depressive disorder.\n- Increase the percentage of patients with major depression or persistent depressive disorder who have follow-up to assess for outcomes from treatment.\n- Improve communication between the primary care physician and the mental health care clinician (if patient is co-managed).\n\nAdolescents:\n\nRecommendations supporting depression outcomes and duration of treatment according to American Academy of Child and Adolescent Psychiatry guideline (Birmaher et al., 2007): \n- Treatment of depressive disorders should always include an acute and continuation phase; some children may also require maintenance treatment. The main goal of the acute phase is to achieve response and ultimately full symptomatic remission (definitions below).\n- Each phase of treatment should include psychoeducation, supportive management, and family and school involvement.\n- Education, support, and case management appear to be sufficient treatment for the management of depressed children and adolescents with an uncomplicated or brief depression or with mild psychosocial impairment.\n- For children and adolescents who do not respond to supportive psychotherapy or who have more complicated depressions, a trial with specific types of psychotherapy and/or antidepressants is indicated.\n\nRecommendations supporting depression outcomes and duration of treatment according to Guidelines for Adolescent Depression in Primary Care (Zuckerbrot et al., 2018 (Part I), Zuckerbrot et al., 2018 (Part II)): \n- Mild depression: consider a period of active support and monitoring before starting other evidence-based treatment\n- Moderate or severe major clinical depression or complicating factors:\n  -- consultation with mental health specialist with agreed upon roles\n  -- evidence based treatment (cognitive behavioral therapy or interpersonal psychotherapy and/or antidepressant selective serotonin reuptake inhibitors)  \n- Monitor for adverse effects during antidepressant therapy\n  -- clinical worsening, suicidality, unusual changes in behavior\n- Systematic and regular tracking of goals and outcomes\n  -- improvement in functioning status and resolution of depressive symptoms\nRegardless of the length of treatment, all patients should be monitored on a monthly basis for 6 to 12 months after the full resolution of symptoms.",
   "group": [ {
