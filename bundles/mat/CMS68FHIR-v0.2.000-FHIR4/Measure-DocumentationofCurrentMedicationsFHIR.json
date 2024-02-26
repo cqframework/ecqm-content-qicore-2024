@@ -1,0 +1,656 @@
+{
+  "resourceType": "Measure",
+  "id": "DocumentationofCurrentMedicationsFHIR",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Library",
+    "id": "effective-data-requirements",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "428191000124101",
+        "display": "Documentation of current medications (procedure)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+      }, {
+        "url": "displaySequence",
+        "valueString": "0"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "1"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Qualifying Encounter during day of Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Qualifying Encounter during day of Measurement Period&quot;:\n  [&quot;Encounter&quot;: &quot;Encounter to Document Medications&quot;] ValidEncounter\n    where ValidEncounter.status = &#39;finished&#39;\n      and ValidEncounter.period during day of &quot;Measurement Period&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "2"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Numerator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Numerator&quot;:\n  &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter\n    with [Procedure: &quot;Documentation of current medications (procedure)&quot;] MedicationsDocumented\n      such that MedicationsDocumented.performed.toInterval ( ) ends during QualifyingEncounter.period\n        and MedicationsDocumented.status = &#39;completed&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "3"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Initial Population"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueString": "4"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "5"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "6"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "7"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "8"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "9"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "10"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "11"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "DocumentationofCurrentMedicationsFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator Exceptions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator Exceptions&quot;:\n  &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter\n    with [ProcedureNotDone: code ~ &quot;Documentation of current medications (procedure)&quot;] MedicationsNotDocumented\n      such that MedicationsNotDocumented.recorded during QualifyingEncounter.period\n        and MedicationsNotDocumented.status = &#39;not-done&#39;\n        and MedicationsNotDocumented.reasonCode in &quot;Medical Reason&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "12"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueString": "13"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToCode"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "14"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToConcept"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "15"
+      } ]
+    } ],
+    "status": "active",
+    "type": {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/library-type",
+        "code": "module-definition"
+      } ]
+    },
+    "relatedArtifact": [ {
+      "type": "depends-on",
+      "display": "Library SDE",
+      "resource": "Library/SupplementalDataElements|3.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "Library/FHIRHelpers|4.3.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library QICoreCommon",
+      "resource": "Library/QICoreCommon|2.0.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system SNOMEDCT",
+      "resource": "http://snomed.info/sct"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Encounter to Document Medications",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1834"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Payer Type",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Medical Reason",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1007"
+    } ],
+    "parameter": [ {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
+    }, {
+      "name": "Numerator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    } ],
+    "dataRequirement": [ {
+      "type": "Patient",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
+      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1834"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "performed", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://snomed.info/sct",
+          "code": "428191000124101",
+          "display": "Documentation of current medications (procedure)"
+        } ]
+      } ]
+    }, {
+      "type": "Coverage",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
+      "mustSupport": [ "type", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedurenotdone" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "reasonCode" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://snomed.info/sct",
+          "code": "428191000124101",
+          "display": "Documentation of current medications (procedure)"
+        } ]
+      } ]
+    } ]
+  } ],
+  "extension": [ {
+    "id": "supplementalDataGuidance",
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
+    "extension": [ {
+      "url": "guidance"
+    }, {
+      "url": "usage",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+          "code": "supplemental-data",
+          "display": "Supplemental Data"
+        } ],
+        "text": "Supplemental Data Guidance"
+      }
+    } ]
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
+    "valueReference": {
+      "reference": "#effective-data-requirements"
+    }
+  } ],
+  "url": "https://madie.cms.gov/Measure/DocumentationofCurrentMedicationsFHIR",
+  "identifier": [ {
+    "use": "usual",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "short-name"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/shortName",
+    "value": "CMS68FHIR"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-independent"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:8fbf4570-1db0-4d90-9900-39a7fa635c75"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-specific"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:5047320b-7b52-4faa-8572-00ad27c4d7f5"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "publisher"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cmsId",
+    "value": "68FHIR",
+    "assigner": {
+      "display": "CMS"
+    }
+  } ],
+  "version": "0.2.000",
+  "name": "DocumentationofCurrentMedicationsFHIR",
+  "title": "Documentation of Current Medications in the Medical RecordFHIR",
+  "status": "draft",
+  "experimental": false,
+  "date": "2023-11-27T13:59:15+00:00",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+  "contact": [ {
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.cms.gov/"
+    } ]
+  } ],
+  "description": "Percentage of visits for which the eligible clinician attests to documenting a list of current medications using all immediate resources available on the date of the encounter.",
+  "purpose": "UNKNOWN",
+  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter during the measurement period. This measure is to be reported for every eligible encounter during the measurement period.\n\nEligible clinicians reporting this measure may document medication information received from the patient, authorized representative(s), caregiver(s) or other available healthcare resources.\n \nBy reporting the action described in this measure, the provider attests to having documented a list of current medications utilizing all immediate resources available on the day of the encounter.\n\nThis list must include all known prescriptions, over-the-counter products, herbals, vitamins, minerals, dietary (nutritional) supplements, cannabis/cannabidiol (CBD) products AND must contain the medications' name, dosage, frequency and route of administration.\n\nThis measure should also be reported if the eligible clinician documented the patient is not currently taking any medications.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS68v13. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.",
+  "approvalDate": "2023-11-27",
+  "lastReviewDate": "2023-11-27",
+  "effectivePeriod": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "author": [ {
+    "name": "Mathematica",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.mathematica.org/"
+    } ]
+  } ],
+  "library": [ "https://madie.cms.gov/Library/DocumentationofCurrentMedicationsFHIR" ],
+  "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "rationale": "According to the National Center for Health Statistics, during the years of 2013-2016, 48.4% of patients (both male and female) were prescribed at least one prescription medication with 12.6% taking 5 or more medications. Additionally, 89.8% of patients (both male and female) aged 65 years and older were prescribed at least one medication with 40.9% taking 5 or more medications (2018). In this context, maintaining an accurate and complete medication list has proven to be a challenging documentation endeavor for various health care provider settings. While most of outpatient encounters (two-thirds) result in providers prescribing at least one medication, hospitals have been the focus of medication safety efforts (Stock, Scott, & Gurtel, 2009). Nassaralla, Naessens, Chaudhry, Hansen, and Scheitel (2007) caution that this is at odds with the current trend, where patients with chronic illnesses are increasingly being treated in the outpatient setting and require careful monitoring of multiple medications. Additionally, Nassaralla et al. (2007) reveal that it is in fact in outpatient settings where more fatal adverse drug events (ADE) occur when these are compared to those occurring in hospitals (1 of 131 outpatient deaths compared to 1 in 854 inpatient deaths). In the outpatient setting, ADEs occur 25% of the time and over one-third of these are considered preventable (Tache, Sonnichsen, & Ashcroft, 2011). Particularly vulnerable are patients over 65 years, with evidence suggesting that the rate of ADEs per 10,000 person per year increases with age; 25-44 years old at 1.3; 45-64 at 2.2, and 65 + at 3.8 (Sarkar, Lopez, Maselli, & Gonzales, 2011). Other vulnerable groups include individuals who are chronically ill or disabled (Nabhanizadeh, Oppewal, Boot, & Maes-Festen, 2019). These population groups are more likely to experience ADEs and subsequent hospitalization. \n\nA multiplicity of providers and inadequate care coordination among them has been identified as barriers to collecting complete and reliable medication records. A study conducted by Poornima et al. (2015) indicates that reconciliation and documentation continue to be poorly executed with discrepancies occurring in 92% of patients (74 of 80) admitted to the emergency room. Of 80 patients included in the study, the home medications were reordered for 65% of patients on their admission. Of the 65%, 29% had a change in their dosing interval, while 23% had a change in their route of administration, and 13% had a change in dose. A total of 361 medication discrepancies, or the difference between the medications patients were taking before admission and those listed in their admission orders, were identified in at least 74 patients. The study found that \"Through an appropriate reconciliation programme, around 80% of errors relating to medication and the potential harm caused by these errors could be reduced\" (Poornima et al., 2015). Presley et al. (2020) also recognized specific barriers to sufficient medication documentation and reconciliation in rural and resource-limited care settings.\n\nDocumentation of current medications in the medical record facilitates the process of medication review and reconciliation by the provider, which is necessary for reducing ADEs and promoting medication safety. The need for provider to provider coordination regarding medication records, and the existing gap in implementation, is highlighted in the American Medical Association's Physician's Role in Medication Reconciliation, which states that \"critical patient information, including medical and medication histories, current medications the patient is receiving and taking, and sources of medications, is essential to the delivery of safe medical care. However, interruptions in the continuity of care and information gaps in patient health records are common and significantly affect patient outcomes\" (2007). This is because clinical decisions based on information that is incomplete and/or inaccurate are likely to lead to medication error and ADEs. Weeks, Corbette, and Stream (2010) noted similar barriers and identified the utilization of health information technology as an opportunity for facilitating the creation of universal medication lists. One 2015 meta-analysis showed an association between electronic health record (EHR) documentation with an overall risk ratio (RR) of 0.46 (95% CI = 0.38 to 0.55; P < 0.001) and ADEs with an overall RR of 0.66 (95% CI = 0.44 to 0.99; P = 0.045). This meta-analysis provides evidence that the use of the EHR can improve the quality of healthcare delivered to patients by reducing medication errors and ADEs (Campanella et al., 2016).",
+  "clinicalRecommendationStatement": "The Joint Commission's 2023 Ambulatory Health Care National Patient Safety Goals guide clinicians to maintain and communicate accurate patient medication information. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient medication information\" states the following: \"Obtain and/or update information on the medications the patient is currently taking. This information is documented in a list or other format that is useful to those who manage medication. Compare the medication information the patient brought to the organization with the medications ordered for the patient by the organization in order to identify and resolve discrepancies.”\n\nThe Joint Commission's 2023 Hospital National Patient Safety Goals also addressed documenting current medications. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient information\" states the following: \"Obtain information on the medications the patient is currently taking when they are admitted to the hospital or is seen in an outpatient setting. This information is documented in a list or other format that is useful to those who manage medications.\"\n\nThe National Quality Forum's Safe Practices for Better Healthcare (2010), states the following: \"The healthcare organization must develop, reconcile, and communicate an accurate patient medication list throughout the continuum of care.\"",
+  "group": [ {
+    "id": "64f0d84a56d636294b157d7f",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+          "code": "proportion",
+          "display": "Proportion"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis",
+      "valueCode": "Encounter"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-type",
+          "code": "process",
+          "display": "Process"
+        } ]
+      }
+    } ],
+    "description": "Percentage of visits for which the eligible clinician attests to documenting a list of current medications using all immediate resources available on the date of the encounter.",
+    "population": [ {
+      "id": "AFBDF753-D68D-4381-BBAA-074DE5758B56",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "description": "All visits occurring during the 12-month measurement period",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Initial Population"
+      }
+    }, {
+      "id": "E4BDAB7F-71A9-48DA-A39D-D4098B43885E",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "description": "Equals Initial Population",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator"
+      }
+    }, {
+      "id": "f614d3a9-1494-4ea9-950c-3e19a5e66207",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "criteria": {
+        "language": "text/cql-identifier"
+      }
+    }, {
+      "id": "2E802727-9C5D-4A4C-A72E-52A534635142",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "description": "Eligible clinician attests to documenting, updating, or reviewing the patient's current medications using all immediate resources available on the date of the encounter",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Numerator"
+      }
+    }, {
+      "id": "d8ed7abf-f5fb-4acc-904a-0c3dd4b6916b",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator-exclusion",
+          "display": "Numerator Exclusion"
+        } ]
+      },
+      "criteria": {
+        "language": "text/cql-identifier"
+      }
+    }, {
+      "id": "D8A53585-9109-4ACE-9665-18974DA1AE7D",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exception",
+          "display": "Denominator Exception"
+        } ]
+      },
+      "description": "Documentation of a medical reason(s) for not documenting, updating, or reviewing the patient’s current medications list (e.g., patient is in an urgent or emergent medical situation where time is of the essence and to delay treatment would jeopardize the patient's health status)",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator Exceptions"
+      }
+    } ]
+  } ],
+  "supplementalData": [ {
+    "id": "sde-ethnicity",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Ethnicity",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Ethnicity"
+    }
+  }, {
+    "id": "sde-payer",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Payer",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Payer"
+    }
+  }, {
+    "id": "sde-race",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Race",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Race"
+    }
+  }, {
+    "id": "sde-sex",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Sex",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Sex"
+    }
+  } ]
+}
