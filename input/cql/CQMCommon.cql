@@ -362,7 +362,7 @@ define fluent function getCondition(reference Reference):
 @deprecated: This function is deprecated. Use the fluent function `principalDiagnosis()` instead.
 */
 define function "PrincipalDiagnosis"(Encounter Encounter ):
-	singleton from ((Encounter.diagnosis D where D.rank = 1) PD
+	singleton from ((Encounter.diagnosis D where D.rank = 1 and D.use = billing) PD
       return singleton from ([Condition] C where C.id = PD.condition.reference.getId())
 	)
 
@@ -370,7 +370,7 @@ define function "PrincipalDiagnosis"(Encounter Encounter ):
 @description: Returns the condition that is specified as the principal diagnosis for the encounter
 */
 define fluent function principalDiagnosis(Encounter Encounter ):
-	singleton from ((Encounter.diagnosis D where D.rank = 1) PD
+	singleton from ((Encounter.diagnosis D where D.rank = 1 and D.use = billing) PD
       return singleton from ([Condition] C where C.id = PD.condition.reference.getId())
 	)
 
