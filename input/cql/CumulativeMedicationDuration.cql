@@ -113,6 +113,35 @@ define function ToDaily(frequency System.Integer, period System.Quantity):
     else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)
   end
 
+ /*
+  Calculates daily frequency given frequency within a period
+*/
+define fluent function toDaily(frequency System.Integer, period System.Quantity):
+  case period.unit
+    when 'h' then frequency * (24.0 / period.value)
+    when 'min' then frequency * (24.0 / period.value) * 60
+    when 's' then frequency * (24.0 / period.value) * 60 * 60
+    when 'd' then frequency * (24.0 / period.value) / 24
+    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)
+    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */
+    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */
+    when 'hour' then frequency * (24.0 / period.value)
+    when 'minute' then frequency * (24.0 / period.value) * 60
+    when 'second' then frequency * (24.0 / period.value) * 60 * 60
+    when 'day' then frequency * (24.0 / period.value) / 24
+    when 'week' then frequency * (24.0 / period.value) / (24 * 7)
+    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */
+    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */
+    when 'hours' then frequency * (24.0 / period.value)
+    when 'minutes' then frequency * (24.0 / period.value) * 60
+    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60
+    when 'days' then frequency * (24.0 / period.value) / 24
+    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)
+    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */
+    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */
+    else Message(null, true, 'CMDLogic.toDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)
+  end
+
 /*
   Returns a daily frequency for the given code representation of frequency.
   The function expects codes from the [EventTiming](http://hl7.org/fhir/codesystem-event-timing.html) or
@@ -172,6 +201,67 @@ define function ToDaily(frequency Code):
     when frequency ~ "Two to four times a day (qualifier value)" then 4.0
 
     else Message(null, true, 'CMDLogic.ToDaily.UnknownFrequencyCode', ErrorLevel, 'Unknown frequency code ' & frequency.code)
+  end
+
+ /*
+  Returns a daily frequency for the given code representation of frequency.
+  The function expects codes from the [EventTiming](http://hl7.org/fhir/codesystem-event-timing.html) or
+  [V3TimingEvent](http://hl7.org/fhir/v3/TimingEvent/cs.html) code systems.
+  // TODO: Determine whether or not we should use timing.code at all....
+*/
+define fluent function toDaily(frequency Code):
+  case
+    when frequency ~ "HS" then 1 // event occurs [offset] before the hour of sleep (or trying to)
+    when frequency ~ "WAKE" then 1 // event occurs [offset] after waking
+    when frequency ~ "C" then 3 //	event occurs at a meal (from the Latin cibus)
+    when frequency ~ "CM" then 1 //	event occurs at breakfast (from the Latin cibus matutinus)
+    when frequency ~ "CD" then 1 //	event occurs at lunch (from the Latin cibus diurnus)
+    when frequency ~ "CV" then 1 //	event occurs at dinner (from the Latin ante cibus vespertinus)
+    when frequency ~ "AC" then 3 //	event occurs [offset] before a meal (from the Latin ante cibus)
+    when frequency ~ "ACM" then 1 //	event occurs [offset] before breakfast (from the Latin ante cibus matutinus)
+    when frequency ~ "ACD" then 1 //	event occurs [offset] before lunch (from the Latin ante cibus diurnus)
+    when frequency ~ "ACV" then 1 //	event occurs [offset] before dinner (from the Latin ante cibus vespertinus)
+    when frequency ~ "PC" then 3 //	event occurs [offset] after a meal (from the Latin post cibus)
+    when frequency ~ "PCM" then 1 //	event occurs [offset] after breakfast (from the Latin post cibus matutinus)
+    when frequency ~ "PCD" then 1 //	event occurs [offset] after lunch (from the Latin post cibus diurnus)
+    when frequency ~ "PCV" then 1 //	event occurs [offset] after dinner (from the Latin post cibus vespertinus)
+
+    when frequency ~ "MORN" then 1 //	Event occurs during the morning. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "MORN.early" then 1 //	Early Morning	Event occurs during the early morning. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "MORN.late" then 1 // Late Morning	Event occurs during the late morning. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "NOON" then 1 //	Noon	Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "AFT" then 1 //	Afternoon	Event occurs during the afternoon. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "AFT.early" then 1 //	Early Afternoon	Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "AFT.late" then 1 //	Late Afternoon	Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "EVE" then 1 //	Evening	Event occurs during the evening. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "EVE.early" then 1 //	Early Evening	Event occurs during the early evening. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "EVE.late" then 1 //	Late Evening	Event occurs during the late evening. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "NIGHT" then 1 //	Night	Event occurs during the night. The exact time is unspecified and established by institution convention or patient interpretation.
+    when frequency ~ "PHS" then 1 //	After Sleep	Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution convention or patient interpretation.
+
+    when frequency ~ "Once daily (qualifier value)" then 1.0
+    when frequency ~ "Twice a day (qualifier value)" then 2.0
+    when frequency ~ "Three times daily (qualifier value)" then 3.0
+    when frequency ~ "Four times daily (qualifier value)" then 4.0
+    when frequency ~ "Every twenty four hours (qualifier value)" then 1.0
+    when frequency ~ "Every twelve hours (qualifier value)" then 2.0
+    when frequency ~ "Every thirty six hours (qualifier value)" then 0.67
+    when frequency ~ "Every eight hours (qualifier value)" then 3.0
+    when frequency ~ "Every four hours (qualifier value)" then 6.0
+    when frequency ~ "Every six hours (qualifier value)" then 4.0
+    when frequency ~ "Every seventy two hours (qualifier value)" then 0.33
+    when frequency ~ "Every forty eight hours (qualifier value)" then 0.5
+    when frequency ~ "Every eight to twelve hours (qualifier value)" then 3.0
+    when frequency ~ "Every six to eight hours (qualifier value)" then 4.0
+    when frequency ~ "Every three to four hours (qualifier value)" then 8.0
+    when frequency ~ "Every three to six hours (qualifier value)" then 8.0
+    when frequency ~ "Every two to four hours (qualifier value)" then 12.0
+    when frequency ~ "One to four times a day (qualifier value)" then 4.0
+    when frequency ~ "One to three times a day (qualifier value)" then 3.0
+    when frequency ~ "One to two times a day (qualifier value)" then 2.0
+    when frequency ~ "Two to four times a day (qualifier value)" then 4.0
+
+    else Message(null, true, 'CMDLogic.toDaily.UnknownFrequencyCode', ErrorLevel, 'Unknown frequency code ' & frequency.code)
   end
 
 /*
@@ -250,6 +340,37 @@ define function MedicationRequestPeriod(Request "MedicationRequest"):
       doseQuantity: doseAndRate.dose,
       dose: Coalesce(end of doseRange, doseQuantity),
       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),
+      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,
+      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,
+      quantity: R.dispenseRequest.quantity,
+      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),
+      startDate:
+        Coalesce(
+          date from start of boundsPeriod,
+          date from R.authoredOn,
+          date from start of R.dispenseRequest.validityPeriod
+        ),
+      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)
+    return
+      if startDate is not null and totalDaysSupplied is not null then
+        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]
+      else if startDate is not null and boundsPeriod."high" is not null then
+        Interval[startDate, date from end of boundsPeriod]
+      else
+        null
+
+ define fluent function MedicationRequestPeriod(Request "MedicationRequest"):
+  Request R
+    let
+      dosage: singleton from R.dosageInstruction,
+      doseAndRate: singleton from dosage.doseAndRate,
+      timing: dosage.timing,
+      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),
+      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),
+      doseRange: doseAndRate.dose,
+      doseQuantity: doseAndRate.dose,
+      dose: Coalesce(end of doseRange, doseQuantity),
+      dosesPerDay: Coalesce(toDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),
       boundsPeriod: timing.repeat.bounds as Interval<DateTime>,
       daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,
       quantity: R.dispenseRequest.quantity,
@@ -363,6 +484,57 @@ define function MedicationDispensePeriod(Dispense "MedicationDispense"):
       else
         null
 
+ /*
+Calculates Medication Period for a given MedicationDispense
+MedicationDispense instances provided to this function are expected
+to conform to the [TODO: MMEMedicationDispense](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationdispense.html)
+profile, which expects:
+* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error
+* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error
+* 1 timing with 1 repeat, missing timing or repeat elements will result in a null
+* frequency, frequencyMax, defaulting to 1
+* period, periodUnit, defaulting to 1 'd'
+* timeOfDay
+* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null
+* whenHandedOver or whenPrepared, if missing both whenHandedOver and whenPrepared will result in a null
+Note that MedicationDispense status is not considered by this calculation, as the
+list of MedicationDispense instances provided to this function should already have
+considered appropriate statuses, depending on the use case, typically `completed`,
+especially since whenHandedOver would be expected to be present for a completed
+MedicationDispense.
+Note also that the dosage information recorded in a dispense is expected to be a copy of the
+dispense information from the related medication request. As such, the boundsPeriod would be expected
+to cover the entire range, and should _not_ be used for timing of the event.
+There is also active discussion in the Pharmacy WG about what date should be used if whenPrepared/whenHandedOver is not present.
+This may take the form of an "original creation date", but may also be a "status change date" for dispense events that are updating
+status of an existing dispense. That discussion is ongoing, so until that is resolved, this logic will return
+null if whenPrepared/whenHandedOver are not available.
+*/
+define fluent function medicationDispensePeriod(Dispense "MedicationDispense"):
+  Dispense D
+    let
+      dosage: singleton from D.dosageInstruction,
+      doseAndRate: singleton from dosage.doseAndRate,
+      timing: dosage.timing,
+      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),
+      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),
+      doseRange: doseAndRate.dose,
+      doseQuantity: doseAndRate.dose,
+      dose: Coalesce(end of doseRange, doseQuantity),
+      daysSupply: (convert D.daysSupply to days).value,
+      dosesPerDay: Coalesce(toDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),
+      startDate:
+        Coalesce(
+          date from D.whenHandedOver,
+          date from D.whenPrepared
+        ),
+      totalDaysSupplied: Coalesce(daysSupply, D.quantity.value / (dose.value * dosesPerDay))
+    return
+      if startDate is not null and totalDaysSupplied is not null then
+        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day')]
+      else
+        null
+ 
 /*
 Returns the established therapeutic duration for a given medication.
 This is likely measure specific, though could potentially be established for
@@ -372,7 +544,16 @@ Defaulting to 14 days here for illustration.
 define function TherapeuticDuration(medication Concept):
   14 days
 
-/*
+ /*
+Returns the established therapeutic duration for a given medication.
+This is likely measure specific, though could potentially be established for
+any drug and distributed as a CodeSystem supplement.
+Defaulting to 14 days here for illustration.
+*/
+define fluent function therapeuticDuration(medication Concept):
+  14 days
+
+ /*
 Next we consider MedicationAdministration. This data type is typically used to
 capture specific administration, with the relevantPeriod capturing start and stop
 time of the administration event:
@@ -400,6 +581,34 @@ define function MedicationAdministrationPeriod(Administration "MedicationAdminis
       else
         null
 
+ /*
+Next we consider MedicationAdministration. This data type is typically used to
+capture specific administration, with the relevantPeriod capturing start and stop
+time of the administration event:
+* effective[x]: Start and end time of administration
+However, when calculating cumulative medication duration, it is typically the
+therapeutic period of the medication that should be considered. Currently neither
+the Medication nor MedicationKnowledge resources provide this information, so
+we model it here as a function that can potentially be implemented in a variety
+of ways, including measure-specific values, as well as distribution as an RxNorm
+code system supplement.
+However it is obtained, if therapeutic duration can be obtained, and the effective
+period has a start, the result will be
+    Interval[startDate, startDate + therapeuticDuration - 1 day]
+NOTE: Therapeutic duration needs to be established and until a way is implemented to
+do that based on the medication, this logic is incomplete and should not be used.
+*/
+define fluent function medicationAdministrationPeriod(Administration "MedicationAdministration"):
+  Administration M
+    let
+      therapeuticDuration: therapeuticDuration(Administration.medication),
+      startDate: date from start of Administration.effective
+    return
+      if startDate is not null and therapeuticDuration is not null then
+        Interval[startDate, startDate + therapeuticDuration - 1]
+      else
+        null
+
 /*
 Now that we have functions for determining the medication period for individual
 prescriptions, administrations, and dispenses, we can combine those using
@@ -419,10 +628,42 @@ define function CumulativeDuration(Intervals List<Interval<Date>>):
   ) 
     else null
 
-/*
+ /*
+Now that we have functions for determining the medication period for individual
+prescriptions, administrations, and dispenses, we can combine those using
+an overall cumulative medication duration calculation.
+There are two broad approaches to calculating cumulative duration, one that _collapses_
+overlapping intervals so that calculations are not duplicated, and one that _rolls out_
+overlapping intervals so that the durations are laid end-to-end.
+First, we define a function that simply calculates CumulativeDuration of a set of
+intervals:
+*/
+define fluent function cumulativeDuration(Intervals List<Interval<Date>>):
+   if Intervals is not null then ( Sum((collapse Intervals per day)X
+        return all(difference in days between start of X and 
+          end of X
+        )+ 1
+    )
+  ) 
+    else null
+
+ /*
 Next, we define a function that rolls out intervals:
 */
 define function RolloutIntervals(intervals List<Interval<Date>>):
+ intervals I aggregate all R starting ( null as List<Interval<Date>>): R
+    union ( { I X
+        let S: Max({ 
+          end of Last(R)+ 1 day, start of X }
+        ),
+        E: S + Quantity(Coalesce(duration in days of X, 0), 'day')
+        return Interval[S, E]}
+    )
+
+  /*
+Next, we define a function that rolls out intervals:
+*/
+define fluent function rolloutIntervals(intervals List<Interval<Date>>):
  intervals I aggregate all R starting ( null as List<Interval<Date>>): R
     union ( { I X
         let S: Max({ 
