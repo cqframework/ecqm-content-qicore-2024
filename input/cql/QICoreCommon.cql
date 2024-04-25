@@ -1,16 +1,16 @@
 /*
-@update: JKR 2023-10-20 ->
-Added display names for DRCs that were missing them
-Updates to ToInterval and toInterval functions to add QICore.Timing to work with Observation.effective
-Updates to PrevalenceInterval and prevalenceInterval functions where the else clause open boundary ')' is changed to a closed boundary ']' so as to recognize condition abatement at the same point in time as the start of encounter as meeting 'overlap' criteria
+@update: JKR 2024-04-02 ->
+Check display code accuracy against source system                                                        
+Ensure all fluent functions are not referencing any deprecated functions.   
+https://oncprojectracking.healthit.gov/support/browse/CQLIT-414
 */
 
 
-library QICoreCommon version '2.0.000'
+library QICoreCommon version '2.1.000'
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000'
+include FHIRHelpers version '4.4.000'
 
 codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
@@ -427,11 +427,11 @@ if condition.clinicalStatus ~ "active"
   or condition.clinicalStatus ~ "relapse" then
   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]
 else
-    (end of toAbatementInterval(condition)) abatementDate
+    (end of condition.abatementInterval()) abatementDate
     return if abatementDate is null then
-      Interval[start of toInterval(condition.onset), abatementDate)
+      Interval[start of condition.onset.toInterval(), abatementDate)
     else
-      Interval[start of toInterval(condition.onset), abatementDate]
+      Interval[start of condition.onset.toInterval(), abatementDate]
 
 /*
 @description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).
