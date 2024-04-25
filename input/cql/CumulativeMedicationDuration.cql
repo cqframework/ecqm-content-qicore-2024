@@ -1,14 +1,15 @@
 /*
-@update: JKR 2023-10-20 ->
-Incremented QICoreCommon version
+@update: JKR 2024-04-02 ->
+Incremented QICoreCommon and FHIRHelpers version
+Created Fluent functions for all relevant functions
 */
 
-library CumulativeMedicationDuration version '4.0.000'
+library CumulativeMedicationDuration version '4.1.000'
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000'
-include QICoreCommon version '2.0.000'
+include FHIRHelpers version '4.4.000'
+include QICoreCommon version '2.1.000'
 
 // These code systems are not known to the MAT environment yet, request to have them added submitted
 codesystem "V3TimingEvent": 'http://terminology.hl7.org/CodeSystem/v3-TimingEvent'
@@ -599,8 +600,8 @@ define fluent function medicationPeriod(
     "MedicationDispense"
   >):
   case
-    when medication is MedicationRequest then medicationRequestPeriod(medication)
-    when medication is MedicationDispense then medicationDispensePeriod(medication)
+    when medication is MedicationRequest then medication.medicationRequestPeriod()
+    when medication is MedicationDispense then medication.medicationDispensePeriod()
     else null
   end
 
@@ -645,22 +646,22 @@ or Average MME) require further consideration.
 */
 
 define fluent function cumulativeMedicationDuration(
-  Medications List<Choice<"MedicationRequest",
-    "MedicationDispense"
-  >>):
-  cumulativeDuration((
-      Medications M
-        where M is MedicationRequest
-        return medicationRequestPeriod(M)
-    )
-      union (
-        rolloutIntervals(
-          Medications M
-            where M is MedicationDispense
-            return medicationDispensePeriod(M)
-        )
-      )
-  )
+Medications List<Choice<"MedicationRequest",
+"MedicationDispense"
+>>):
+((
+Medications M
+where M is MedicationRequest
+return M.medicationRequestPeriod()
+)
+union (
+(
+Medications M
+where M is MedicationDispense
+return M.medicationDispensePeriod()
+).rolloutIntervals()
+)
+).cumulativeDuration()
   /**********************************************************************/
 /* Functions in this region are copied from opioid-mme-r4             */
 /**********************************************************************/
