@@ -30,7 +30,9 @@ valueset "Preventive Care Services Other": 'http://cts.nlm.nih.gov/fhir/ValueSet
 
 
 
-parameter "Measurement Period" Interval<DateTime>
+
+parameter "Measurement Period" Interval<DateTime> default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+
 
 context Patient
 
@@ -58,6 +60,7 @@ define "Numerator":
   "Has Chlamydia Testing"
     and "Has Gonorrhea Testing"
     and "Has Syphilis Testing"
+
 
 define "Has Qualifying Encounter During Measurement Period":
 /*Note: applied workaround using value set 'Preventive Care Services Other', as a DRC cannot be used directly from an encounter retrieve; additional info can be found in CQLIT-368*/
