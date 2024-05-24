@@ -12,6 +12,7 @@ include AdultOutpatientEncounters version '4.8.000' called AdultOutpatientEncoun
 include AdvancedIllnessandFrailty version '1.8.000' called AIFrailLTCF
 include Hospice version '6.9.000' called Hospice
 include PalliativeCare version '1.9.000' called PalliativeCare
+include DiabetesHemoglobinA1cHbA1cPoorControl9FHIRBreakdown version '0.1.001' called Breakdown
 
 valueset "Diabetes": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001'
 valueset "HbA1c Laboratory Test": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1013'
@@ -20,24 +21,10 @@ parameter "Measurement Period" Interval<DateTime>default Interval[@2025-01-01T00
 
 context Patient
 
-define "SDE Ethnicity":
-  SDE."SDE Ethnicity"
-
-define "SDE Payer":
-  SDE."SDE Payer"
-
-define "SDE Race":
-  SDE."SDE Race"
-
-define "SDE Sex":
-  SDE."SDE Sex"
-
 define "Initial Population":
-  AgeInYearsAt(date from start of "Measurement Period") in Interval[18, 75]
+  Breakdown."Age At Start Of Measurement Period" in Interval[18, 75]
     and exists AdultOutpatientEncounters."Qualifying Encounters"
-    and exists ( [Condition: "Diabetes"] Diabetes
-        where QICoreCommon."ToPrevalenceInterval" ( Diabetes ) overlaps "Measurement Period"
-    )
+    and exists Breakdown."Diabetes Overlaps Measurement Period"
 
 define "Denominator":
   "Initial Population"
@@ -49,23 +36,6 @@ define "Denominator Exclusions":
     or PalliativeCare."Has Palliative Care in the Measurement Period"
 
 define "Numerator":
-  "Has Most Recent HbA1c Without Result"
-    or "Has Most Recent Elevated HbA1c"
-    or "Has No Record Of HbA1c"
-
-define "Has Most Recent HbA1c Without Result":
-  "Most Recent HbA1c" is not null
-    and "Most Recent HbA1c".value is null
-
-define "Most Recent HbA1c":
-  Last((([Observation: "HbA1c Laboratory Test"]).isLaboratoryTestPerformed()) RecentHbA1c
-      where QICoreCommon."Latest"(RecentHbA1c.effective) during day of "Measurement Period"
-      sort by start of QICoreCommon."ToInterval"(effective)
-  )
-
-define "Has Most Recent Elevated HbA1c":
-  ( "Most Recent HbA1c".value as Quantity ) > 9 '%'
-
-define "Has No Record Of HbA1c":
-  not exists ( ( [Observation: "HbA1c Laboratory Test"] ).isLaboratoryTestPerformed ( ) ) NoHbA1c
-    where QICoreCommon."Latest" ( NoHbA1c.effective ) during day of "Measurement Period"
+  Breakdown."Has Most Recent HbA1c Without Result"
+    or Breakdown."Has Most Recent Elevated HbA1c"
+    or Breakdown."Has No Record Of HbA1c"
