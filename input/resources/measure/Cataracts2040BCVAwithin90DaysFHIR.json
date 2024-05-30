@@ -59,10 +59,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -74,10 +74,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -89,10 +89,10 @@
         "valueString": "Cataract Surgery Between January and September of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Cataract Surgery Between January and September of Measurement Period&quot;:\n  [Procedure: &quot;Cataract Surgery&quot;] CataractSurgery\n    where CataractSurgery.performed.toInterval ( ) during &quot;Measurement Period&quot;\n      and CataractSurgery.performed.toInterval ( ) starts 92 days or more before end of &quot;Measurement Period&quot;\n      and CataractSurgery.status = &#39;completed&#39;"
+        "valueString": "define \"Cataract Surgery Between January and September of Measurement Period\":\n  [Procedure: \"Cataract Surgery\"] CataractSurgery\n    where CataractSurgery.performed.toInterval ( ) during \"Measurement Period\"\n      and CataractSurgery.performed.toInterval ( ) starts 92 days or more before end of \"Measurement Period\"\n      and CataractSurgery.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -104,10 +104,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Cataract Surgery Between January and September of Measurement Period&quot; CataractSurgeryPerformed\n    with ( [Observation: &quot;Best corrected visual acuity (observable entity)&quot;]\n      union [Observation: &quot;Best Corrected Visual Acuity Exam Using Snellen Chart&quot;] ) VisualAcuityExamPerformed\n      such that VisualAcuityExamPerformed.effective.toInterval ( ) 90 days or less after day of end of CataractSurgeryPerformed.performed.toInterval ( )\n        and VisualAcuityExamPerformed.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39;, &#39;preliminary&#39; }\n        and VisualAcuityExamPerformed.value as Concept in &quot;Visual Acuity 20/40 or Better&quot;"
+        "valueString": "define \"Numerator\":\n  \"Cataract Surgery Between January and September of Measurement Period\" CataractSurgeryPerformed\n    with ( [Observation: \"Best corrected visual acuity (observable entity)\"]\n      union [Observation: \"Best Corrected Visual Acuity Exam Using Snellen Chart\"] ) VisualAcuityExamPerformed\n      such that VisualAcuityExamPerformed.effective.toInterval ( ) 90 days or less after day of end of CataractSurgeryPerformed.performed.toInterval ( )\n        and VisualAcuityExamPerformed.status in { 'final', 'amended', 'corrected', 'preliminary' }\n        and VisualAcuityExamPerformed.value as Concept in \"Visual Acuity 20/40 or Better\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -119,10 +119,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Cataract Surgery Between January and September of Measurement Period&quot; CataractSurgeryPerformed\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 18"
+        "valueString": "define \"Initial Population\":\n  \"Cataract Surgery Between January and September of Measurement Period\" CataractSurgeryPerformed\n    where AgeInYearsAt(date from start of \"Measurement Period\") >= 18"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -134,10 +134,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -149,10 +149,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -164,10 +164,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -179,10 +179,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -194,10 +194,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -209,10 +209,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Cataract Surgery Between January and September of Measurement Period&quot; CataractSurgeryPerformed\n    with ( [Condition: &quot;Acute and Subacute Iridocyclitis&quot;]\n      union [Condition: &quot;Amblyopia&quot;]\n      union [Condition: &quot;Burn Confined to Eye and Adnexa&quot;]\n      union [Condition: &quot;Cataract Secondary to Ocular Disorders&quot;]\n      union [Condition: &quot;Cataract Congenital&quot;]\n      union [Condition: &quot;Cataract Mature or Hypermature&quot;]\n      union [Condition: &quot;Cataract Posterior Polar&quot;]\n      union [Condition: &quot;Central Corneal Ulcer&quot;]\n      union [Condition: &quot;Certain Types of Iridocyclitis&quot;]\n      union [Condition: &quot;Choroidal Degenerations&quot;]\n      union [Condition: &quot;Choroidal Detachment&quot;]\n      union [Condition: &quot;Choroidal Hemorrhage and Rupture&quot;]\n      union [Condition: &quot;Chronic Iridocyclitis&quot;]\n      union [Condition: &quot;Cloudy Cornea&quot;]\n      union [Condition: &quot;Corneal Edema&quot;]\n      union [Condition: &quot;Disorders of Cornea Including Corneal Opacity&quot;]\n      union [Condition: &quot;Degeneration of Macula and Posterior Pole&quot;]\n      union [Condition: &quot;Degenerative Disorders of Globe&quot;]\n      union [Condition: &quot;Diabetic Macular Edema&quot;]\n      union [Condition: &quot;Diabetic Retinopathy&quot;]\n      union [Condition: &quot;Disorders of Optic Chiasm&quot;]\n      union [Condition: &quot;Disorders of Visual Cortex&quot;]\n      union [Condition: &quot;Disseminated Chorioretinitis and Disseminated Retinochoroiditis&quot;]\n      union [Condition: &quot;Focal Chorioretinitis and Focal Retinochoroiditis&quot;]\n      union [Condition: &quot;Glaucoma&quot;]\n      union [Condition: &quot;Glaucoma Associated with Congenital Anomalies and Dystrophies and Systemic Syndromes&quot;]\n      union [Condition: &quot;Hereditary Choroidal Dystrophies&quot;]\n      union [Condition: &quot;Hereditary Corneal Dystrophies&quot;]\n      union [Condition: &quot;Hereditary Retinal Dystrophies&quot;]\n      union [Condition: &quot;Hypotony of Eye&quot;]\n      union [Condition: &quot;Injury to Optic Nerve and Pathways&quot;]\n      union [Condition: &quot;Macular Scar of Posterior Polar&quot;]\n      union [Condition: &quot;Morgagnian Cataract&quot;]\n      union [Condition: &quot;Nystagmus and Other Irregular Eye Movements&quot;]\n      union [Condition: &quot;Open Wound of Eyeball&quot;]\n      union [Condition: &quot;Optic Atrophy&quot;]\n      union [Condition: &quot;Optic Neuritis&quot;]\n      union [Condition: &quot;Other and Unspecified Forms of Chorioretinitis and Retinochoroiditis&quot;]\n      union [Condition: &quot;Other Background Retinopathy and Retinal Vascular Changes&quot;]\n      union [Condition: &quot;Other Disorders of Optic Nerve&quot;]\n      union [Condition: &quot;Other Endophthalmitis&quot;]\n      union [Condition: &quot;Other Proliferative Retinopathy&quot;]\n      union [Condition: &quot;Pathologic Myopia&quot;]\n      union [Condition: &quot;Posterior Lenticonus&quot;]\n      union [Condition: &quot;Prior Penetrating Keratoplasty&quot;]\n      union [Condition: &quot;Purulent Endophthalmitis&quot;]\n      union [Condition: &quot;Retinal Detachment with Retinal Defect&quot;]\n      union [Condition: &quot;Retinal Vascular Occlusion&quot;]\n      union [Condition: &quot;Retrolental Fibroplasias&quot;]\n      union [Condition: &quot;Scleritis&quot;]\n      union [Condition: &quot;Separation of Retinal Layers&quot;]\n      union [Condition: &quot;Traumatic Cataract&quot;]\n      union [Condition: &quot;Uveitis&quot;]\n      union [Condition: &quot;Vascular Disorders of Iris and Ciliary Body&quot;]\n      union [Condition: &quot;Visual Field Defects&quot;] ) ComorbidDiagnosis\n      such that ComorbidDiagnosis.prevalenceInterval ( ) overlaps before CataractSurgeryPerformed.performed.toInterval ( )\n        and ComorbidDiagnosis.isActive ( )"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Cataract Surgery Between January and September of Measurement Period\" CataractSurgeryPerformed\n    with ( [Condition: \"Acute and Subacute Iridocyclitis\"]\n      union [Condition: \"Amblyopia\"]\n      union [Condition: \"Burn Confined to Eye and Adnexa\"]\n      union [Condition: \"Cataract Secondary to Ocular Disorders\"]\n      union [Condition: \"Cataract Congenital\"]\n      union [Condition: \"Cataract Mature or Hypermature\"]\n      union [Condition: \"Cataract Posterior Polar\"]\n      union [Condition: \"Central Corneal Ulcer\"]\n      union [Condition: \"Certain Types of Iridocyclitis\"]\n      union [Condition: \"Choroidal Degenerations\"]\n      union [Condition: \"Choroidal Detachment\"]\n      union [Condition: \"Choroidal Hemorrhage and Rupture\"]\n      union [Condition: \"Chronic Iridocyclitis\"]\n      union [Condition: \"Cloudy Cornea\"]\n      union [Condition: \"Corneal Edema\"]\n      union [Condition: \"Disorders of Cornea Including Corneal Opacity\"]\n      union [Condition: \"Degeneration of Macula and Posterior Pole\"]\n      union [Condition: \"Degenerative Disorders of Globe\"]\n      union [Condition: \"Diabetic Macular Edema\"]\n      union [Condition: \"Diabetic Retinopathy\"]\n      union [Condition: \"Disorders of Optic Chiasm\"]\n      union [Condition: \"Disorders of Visual Cortex\"]\n      union [Condition: \"Disseminated Chorioretinitis and Disseminated Retinochoroiditis\"]\n      union [Condition: \"Focal Chorioretinitis and Focal Retinochoroiditis\"]\n      union [Condition: \"Glaucoma\"]\n      union [Condition: \"Glaucoma Associated with Congenital Anomalies and Dystrophies and Systemic Syndromes\"]\n      union [Condition: \"Hereditary Choroidal Dystrophies\"]\n      union [Condition: \"Hereditary Corneal Dystrophies\"]\n      union [Condition: \"Hereditary Retinal Dystrophies\"]\n      union [Condition: \"Hypotony of Eye\"]\n      union [Condition: \"Injury to Optic Nerve and Pathways\"]\n      union [Condition: \"Macular Scar of Posterior Polar\"]\n      union [Condition: \"Morgagnian Cataract\"]\n      union [Condition: \"Nystagmus and Other Irregular Eye Movements\"]\n      union [Condition: \"Open Wound of Eyeball\"]\n      union [Condition: \"Optic Atrophy\"]\n      union [Condition: \"Optic Neuritis\"]\n      union [Condition: \"Other and Unspecified Forms of Chorioretinitis and Retinochoroiditis\"]\n      union [Condition: \"Other Background Retinopathy and Retinal Vascular Changes\"]\n      union [Condition: \"Other Disorders of Optic Nerve\"]\n      union [Condition: \"Other Endophthalmitis\"]\n      union [Condition: \"Other Proliferative Retinopathy\"]\n      union [Condition: \"Pathologic Myopia\"]\n      union [Condition: \"Posterior Lenticonus\"]\n      union [Condition: \"Prior Penetrating Keratoplasty\"]\n      union [Condition: \"Purulent Endophthalmitis\"]\n      union [Condition: \"Retinal Detachment with Retinal Defect\"]\n      union [Condition: \"Retinal Vascular Occlusion\"]\n      union [Condition: \"Retrolental Fibroplasias\"]\n      union [Condition: \"Scleritis\"]\n      union [Condition: \"Separation of Retinal Layers\"]\n      union [Condition: \"Traumatic Cataract\"]\n      union [Condition: \"Uveitis\"]\n      union [Condition: \"Vascular Disorders of Iris and Ciliary Body\"]\n      union [Condition: \"Visual Field Defects\"] ) ComorbidDiagnosis\n      such that ComorbidDiagnosis.prevalenceInterval ( ) overlaps before CataractSurgeryPerformed.performed.toInterval ( )\n        and ComorbidDiagnosis.isActive ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -224,10 +224,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -239,10 +239,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -257,7 +257,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -272,7 +272,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -284,10 +284,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -299,12 +299,13 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -580,6 +581,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -592,25 +599,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -622,6 +617,12 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
@@ -631,7 +632,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Procedure",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
@@ -639,6 +640,20 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1411"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "performed",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -668,10 +683,6 @@
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
       } ]
-    }, {
-      "type": "Condition",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "clinicalStatus" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -1132,6 +1143,12 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
@@ -1200,7 +1217,7 @@
   "title": "Cataracts: 20/40 or Better Visual Acuity within 90 Days Following Cataract SurgeryFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-06T13:01:01+00:00",
+  "date": "2024-05-30T17:37:27+00:00",
   "publisher": "American Academy of Ophthalmology",
   "contact": [ {
     "telecom": [ {
@@ -1231,6 +1248,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/Cataracts2040BCVAwithin90DaysFHIR" ],
   "disclaimer": "The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications. \n\nThe Measure, while copyrighted, can be reproduced and distributed, without modification, for noncommercial purposes, e.g., use by health care providers in connection with their practices. Commercial use is defined as the sale, license, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. \n\nCommercial uses of the Measure require a license agreement between the user and the American Academy of Ophthalmology (Academy). Neither the Academy, PCPI, nor the American Medical Association (AMA), nor the former AMA-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI), nor their members shall be responsible for any use of the Measure.\n\nThe PCPI’s and AMA’s significant past efforts and contributions to the development and updating of the Measures are acknowledged. The National Committee for Quality Assurance’s significant past efforts and contributions to the development and updating of the Measure is acknowledged. \n\nTHE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nLimited proprietary coding is contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measures. Any other use of CPT or other coding by the third party is strictly prohibited. The Academy, its members, the AMA, and former members of the PCPI disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "In the United States, cataracts affect more than 24 million adults over 40 years (National Eye Institute, 2019). According to the American Academy of Ophthalmology (2021), cataract surgery has a substantial beneficial impact on visual function and on quality of life.\n\n1. Scientific basis for measuring visual acuity outcomes after cataract surgery\nThe only reason to perform cataract surgery (other than for a limited set of medical indications) is to improve a patient's vision and associated functioning. The use of a 20/40 visual acuity threshold is based on several considerations. First, it is the level for unrestricted operation of a motor vehicle in the US. Second, it has been consistently used by the FDA in its assessment for approval of intraocular lens (IOL) and other vision devices. Third, it is the literature standard to denote success in cataract surgery. Fourth, work by West et al. in the Salisbury Eye Study suggests that 20/40 is a useful threshold for 50th percentile functioning for several vision-related tasks.\n\nMost patients achieve excellent visual acuity after cataract surgery (20/40 or better). This outcome is achieved consistently through careful attention through the accurate measurement of axial length and corneal power and the appropriate selection of an IOL power calculation formula. As such, it reflects the care and diligence with which the surgery is assessed, planned and executed. Failure to achieve this after surgery in eyes without comorbid ocular conditions that would impact the success of the surgery would reflect care that should be assessed for opportunities for improvement.\n\nThe exclusion of patients with other ocular and systemic conditions known to increase the risk of an adverse outcome reflects the findings of the two published prediction rule papers for cataract surgery outcomes, by Mangione et al. (1995) and Steinberg et al. (1994). In both papers, the presence of comorbid glaucoma and macular degeneration negatively impacted the likelihood of successful outcomes of surgery. Further, as noted in the prior indicator, exclusion of eyes with ocular conditions that could impact the success of the surgery would NOT eliminate the large majority of eyes undergoing surgery while also minimizing the potential adverse selection that might otherwise occur relative to those patients with the most complex situations who might benefit the most from having surgery to maximize their remaining vision. \n\n2. Evidence of a gap in care\nCataract surgery successfully restores vision in the majority of people who have the procedure. \n\nData from a study of 368,256 cataract surgeries show that corrected visual acuity (CDVA) of 0.5 (20/40) or better was achieved in 94.3% and CDVA of 1.0 (20/20) or better was achieved in 61.3% of cases (Lundstrom, Barry, Henry, Rosen & Stenevi, 2013).\n\nAdditionally, data from a UK multi-center Cataract National Dataset found a postoperative visual acuity of 6/12 (20/40) or better was achieved for 94.7% of eyes with no co-pathologies and in 79.9% of eyes with one or more co-pathologies (Jaycock et al., 2009).\n \nA rate of 85.5-94.7% of patients achieving a 20/40 or better visual acuity in the context of approximately 3 million cataract surgeries in the US annually would mean that between 160,000 to 435,000 individuals would not achieve a 20/40 or better visual acuity which suggests an opportunity for improvement.",
   "clinicalRecommendationStatement": "This is an outcome measure. As such, there is no statement in the guideline specific to this measurement topic.",
   "group": [ {
