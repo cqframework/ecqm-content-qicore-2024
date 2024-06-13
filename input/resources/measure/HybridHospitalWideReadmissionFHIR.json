@@ -38,10 +38,10 @@
         "valueString": "Inpatient Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounters&quot;:   [Encounter: &quot;Encounter Inpatient&quot;] InpatientEncounter     with ( [Coverage: &quot;Medicare FFS payer&quot;]       union [Coverage: &quot;Medicare Advantage payer&quot;] ) MedicarePayer       such that ( InpatientEncounter.hospitalizationWithObservationAndOutpatientSurgeryService ( ).lengthInDays ( ) ) &lt; 365         and InpatientEncounter.status = &#39;finished&#39;         and AgeInYearsAt(date from start of InpatientEncounter.period) &gt;= 65         and InpatientEncounter.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Inpatient Encounters\":\n  [Encounter: \"Encounter Inpatient\"] InpatientEncounter\n    with ( [Coverage: \"Medicare FFS payer\"]\n      union [Coverage: \"Medicare Advantage payer\"] ) MedicarePayer\n      such that ( InpatientEncounter.hospitalizationWithObservationAndOutpatientSurgeryService ( ).lengthInDays ( ) ) < 365\n        and InpatientEncounter.status = 'finished'\n        and AgeInYearsAt(date from start of InpatientEncounter.period) >= 65\n        and InpatientEncounter.period ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -53,10 +53,10 @@
         "valueString": "Encounter with First Bicarbonate Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Bicarbonate Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstBicarbonateLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Bicarbonate lab test&quot;] bicarbonatelab         where bicarbonatelab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and bicarbonatelab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and bicarbonatelab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstBicarbonateLab.value as Quantity,       Timing: FirstBicarbonateLab.issued     }"
+        "valueString": "define \"Encounter with First Bicarbonate Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstBicarbonateLab: First([\"US Core Laboratory Result Observation Profile\": \"Bicarbonate lab test\"] bicarbonatelab\n        where bicarbonatelab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and bicarbonatelab.status in { 'final', 'amended', 'corrected' }\n          and bicarbonatelab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstBicarbonateLab.value as Quantity,\n      Timing: FirstBicarbonateLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -68,10 +68,10 @@
         "valueString": "Encounter with First Heart Rate"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Heart Rate&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstHeartRate: First([&quot;observation-heartrate&quot;] HeartRate         where HeartRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and HeartRate.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and HeartRate.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstHeartRateResult: FirstHeartRate.value as Quantity,       Timing: FirstHeartRate.effective.earliest ( )     }"
+        "valueString": "define \"Encounter with First Heart Rate\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstHeartRate: First([\"observation-heartrate\"] HeartRate\n        where HeartRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]\n          and HeartRate.status in { 'final', 'amended', 'corrected' }\n          and HeartRate.value is not null\n        sort by effective.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstHeartRateResult: FirstHeartRate.value as Quantity,\n      Timing: FirstHeartRate.effective.earliest ( )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -83,10 +83,10 @@
         "valueString": "Encounter with First White Blood Cells Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First White Blood Cells Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstWhiteBloodCellLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;White blood cells count lab test&quot;] WhiteBloodCellLab         where WhiteBloodCellLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and WhiteBloodCellLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and WhiteBloodCellLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstWhiteBloodCellLab.value as Quantity,       Timing: FirstWhiteBloodCellLab.issued     }"
+        "valueString": "define \"Encounter with First White Blood Cells Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstWhiteBloodCellLab: First([\"US Core Laboratory Result Observation Profile\": \"White blood cells count lab test\"] WhiteBloodCellLab\n        where WhiteBloodCellLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and WhiteBloodCellLab.status in { 'final', 'amended', 'corrected' }\n          and WhiteBloodCellLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstWhiteBloodCellLab.value as Quantity,\n      Timing: FirstWhiteBloodCellLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -98,10 +98,10 @@
         "valueString": "Encounter with First Hematocrit Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Hematocrit Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstHematocritLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Hematocrit lab test&quot;] HematocritLab         where HematocritLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and HematocritLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and HematocritLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstHematocritLab.value as Quantity,       Timing: FirstHematocritLab.issued     }"
+        "valueString": "define \"Encounter with First Hematocrit Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstHematocritLab: First([\"US Core Laboratory Result Observation Profile\": \"Hematocrit lab test\"] HematocritLab\n        where HematocritLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and HematocritLab.status in { 'final', 'amended', 'corrected' }\n          and HematocritLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstHematocritLab.value as Quantity,\n      Timing: FirstHematocritLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -113,10 +113,10 @@
         "valueString": "Encounter with First Weight Recorded During Stay"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Weight Recorded During Stay&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstWeight: First([&quot;observation-bodyweight&quot;] WeightExam         where WeightExam.effective.earliest() during EncounterInpatient.hospitalizationWithObservationAndOutpatientSurgeryService()           and WeightExam.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and WeightExam.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstWeight.value as Quantity,       Timing: FirstWeight.effective.earliest ( )     }"
+        "valueString": "define \"Encounter with First Weight Recorded During Stay\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstWeight: First([\"observation-bodyweight\"] WeightExam\n        where WeightExam.effective.earliest() during EncounterInpatient.hospitalizationWithObservationAndOutpatientSurgeryService()\n          and WeightExam.status in { 'final', 'amended', 'corrected' }\n          and WeightExam.value is not null\n        sort by effective.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstWeight.value as Quantity,\n      Timing: FirstWeight.effective.earliest ( )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -128,10 +128,10 @@
         "valueString": "Encounter with First Glucose Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Glucose Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstGlucoseLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Glucose lab test&quot;] GlucoseLab         where GlucoseLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and GlucoseLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and GlucoseLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstGlucoseLab.value as Quantity,       Timing: FirstGlucoseLab.issued     }"
+        "valueString": "define \"Encounter with First Glucose Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstGlucoseLab: First([\"US Core Laboratory Result Observation Profile\": \"Glucose lab test\"] GlucoseLab\n        where GlucoseLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and GlucoseLab.status in { 'final', 'amended', 'corrected' }\n          and GlucoseLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstGlucoseLab.value as Quantity,\n      Timing: FirstGlucoseLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -143,10 +143,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -158,10 +158,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -173,10 +173,10 @@
         "valueString": "Blood Pressure Reading"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Blood Pressure Reading&quot;:   [&quot;observation-bp&quot;] BloodPressure     where BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }"
+        "valueString": "define \"Blood Pressure Reading\":\n  [\"observation-bp\"] BloodPressure\n    where BloodPressure.status in { 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -188,10 +188,10 @@
         "valueString": "Encounter with First Systolic Blood Pressure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Systolic Blood Pressure&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstSystolicBP: First(&quot;Blood Pressure Reading&quot; SBPReading         where SBPReading.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]         return singleton from(SBPReading.component SBPComponent             where SBPComponent.code ~ &quot;Systolic blood pressure&quot;             return SBPComponent.value as Quantity         )         sort ascending     )     return EncounterInpatient.id"
+        "valueString": "define \"Encounter with First Systolic Blood Pressure\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstSystolicBP: First(\"Blood Pressure Reading\" SBPReading\n        where SBPReading.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]\n        return singleton from(SBPReading.component SBPComponent\n            where SBPComponent.code ~ \"Systolic blood pressure\"\n            return SBPComponent.value as Quantity\n        )\n        sort ascending\n    )\n    return EncounterInpatient.id"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -203,10 +203,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -218,10 +218,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -233,10 +233,10 @@
         "valueString": "Encounter with First Respiratory Rate"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Respiratory Rate&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstRespRate: First([&quot;observation-resprate&quot;] RespRate         where RespRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and RespRate.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and RespRate.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstRespRateResult: FirstRespRate.value as Quantity,       Timing: FirstRespRate.effective.earliest ( )     }"
+        "valueString": "define \"Encounter with First Respiratory Rate\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstRespRate: First([\"observation-resprate\"] RespRate\n        where RespRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]\n          and RespRate.status in { 'final', 'amended', 'corrected' }\n          and RespRate.value is not null\n        sort by effective.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstRespRateResult: FirstRespRate.value as Quantity,\n      Timing: FirstRespRate.effective.earliest ( )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -248,10 +248,10 @@
         "valueString": "Encounter with First Creatinine Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Creatinine Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstCreatinineLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Creatinine lab test&quot;] CreatinineLab         where CreatinineLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and CreatinineLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and CreatinineLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstCreatinineLab.value as Quantity,       Timing: FirstCreatinineLab.issued     }"
+        "valueString": "define \"Encounter with First Creatinine Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstCreatinineLab: First([\"US Core Laboratory Result Observation Profile\": \"Creatinine lab test\"] CreatinineLab\n        where CreatinineLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and CreatinineLab.status in { 'final', 'amended', 'corrected' }\n          and CreatinineLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstCreatinineLab.value as Quantity,\n      Timing: FirstCreatinineLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -263,10 +263,10 @@
         "valueString": "Encounter with First Body Temperature"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Body Temperature&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstTemperature: First([&quot;observation-bodytemp&quot;] temperature         where temperature.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and temperature.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and temperature.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstTemperatureResult: FirstTemperature.value as Quantity,       Timing: FirstTemperature.effective.earliest ( )     }"
+        "valueString": "define \"Encounter with First Body Temperature\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstTemperature: First([\"observation-bodytemp\"] temperature\n        where temperature.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]\n          and temperature.status in { 'final', 'amended', 'corrected' }\n          and temperature.value is not null\n        sort by effective.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstTemperatureResult: FirstTemperature.value as Quantity,\n      Timing: FirstTemperature.effective.earliest ( )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -278,10 +278,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -293,10 +293,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -308,10 +308,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   &quot;Inpatient Encounters&quot;"
+        "valueString": "define \"Initial Population\":\n  \"Inpatient Encounters\""
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -323,10 +323,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -338,10 +338,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -353,10 +353,10 @@
         "valueString": "Encounter with First Oxygen Saturation"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Oxygen Saturation&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstOxygenSat: First([Observation: &quot;Oxygen Saturation by Pulse Oximetry&quot;] O2Saturation         where O2Saturation.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and O2Saturation.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and O2Saturation.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstOxygenSatResult: FirstOxygenSat.value as Quantity,       Timing: FirstOxygenSat.effective.earliest ( )     }"
+        "valueString": "define \"Encounter with First Oxygen Saturation\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstOxygenSat: First([Observation: \"Oxygen Saturation by Pulse Oximetry\"] O2Saturation\n        where O2Saturation.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]\n          and O2Saturation.status in { 'final', 'amended', 'corrected' }\n          and O2Saturation.value is not null\n        sort by effective.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstOxygenSatResult: FirstOxygenSat.value as Quantity,\n      Timing: FirstOxygenSat.effective.earliest ( )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -368,10 +368,10 @@
         "valueString": "Encounter with First Potassium Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Potassium Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstPotassiumLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Potassium lab test&quot;] PotassiumLab         where PotassiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and PotassiumLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and PotassiumLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstPotassiumLab.value as Quantity,       Timing: FirstPotassiumLab.issued     }"
+        "valueString": "define \"Encounter with First Potassium Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstPotassiumLab: First([\"US Core Laboratory Result Observation Profile\": \"Potassium lab test\"] PotassiumLab\n        where PotassiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and PotassiumLab.status in { 'final', 'amended', 'corrected' }\n          and PotassiumLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstPotassiumLab.value as Quantity,\n      Timing: FirstPotassiumLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -383,10 +383,10 @@
         "valueString": "Encounter with First Sodium Lab Test"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Sodium Lab Test&quot;:   &quot;Inpatient Encounters&quot; EncounterInpatient     let FirstSodiumLab: First([&quot;US Core Laboratory Result Observation Profile&quot;: &quot;Sodium lab test&quot;] SodiumLab         where SodiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and SodiumLab.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and SodiumLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstResult: FirstSodiumLab.value as Quantity,       Timing: FirstSodiumLab.issued     }"
+        "valueString": "define \"Encounter with First Sodium Lab Test\":\n  \"Inpatient Encounters\" EncounterInpatient\n    let FirstSodiumLab: First([\"US Core Laboratory Result Observation Profile\": \"Sodium lab test\"] SodiumLab\n        where SodiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]\n          and SodiumLab.status in { 'final', 'amended', 'corrected' }\n          and SodiumLab.value is not null\n        sort by issued.earliest()\n    )\n    return {\n      EncounterId: EncounterInpatient.id,\n      FirstResult: FirstSodiumLab.value as Quantity,\n      Timing: FirstSodiumLab.issued\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -398,10 +398,10 @@
         "valueString": "lengthInDays"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Calculates the difference in calendar days between the start and end of the given interval. */ define fluent function lengthInDays(Value Interval&lt;DateTime&gt; ):   difference in days between start of Value and end of Value"
+        "valueString": "/*\n@description: Calculates the difference in calendar days between the start and end of the given interval.\n*/\ndefine fluent function lengthInDays(Value Interval<DateTime> ):\n  difference in days between start of Value and end of Value"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -413,10 +413,10 @@
         "valueString": "hospitalizationWithObservationAndOutpatientSurgeryService"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter. */ define fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter &quot;Encounter&quot; ):   TheEncounter Visit    let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs      where LastObs.status = &#39;finished&#39;           and LastObs.period ends 1 hour or less on or before start of Visit.period      sort by end of period      ),      VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),      EDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED      where LastED.status = &#39;finished&#39;           and LastED.period ends 1 hour or less on or before VisitStart      sort by end of period      ),      VisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),      OutpatientSurgeryVisit: Last([Encounter: &quot;Outpatient Surgery Service&quot;] LastSurgeryOP      where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED      sort by end of period      )    return Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter.\n*/\ndefine fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter \"Encounter\" ):\n  TheEncounter Visit\n\t  let ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n\t\t  \twhere LastObs.status = 'finished'\n          and LastObs.period ends 1 hour or less on or before start of Visit.period\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    \tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n\t\t\t  where LastED.status = 'finished'\n          and LastED.period ends 1 hour or less on or before VisitStart\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),\n    \tOutpatientSurgeryVisit: Last([Encounter: \"Outpatient Surgery Service\"] LastSurgeryOP\n\t\t\t  where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED\n\t\t\t  sort by\tend of period\n    \t)\n  \treturn Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -428,10 +428,10 @@
         "valueString": "earliest"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):   (choice.toInterval()) period     return       if (period.&quot;hasStart&quot;()) then start of period       else end of period"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -446,7 +446,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -458,12 +458,13 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -563,36 +564,6 @@
       "max": "1",
       "type": "Period"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Race",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
-      "name": "SDE Payer",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Ethnicity",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Resource"
-    }, {
       "name": "Encounter with First Bicarbonate Lab Test",
       "use": "out",
       "min": 0,
@@ -629,11 +600,23 @@
       "max": "*",
       "type": "Resource"
     }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
       "name": "Encounter with First Systolic Blood Pressure",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "string"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
     }, {
       "name": "Encounter with First Respiratory Rate",
       "use": "out",
@@ -651,6 +634,24 @@
       "use": "out",
       "min": 0,
       "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
       "type": "Resource"
     }, {
       "name": "Encounter with First Oxygen Saturation",
@@ -678,6 +679,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -686,6 +692,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -694,6 +714,15 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -702,11 +731,28 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "url", "extension", "gender", "gender.value" ]
+      "mustSupport": [ "race", "ethnicity" ]
     }, {
       "type": "Coverage",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
@@ -738,6 +784,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.139"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -746,6 +801,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -754,6 +818,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.114"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -762,6 +835,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.134"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -770,6 +852,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.2363"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -778,6 +869,15 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.117"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -786,11 +886,29 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.119"
+      } ],
+      "dateFilter": [ {
+        "path": "issued.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/heartrate" ],
-      "mustSupport": [ "effective", "status", "status.value", "value" ]
+      "mustSupport": [ "effective", "status", "status.value", "value" ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
+      } ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/bodyweight" ],
@@ -798,15 +916,46 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/bp" ],
-      "mustSupport": [ "status", "status.value", "effective", "component" ]
+      "mustSupport": [ "status", "status.value" ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/StructureDefinition/bp" ],
+      "mustSupport": [ "status", "status.value", "effective", "component" ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
+      } ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/resprate" ],
-      "mustSupport": [ "effective", "status", "status.value", "value" ]
+      "mustSupport": [ "effective", "status", "status.value", "value" ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
+      } ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/bodytemp" ],
-      "mustSupport": [ "effective", "status", "status.value", "value" ]
+      "mustSupport": [ "effective", "status", "status.value", "value" ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
+      } ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
@@ -852,9 +1001,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/HybridHospitalWideReadmissionFHIR",
@@ -920,7 +1075,7 @@
   "title": "Core Clinical Data Elements for the Hybrid Hospital Wide Readmission Measure with Claims and Electronic Health Record Data HWRFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T13:43:18+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -951,6 +1106,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/HybridHospitalWideReadmissionFHIR" ],
   "disclaimer": "These performance specifications are not clinical guidelines and do not establish a standard of medical care and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "The intent of this logic is to extract the FIRST set of clinical data elements from hospital electronic health records (EHRs) for all qualifying hospitalizations. The data will be linked with administrative claims to risk adjust the Hybrid HWR outcome measure. This work addresses stakeholder concerns that clinical data garnered from patients and used by clinicians to guide diagnostic decisions and treatment, are preferable to administrative claims data when profiling hospitals' case mix. We are calling the list of data elements for extraction the \"HWR-specific core clinical data elements\" (CCDE). The CCDE are the first set of vital signs and basic laboratory tests resulted from hospitalizations for adult Medicare FFS and MA patients, age 65 or older (Initial Population), after they arrive at the hospital to which they are subsequently admitted. For example, this first set of data values are often captured in the emergency department or in the pre-operative area, sometimes hours before a patient is admitted to that same facility.   These data elements were selected because they: 1. reflect patients' clinical status when they first present to the hospital, 2. are clinically and statistically relevant to patient outcomes, 3. are consistently obtained during adult inpatient hospitalizations based on current clinical practice, 4. are captured with a standard definition and recorded in a standard format across providers, and 5. are entered in structured fields that are feasibly retrieved from current EHR systems (YNHHS/CORE, 2015).  Additional data called Linking Variables are used to link EHR data files with administrative claims data for CMS to calculate results for the Hybrid HWR measure, which are: CMS Certification Number (CCN); National Provider Identifier (NPI) for MA patients; Medicare Beneficiary Identifier (MBI); Date of Birth; Sex; Inpatient Admission Date; and Discharge Date.",
   "clinicalRecommendationStatement": "The logic is not meant to guide or alter the care patients receive. The purpose of this CCDE logic is to extract clinical data that are already routinely captured in EHRs from hospitalizations for hospitalized adult patients. It is not intended to require that clinical staff perform additional measurements or tests that are not needed for diagnostic assessment or treatment of patients.",
   "group": [ {

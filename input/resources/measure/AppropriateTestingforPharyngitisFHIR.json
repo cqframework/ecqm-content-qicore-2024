@@ -45,16 +45,16 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
+        "system": "http://snomed.info/sct",
+        "code": "373066001",
+        "display": "Yes (qualifier value)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "373066001",
-        "display": "Yes (qualifier value)"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -66,10 +66,10 @@
         "valueString": "Group A Streptococcus Lab Test With Result"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Group A Streptococcus Lab Test With Result&quot;:\n  ( ( [Observation: &quot;Group A Streptococcus Test&quot;] ).isLaboratoryTestPerformed ( ) ) GroupAStreptococcusTest\n    where GroupAStreptococcusTest.value is not null"
+        "valueString": "define \"Group A Streptococcus Lab Test With Result\":\n  ( ( [Observation: \"Group A Streptococcus Test\"] ).isLaboratoryTestPerformed ( ) ) GroupAStreptococcusTest\n    where GroupAStreptococcusTest.value is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -81,10 +81,10 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( ( [Encounter: &quot;Emergency Department Evaluation and Management Visit&quot;]\n      union [Encounter: &quot;Home Healthcare Services&quot;]\n      union [Encounter: &quot;Medical Disability Exam&quot;]\n      union [Encounter: &quot;Office Visit&quot;]\n      union [Encounter: &quot;Telephone Visits&quot;]\n      union [Encounter: &quot;Virtual Encounter&quot;]\n      union [Encounter: &quot;Outpatient Consultation&quot;]\n      union [Encounter: &quot;Preventive Care Services Established Office Visit, 18 and Up&quot;]\n      union [Encounter: &quot;Preventive Care Services Group Counseling&quot;]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ &quot;Unlisted preventive medicine service&quot;\n          )\n      )\n      union [Encounter: &quot;Preventive Care Services, Initial Office Visit, 0 to 17&quot;]\n      union [Encounter: &quot;Preventive Care Services Individual Counseling&quot;]\n      union [Encounter: &quot;Preventive Care Services Initial Office Visit, 18 and Up&quot;]\n      union [Encounter: &quot;Preventive Care, Established Office Visit, 0 to 17&quot;]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) ends during day of Interval[( start of &quot;Measurement Period&quot; ), ( end of &quot;Measurement Period&quot; ) - 3 days]"
+        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Emergency Department Evaluation and Management Visit\"]\n      union [Encounter: \"Home Healthcare Services\"]\n      union [Encounter: \"Medical Disability Exam\"]\n      union [Encounter: \"Office Visit\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Virtual Encounter\"]\n      union [Encounter: \"Outpatient Consultation\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services Group Counseling\"]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ \"Unlisted preventive medicine service\"\n          )\n      )\n      union [Encounter: \"Preventive Care Services, Initial Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care Services Individual Counseling\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care, Established Office Visit, 0 to 17\"]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) ends during day of Interval[( start of \"Measurement Period\" ), ( end of \"Measurement Period\" ) - 3 days]"
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -96,10 +96,10 @@
         "valueString": "Encounter With Antibiotic Ordered Within Three Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter With Antibiotic Ordered Within Three Days&quot;:\n  &quot;Qualifying Encounters&quot; EDOrAmbulatoryVisit\n    with ( ( [MedicationRequest: &quot;Antibiotic Medications for Pharyngitis&quot;] ).isMedicationOrder ( ) ) AntibioticOrdered\n      such that EDOrAmbulatoryVisit.period.toInterval ( ) starts 3 days or less on or before day of AntibioticOrdered.authoredOn"
+        "valueString": "define \"Encounter With Antibiotic Ordered Within Three Days\":\n  \"Qualifying Encounters\" EDOrAmbulatoryVisit\n    with ( ( [MedicationRequest: \"Antibiotic Medications for Pharyngitis\"] ).isMedicationOrder ( ) ) AntibioticOrdered\n      such that EDOrAmbulatoryVisit.period.toInterval ( ) starts 3 days or less on or before day of AntibioticOrdered.authoredOn"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -111,10 +111,10 @@
         "valueString": "Pharyngitis or Tonsillitis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pharyngitis or Tonsillitis&quot;:\n  ( [Condition: &quot;Acute Pharyngitis&quot;]\n      union [Condition: &quot;Acute Tonsillitis&quot;]\n  )"
+        "valueString": "define \"Pharyngitis or Tonsillitis\":\n  ( [Condition: \"Acute Pharyngitis\"]\n      union [Condition: \"Acute Tonsillitis\"]\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -126,10 +126,10 @@
         "valueString": "Encounter With Pharyngitis or Tonsillitis With Antibiotic"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot;:\n  from\n    &quot;Encounter With Antibiotic Ordered Within Three Days&quot; VisitWithAntibiotic,\n    &quot;Pharyngitis or Tonsillitis&quot; AcutePharyngitisTonsillitis\n    where AcutePharyngitisTonsillitis.prevalenceInterval ( ) starts during day of VisitWithAntibiotic.period.toInterval ( )\n    return VisitWithAntibiotic"
+        "valueString": "define \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\":\n  from\n    \"Encounter With Antibiotic Ordered Within Three Days\" VisitWithAntibiotic,\n    \"Pharyngitis or Tonsillitis\" AcutePharyngitisTonsillitis\n    where AcutePharyngitisTonsillitis.prevalenceInterval ( ) starts during day of VisitWithAntibiotic.period.toInterval ( )\n    return VisitWithAntibiotic"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -141,10 +141,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  from\n    &quot;Group A Streptococcus Lab Test With Result&quot; GroupAStreptococcusTest,\n    &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot; EncounterWithPharyngitis\n    where GroupAStreptococcusTest.effective.toInterval ( ) starts during day of Interval[( end of EncounterWithPharyngitis.period ) - 3 days, ( end of EncounterWithPharyngitis.period ) + 3 days]\n    return EncounterWithPharyngitis"
+        "valueString": "define \"Numerator\":\n  from\n    \"Group A Streptococcus Lab Test With Result\" GroupAStreptococcusTest,\n    \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\" EncounterWithPharyngitis\n    where GroupAStreptococcusTest.effective.toInterval ( ) starts during day of Interval[( end of EncounterWithPharyngitis.period ) - 3 days, ( end of EncounterWithPharyngitis.period ) + 3 days]\n    return EncounterWithPharyngitis"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -156,10 +156,10 @@
         "valueString": "Stratification 3"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Stratification 3&quot;:\n  &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot; EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 65\n    return EncounterWithPharyngitis"
+        "valueString": "define \"Stratification 3\":\n  \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\" EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of \"Measurement Period\") >= 65\n    return EncounterWithPharyngitis"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -171,10 +171,10 @@
         "valueString": "Stratification 2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Stratification 2&quot;:\n  &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot; EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) in Interval[18, 64]\n    return EncounterWithPharyngitis"
+        "valueString": "define \"Stratification 2\":\n  \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\" EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of \"Measurement Period\") in Interval[18, 64]\n    return EncounterWithPharyngitis"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -186,10 +186,10 @@
         "valueString": "Stratification 1"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Stratification 1&quot;:\n  &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot; EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) in Interval[3, 17]\n    return EncounterWithPharyngitis"
+        "valueString": "define \"Stratification 1\":\n  \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\" EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of \"Measurement Period\") in Interval[3, 17]\n    return EncounterWithPharyngitis"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -201,10 +201,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot; EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 3\n    return EncounterWithPharyngitis"
+        "valueString": "define \"Initial Population\":\n  \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\" EncounterWithPharyngitis\n    where AgeInYearsAt(date from start of \"Measurement Period\") >= 3\n    return EncounterWithPharyngitis"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -216,10 +216,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -231,10 +231,10 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -246,10 +246,10 @@
         "valueString": "Encounters and Assessments with Hospice Patient"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounters and Assessments with Hospice Patient&quot;:\n  &quot;Initial Population&quot; EligibleEncounters\n    where Hospice.&quot;Has Hospice Services&quot;"
+        "valueString": "define \"Encounters and Assessments with Hospice Patient\":\n  \"Initial Population\" EligibleEncounters\n    where Hospice.\"Has Hospice Services\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -261,10 +261,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Encounters and Assessments with Hospice Patient&quot;\n    union Antibiotic.&quot;Has Comorbid Condition History&quot; ( &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot;, ( [Condition: &quot;Comorbid Conditions for Respiratory Conditions&quot;] ) )\n    union Antibiotic.&quot;Has Antibiotic Medication History&quot; ( &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot;, ( [MedicationRequest: &quot;Antibiotic Medications for Pharyngitis&quot;] ).isMedicationActive ( ) )\n    union Antibiotic.&quot;Has Competing Diagnosis History&quot; ( &quot;Encounter With Pharyngitis or Tonsillitis With Antibiotic&quot;, ( [Condition: &quot;Competing Conditions for Respiratory Conditions&quot;] ) )"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Encounters and Assessments with Hospice Patient\"\n    union Antibiotic.\"Has Comorbid Condition History\" ( \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\", ( [Condition: \"Comorbid Conditions for Respiratory Conditions\"] ) )\n    union Antibiotic.\"Has Antibiotic Medication History\" ( \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\", ( [MedicationRequest: \"Antibiotic Medications for Pharyngitis\"] ).isMedicationActive ( ) )\n    union Antibiotic.\"Has Competing Diagnosis History\" ( \"Encounter With Pharyngitis or Tonsillitis With Antibiotic\", ( [Condition: \"Competing Conditions for Respiratory Conditions\"] ) )"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -276,10 +276,10 @@
         "valueString": "isLaboratoryTestPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Laboratory Test, Performed\ndefine fluent function isLaboratoryTestPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;laboratory&quot;\n      )"
+        "valueString": "//Laboratory Test, Performed\ndefine fluent function isLaboratoryTestPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"laboratory\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -294,7 +294,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -306,10 +306,10 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -321,10 +321,10 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -336,10 +336,10 @@
         "valueString": "isMedicationOrder"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List&lt;MedicationRequest&gt;):\n  MedicationRequest M\n    where M.status in { &#39;active&#39;, &#39;completed&#39; }\n      and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status in { 'active', 'completed' }\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -351,10 +351,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -366,10 +366,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -381,10 +381,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -396,10 +396,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -411,10 +411,10 @@
         "valueString": "Has Comorbid Condition History"
       }, {
         "url": "statement",
-        "valueString": "define function &quot;Has Comorbid Condition History&quot;(episodeDate List&lt;Encounter&gt;, comorbidConditions List&lt;Condition&gt;):\n  episodeDate eDate\n      with comorbidConditions comcondition\n        such that date from start of comcondition.prevalenceInterval() during Interval[date from start of eDate.period.toInterval() - 1 year, date from start of eDate.period.toInterval()]\n      return eDate"
+        "valueString": "define function \"Has Comorbid Condition History\"(episodeDate List<Encounter>, comorbidConditions List<Condition>):\n  episodeDate eDate\n      with comorbidConditions comcondition\n        such that date from start of comcondition.prevalenceInterval() during Interval[date from start of eDate.period.toInterval() - 1 year, date from start of eDate.period.toInterval()]\n      return eDate"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -426,10 +426,10 @@
         "valueString": "Has Antibiotic Medication History"
       }, {
         "url": "statement",
-        "valueString": "define function &quot;Has Antibiotic Medication History&quot;(episodeDate List&lt;Encounter&gt;, antibioticMedications List&lt;MedicationRequest&gt;):\n   episodeDate DateOfEpisode\n    with antibioticMedications ActiveMedication\n      such that ActiveMedication.medicationRequestPeriod() overlaps day of Interval[date from start of DateOfEpisode.period.toInterval()  - 30 days, date from start of DateOfEpisode.period.toInterval() - 1 day]"
+        "valueString": "define function \"Has Antibiotic Medication History\"(episodeDate List<Encounter>, antibioticMedications List<MedicationRequest>):\n   episodeDate DateOfEpisode\n    with antibioticMedications ActiveMedication\n      such that ActiveMedication.medicationRequestPeriod() overlaps day of Interval[date from start of DateOfEpisode.period.toInterval()  - 30 days, date from start of DateOfEpisode.period.toInterval() - 1 day]"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -441,10 +441,10 @@
         "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "define fluent function medicationRequestPeriod(Request &quot;MedicationRequest&quot;):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval&lt;DateTime&gt;,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;) ]\n      else if startDate is not null and boundsPeriod.&quot;high&quot; is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -459,7 +459,7 @@
         "valueString": "/**********************************************************************/\n/* Functions in this region are copied from opioid-mme-r4             */\n/**********************************************************************/\n\ndefine function Quantity(value Decimal, unit String):\n  if value is not null then\n    System.Quantity { value: value, unit: unit }\n  else\n    null"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -471,10 +471,10 @@
         "valueString": "ToDaily"
       }, {
         "url": "statement",
-        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when &#39;h&#39; then frequency * (24.0 / period.value)\n    when &#39;min&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;s&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;d&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;wk&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;mo&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;a&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when &#39;hour&#39; then frequency * (24.0 / period.value)\n    when &#39;minute&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;second&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;day&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;week&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;month&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;year&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when &#39;hours&#39; then frequency * (24.0 / period.value)\n    when &#39;minutes&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;seconds&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;days&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;weeks&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;months&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;years&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, &#39;CMDLogic.ToDaily.UnknownUnit&#39;, ErrorLevel, &#39;Unknown unit &#39; &amp; period.unit)\n  end"
+        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when 'h' then frequency * (24.0 / period.value)\n    when 'min' then frequency * (24.0 / period.value) * 60\n    when 's' then frequency * (24.0 / period.value) * 60 * 60\n    when 'd' then frequency * (24.0 / period.value) / 24\n    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hour' then frequency * (24.0 / period.value)\n    when 'minute' then frequency * (24.0 / period.value) * 60\n    when 'second' then frequency * (24.0 / period.value) * 60 * 60\n    when 'day' then frequency * (24.0 / period.value) / 24\n    when 'week' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hours' then frequency * (24.0 / period.value)\n    when 'minutes' then frequency * (24.0 / period.value) * 60\n    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60\n    when 'days' then frequency * (24.0 / period.value) / 24\n    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -486,10 +486,10 @@
         "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List&lt;MedicationRequest&gt;):\n  MedicationRequest M\n    where M.status = &#39;active&#39;\n      and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -501,12 +501,13 @@
         "valueString": "Has Competing Diagnosis History"
       }, {
         "url": "statement",
-        "valueString": "define function &quot;Has Competing Diagnosis History&quot;(episodeDate List&lt;Encounter&gt;, competingConditions List&lt;Condition&gt;):\n  episodeDate eDate\n      with competingConditions competcondition\n        such that competcondition.prevalenceInterval() starts 3 days or less on or after day of start of eDate.period\n      return eDate"
+        "valueString": "define function \"Has Competing Diagnosis History\"(episodeDate List<Encounter>, competingConditions List<Condition>):\n  episodeDate eDate\n      with competingConditions competcondition\n        such that competcondition.prevalenceInterval() starts 3 days or less on or after day of start of eDate.period\n      return eDate"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -666,24 +667,6 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Denominator",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
       "name": "Stratification 3",
       "use": "out",
       "min": 0,
@@ -701,14 +684,49 @@
       "min": 0,
       "max": "*",
       "type": "Resource"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
-      "mustSupport": [ "code", "value", "status", "status.value", "category", "effective" ],
+      "mustSupport": [ "code", "value", "status", "status.value", "category" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1012"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "value", "effective", "status", "status.value", "category" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1012"
+      } ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -721,11 +739,16 @@
           "code": "45755-6",
           "display": "Hospice care [Minimum Data Set]"
         } ]
+      }, {
+        "path": "value"
       } ]
     }, {
       "type": "Patient",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "birthDate", "birthDate.value" ]
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -801,10 +824,6 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period" ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
       "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
@@ -851,6 +870,14 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1003"
       } ]
     }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "dispenseRequest.validityPeriod" ],
@@ -862,10 +889,6 @@
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "dispenseRequest.validityPeriod" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -925,9 +948,15 @@
     } ]
   } ],
   "extension": [ {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/AppropriateTestingforPharyngitisFHIR",
@@ -980,7 +1009,7 @@
   "title": "Appropriate Testing for PharyngitisFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-15T16:27:25+00:00",
+  "date": "2024-06-13T20:12:39+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -1005,6 +1034,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/AppropriateTestingforPharyngitisFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Group A streptococcal (GAS) bacterial infections and other infections that cause pharyngitis (which are most often viral) often produce the same signs and symptoms (Shulman et al., 2012). The American Academy of Pediatrics, the Centers for Disease Control and Prevention, and the Infectious Diseases Society of America all recommend a diagnostic test for Strep A to improve diagnostic accuracy and avoid unnecessary antibiotic treatment (Linder et al., 2005).\n\nEstimated economic costs of pediatric streptococcal pharyngitis in the United States range from $224 million to $539 million per year, including indirect costs related to parental work losses. At a higher level, the economic cost of antibiotic resistance varies but has extended as high as $20 billion in excess direct healthcare costs, with additional costs to society for lost productivity as high as $35 billion a year (2008 dollars) (Pfoh et al., 2008).",
   "clinicalRecommendationStatement": "Infectious Disease Society of America (Shulman et al., 2012) \n\nThe Infectious Diseases Society of America \"recommends swabbing the throat and testing for GAS pharyngitis by rapid antigen detection test (RADT) and/or culture because the clinical features alone do not reliably discriminate between GAS and viral pharyngitis except when overt viral features like rhinorrhea, cough, oral ulcers, and/or hoarseness are present\"",
   "group": [ {

@@ -52,10 +52,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -67,10 +67,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -82,10 +82,10 @@
         "valueString": "Non Elective Inpatient Encounter with Age"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Non Elective Inpatient Encounter with Age&quot;:   [&quot;Encounter&quot;: &quot;Nonelective Inpatient Encounter&quot;] NonElectiveEncounter         where AgeInYearsAt(date from start of NonElectiveEncounter.period ) &gt;= 18          and NonElectiveEncounter.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Non Elective Inpatient Encounter with Age\":\n  [\"Encounter\": \"Nonelective Inpatient Encounter\"] NonElectiveEncounter\n        where AgeInYearsAt(date from start of NonElectiveEncounter.period ) >= 18\n         and NonElectiveEncounter.period ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -97,10 +97,10 @@
         "valueString": "Ischemic Stroke Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Ischemic Stroke Encounter&quot;:   &quot;Non Elective Inpatient Encounter with Age&quot; NonElectiveEncounterWithAge     where NonElectiveEncounterWithAge.principalDiagnosis().code in &quot;Ischemic Stroke&quot;"
+        "valueString": "define \"Ischemic Stroke Encounter\":\n  \"Non Elective Inpatient Encounter with Age\" NonElectiveEncounterWithAge\n    where NonElectiveEncounterWithAge.principalDiagnosis().code in \"Ischemic Stroke\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -112,10 +112,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter     with [&quot;MedicationRequest&quot;: &quot;Antithrombotic Therapy for Ischemic Stroke&quot;] DischargeAntithrombotic       such that DischargeAntithrombotic.authoredOn during IschemicStrokeEncounter.period"
+        "valueString": "define \"Numerator\":\n  TJC.\"Ischemic Stroke Encounter\" IschemicStrokeEncounter\n    with [\"MedicationRequest\": \"Antithrombotic Therapy for Ischemic Stroke\"] DischargeAntithrombotic\n      such that DischargeAntithrombotic.authoredOn during IschemicStrokeEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -127,10 +127,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   TJC.&quot;Ischemic Stroke Encounter&quot;"
+        "valueString": "define \"Initial Population\":\n  TJC.\"Ischemic Stroke Encounter\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -142,10 +142,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -157,10 +157,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -172,10 +172,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -187,10 +187,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -202,10 +202,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -217,10 +217,10 @@
         "valueString": "Ischemic Stroke Encounters with Discharge Disposition"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Ischemic Stroke Encounters with Discharge Disposition&quot;:   &quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter   let DischDisp: IschemicStrokeEncounter.hospitalization.dischargeDisposition    where  DischDisp in &quot;Discharge To Acute Care Facility&quot;   or DischDisp in &quot;Left Against Medical Advice&quot;   or DischDisp in &quot;Patient Expired&quot;   or DischDisp in &quot;Discharged to Home for Hospice Care&quot;   or DischDisp in &quot;Discharged to Health Care Facility for Hospice Care&quot;"
+        "valueString": "define \"Ischemic Stroke Encounters with Discharge Disposition\":\n  \"Ischemic Stroke Encounter\" IschemicStrokeEncounter\n  let DischDisp: IschemicStrokeEncounter.hospitalization.dischargeDisposition\n  \twhere  DischDisp in \"Discharge To Acute Care Facility\"\n\t\tor DischDisp in \"Left Against Medical Advice\"\n\t\tor DischDisp in \"Patient Expired\"\n\t\tor DischDisp in \"Discharged to Home for Hospice Care\"\n\t\tor DischDisp in \"Discharged to Health Care Facility for Hospice Care\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -232,10 +232,10 @@
         "valueString": "Intervention Comfort Measures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intervention Comfort Measures&quot;:   ( [&quot;ServiceRequest&quot;: code in &quot;Comfort Measures&quot;] SR     where SR.status in { &#39;active&#39;, &#39;completed&#39;, &#39;on-hold&#39; }       and SR.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }       and SR.doNotPerform is not true   )     union ( [&quot;Procedure&quot;: &quot;Comfort Measures&quot;] InterventionPerformed         where InterventionPerformed.status in { &#39;completed&#39;, &#39;in-progress&#39; }   )"
+        "valueString": "define \"Intervention Comfort Measures\":\n  ( [\"ServiceRequest\": code in \"Comfort Measures\"] SR\n    where SR.status in { 'active', 'completed', 'on-hold' }\n      and SR.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n      and SR.doNotPerform is not true\n  )  \n  union ( [\"Procedure\": \"Comfort Measures\"] InterventionPerformed\n        where InterventionPerformed.status in { 'completed', 'in-progress' }\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -247,10 +247,10 @@
         "valueString": "Encounter with Comfort Measures during Hospitalization for Patients with Documented Ischemic Stroke"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Comfort Measures during Hospitalization for Patients with Documented Ischemic Stroke&quot;:   &quot;Denominator&quot; Encounter     with TJC.&quot;Intervention Comfort Measures&quot; ComfortMeasure       such that Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during Encounter.hospitalizationWithObservation ( )"
+        "valueString": "define \"Encounter with Comfort Measures during Hospitalization for Patients with Documented Ischemic Stroke\":\n  \"Denominator\" Encounter\n    with TJC.\"Intervention Comfort Measures\" ComfortMeasure\n      such that Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during Encounter.hospitalizationWithObservation ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -262,10 +262,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:   TJC.&quot;Ischemic Stroke Encounters with Discharge Disposition&quot;     union &quot;Encounter with Comfort Measures during Hospitalization for Patients with Documented Ischemic Stroke&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  TJC.\"Ischemic Stroke Encounters with Discharge Disposition\"\n    union \"Encounter with Comfort Measures during Hospitalization for Patients with Documented Ischemic Stroke\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -277,10 +277,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -292,10 +292,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -307,10 +307,10 @@
         "valueString": "Reason for Not Giving Antithrombotic at Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Reason for Not Giving Antithrombotic at Discharge&quot;:   [&quot;MedicationNotRequested&quot;: &quot;Antithrombotic Therapy for Ischemic Stroke&quot;] NoAntithromboticDischarge     where ( NoAntithromboticDischarge.reasonCode in &quot;Medical Reason For Not Providing Treatment&quot;         or NoAntithromboticDischarge.reasonCode in &quot;Patient Refusal&quot;     )       and ( NoAntithromboticDischarge.isCommunity ( )           or NoAntithromboticDischarge.isDischarge ( )       )"
+        "valueString": "define \"Reason for Not Giving Antithrombotic at Discharge\":\n  [\"MedicationNotRequested\": \"Antithrombotic Therapy for Ischemic Stroke\"] NoAntithromboticDischarge\n    where ( NoAntithromboticDischarge.reasonCode in \"Medical Reason For Not Providing Treatment\"\n        or NoAntithromboticDischarge.reasonCode in \"Patient Refusal\"\n    )\n      and ( NoAntithromboticDischarge.isCommunity ( )\n          or NoAntithromboticDischarge.isDischarge ( )\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -322,10 +322,10 @@
         "valueString": "Encounter with Documented Reason for No Antithrombotic At Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Documented Reason for No Antithrombotic At Discharge&quot;:   TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter     with &quot;Reason for Not Giving Antithrombotic at Discharge&quot; NoDischargeAntithrombotic       such that NoDischargeAntithrombotic.authoredOn during IschemicStrokeEncounter.period"
+        "valueString": "define \"Encounter with Documented Reason for No Antithrombotic At Discharge\":\n  TJC.\"Ischemic Stroke Encounter\" IschemicStrokeEncounter\n    with \"Reason for Not Giving Antithrombotic at Discharge\" NoDischargeAntithrombotic\n      such that NoDischargeAntithrombotic.authoredOn during IschemicStrokeEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -337,10 +337,10 @@
         "valueString": "Pharmacological Contraindications for Antithrombotic Therapy at Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pharmacological Contraindications for Antithrombotic Therapy at Discharge&quot;:   [&quot;MedicationRequest&quot;: &quot;Pharmacological Contraindications For Antithrombotic Therapy&quot;] Pharmacological     where ( Pharmacological.isCommunity ( )         or Pharmacological.isDischarge ( )     )       and Pharmacological.status in { &#39;active&#39;, &#39;completed&#39; }       and Pharmacological.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }"
+        "valueString": "define \"Pharmacological Contraindications for Antithrombotic Therapy at Discharge\":\n  [\"MedicationRequest\": \"Pharmacological Contraindications For Antithrombotic Therapy\"] Pharmacological\n    where ( Pharmacological.isCommunity ( )\n        or Pharmacological.isDischarge ( )\n    )\n      and Pharmacological.status in { 'active', 'completed' }\n      and Pharmacological.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -352,10 +352,10 @@
         "valueString": "Encounter with Pharmacological Contraindications for Antithrombotic Therapy at Discharge"
       }, {
         "url": "statement",
-        "valueString": "//BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for Medication.Discharge which leaves one blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.   define &quot;Encounter with Pharmacological Contraindications for Antithrombotic Therapy at Discharge&quot;:   TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter     with &quot;Pharmacological Contraindications for Antithrombotic Therapy at Discharge&quot; DischargePharmacological       such that DischargePharmacological.authoredOn during IschemicStrokeEncounter.period"
+        "valueString": "//BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for Medication.Discharge which leaves one blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.\n\n\ndefine \"Encounter with Pharmacological Contraindications for Antithrombotic Therapy at Discharge\":\n  TJC.\"Ischemic Stroke Encounter\" IschemicStrokeEncounter\n    with \"Pharmacological Contraindications for Antithrombotic Therapy at Discharge\" DischargePharmacological\n      such that DischargePharmacological.authoredOn during IschemicStrokeEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -367,10 +367,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exceptions&quot;:   &quot;Encounter with Documented Reason for No Antithrombotic At Discharge&quot;     union &quot;Encounter with Pharmacological Contraindications for Antithrombotic Therapy at Discharge&quot;"
+        "valueString": "define \"Denominator Exceptions\":\n  \"Encounter with Documented Reason for No Antithrombotic At Discharge\"\n    union \"Encounter with Pharmacological Contraindications for Antithrombotic Therapy at Discharge\""
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -382,10 +382,10 @@
         "valueString": "principalDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the condition that is specified as the principal diagnosis for the encounter */ define fluent function principalDiagnosis(Encounter Encounter ):  singleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ &quot;Billing&quot;) PD       return singleton from ([Condition] C where C.id = PD.condition.reference.getId())  )"
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -397,10 +397,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the tail of the given uri (i.e. everything after the last slash in the URI). @comment: This function can be used to determine the logical id of a given resource. It can be used in a single-server environment to trace references. However, this function does not attempt to resolve or distinguish the base of the given url, and so cannot be used safely in multi-server environments. */ define fluent function getId(uri String):   Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -415,7 +415,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -427,10 +427,10 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -442,10 +442,10 @@
         "valueString": "hospitalizationWithObservation"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter */ define fluent function hospitalizationWithObservation(TheEncounter Encounter ):   TheEncounter Visit     let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs       where LastObs.status = &#39;finished&#39;             and LastObs.period ends 1 hour or less on or before start of Visit.period       sort by end of period      ),      VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),      EDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED       where LastED.status = &#39;finished&#39;             and LastED.period ends 1 hour or less on or before VisitStart       sort by end of period      )     return Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -457,10 +457,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -472,10 +472,10 @@
         "valueString": "isCommunity"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given MedicationRequest has a category of Community */ define fluent function isCommunity(medicationRequest MedicationNotRequested):   exists (medicationRequest.category C     where C ~ Community   )"
+        "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Community\n*/\ndefine fluent function isCommunity(medicationRequest MedicationNotRequested):\n  exists (medicationRequest.category C\n    where C ~ Community\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -487,12 +487,13 @@
         "valueString": "isDischarge"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given MedicationRequest has a category of Discharge */ define fluent function isDischarge(medicationRequest MedicationNotRequested):   exists (medicationRequest.category C     where C ~ Discharge   )"
+        "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Discharge\n*/\ndefine fluent function isDischarge(medicationRequest MedicationNotRequested):\n  exists (medicationRequest.category C\n    where C ~ Discharge\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -600,6 +601,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -612,31 +619,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -648,16 +637,28 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -665,6 +666,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -673,6 +679,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -681,11 +701,31 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.424"
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "id", "id.value", "code" ]
+      "mustSupport": [ "id", "id.value" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -697,19 +737,15 @@
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value", "intent", "intent.value" ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "authoredOn", "authoredOn.value", "status", "status.value", "intent", "intent.value" ],
       "codeFilter": [ {
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.52"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value", "intent", "intent.value" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     }, {
       "type": "Coverage",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
@@ -770,9 +806,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/DischargedonAntithromboticTherapyFHIR",
@@ -825,7 +867,7 @@
   "title": "Discharged on Antithrombotic TherapyFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-14T18:17:25+00:00",
+  "date": "2024-06-13T20:12:42+00:00",
   "publisher": "The Joint Commission",
   "contact": [ {
     "telecom": [ {
@@ -850,6 +892,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/DischargedonAntithromboticTherapyFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications. The measures and specifications are provided without warranty.",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "The effectiveness of antithrombotic agents in reducing stroke mortality, stroke-related morbidity and recurrence rates has been studied in several large clinical trials. While the use of these agents for patients with acute ischemic stroke and transient ischemic attacks continues to be the subject of study, substantial evidence is available from completed studies. Data at this time suggest that antithrombotic therapy should be prescribed at discharge following acute ischemic stroke to reduce stroke mortality and morbidity if no contraindications exist.   For patients with a stroke due to a cardioembolic source (e.g., atrial fibrillation, mechanical heart valve), warfarin is recommended unless contraindicated. In recent years, novel oral anticoagulant agents (NOACs) have been developed and approved by the U.S. Food and Drug Administration (FDA)    for stroke prevention and may be considered as an alternative to warfarin for select patients. Anticoagulation therapy is not generally recommended for secondary stroke prevention in patients presumed to have a non-cardioembolic stroke   Anticoagulants at doses to prevent venous thromboembolism are insufficient antithrombotic therapy to prevent recurrent ischemic stroke or transient ischemic attack (TIA).",
   "clinicalRecommendationStatement": "Clinical trial results suggest that antithrombotic therapy should be prescribed at discharge following acute ischemic stroke to reduce stroke mortality and morbidity if no contraindications exist",
   "group": [ {

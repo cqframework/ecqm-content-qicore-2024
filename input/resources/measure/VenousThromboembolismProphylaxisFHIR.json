@@ -94,10 +94,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -109,10 +109,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -124,10 +124,10 @@
         "valueString": "Inpatient Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounter&quot;:\n  [Encounter: &quot;Encounter Inpatient&quot;] EncounterInpatient\n\t\twhere EncounterInpatient.status = &#39;finished&#39;\n\t\tand EncounterInpatient.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Inpatient Encounter\":\n  [Encounter: \"Encounter Inpatient\"] EncounterInpatient\n\t\twhere EncounterInpatient.status = 'finished'\n\t\tand EncounterInpatient.period ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -139,10 +139,10 @@
         "valueString": "Admission without VTE or Obstetrical Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Admission without VTE or Obstetrical Conditions&quot;:\n  CQMCommon.&quot;Inpatient Encounter&quot; InpatientEncounter\n   where not (exists (InpatientEncounter.encounterDiagnosis()) EncDx\n                 where (EncDx.code in &quot;Obstetrical or Pregnancy Related Conditions&quot; \n                      or EncDx.code in &quot;Venous Thromboembolism&quot;\n          \t\t\t\tor EncDx.code in &quot;Obstetrics VTE&quot;\n          \t\t\t         )\n                     )"
+        "valueString": "define \"Admission without VTE or Obstetrical Conditions\":\n  CQMCommon.\"Inpatient Encounter\" InpatientEncounter\n   where not (exists (InpatientEncounter.encounterDiagnosis()) EncDx\n                 where (EncDx.code in \"Obstetrical or Pregnancy Related Conditions\" \n                      or EncDx.code in \"Venous Thromboembolism\"\n          \t\t\t\tor EncDx.code in \"Obstetrics VTE\"\n          \t\t\t         )\n                     )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -154,10 +154,10 @@
         "valueString": "Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot;:\n ( CQMCommon.&quot;Inpatient Encounter&quot; InpatientEncounter\n     where AgeInYearsAt(date from start of InpatientEncounter.period) &gt;= 18 )\n    intersect &quot;Admission without VTE or Obstetrical Conditions&quot;"
+        "valueString": "define \"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\":\n ( CQMCommon.\"Inpatient Encounter\" InpatientEncounter\n     where AgeInYearsAt(date from start of InpatientEncounter.period) >= 18 )\n    intersect \"Admission without VTE or Obstetrical Conditions\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -169,10 +169,10 @@
         "valueString": "Pharmacological or Mechanical VTE Prophylaxis Received"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pharmacological or Mechanical VTE Prophylaxis Received&quot;:\n  ( [&quot;MedicationAdministration&quot;: &quot;Low Dose Unfractionated Heparin for VTE Prophylaxis&quot;] VTEMedication\n      where VTEMedication.status = &#39;completed&#39;\n        and VTEMedication.dosage.route in &quot;Subcutaneous route&quot;\n  )\n    union ( [&quot;MedicationAdministration&quot;: &quot;Low Molecular Weight Heparin for VTE Prophylaxis&quot;] LMWH\n        where LMWH.status = &#39;completed&#39;\n    )\n    union ( [&quot;MedicationAdministration&quot;: &quot;Injectable Factor Xa Inhibitor for VTE Prophylaxis&quot;] FactorXa\n        where FactorXa.status = &#39;completed&#39;\n    )\n    union ( [&quot;MedicationAdministration&quot;: &quot;Warfarin&quot;] Warfarin\n        where Warfarin.status = &#39;completed&#39;\n    )\n    union ( [&quot;MedicationAdministration&quot;: &quot;Rivaroxaban for VTE Prophylaxis&quot;] Rivaroxaban\n        where Rivaroxaban.status = &#39;completed&#39;\n    )\n    union ( ( [&quot;Procedure&quot;: &quot;Application of Intermittent Pneumatic Compression Devices&quot;]\n        union [&quot;Procedure&quot;: &quot;Application of Venous Foot Pumps&quot;]\n        union [&quot;Procedure&quot;: &quot;Application of Graduated Compression Stockings&quot;] ) DeviceApplied\n        where DeviceApplied.status = &#39;completed&#39;\n    )"
+        "valueString": "define \"Pharmacological or Mechanical VTE Prophylaxis Received\":\n  ( [\"MedicationAdministration\": \"Low Dose Unfractionated Heparin for VTE Prophylaxis\"] VTEMedication\n      where VTEMedication.status = 'completed'\n        and VTEMedication.dosage.route in \"Subcutaneous route\"\n  )\n    union ( [\"MedicationAdministration\": \"Low Molecular Weight Heparin for VTE Prophylaxis\"] LMWH\n        where LMWH.status = 'completed'\n    )\n    union ( [\"MedicationAdministration\": \"Injectable Factor Xa Inhibitor for VTE Prophylaxis\"] FactorXa\n        where FactorXa.status = 'completed'\n    )\n    union ( [\"MedicationAdministration\": \"Warfarin\"] Warfarin\n        where Warfarin.status = 'completed'\n    )\n    union ( [\"MedicationAdministration\": \"Rivaroxaban for VTE Prophylaxis\"] Rivaroxaban\n        where Rivaroxaban.status = 'completed'\n    )\n    union ( ( [\"Procedure\": \"Application of Intermittent Pneumatic Compression Devices\"]\n        union [\"Procedure\": \"Application of Venous Foot Pumps\"]\n        union [\"Procedure\": \"Application of Graduated Compression Stockings\"] ) DeviceApplied\n        where DeviceApplied.status = 'completed'\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -184,10 +184,10 @@
         "valueString": "Encounter with VTE Prophylaxis Received From Day of Start of Hospitalization To Day After Admission or Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with VTE Prophylaxis Received From Day of Start of Hospitalization To Day After Admission or Procedure&quot;:\n  ( from\n      VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n      &quot;Pharmacological or Mechanical VTE Prophylaxis Received&quot; VTEProphylaxis\n      where Coalesce(VTEProphylaxis.effective.toInterval(), VTEProphylaxis.performed.toInterval()) starts during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )\n      return QualifyingEncounter\n  )\n    union ( from\n        VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n        [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n        &quot;Pharmacological or Mechanical VTE Prophylaxis Received&quot; VTEProphylaxis\n        where AnesthesiaProcedure.status = &#39;completed&#39;\n          and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n          and Coalesce(VTEProphylaxis.effective.toInterval(), VTEProphylaxis.performed.toInterval()) starts during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n        return QualifyingEncounter\n    )"
+        "valueString": "define \"Encounter with VTE Prophylaxis Received From Day of Start of Hospitalization To Day After Admission or Procedure\":\n  ( from\n      VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n      \"Pharmacological or Mechanical VTE Prophylaxis Received\" VTEProphylaxis\n      where Coalesce(VTEProphylaxis.effective.toInterval(), VTEProphylaxis.performed.toInterval()) starts during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )\n      return QualifyingEncounter\n  )\n    union ( from\n        VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n        [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n        \"Pharmacological or Mechanical VTE Prophylaxis Received\" VTEProphylaxis\n        where AnesthesiaProcedure.status = 'completed'\n          and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n          and Coalesce(VTEProphylaxis.effective.toInterval(), VTEProphylaxis.performed.toInterval()) starts during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n        return QualifyingEncounter\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -199,10 +199,10 @@
         "valueString": "Encounter with Medication Oral Factor Xa Inhibitor Administered on Day of or Day After Admission or Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Medication Oral Factor Xa Inhibitor Administered on Day of or Day After Admission or Procedure&quot;:\n  ( from\n      VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n      [&quot;MedicationAdministration&quot;: &quot;Oral Factor Xa Inhibitor for VTE Prophylaxis or VTE Treatment&quot;] FactorXaMedication\n      where FactorXaMedication.status = &#39;completed&#39;\n        and FactorXaMedication.effective.toInterval ( ) starts during day of ( start of QualifyingEncounter.period ).CalendarDayOfOrDayAfter ( )\n      return QualifyingEncounter\n  )\n    union ( from\n        VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n        [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n        [&quot;MedicationAdministration&quot;: &quot;Oral Factor Xa Inhibitor for VTE Prophylaxis or VTE Treatment&quot;] FactorXaMedication\n        where FactorXaMedication.status = &#39;completed&#39;\n          and AnesthesiaProcedure.status = &#39;completed&#39;\n          and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n          and FactorXaMedication.effective.toInterval ( ) starts during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n        return QualifyingEncounter\n    )"
+        "valueString": "define \"Encounter with Medication Oral Factor Xa Inhibitor Administered on Day of or Day After Admission or Procedure\":\n  ( from\n      VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n      [\"MedicationAdministration\": \"Oral Factor Xa Inhibitor for VTE Prophylaxis or VTE Treatment\"] FactorXaMedication\n      where FactorXaMedication.status = 'completed'\n        and FactorXaMedication.effective.toInterval ( ) starts during day of ( start of QualifyingEncounter.period ).CalendarDayOfOrDayAfter ( )\n      return QualifyingEncounter\n  )\n    union ( from\n        VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n        [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n        [\"MedicationAdministration\": \"Oral Factor Xa Inhibitor for VTE Prophylaxis or VTE Treatment\"] FactorXaMedication\n        where FactorXaMedication.status = 'completed'\n          and AnesthesiaProcedure.status = 'completed'\n          and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n          and FactorXaMedication.effective.toInterval ( ) starts during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n        return QualifyingEncounter\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -214,10 +214,10 @@
         "valueString": "Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Prior Diagnosis of VTE"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Prior Diagnosis of VTE&quot;:\n  ( VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n      with [&quot;Condition&quot;: &quot;Atrial Fibrillation or Flutter&quot;] AtrialFibrillation\n        such that AtrialFibrillation.isActive ( )\n          and AtrialFibrillation.verificationStatus is not null\n          and AtrialFibrillation.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;\n          and AtrialFibrillation.onset.toInterval ( ) starts on or before end of QualifyingEncounter.period\n  )\n    union ( VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n        where QualifyingEncounter.encounterDiagnosis ( ).code in &quot;Atrial Fibrillation or Flutter&quot;\n    )\n    union ( VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n        with [&quot;Condition&quot;: &quot;Venous Thromboembolism&quot;] VTEDiagnosis\n          such that ( VTEDiagnosis.clinicalStatus ~ QICoreCommon.&quot;inactive&quot;\n              or VTEDiagnosis.clinicalStatus ~ QICoreCommon.&quot;remission&quot;\n              or VTEDiagnosis.clinicalStatus ~ QICoreCommon.&quot;resolved&quot;\n          )\n            and VTEDiagnosis.verificationStatus is not null\n            and VTEDiagnosis.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;\n            and VTEDiagnosis.onset.toInterval ( ) before start of QualifyingEncounter.period\n    )"
+        "valueString": "define \"Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Prior Diagnosis of VTE\":\n  ( VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n      with [\"Condition\": \"Atrial Fibrillation or Flutter\"] AtrialFibrillation\n        such that AtrialFibrillation.isActive ( )\n          and AtrialFibrillation.verificationStatus is not null\n          and AtrialFibrillation.verificationStatus ~ QICoreCommon.\"confirmed\"\n          and AtrialFibrillation.onset.toInterval ( ) starts on or before end of QualifyingEncounter.period\n  )\n    union ( VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n        where QualifyingEncounter.encounterDiagnosis ( ).code in \"Atrial Fibrillation or Flutter\"\n    )\n    union ( VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n        with [\"Condition\": \"Venous Thromboembolism\"] VTEDiagnosis\n          such that ( VTEDiagnosis.clinicalStatus ~ QICoreCommon.\"inactive\"\n              or VTEDiagnosis.clinicalStatus ~ QICoreCommon.\"remission\"\n              or VTEDiagnosis.clinicalStatus ~ QICoreCommon.\"resolved\"\n          )\n            and VTEDiagnosis.verificationStatus is not null\n            and VTEDiagnosis.verificationStatus ~ QICoreCommon.\"confirmed\"\n            and VTEDiagnosis.onset.toInterval ( ) before start of QualifyingEncounter.period\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -229,10 +229,10 @@
         "valueString": "Encounter with Prior or Present Procedure of Hip or Knee Replacement Surgery"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Prior or Present Procedure of Hip or Knee Replacement Surgery&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with ( [&quot;Procedure&quot;: &quot;Hip Replacement Surgery&quot;]\n      union [&quot;Procedure&quot;: &quot;Knee Replacement Surgery&quot;] ) HipKneeProcedure\n      such that HipKneeProcedure.status = &#39;completed&#39;\n        and HipKneeProcedure.performed.toInterval ( ) starts on or before end of QualifyingEncounter.period"
+        "valueString": "define \"Encounter with Prior or Present Procedure of Hip or Knee Replacement Surgery\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with ( [\"Procedure\": \"Hip Replacement Surgery\"]\n      union [\"Procedure\": \"Knee Replacement Surgery\"] ) HipKneeProcedure\n      such that HipKneeProcedure.status = 'completed'\n        and HipKneeProcedure.performed.toInterval ( ) starts on or before end of QualifyingEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -244,10 +244,10 @@
         "valueString": "Low Risk Indicator For VTE"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Low Risk Indicator For VTE&quot;:\n  ( [&quot;Observation&quot;: &quot;Risk for venous thromboembolism&quot;] VTERiskAssessment\n      where VTERiskAssessment.value as Concept in &quot;Low Risk&quot;\n        and VTERiskAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n      return {\n        id: VTERiskAssessment.id,\n        LowRiskDatetime: VTERiskAssessment.effective.earliest ( )\n      }\n  )\n    union ( [&quot;US Core Laboratory Result Observation Profile&quot;: &quot;INR&quot;] INRLabTest\n        where INRLabTest.value as Quantity &gt; 3.0\n          and INRLabTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        return {\n          id: INRLabTest.id,\n          LowRiskDatetime: INRLabTest.issued\n        }\n    )\n    union ( ( ( [&quot;MedicationAdministration&quot;: &quot;Unfractionated Heparin&quot;] UnfractionatedHeparin\n          where UnfractionatedHeparin.dosage.route in &quot;Intravenous route&quot;\n      )\n        union [&quot;MedicationAdministration&quot;: &quot;Direct Thrombin Inhibitor&quot;]\n        union [&quot;MedicationAdministration&quot;: &quot;Glycoprotein IIb/IIIa Inhibitors&quot;] ) AnticoagulantMedication\n        where AnticoagulantMedication.status = &#39;completed&#39;\n        return {\n          id: AnticoagulantMedication.id,\n          LowRiskDatetime: start of AnticoagulantMedication.effective.toInterval ( )\n        }\n    )"
+        "valueString": "define \"Low Risk Indicator For VTE\":\n  ( [\"Observation\": \"Risk for venous thromboembolism\"] VTERiskAssessment\n      where VTERiskAssessment.value as Concept in \"Low Risk\"\n        and VTERiskAssessment.status in { 'final', 'amended', 'corrected' }\n      return {\n        id: VTERiskAssessment.id,\n        LowRiskDatetime: VTERiskAssessment.effective.earliest ( )\n      }\n  )\n    union ( [\"US Core Laboratory Result Observation Profile\": \"INR\"] INRLabTest\n        where INRLabTest.value as Quantity > 3.0\n          and INRLabTest.status in { 'final', 'amended', 'corrected' }\n        return {\n          id: INRLabTest.id,\n          LowRiskDatetime: INRLabTest.issued\n        }\n    )\n    union ( ( ( [\"MedicationAdministration\": \"Unfractionated Heparin\"] UnfractionatedHeparin\n          where UnfractionatedHeparin.dosage.route in \"Intravenous route\"\n      )\n        union [\"MedicationAdministration\": \"Direct Thrombin Inhibitor\"]\n        union [\"MedicationAdministration\": \"Glycoprotein IIb/IIIa Inhibitors\"] ) AnticoagulantMedication\n        where AnticoagulantMedication.status = 'completed'\n        return {\n          id: AnticoagulantMedication.id,\n          LowRiskDatetime: start of AnticoagulantMedication.effective.toInterval ( )\n        }\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -259,10 +259,10 @@
         "valueString": "Low Risk for VTE or Anticoagulant Administered From Day of Start of Hospitalization To Day After Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Low Risk for VTE or Anticoagulant Administered From Day of Start of Hospitalization To Day After Admission&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with &quot;Low Risk Indicator For VTE&quot; LowRiskForVTE\n      such that LowRiskForVTE.LowRiskDatetime during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
+        "valueString": "define \"Low Risk for VTE or Anticoagulant Administered From Day of Start of Hospitalization To Day After Admission\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with \"Low Risk Indicator For VTE\" LowRiskForVTE\n      such that LowRiskForVTE.LowRiskDatetime during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -274,10 +274,10 @@
         "valueString": "Low Risk for VTE or Anticoagulant Administered on Day of or Day After Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Low Risk for VTE or Anticoagulant Administered on Day of or Day After Procedure&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n    &quot;Low Risk Indicator For VTE&quot; LowRiskForVTE\n    where AnesthesiaProcedure.status = &#39;completed&#39;\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and LowRiskForVTE.LowRiskDatetime during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
+        "valueString": "define \"Low Risk for VTE or Anticoagulant Administered on Day of or Day After Procedure\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n    \"Low Risk Indicator For VTE\" LowRiskForVTE\n    where AnesthesiaProcedure.status = 'completed'\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and LowRiskForVTE.LowRiskDatetime during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -289,10 +289,10 @@
         "valueString": "Encounter with Low Risk for VTE or Anticoagulant Administered"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Low Risk for VTE or Anticoagulant Administered&quot;:\n  &quot;Low Risk for VTE or Anticoagulant Administered From Day of Start of Hospitalization To Day After Admission&quot;\n    union &quot;Low Risk for VTE or Anticoagulant Administered on Day of or Day After Procedure&quot;"
+        "valueString": "define \"Encounter with Low Risk for VTE or Anticoagulant Administered\":\n  \"Low Risk for VTE or Anticoagulant Administered From Day of Start of Hospitalization To Day After Admission\"\n    union \"Low Risk for VTE or Anticoagulant Administered on Day of or Day After Procedure\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -304,10 +304,10 @@
         "valueString": "No VTE Prophylaxis Medication Administered or Ordered"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No VTE Prophylaxis Medication Administered or Ordered&quot;:\n  ( ( [MedicationAdministrationNotDone: &quot;Low Dose Unfractionated Heparin for VTE Prophylaxis&quot;]\n      union [MedicationAdministrationNotDone: &quot;Low Molecular Weight Heparin for VTE Prophylaxis&quot;]\n      union [MedicationAdministrationNotDone: &quot;Injectable Factor Xa Inhibitor for VTE Prophylaxis&quot;]\n      union [MedicationAdministrationNotDone: &quot;Warfarin&quot;]\n      union [MedicationAdministrationNotDone: &quot;Rivaroxaban for VTE Prophylaxis&quot;] ) NoMedicationAdm\n      return {\n        id: NoMedicationAdm.id,\n        MedicationStatusReason: NoMedicationAdm.statusReason,\n        authoredOn: NoMedicationAdm.recorded\n      }\n  )\n    union ( ( [&quot;MedicationNotRequested&quot;: &quot;Low Dose Unfractionated Heparin for VTE Prophylaxis&quot;]\n        union [&quot;MedicationNotRequested&quot;: &quot;Low Molecular Weight Heparin for VTE Prophylaxis&quot;]\n        union [&quot;MedicationNotRequested&quot;: &quot;Injectable Factor Xa Inhibitor for VTE Prophylaxis&quot;]\n        union [&quot;MedicationNotRequested&quot;: &quot;Warfarin&quot;]\n        union [&quot;MedicationNotRequested&quot;: &quot;Rivaroxaban for VTE Prophylaxis&quot;] ) NoMedicationOrder\n        where NoMedicationOrder.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n        return {\n          id: NoMedicationOrder.id,\n          MedicationStatusReason: NoMedicationOrder.reasonCode,\n          authoredOn: NoMedicationOrder.authoredOn\n        }\n    )"
+        "valueString": "define \"No VTE Prophylaxis Medication Administered or Ordered\":\n  ( ( [MedicationAdministrationNotDone: \"Low Dose Unfractionated Heparin for VTE Prophylaxis\"]\n      union [MedicationAdministrationNotDone: \"Low Molecular Weight Heparin for VTE Prophylaxis\"]\n      union [MedicationAdministrationNotDone: \"Injectable Factor Xa Inhibitor for VTE Prophylaxis\"]\n      union [MedicationAdministrationNotDone: \"Warfarin\"]\n      union [MedicationAdministrationNotDone: \"Rivaroxaban for VTE Prophylaxis\"] ) NoMedicationAdm\n      return {\n        id: NoMedicationAdm.id,\n        MedicationStatusReason: NoMedicationAdm.statusReason,\n        authoredOn: NoMedicationAdm.recorded\n      }\n  )\n    union ( ( [\"MedicationNotRequested\": \"Low Dose Unfractionated Heparin for VTE Prophylaxis\"]\n        union [\"MedicationNotRequested\": \"Low Molecular Weight Heparin for VTE Prophylaxis\"]\n        union [\"MedicationNotRequested\": \"Injectable Factor Xa Inhibitor for VTE Prophylaxis\"]\n        union [\"MedicationNotRequested\": \"Warfarin\"]\n        union [\"MedicationNotRequested\": \"Rivaroxaban for VTE Prophylaxis\"] ) NoMedicationOrder\n        where NoMedicationOrder.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n        return {\n          id: NoMedicationOrder.id,\n          MedicationStatusReason: NoMedicationOrder.reasonCode,\n          authoredOn: NoMedicationOrder.authoredOn\n        }\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -319,10 +319,10 @@
         "valueString": "No VTE Prophylaxis Medication Due to Medical Reason From Day of Start of Hospitalization To Day After Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No VTE Prophylaxis Medication Due to Medical Reason From Day of Start of Hospitalization To Day After Admission&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with &quot;No VTE Prophylaxis Medication Administered or Ordered&quot; NoVTEMedication\n      such that NoVTEMedication.MedicationStatusReason in &quot;Medical Reason For Not Providing Treatment&quot;\n        and NoVTEMedication.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
+        "valueString": "define \"No VTE Prophylaxis Medication Due to Medical Reason From Day of Start of Hospitalization To Day After Admission\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with \"No VTE Prophylaxis Medication Administered or Ordered\" NoVTEMedication\n      such that NoVTEMedication.MedicationStatusReason in \"Medical Reason For Not Providing Treatment\"\n        and NoVTEMedication.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -334,10 +334,10 @@
         "valueString": "No Mechanical VTE Prophylaxis Performed or Ordered"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No Mechanical VTE Prophylaxis Performed or Ordered&quot;:\n  ( ( [ServiceNotRequested: &quot;Venous foot pumps&quot;]\n      union [ServiceNotRequested: &quot;Intermittent pneumatic compression devices&quot;]\n      union [ServiceNotRequested: &quot;Graduated compression stockings&quot;] ) DeviceNotOrder\n      where DeviceNotOrder.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n      return {\n        id: DeviceNotOrder.id,\n        requestStatusReason: DeviceNotOrder.reasonRefused,\n        authoredOn: DeviceNotOrder.authoredOn\n      }\n  )\n    union ( ( [ProcedureNotDone: &quot;Application of Intermittent Pneumatic Compression Devices&quot;]\n        union [ProcedureNotDone: &quot;Application of Venous Foot Pumps&quot;]\n        union [ProcedureNotDone: &quot;Application of Graduated Compression Stockings&quot;] ) DeviceNotApplied\n        let DeviceNotDoneTiming: DeviceNotApplied.recorded\n        return {\n          id: DeviceNotApplied.id,\n          requestStatusReason: DeviceNotApplied.statusReason,\n          authoredOn: DeviceNotDoneTiming\n        }\n    )"
+        "valueString": "define \"No Mechanical VTE Prophylaxis Performed or Ordered\":\n  ( ( [ServiceNotRequested: \"Venous foot pumps\"]\n      union [ServiceNotRequested: \"Intermittent pneumatic compression devices\"]\n      union [ServiceNotRequested: \"Graduated compression stockings\"] ) DeviceNotOrder\n      where DeviceNotOrder.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n      return {\n        id: DeviceNotOrder.id,\n        requestStatusReason: DeviceNotOrder.reasonRefused,\n        authoredOn: DeviceNotOrder.authoredOn\n      }\n  )\n    union ( ( [ProcedureNotDone: \"Application of Intermittent Pneumatic Compression Devices\"]\n        union [ProcedureNotDone: \"Application of Venous Foot Pumps\"]\n        union [ProcedureNotDone: \"Application of Graduated Compression Stockings\"] ) DeviceNotApplied\n        let DeviceNotDoneTiming: DeviceNotApplied.recorded\n        return {\n          id: DeviceNotApplied.id,\n          requestStatusReason: DeviceNotApplied.statusReason,\n          authoredOn: DeviceNotDoneTiming\n        }\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -349,10 +349,10 @@
         "valueString": "No Mechanical VTE Prophylaxis Due to Medical Reason From Day of Start of Hospitalization To Day After Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No Mechanical VTE Prophylaxis Due to Medical Reason From Day of Start of Hospitalization To Day After Admission&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with &quot;No Mechanical VTE Prophylaxis Performed or Ordered&quot; NoVTEDevice\n      such that NoVTEDevice.requestStatusReason in &quot;Medical Reason For Not Providing Treatment&quot;\n        and NoVTEDevice.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
+        "valueString": "define \"No Mechanical VTE Prophylaxis Due to Medical Reason From Day of Start of Hospitalization To Day After Admission\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with \"No Mechanical VTE Prophylaxis Performed or Ordered\" NoVTEDevice\n      such that NoVTEDevice.requestStatusReason in \"Medical Reason For Not Providing Treatment\"\n        and NoVTEDevice.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -364,10 +364,10 @@
         "valueString": "No VTE Prophylaxis Medication Due to Medical Reason on Day of or Day After Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No VTE Prophylaxis Medication Due to Medical Reason on Day of or Day After Procedure&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n    &quot;No VTE Prophylaxis Medication Administered or Ordered&quot; NoVTEMedication\n    where NoVTEMedication.MedicationStatusReason in &quot;Medical Reason For Not Providing Treatment&quot;\n      and AnesthesiaProcedure.status = &#39;completed&#39;\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and NoVTEMedication.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
+        "valueString": "define \"No VTE Prophylaxis Medication Due to Medical Reason on Day of or Day After Procedure\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n    \"No VTE Prophylaxis Medication Administered or Ordered\" NoVTEMedication\n    where NoVTEMedication.MedicationStatusReason in \"Medical Reason For Not Providing Treatment\"\n      and AnesthesiaProcedure.status = 'completed'\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and NoVTEMedication.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -379,10 +379,10 @@
         "valueString": "No Mechanical VTE Prophylaxis Due to Medical Reason on Day of or Day After Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No Mechanical VTE Prophylaxis Due to Medical Reason on Day of or Day After Procedure&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n    &quot;No Mechanical VTE Prophylaxis Performed or Ordered&quot; NoVTEDevice\n    where NoVTEDevice.requestStatusReason in &quot;Medical Reason For Not Providing Treatment&quot;\n      and AnesthesiaProcedure.status = &#39;completed&#39;\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and NoVTEDevice.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
+        "valueString": "define \"No Mechanical VTE Prophylaxis Due to Medical Reason on Day of or Day After Procedure\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n    \"No Mechanical VTE Prophylaxis Performed or Ordered\" NoVTEDevice\n    where NoVTEDevice.requestStatusReason in \"Medical Reason For Not Providing Treatment\"\n      and AnesthesiaProcedure.status = 'completed'\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and NoVTEDevice.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -394,10 +394,10 @@
         "valueString": "Encounter with No VTE Prophylaxis Due to Medical Reason"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with No VTE Prophylaxis Due to Medical Reason&quot;:\n  ( &quot;No VTE Prophylaxis Medication Due to Medical Reason From Day of Start of Hospitalization To Day After Admission&quot;\n      intersect &quot;No Mechanical VTE Prophylaxis Due to Medical Reason From Day of Start of Hospitalization To Day After Admission&quot;\n  )\n    union ( &quot;No VTE Prophylaxis Medication Due to Medical Reason on Day of or Day After Procedure&quot;\n        intersect &quot;No Mechanical VTE Prophylaxis Due to Medical Reason on Day of or Day After Procedure&quot;\n    )"
+        "valueString": "define \"Encounter with No VTE Prophylaxis Due to Medical Reason\":\n  ( \"No VTE Prophylaxis Medication Due to Medical Reason From Day of Start of Hospitalization To Day After Admission\"\n      intersect \"No Mechanical VTE Prophylaxis Due to Medical Reason From Day of Start of Hospitalization To Day After Admission\"\n  )\n    union ( \"No VTE Prophylaxis Medication Due to Medical Reason on Day of or Day After Procedure\"\n        intersect \"No Mechanical VTE Prophylaxis Due to Medical Reason on Day of or Day After Procedure\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -409,10 +409,10 @@
         "valueString": "No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal&quot;:\n  ( &quot;No VTE Prophylaxis Medication Administered or Ordered&quot; NoVTEMedication\n      where NoVTEMedication.MedicationStatusReason in &quot;Patient Refusal&quot;\n  )\n    union ( &quot;No Mechanical VTE Prophylaxis Performed or Ordered&quot; NoVTEDevice\n        where NoVTEDevice.requestStatusReason in &quot;Patient Refusal&quot;\n    )"
+        "valueString": "define \"No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal\":\n  ( \"No VTE Prophylaxis Medication Administered or Ordered\" NoVTEMedication\n      where NoVTEMedication.MedicationStatusReason in \"Patient Refusal\"\n  )\n    union ( \"No Mechanical VTE Prophylaxis Performed or Ordered\" NoVTEDevice\n        where NoVTEDevice.requestStatusReason in \"Patient Refusal\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -424,10 +424,10 @@
         "valueString": "No VTE Prophylaxis Due to Patient Refusal From Day of Start of Hospitalization To Day After Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No VTE Prophylaxis Due to Patient Refusal From Day of Start of Hospitalization To Day After Admission&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with &quot;No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal&quot; PatientRefusal\n      such that PatientRefusal.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
+        "valueString": "define \"No VTE Prophylaxis Due to Patient Refusal From Day of Start of Hospitalization To Day After Admission\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with \"No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal\" PatientRefusal\n      such that PatientRefusal.authoredOn during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -439,10 +439,10 @@
         "valueString": "No VTE Prophylaxis Due to Patient Refusal on Day of or Day After Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;No VTE Prophylaxis Due to Patient Refusal on Day of or Day After Procedure&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n    &quot;No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal&quot; PatientRefusal\n    where AnesthesiaProcedure.status = &#39;completed&#39;\n      and QICoreCommon.&quot;ToInterval&quot; ( AnesthesiaProcedure.performed ) ends 1 day after day of start of QualifyingEncounter.period\n      and PatientRefusal.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
+        "valueString": "define \"No VTE Prophylaxis Due to Patient Refusal on Day of or Day After Procedure\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n    \"No Mechanical or Pharmacological VTE Prophylaxis Due to Patient Refusal\" PatientRefusal\n    where AnesthesiaProcedure.status = 'completed'\n      and QICoreCommon.\"ToInterval\" ( AnesthesiaProcedure.performed ) ends 1 day after day of start of QualifyingEncounter.period\n      and PatientRefusal.authoredOn during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -454,10 +454,10 @@
         "valueString": "Encounter with No VTE Prophylaxis Due to Patient Refusal"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with No VTE Prophylaxis Due to Patient Refusal&quot;:\n  &quot;No VTE Prophylaxis Due to Patient Refusal From Day of Start of Hospitalization To Day After Admission&quot;\n    union &quot;No VTE Prophylaxis Due to Patient Refusal on Day of or Day After Procedure&quot;"
+        "valueString": "define \"Encounter with No VTE Prophylaxis Due to Patient Refusal\":\n  \"No VTE Prophylaxis Due to Patient Refusal From Day of Start of Hospitalization To Day After Admission\"\n    union \"No VTE Prophylaxis Due to Patient Refusal on Day of or Day After Procedure\""
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -469,10 +469,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Encounter with VTE Prophylaxis Received From Day of Start of Hospitalization To Day After Admission or Procedure&quot;\n    union ( &quot;Encounter with Medication Oral Factor Xa Inhibitor Administered on Day of or Day After Admission or Procedure&quot;\n        intersect ( &quot;Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Prior Diagnosis of VTE&quot;\n            union &quot;Encounter with Prior or Present Procedure of Hip or Knee Replacement Surgery&quot;\n        )\n    )\n    union &quot;Encounter with Low Risk for VTE or Anticoagulant Administered&quot;\n    union &quot;Encounter with No VTE Prophylaxis Due to Medical Reason&quot;\n    union &quot;Encounter with No VTE Prophylaxis Due to Patient Refusal&quot;"
+        "valueString": "define \"Numerator\":\n  \"Encounter with VTE Prophylaxis Received From Day of Start of Hospitalization To Day After Admission or Procedure\"\n    union ( \"Encounter with Medication Oral Factor Xa Inhibitor Administered on Day of or Day After Admission or Procedure\"\n        intersect ( \"Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Prior Diagnosis of VTE\"\n            union \"Encounter with Prior or Present Procedure of Hip or Knee Replacement Surgery\"\n        )\n    )\n    union \"Encounter with Low Risk for VTE or Anticoagulant Administered\"\n    union \"Encounter with No VTE Prophylaxis Due to Medical Reason\"\n    union \"Encounter with No VTE Prophylaxis Due to Patient Refusal\""
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -484,10 +484,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot;"
+        "valueString": "define \"Initial Population\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\""
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -499,10 +499,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -514,10 +514,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -529,10 +529,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -544,10 +544,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -559,10 +559,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -574,10 +574,10 @@
         "valueString": "Encounter Less Than 2 Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter Less Than 2 Days&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    where QualifyingEncounter.period.lengthInDays ( ) &lt; 2"
+        "valueString": "define \"Encounter Less Than 2 Days\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    where QualifyingEncounter.period.lengthInDays ( ) < 2"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -589,10 +589,10 @@
         "valueString": "Encounter with ICU Location Stay 1 Day or More"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with ICU Location Stay 1 Day or More&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    where exists ( QualifyingEncounter.location Location\n        where Location.location.getLocation ( ).type in &quot;Intensive Care Unit&quot;\n          and Location.period.lengthInDays ( ) &gt;= 1\n          and Location.period starts on or after start of QualifyingEncounter.period\n          and date from ( start of Location.period ) during ( start of QualifyingEncounter.period ).CalendarDayOfOrDayAfter ( )\n    )"
+        "valueString": "define \"Encounter with ICU Location Stay 1 Day or More\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    where exists ( QualifyingEncounter.location Location\n        where Location.location.getLocation ( ).type in \"Intensive Care Unit\"\n          and Location.period.lengthInDays ( ) >= 1\n          and Location.period starts on or after start of QualifyingEncounter.period\n          and date from ( start of Location.period ) during ( start of QualifyingEncounter.period ).CalendarDayOfOrDayAfter ( )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -604,10 +604,10 @@
         "valueString": "Encounter with Principal Diagnosis of Mental Disorder or Stroke"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Principal Diagnosis of Mental Disorder or Stroke&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    where QualifyingEncounter.principalDiagnosis ( ).code in &quot;Mental Health Diagnoses&quot;\n      or QualifyingEncounter.principalDiagnosis ( ).code in &quot;Hemorrhagic Stroke&quot;\n      or QualifyingEncounter.principalDiagnosis ( ).code in &quot;Ischemic Stroke&quot;"
+        "valueString": "define \"Encounter with Principal Diagnosis of Mental Disorder or Stroke\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    where QualifyingEncounter.principalDiagnosis ( ).code in \"Mental Health Diagnoses\"\n      or QualifyingEncounter.principalDiagnosis ( ).code in \"Hemorrhagic Stroke\"\n      or QualifyingEncounter.principalDiagnosis ( ).code in \"Ischemic Stroke\""
       }, {
         "url": "displaySequence",
-        "valueString": "34"
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -619,10 +619,10 @@
         "valueString": "SCIP VTE Selected Surgery"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SCIP VTE Selected Surgery&quot;:\n  ( [&quot;Procedure&quot;: &quot;General Surgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Gynecological Surgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Hip Fracture Surgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Hip Replacement Surgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Intracranial Neurosurgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Knee Replacement Surgery&quot;]\n    union [&quot;Procedure&quot;: &quot;Urological Surgery&quot;] ) Procedure\n    where Procedure.status = &#39;completed&#39;"
+        "valueString": "define \"SCIP VTE Selected Surgery\":\n  ( [\"Procedure\": \"General Surgery\"]\n    union [\"Procedure\": \"Gynecological Surgery\"]\n    union [\"Procedure\": \"Hip Fracture Surgery\"]\n    union [\"Procedure\": \"Hip Replacement Surgery\"]\n    union [\"Procedure\": \"Intracranial Neurosurgery\"]\n    union [\"Procedure\": \"Knee Replacement Surgery\"]\n    union [\"Procedure\": \"Urological Surgery\"] ) Procedure\n    where Procedure.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "35"
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -634,10 +634,10 @@
         "valueString": "Encounter with Principal Procedure of SCIP VTE Selected Surgery"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Principal Procedure of SCIP VTE Selected Surgery&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    &quot;SCIP VTE Selected Surgery&quot; SelectedProcedure\n    let EncounterProcedure: singleton from ( QualifyingEncounter.procedure P\n        where P.rank = 1\n    )\n    where EncounterProcedure.procedure.reference.getId ( ) = SelectedProcedure.id\n      and end of SelectedProcedure.performed.toInterval ( ) during QualifyingEncounter.period\n    return QualifyingEncounter"
+        "valueString": "define \"Encounter with Principal Procedure of SCIP VTE Selected Surgery\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    \"SCIP VTE Selected Surgery\" SelectedProcedure\n    let EncounterProcedure: singleton from ( QualifyingEncounter.procedure P\n        where P.rank = 1\n    )\n    where EncounterProcedure.procedure.reference.getId ( ) = SelectedProcedure.id\n      and end of SelectedProcedure.performed.toInterval ( ) during QualifyingEncounter.period\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "36"
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -649,10 +649,10 @@
         "valueString": "Intervention Comfort Measures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intervention Comfort Measures&quot;:\n  ( [&quot;ServiceRequest&quot;: &quot;Comfort Measures&quot;] InterventionRequest\n      where InterventionRequest.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n        and InterventionRequest.status in { &#39;active&#39;, &#39;on-hold&#39;, &#39;completed&#39; }\n        and InterventionRequest.doNotPerform is not true\n  )\n    union ( [&quot;Procedure&quot;: &quot;Comfort Measures&quot;] InterventionPerformed\n        where InterventionPerformed.status in { &#39;completed&#39;, &#39;in-progress&#39; }\n    )"
+        "valueString": "define \"Intervention Comfort Measures\":\n  ( [\"ServiceRequest\": \"Comfort Measures\"] InterventionRequest\n      where InterventionRequest.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n        and InterventionRequest.status in { 'active', 'on-hold', 'completed' }\n        and InterventionRequest.doNotPerform is not true\n  )\n    union ( [\"Procedure\": \"Comfort Measures\"] InterventionPerformed\n        where InterventionPerformed.status in { 'completed', 'in-progress' }\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "37"
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -664,10 +664,10 @@
         "valueString": "Encounter with Intervention Comfort Measures From Day of Start of Hospitalization To Day After Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Intervention Comfort Measures From Day of Start of Hospitalization To Day After Admission&quot;:\n  VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter\n    with &quot;Intervention Comfort Measures&quot; ComfortMeasure\n      such that Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
+        "valueString": "define \"Encounter with Intervention Comfort Measures From Day of Start of Hospitalization To Day After Admission\":\n  VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter\n    with \"Intervention Comfort Measures\" ComfortMeasure\n      such that Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during day of QualifyingEncounter.FromDayOfStartOfHospitalizationToDayAfterAdmission ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "38"
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -679,10 +679,10 @@
         "valueString": "Encounter with Intervention Comfort Measures on Day of or Day After Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Intervention Comfort Measures on Day of or Day After Procedure&quot;:\n  from\n    VTE.&quot;Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions&quot; QualifyingEncounter,\n    [&quot;Procedure&quot;: &quot;General or Neuraxial Anesthesia&quot;] AnesthesiaProcedure,\n    &quot;Intervention Comfort Measures&quot; ComfortMeasure\n    where AnesthesiaProcedure.status = &#39;completed&#39;\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
+        "valueString": "define \"Encounter with Intervention Comfort Measures on Day of or Day After Procedure\":\n  from\n    VTE.\"Encounter with Age Range and without VTE Diagnosis or Obstetrical Conditions\" QualifyingEncounter,\n    [\"Procedure\": \"General or Neuraxial Anesthesia\"] AnesthesiaProcedure,\n    \"Intervention Comfort Measures\" ComfortMeasure\n    where AnesthesiaProcedure.status = 'completed'\n      and AnesthesiaProcedure.performed.toInterval ( ) ends 1 day after day of start of QualifyingEncounter.period\n      and Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during day of ( end of AnesthesiaProcedure.performed.toInterval ( ) ).CalendarDayOfOrDayAfter ( )\n    return QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "39"
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -694,10 +694,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Encounter Less Than 2 Days&quot;\n    union &quot;Encounter with ICU Location Stay 1 Day or More&quot;\n    union &quot;Encounter with Principal Diagnosis of Mental Disorder or Stroke&quot;\n    union &quot;Encounter with Principal Procedure of SCIP VTE Selected Surgery&quot;\n    union &quot;Encounter with Intervention Comfort Measures From Day of Start of Hospitalization To Day After Admission&quot;\n    union &quot;Encounter with Intervention Comfort Measures on Day of or Day After Procedure&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Encounter Less Than 2 Days\"\n    union \"Encounter with ICU Location Stay 1 Day or More\"\n    union \"Encounter with Principal Diagnosis of Mental Disorder or Stroke\"\n    union \"Encounter with Principal Procedure of SCIP VTE Selected Surgery\"\n    union \"Encounter with Intervention Comfort Measures From Day of Start of Hospitalization To Day After Admission\"\n    union \"Encounter with Intervention Comfort Measures on Day of or Day After Procedure\""
       }, {
         "url": "displaySequence",
-        "valueString": "40"
+        "valueInteger": 40
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -709,10 +709,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "41"
+        "valueInteger": 41
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -724,10 +724,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "42"
+        "valueInteger": 42
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -742,7 +742,7 @@
         "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueString": "43"
+        "valueInteger": 43
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -754,10 +754,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "44"
+        "valueInteger": 44
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -769,10 +769,10 @@
         "valueString": "FromDayOfStartOfHospitalizationToDayAfterAdmission"
       }, {
         "url": "statement",
-        "valueString": "define fluent function &quot;FromDayOfStartOfHospitalizationToDayAfterAdmission&quot;(Encounter Encounter ):\n\tInterval[ date from (start of Encounter.hospitalizationWithObservation()), date from (start of Encounter.period) + 1 days]"
+        "valueString": "define fluent function \"FromDayOfStartOfHospitalizationToDayAfterAdmission\"(Encounter Encounter ):\n\tInterval[ date from (start of Encounter.hospitalizationWithObservation()), date from (start of Encounter.period) + 1 days]"
       }, {
         "url": "displaySequence",
-        "valueString": "45"
+        "valueInteger": 45
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -784,10 +784,10 @@
         "valueString": "hospitalizationWithObservation"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n  \t\t\t\twhere LastObs.status = &#39;finished&#39;\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n  \t\t\t\twhere LastED.status = &#39;finished&#39;\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "46"
+        "valueInteger": 46
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -802,7 +802,7 @@
         "valueString": "define fluent function CalendarDayOfOrDayAfter(StartValue DateTime):\n  Interval [date from (StartValue), date from (StartValue) + 1 day]"
       }, {
         "url": "displaySequence",
-        "valueString": "47"
+        "valueInteger": 47
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -814,10 +814,10 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "48"
+        "valueInteger": 48
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -829,10 +829,10 @@
         "valueString": "earliest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (period.&quot;hasStart&quot;()) then start of period\n      else end of period"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "49"
+        "valueInteger": 49
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -847,7 +847,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "50"
+        "valueInteger": 50
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -862,7 +862,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "51"
+        "valueInteger": 51
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -877,7 +877,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "52"
+        "valueInteger": 52
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -889,10 +889,10 @@
         "valueString": "lengthInDays"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Calculates the difference in calendar days between the start and end of the given interval.\n*/\ndefine fluent function lengthInDays(Value Interval&lt;DateTime&gt; ):\n  difference in days between start of Value and end of Value"
+        "valueString": "/*\n@description: Calculates the difference in calendar days between the start and end of the given interval.\n*/\ndefine fluent function lengthInDays(Value Interval<DateTime> ):\n  difference in days between start of Value and end of Value"
       }, {
         "url": "displaySequence",
-        "valueString": "53"
+        "valueInteger": 53
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -907,7 +907,7 @@
         "valueString": "/*\n@description: Returns the Location resource specified by the given reference.\n*/\ndefine fluent function getLocation(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "54"
+        "valueInteger": 54
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -919,12 +919,13 @@
         "valueString": "principalDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ &quot;Billing&quot;) PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
       }, {
         "url": "displaySequence",
-        "valueString": "55"
+        "valueInteger": 55
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -1152,6 +1153,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -1164,25 +1171,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -1194,6 +1189,12 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
@@ -1203,7 +1204,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -1211,6 +1212,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -1219,11 +1225,21 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "period", "condition", "condition.reference", "condition.reference.value", "period.low", "period.lowClosed", "period.high", "period.highClosed", "location", "rank", "rank.value", "use", "extension" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -1231,6 +1247,23 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Condition",
@@ -1239,6 +1272,8 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.202"
+      }, {
+        "path": "verificationStatus"
       } ]
     }, {
       "type": "Condition",
@@ -1247,11 +1282,13 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.279"
+      }, {
+        "path": "verificationStatus"
       } ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "id", "id.value", "code", "clinicalStatus" ]
+      "mustSupport": [ "id", "id.value", "code" ]
     }, {
       "type": "MedicationAdministration",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationadministration" ],
@@ -1419,6 +1456,20 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.1743"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "performed",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Add"
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -1431,6 +1482,9 @@
           "code": "72136-5",
           "display": "Risk for venous thromboembolism"
         } ]
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.400"
       } ]
     }, {
       "type": "Observation",
@@ -1736,9 +1790,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/VenousThromboembolismProphylaxisFHIR",
@@ -1791,7 +1851,7 @@
   "title": "Venous Thromboembolism ProphylaxisFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-13T19:30:01+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "The Joint Commission",
   "contact": [ {
     "telecom": [ {
@@ -1816,6 +1876,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/VenousThromboembolismProphylaxisFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care and have not been tested for all potential applications. The measures and specifications are provided without warranty.",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "The estimated annual incidence of deep-vein thrombosis (DVT) and pulmonary embolism (PE), known collectively as venous thromboembolism (VTE), ranges from 350,000 to 600,000 (Maynard, 2016). According to the Centers for Disease Control and Prevention (CDC) 2020 statistics, 1-2 per 1,000 adults in the United States are clinically diagnosed with VTE each year (CDC, 2020). Increased incidence is reported in the elderly (1 per 100) compared to young adults (1 per 10,000) (Henke et al., 2020). \n\nVTE is a known complication of hospitalization, frequently extending the length of stay and increasing hospital mortality (Maynard, 2016). Approximately 20% of VTE are associated with a surgical procedure (Henke et al., 2020). Hospitalized patients at high-risk for VTE may develop an asymptomatic DVT, and die from PE even before the diagnosis is suspected. The majority of fatal events occur as sudden or abrupt death, underscoring the importance of prevention as the most critical action step for reducing death from PE (Geerts et al., 2008).\n\nAmerican Society of Hematology (ASH) 2018 VTE prophylaxis guidelines strongly recommend pharmacological prophylaxis using unfractionated heparin (UFH), low molecular weight heparin (LMWH) or fondaparinux for acutely and critically ill hospitalized medical patients, unless contraindicated. The use of mechanical prophylaxis is an acceptable alternative for patients with increased risk of bleeding and preferred over no prophylaxis. ASH 2019 guidelines for surgical patients similarly recommend pharmacological or mechanical prophylaxis over no VTE prophylaxis. (NOTE: Some select surgeries have previously been monitored in the Surgical Care Improvement Project; since performance on these surgeries has achieved very high levels, they are not included in this measure.)\n\nDespite its proven effectiveness, VTE prophylaxis remains underused or inappropriately used in both medical and surgical patients (Kahn et al., 2018). The ENDORSE study evaluated prophylaxis rates in 17,084 major surgery patients and found that more than one third of patients at risk for VTE (38%) did not receive prophylaxis with various rates reported for different types of surgery (Cohen et al., 2008). More recently, a systemic review of multiple randomized controlled trials found that system-wide interventions, such as computer alerts to physicians and other healthcare professionals, increased the use of appropriate VTE prophylaxis while reducing the number of symptomatic VTE at three months (Kahn et al., 2018).",
   "clinicalRecommendationStatement": "Failure to recognize and protect patients at risk for venous thromboembolism (VTE) increases the chances for acutely ill hospitalized patients at high risk for developing a deep vein thrombosis or dying from a pulmonary embolism. Screening all patients is the only evidence based practice in reducing incidence of disease. All hospitalized patients should be evaluated for primary VTE prophylaxis, and given appropriate prophylaxis when indicated.",
   "group": [ {

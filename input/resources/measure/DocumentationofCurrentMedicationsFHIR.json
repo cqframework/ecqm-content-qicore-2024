@@ -38,10 +38,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -53,10 +53,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -68,10 +68,10 @@
         "valueString": "Qualifying Encounter during day of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter during day of Measurement Period&quot;:   [&quot;Encounter&quot;: &quot;Encounter to Document Medications&quot;] ValidEncounter     where ValidEncounter.status = &#39;finished&#39;       and ValidEncounter.period during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Qualifying Encounter during day of Measurement Period\":\n  [\"Encounter\": \"Encounter to Document Medications\"] ValidEncounter\n    where ValidEncounter.status = 'finished'\n      and ValidEncounter.period during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -83,10 +83,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter     with [Procedure: &quot;Documentation of current medications (procedure)&quot;] MedicationsDocumented       such that MedicationsDocumented.performed.toInterval ( ) ends during QualifyingEncounter.period         and MedicationsDocumented.status = &#39;completed&#39;"
+        "valueString": "define \"Numerator\":\n  \"Qualifying Encounter during day of Measurement Period\" QualifyingEncounter\n    with [Procedure: \"Documentation of current medications (procedure)\"] MedicationsDocumented\n      such that MedicationsDocumented.performed.toInterval ( ) ends during QualifyingEncounter.period\n        and MedicationsDocumented.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -98,10 +98,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter"
+        "valueString": "define \"Initial Population\":\n  \"Qualifying Encounter during day of Measurement Period\" QualifyingEncounter"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -113,10 +113,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -128,10 +128,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -143,10 +143,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -158,10 +158,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -173,10 +173,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -188,10 +188,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -203,10 +203,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -218,10 +218,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exceptions&quot;:   &quot;Qualifying Encounter during day of Measurement Period&quot; QualifyingEncounter     with [ProcedureNotDone: code ~ &quot;Documentation of current medications (procedure)&quot;] MedicationsNotDocumented       such that MedicationsNotDocumented.recorded during QualifyingEncounter.period         and MedicationsNotDocumented.status = &#39;not-done&#39;         and MedicationsNotDocumented.reasonCode in &quot;Medical Reason&quot;"
+        "valueString": "define \"Denominator Exceptions\":\n  \"Qualifying Encounter during day of Measurement Period\" QualifyingEncounter\n    with [ProcedureNotDone: code ~ \"Documentation of current medications (procedure)\"] MedicationsNotDocumented\n      such that MedicationsNotDocumented.recorded during QualifyingEncounter.period\n        and MedicationsNotDocumented.status = 'not-done'\n        and MedicationsNotDocumented.reasonCode in \"Medical Reason\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -236,7 +236,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -248,10 +248,10 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -263,12 +263,13 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -316,6 +317,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -328,25 +335,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -363,11 +358,31 @@
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
+    }, {
+      "id": "265",
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1834"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -375,6 +390,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1834"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -386,6 +406,11 @@
           "system": "http://snomed.info/sct",
           "code": "428191000124101",
           "display": "Documentation of current medications (procedure)"
+        } ]
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
         } ]
       } ]
     }, {
@@ -406,6 +431,11 @@
           "system": "http://snomed.info/sct",
           "code": "428191000124101",
           "display": "Documentation of current medications (procedure)"
+        } ]
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "not-done"
         } ]
       } ]
     } ]
@@ -428,9 +458,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/DocumentationofCurrentMedicationsFHIR",
@@ -483,7 +519,7 @@
   "title": "Documentation of Current Medications in the Medical RecordFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T13:27:45+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -508,6 +544,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/DocumentationofCurrentMedicationsFHIR" ],
   "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "According to the National Center for Health Statistics, during the years of 2013-2016, 48.4% of patients (both male and female) were prescribed at least one prescription medication with 12.6% taking 5 or more medications. Additionally, 89.8% of patients (both male and female) aged 65 years and older were prescribed at least one medication with 40.9% taking 5 or more medications (2018). In this context, maintaining an accurate and complete medication list has proven to be a challenging documentation endeavor for various health care provider settings. While most of outpatient encounters (two-thirds) result in providers prescribing at least one medication, hospitals have been the focus of medication safety efforts (Stock, Scott, & Gurtel, 2009). Nassaralla, Naessens, Chaudhry, Hansen, and Scheitel (2007) caution that this is at odds with the current trend, where patients with chronic illnesses are increasingly being treated in the outpatient setting and require careful monitoring of multiple medications. Additionally, Nassaralla et al. (2007) reveal that it is in fact in outpatient settings where more fatal adverse drug events (ADE) occur when these are compared to those occurring in hospitals (1 of 131 outpatient deaths compared to 1 in 854 inpatient deaths). In the outpatient setting, ADEs occur 25% of the time and over one-third of these are considered preventable (Tache, Sonnichsen, & Ashcroft, 2011). Particularly vulnerable are patients over 65 years, with evidence suggesting that the rate of ADEs per 10,000 person per year increases with age; 25-44 years old at 1.3; 45-64 at 2.2, and 65 + at 3.8 (Sarkar, Lopez, Maselli, & Gonzales, 2011). Other vulnerable groups include individuals who are chronically ill or disabled (Nabhanizadeh, Oppewal, Boot, & Maes-Festen, 2019). These population groups are more likely to experience ADEs and subsequent hospitalization.   A multiplicity of providers and inadequate care coordination among them has been identified as barriers to collecting complete and reliable medication records. A study conducted by Poornima et al. (2015) indicates that reconciliation and documentation continue to be poorly executed with discrepancies occurring in 92% of patients (74 of 80) admitted to the emergency room. Of 80 patients included in the study, the home medications were reordered for 65% of patients on their admission. Of the 65%, 29% had a change in their dosing interval, while 23% had a change in their route of administration, and 13% had a change in dose. A total of 361 medication discrepancies, or the difference between the medications patients were taking before admission and those listed in their admission orders, were identified in at least 74 patients. The study found that \"Through an appropriate reconciliation programme, around 80% of errors relating to medication and the potential harm caused by these errors could be reduced\" (Poornima et al., 2015). Presley et al. (2020) also recognized specific barriers to sufficient medication documentation and reconciliation in rural and resource-limited care settings.  Documentation of current medications in the medical record facilitates the process of medication review and reconciliation by the provider, which is necessary for reducing ADEs and promoting medication safety. The need for provider to provider coordination regarding medication records, and the existing gap in implementation, is highlighted in the American Medical Association's Physician's Role in Medication Reconciliation, which states that \"critical patient information, including medical and medication histories, current medications the patient is receiving and taking, and sources of medications, is essential to the delivery of safe medical care. However, interruptions in the continuity of care and information gaps in patient health records are common and significantly affect patient outcomes\" (2007). This is because clinical decisions based on information that is incomplete and/or inaccurate are likely to lead to medication error and ADEs. Weeks, Corbette, and Stream (2010) noted similar barriers and identified the utilization of health information technology as an opportunity for facilitating the creation of universal medication lists. One 2015 meta-analysis showed an association between electronic health record (EHR) documentation with an overall risk ratio (RR) of 0.46 (95% CI = 0.38 to 0.55; P < 0.001) and ADEs with an overall RR of 0.66 (95% CI = 0.44 to 0.99; P = 0.045). This meta-analysis provides evidence that the use of the EHR can improve the quality of healthcare delivered to patients by reducing medication errors and ADEs (Campanella et al., 2016).",
   "clinicalRecommendationStatement": "The Joint Commission's 2023 Ambulatory Health Care National Patient Safety Goals guide clinicians to maintain and communicate accurate patient medication information. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient medication information\" states the following: \"Obtain and/or update information on the medications the patient is currently taking. This information is documented in a list or other format that is useful to those who manage medication. Compare the medication information the patient brought to the organization with the medications ordered for the patient by the organization in order to identify and resolve discrepancies.”  The Joint Commission's 2023 Hospital National Patient Safety Goals also addressed documenting current medications. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient information\" states the following: \"Obtain information on the medications the patient is currently taking when they are admitted to the hospital or is seen in an outpatient setting. This information is documented in a list or other format that is useful to those who manage medications.\"  The National Quality Forum's Safe Practices for Better Healthcare (2010), states the following: \"The healthcare organization must develop, reconcile, and communicate an accurate patient medication list throughout the continuum of care.\"",
   "group": [ {

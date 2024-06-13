@@ -80,10 +80,10 @@
         "valueString": "DXA Scan Order During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;DXA Scan Order During Measurement Period&quot;:\n  ( ( [ServiceRequest: &quot;DXA (Dual energy Xray Absorptiometry) Scan&quot;] ).isDiagnosticStudyOrder ( ) ) DXA\n    where DXA.authoredOn.toInterval ( ) during &quot;Measurement Period&quot;\n    // and DXA.doNotPerform is not true\n    // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447 \n    \n    \n    sort by authoredOn asc"
+        "valueString": "define \"DXA Scan Order During Measurement Period\":\n  ( ( [ServiceRequest: \"DXA (Dual energy Xray Absorptiometry) Scan\"] ).isDiagnosticStudyOrder ( ) ) DXA\n    where DXA.authoredOn.toInterval ( ) during \"Measurement Period\"\n    // and DXA.doNotPerform is not true\n    // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447 \n    \n    \n    sort by authoredOn asc"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -95,10 +95,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  exists &quot;DXA Scan Order During Measurement Period&quot;"
+        "valueString": "define \"Numerator\":\n  exists \"DXA Scan Order During Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -110,10 +110,10 @@
         "valueString": "Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter&quot;:\n  ( ( [Encounter: &quot;Office Visit&quot;]\n      union [Encounter: &quot;Preventive Care Services Established Office Visit, 18 and Up&quot;]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ &quot;Unlisted preventive medicine service&quot;\n          )\n      )\n      union [Encounter: &quot;Preventive Care Services Initial Office Visit, 18 and Up&quot;]\n      union [Encounter: &quot;Outpatient Consultation&quot;]\n      union [Encounter: &quot;Virtual Encounter&quot;]\n      union [Encounter: &quot;Telephone Visits&quot;]\n  ).isEncounterPerformed ( ) ) ValidEncounters\n    where ValidEncounters.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Qualifying Encounter\":\n  ( ( [Encounter: \"Office Visit\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ \"Unlisted preventive medicine service\"\n          )\n      )\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Outpatient Consultation\"]\n      union [Encounter: \"Virtual Encounter\"]\n      union [Encounter: \"Telephone Visits\"]\n  ).isEncounterPerformed ( ) ) ValidEncounters\n    where ValidEncounters.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -125,10 +125,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  AgeInYearsAt(date from start of &quot;Measurement Period&quot;) in Interval[50, 63]\n    and Patient.gender = &#39;female&#39;\n    and exists &quot;Qualifying Encounter&quot;"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(date from start of \"Measurement Period\") in Interval[50, 63]\n    and Patient.gender = 'female'\n    and exists \"Qualifying Encounter\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -140,10 +140,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -155,10 +155,10 @@
         "valueString": "First BMI in Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First BMI in Measurement Period&quot;:\n  First((([&quot;observation-bmi&quot;]).isObservationBMI()) BMIRatio\n      where BMIRatio.effective.toInterval() during &quot;Measurement Period&quot;\n        and BMIRatio.value as Quantity is not null\n      sort by start of effective.toInterval()\n  )"
+        "valueString": "define \"First BMI in Measurement Period\":\n  First((([\"observation-bmi\"]).isObservationBMI()) BMIRatio\n      where BMIRatio.effective.toInterval() during \"Measurement Period\"\n        and BMIRatio.value as Quantity is not null\n      sort by start of effective.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -170,10 +170,10 @@
         "valueString": "First BMI in Measurement Period Less Than or Equal to 20 kg m2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First BMI in Measurement Period Less Than or Equal to 20 kg m2&quot;:\n  &quot;First BMI in Measurement Period&quot; FirstBMI\n    where FirstBMI.value as Quantity &lt;= 20 &#39;kg/m2&#39;"
+        "valueString": "define \"First BMI in Measurement Period Less Than or Equal to 20 kg m2\":\n  \"First BMI in Measurement Period\" FirstBMI\n    where FirstBMI.value as Quantity <= 20 'kg/m2'"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -185,10 +185,10 @@
         "valueString": "First Average Number of Drinks Assessments Indicating More Than Two Per Day"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First Average Number of Drinks Assessments Indicating More Than Two Per Day&quot;:\n  First((([Observation: &quot;Alcoholic drinks per day&quot;]).isAssessmentPerformed()) AverageDrinks\n      where start of AverageDrinks.effective.toInterval() during &quot;Measurement Period&quot;\n        and AverageDrinks.value as Quantity &gt; 2 &#39;{drinks}/d&#39;\n      sort by start of effective.toInterval()\n  )"
+        "valueString": "define \"First Average Number of Drinks Assessments Indicating More Than Two Per Day\":\n  First((([Observation: \"Alcoholic drinks per day\"]).isAssessmentPerformed()) AverageDrinks\n      where start of AverageDrinks.effective.toInterval() during \"Measurement Period\"\n        and AverageDrinks.value as Quantity > 2 '{drinks}/d'\n      sort by start of effective.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -200,10 +200,10 @@
         "valueString": "Has Risk Factor Active During the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Risk Factor Active During the Measurement Period&quot;:\n  &quot;First BMI in Measurement Period Less Than or Equal to 20 kg m2&quot; is not null\n    or &quot;First Average Number of Drinks Assessments Indicating More Than Two Per Day&quot; is not null"
+        "valueString": "define \"Has Risk Factor Active During the Measurement Period\":\n  \"First BMI in Measurement Period Less Than or Equal to 20 kg m2\" is not null\n    or \"First Average Number of Drinks Assessments Indicating More Than Two Per Day\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -215,10 +215,10 @@
         "valueString": "Has Risk Factor Any Time in History Prior to Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Risk Factor Any Time in History Prior to Measurement Period&quot;:\n  exists ( ( [Condition: &quot;Osteoporosis Without Current Fracture&quot;] OsteoporosisDiagnosis\n        where OsteoporosisDiagnosis.prevalenceInterval ( ) starts before start of &quot;Measurement Period&quot;\n    )\n      union ( [Condition: &quot;Osteopenia&quot;] OsteopeniaDiagnosis\n          where OsteopeniaDiagnosis.prevalenceInterval ( ) starts before start of &quot;Measurement Period&quot;\n      )\n      union ( ( ( ( [Procedure: &quot;Gastric Bypass Surgery&quot;] ).isProcedurePerformed ( ) ) GastricBypass\n            where GastricBypass.performed.toInterval ( ) ends before start of &quot;Measurement Period&quot;\n        )\n          union ( ( ( [MedicationRequest: &quot;Aromatase Inhibitors&quot;] ).isMedicationActive ( ) ) AromataseInhibitorActive\n              where CMD.&quot;MedicationRequestPeriod&quot; ( AromataseInhibitorActive ) starts before start of &quot;Measurement Period&quot;\n          )\n          union ( ( ( [MedicationRequest: &quot;Aromatase Inhibitors&quot;] ).isMedicationOrder ( ) ) AromataseInhibitorOrder\n              where AromataseInhibitorOrder.authoredOn.toInterval ( ) before start of &quot;Measurement Period&quot;\n          )\n          union ( ( [Observation: &quot;History of hip fracture in parent&quot;] ).isAssessmentPerformed ( ) ) ParentFractureHistory\n            where start of ParentFractureHistory.effective.toInterval ( ) before start of &quot;Measurement Period&quot;\n      )\n  )"
+        "valueString": "define \"Has Risk Factor Any Time in History Prior to Measurement Period\":\n  exists ( ( [Condition: \"Osteoporosis Without Current Fracture\"] OsteoporosisDiagnosis\n        where OsteoporosisDiagnosis.prevalenceInterval ( ) starts before start of \"Measurement Period\"\n    )\n      union ( [Condition: \"Osteopenia\"] OsteopeniaDiagnosis\n          where OsteopeniaDiagnosis.prevalenceInterval ( ) starts before start of \"Measurement Period\"\n      )\n      union ( ( ( ( [Procedure: \"Gastric Bypass Surgery\"] ).isProcedurePerformed ( ) ) GastricBypass\n            where GastricBypass.performed.toInterval ( ) ends before start of \"Measurement Period\"\n        )\n          union ( ( ( [MedicationRequest: \"Aromatase Inhibitors\"] ).isMedicationActive ( ) ) AromataseInhibitorActive\n              where CMD.\"MedicationRequestPeriod\" ( AromataseInhibitorActive ) starts before start of \"Measurement Period\"\n          )\n          union ( ( ( [MedicationRequest: \"Aromatase Inhibitors\"] ).isMedicationOrder ( ) ) AromataseInhibitorOrder\n              where AromataseInhibitorOrder.authoredOn.toInterval ( ) before start of \"Measurement Period\"\n          )\n          union ( ( [Observation: \"History of hip fracture in parent\"] ).isAssessmentPerformed ( ) ) ParentFractureHistory\n            where start of ParentFractureHistory.effective.toInterval ( ) before start of \"Measurement Period\"\n      )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -230,10 +230,10 @@
         "valueString": "Glucocorticoid Active Medication Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Glucocorticoid Active Medication Days&quot;:\n  ( ( ( ( [MedicationRequest: &quot;Glucocorticoids (oral only)&quot;] ).isMedicationActive ( ) ) OralGlucocorticoid\n      where ( OralGlucocorticoid ).medicationRequestPeriod ( ) starts before end of &quot;Measurement Period&quot; ) Glucocorticoid\n      return ( Glucocorticoid ).medicationRequestPeriod ( )\n        intersect Interval[Patient.birthDate, date from end of &quot;Measurement Period&quot;]\n  ).cumulativeDuration ( )"
+        "valueString": "define \"Glucocorticoid Active Medication Days\":\n  ( ( ( ( [MedicationRequest: \"Glucocorticoids (oral only)\"] ).isMedicationActive ( ) ) OralGlucocorticoid\n      where ( OralGlucocorticoid ).medicationRequestPeriod ( ) starts before end of \"Measurement Period\" ) Glucocorticoid\n      return ( Glucocorticoid ).medicationRequestPeriod ( )\n        intersect Interval[Patient.birthDate, date from end of \"Measurement Period\"]\n  ).cumulativeDuration ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -245,10 +245,10 @@
         "valueString": "Has 90 or More Active Glucocorticoid Medication Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has 90 or More Active Glucocorticoid Medication Days&quot;:\n  &quot;Glucocorticoid Active Medication Days&quot; &gt;= 90"
+        "valueString": "define \"Has 90 or More Active Glucocorticoid Medication Days\":\n  \"Glucocorticoid Active Medication Days\" >= 90"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -260,10 +260,10 @@
         "valueString": "Has Double or Bilateral Oophorectomy"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Double or Bilateral Oophorectomy&quot;:\n  exists ( ( [Procedure: &quot;Bilateral Oophorectomy&quot;] ).procedureInPatientHistory ( ) )\n    or exists ( ( [Procedure: &quot;Evidence of Bilateral Oophorectomy&quot;] ).procedureInPatientHistory ( ) )\n    or ( exists ( ( ( [Procedure: &quot;Unilateral Oophorectomy, Unspecified Laterality&quot;] UnilateralOophorectomy\n              where exists ( UnilateralOophorectomy.bodySite C\n                  where C ~ &quot;Right (qualifier value)&quot;\n              )\n          )\n            union [Procedure: &quot;Unilateral Oophorectomy Right&quot;]\n        ).procedureInPatientHistory ( )\n      )\n        and exists ( ( ( [Procedure: &quot;Unilateral Oophorectomy, Unspecified Laterality&quot;] UnilateralOophorectomy\n                where exists ( UnilateralOophorectomy.bodySite D\n                    where D ~ &quot;Left (qualifier value)&quot;\n                )\n            )\n              union [Procedure: &quot;Unilateral Oophorectomy Left&quot;]\n          ).procedureInPatientHistory ( )\n        )\n    )"
+        "valueString": "define \"Has Double or Bilateral Oophorectomy\":\n  exists ( ( [Procedure: \"Bilateral Oophorectomy\"] ).procedureInPatientHistory ( ) )\n    or exists ( ( [Procedure: \"Evidence of Bilateral Oophorectomy\"] ).procedureInPatientHistory ( ) )\n    or ( exists ( ( ( [Procedure: \"Unilateral Oophorectomy, Unspecified Laterality\"] UnilateralOophorectomy\n              where exists ( UnilateralOophorectomy.bodySite C\n                  where C ~ \"Right (qualifier value)\"\n              )\n          )\n            union [Procedure: \"Unilateral Oophorectomy Right\"]\n        ).procedureInPatientHistory ( )\n      )\n        and exists ( ( ( [Procedure: \"Unilateral Oophorectomy, Unspecified Laterality\"] UnilateralOophorectomy\n                where exists ( UnilateralOophorectomy.bodySite D\n                    where D ~ \"Left (qualifier value)\"\n                )\n            )\n              union [Procedure: \"Unilateral Oophorectomy Left\"]\n          ).procedureInPatientHistory ( )\n        )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -275,10 +275,10 @@
         "valueString": "Has Organ Transplants"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Organ Transplants&quot;:\n  exists ( [Procedure: &quot;Major Transplant&quot;]\n      union [Procedure: &quot;Kidney Transplant&quot;]\n      union [Procedure: &quot;Bone Marrow Transplant&quot;]\n  ).procedureInPatientHistory ( )"
+        "valueString": "define \"Has Organ Transplants\":\n  exists ( [Procedure: \"Major Transplant\"]\n      union [Procedure: \"Kidney Transplant\"]\n      union [Procedure: \"Bone Marrow Transplant\"]\n  ).procedureInPatientHistory ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -290,10 +290,10 @@
         "valueString": "Has Risk Factor Any Time in History or During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Risk Factor Any Time in History or During Measurement Period&quot;:\n  &quot;Has 90 or More Active Glucocorticoid Medication Days&quot;\n    or exists ( [Condition: &quot;Osteoporosis With Current Fracture&quot;]\n        union [Condition: &quot;Malabsorption Syndromes&quot;]\n        union [Condition: &quot;Chronic Malnutrition&quot;]\n        union [Condition: &quot;Chronic Liver Disease&quot;]\n        union [Condition: &quot;Rheumatoid Arthritis&quot;]\n        union [Condition: &quot;Hyperthyroidism&quot;]\n        union [Condition: &quot;Type 1 Diabetes&quot;]\n        union [Condition: &quot;End Stage Renal Disease&quot;]\n        union [Condition: &quot;Osteogenesis Imperfecta&quot;]\n        union [Condition: &quot;Ankylosing Spondylitis&quot;]\n        union [Condition: &quot;Psoriatic Arthritis&quot;]\n        union [Condition: &quot;Ehlers Danlos Syndrome&quot;]\n        union [Condition: &quot;Cushings Syndrome&quot;]\n        union [Condition: &quot;Hyperparathyroidism&quot;]\n        union [Condition: &quot;Marfan&#39;s Syndrome&quot;]\n        union [Condition: &quot;Lupus&quot;]\n        union [Condition: &quot;Multiple Myeloma&quot;]\n        union [Condition: &quot;Premature Menopause&quot;]\n        union [Condition: &quot;Eating Disorders&quot;]\n        union [Condition: &quot;Amenorrhea&quot;]\n    ).diagnosisInPatientHistory ( )\n    or exists ( [Procedure: &quot;Chemotherapy&quot;] ).procedureInPatientHistory ( )\n    or &quot;Has Double or Bilateral Oophorectomy&quot;\n    or &quot;Has Organ Transplants&quot;"
+        "valueString": "define \"Has Risk Factor Any Time in History or During Measurement Period\":\n  \"Has 90 or More Active Glucocorticoid Medication Days\"\n    or exists ( [Condition: \"Osteoporosis With Current Fracture\"]\n        union [Condition: \"Malabsorption Syndromes\"]\n        union [Condition: \"Chronic Malnutrition\"]\n        union [Condition: \"Chronic Liver Disease\"]\n        union [Condition: \"Rheumatoid Arthritis\"]\n        union [Condition: \"Hyperthyroidism\"]\n        union [Condition: \"Type 1 Diabetes\"]\n        union [Condition: \"End Stage Renal Disease\"]\n        union [Condition: \"Osteogenesis Imperfecta\"]\n        union [Condition: \"Ankylosing Spondylitis\"]\n        union [Condition: \"Psoriatic Arthritis\"]\n        union [Condition: \"Ehlers Danlos Syndrome\"]\n        union [Condition: \"Cushings Syndrome\"]\n        union [Condition: \"Hyperparathyroidism\"]\n        union [Condition: \"Marfan's Syndrome\"]\n        union [Condition: \"Lupus\"]\n        union [Condition: \"Multiple Myeloma\"]\n        union [Condition: \"Premature Menopause\"]\n        union [Condition: \"Eating Disorders\"]\n        union [Condition: \"Amenorrhea\"]\n    ).diagnosisInPatientHistory ( )\n    or exists ( [Procedure: \"Chemotherapy\"] ).procedureInPatientHistory ( )\n    or \"Has Double or Bilateral Oophorectomy\"\n    or \"Has Organ Transplants\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -305,10 +305,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Has Risk Factor Active During the Measurement Period&quot;\n    or &quot;Has Risk Factor Any Time in History Prior to Measurement Period&quot;\n    or &quot;Has Risk Factor Any Time in History or During Measurement Period&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Has Risk Factor Active During the Measurement Period\"\n    or \"Has Risk Factor Any Time in History Prior to Measurement Period\"\n    or \"Has Risk Factor Any Time in History or During Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -320,10 +320,10 @@
         "valueString": "Osteoporosis Fracture Risk Assessment Prior to First DXA Scan"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Osteoporosis Fracture Risk Assessment Prior to First DXA Scan&quot;:\n  ( ( ( ( [Observation: &quot;Major osteoporotic fracture 10-year probability [Likelihood] Fracture Risk Assessment&quot;] ).isAssessmentPerformed ( ) ) FRAX\n      where FRAX.value &gt;= 8.4 &#39;%&#39;\n  )\n    union ( ( ( [Observation: &quot;Osteoporosis Risk Assessment Instrument&quot;] ).isAssessmentPerformed ( ) ) ORAI\n        where ORAI.value as Integer &gt;= 9\n    )\n    union ( ( ( [Observation: &quot;Osteoporosis Index of Risk panel&quot;] ).isAssessmentPerformed ( ) ) OSIRIS\n        where OSIRIS.value as Quantity &lt; 1.0\n    )\n    union ( ( ( [Observation: &quot;Osteoporosis Self-Assessment Tool&quot;] ).isAssessmentPerformed ( ) ) OST\n        where OST.value as Quantity &lt; 2.0\n    ) ) RiskAssessment\n    where start of RiskAssessment.effective.toInterval ( ) before First(&quot;DXA Scan Order During Measurement Period&quot;).authoredOn"
+        "valueString": "define \"Osteoporosis Fracture Risk Assessment Prior to First DXA Scan\":\n  ( ( ( ( [Observation: \"Major osteoporotic fracture 10-year probability [Likelihood] Fracture Risk Assessment\"] ).isAssessmentPerformed ( ) ) FRAX\n      where FRAX.value >= 8.4 '%'\n  )\n    union ( ( ( [Observation: \"Osteoporosis Risk Assessment Instrument\"] ).isAssessmentPerformed ( ) ) ORAI\n        where ORAI.value as Integer >= 9\n    )\n    union ( ( ( [Observation: \"Osteoporosis Index of Risk panel\"] ).isAssessmentPerformed ( ) ) OSIRIS\n        where OSIRIS.value as Quantity < 1.0\n    )\n    union ( ( ( [Observation: \"Osteoporosis Self-Assessment Tool\"] ).isAssessmentPerformed ( ) ) OST\n        where OST.value as Quantity < 2.0\n    ) ) RiskAssessment\n    where start of RiskAssessment.effective.toInterval ( ) before First(\"DXA Scan Order During Measurement Period\").authoredOn"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -335,10 +335,10 @@
         "valueString": "Numerator Exclusion"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator Exclusion&quot;:\n  exists &quot;Osteoporosis Fracture Risk Assessment Prior to First DXA Scan&quot;"
+        "valueString": "define \"Numerator Exclusion\":\n  exists \"Osteoporosis Fracture Risk Assessment Prior to First DXA Scan\""
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -350,10 +350,10 @@
         "valueString": "isDiagnosticStudyOrder"
       }, {
         "url": "statement",
-        "valueString": "//Diagnostic Study, Order: active and completed only\ndefine fluent function isDiagnosticStudyOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Diagnostic Study, Order: active and completed only\ndefine fluent function isDiagnosticStudyOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -365,10 +365,10 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -380,10 +380,10 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -398,7 +398,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -410,10 +410,10 @@
         "valueString": "isObservationBMI"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isObservationBMI(Obs List&lt;&quot;QICore.observation-bmi&quot;&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }"
+        "valueString": "define fluent function isObservationBMI(Obs List<\"QICore.observation-bmi\">):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -425,10 +425,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -440,10 +440,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -455,10 +455,10 @@
         "valueString": "isProcedurePerformed"
       }, {
         "url": "statement",
-        "valueString": "//Procedure, Performed\ndefine fluent function isProcedurePerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Procedure, Performed\ndefine fluent function isProcedurePerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -470,10 +470,10 @@
         "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List&lt;MedicationRequest&gt;):\n  MedicationRequest M\n    where M.status = &#39;active&#39;\n      and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -485,10 +485,10 @@
         "valueString": "MedicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "/*\nNow that we have a ToDaily function, we can approach calculation of the\nduration of medication for an order. First, consider the definitions\nfor each element:\n* 1 and only 1 dosageInstruction\n* 1 and only 1 doseAndRate\n* 1 timing with 1 repeat\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 &#39;d&#39;\n* doseQuantity or doseRange\n* timeOfDay\n* authoredOn: The date the prescription was written\n* dispenseRequest.validityPeriod: Time period supply is authorized for\n* dispenseRequest.quantity: amount of medication supplied per dispense\n* dispenseRequest.numberOfRepeatsAllowed: number of refills authorized\n* dispenseRequest.expectedSupplyDuration: number of days supply per dispense\n* dosageInstruction.timing.repeat.boundsDuration: total duration of the repeat\n* dosageInstruction.timing.repeat.boundsRange: range of durations of the repeat\n* dosageInstruction.timing.repeat.boundsPeriod: period bounds of the repeat\n* dosageInstruction.timing.repeat.count: number of times to repeat\n* dosageInstruction.timing.repeat.countMax: maximum number of times to repeat\n* dosageInstruction.timing.repeat.frequency: event occurs frequency times per period\n* dosageInstruction.timing.repeat.frequencyMax: event occurs up to frequencyMax times per period\n* dosageInstruction.timing.repeat.period: event occurs frequency times per period\n* dosageInstruction.timing.repeat.periodMax: upper limit of period\n* dosageInstruction.timing.repeat.periodUnit: period duration (s | min | h | d | wk | mo | a)\n* dosageInstruction.timing.repeat.timeOfDay: time of day for the event (0..*)\n* dosageInstruction.timing.repeat.when: event timing (HS | WAKE | C | CM | CD | CV | AC | ACM...)\n* dosageInstruction.timing.code: BID | TID | QID | AM | PM | QD | QOD...\n* dosageInstruction.asNeeded\n* dosageInstruction.doseAndRate.doseQuantity\n* dosageInstruction.doseAndRate.doseRange\nIf expectedSupplyDuration is present, then the duration is\n    expectedSupplyDuration * (1 + numberOfRepeatsAllowed)\nIf expectedSupplyDuration is not present, then it must be calculated based on the quantity, dosage, and frequency:\n    (quantity / (dosage * frequency)) * (1 + numberOfRepeatsAllowed)\n    dosage: Coalesce(end of doseAndRate.doseRange, doseAndRate.doseQuantity)\n    frequency: Coalesce(frequencyMax, frequency)\n    period: Quantity(period, periodUnit)\nIf expectedSupplyDuration is not present and cannot be calculated, and the boundsPeriod is present (and completely specified), we can use that directly\n    dosage.timing.repeat.boundsPeriod\nThis calculation results in a number of days, which can then be turned into a period by anchoring that to the\nstart of the validityPeriod or the authoredOn:\n    Interval[earliestDispensable, earliestDispensable + expectedSupplyDuration - 1]\n    earliestDispensable: Coalesce(start of validityPeriod, authoredOn)\nThe following function illustrates this completely:\n*/\n\n/*\nCalculates the Medication Period for a single MedicationRequest.\nMedicationRequest instances provided to this function are expected\nto conform to the [MMEMedicationRequest](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationrequest.html)\nprofile, which expects:\n* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error\n* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error\n* 1 timing with 1 repeat, missing timing or repeat elements will result in a null\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 &#39;d&#39;\n* timeOfDay\n* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null\nNote that MedicationRequest status is not considered by this calculation, as the\nlist of MedicationRequest instances provided to this function should already have\nconsidered appropriate statuses, depending on the use case, typically `completed`.\n*/\ndefine function MedicationRequestPeriod(Request &quot;MedicationRequest&quot;):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval&lt;DateTime&gt;,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;) ]\n      else if startDate is not null and boundsPeriod.&quot;high&quot; is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
+        "valueString": "/*\nNow that we have a ToDaily function, we can approach calculation of the\nduration of medication for an order. First, consider the definitions\nfor each element:\n* 1 and only 1 dosageInstruction\n* 1 and only 1 doseAndRate\n* 1 timing with 1 repeat\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* doseQuantity or doseRange\n* timeOfDay\n* authoredOn: The date the prescription was written\n* dispenseRequest.validityPeriod: Time period supply is authorized for\n* dispenseRequest.quantity: amount of medication supplied per dispense\n* dispenseRequest.numberOfRepeatsAllowed: number of refills authorized\n* dispenseRequest.expectedSupplyDuration: number of days supply per dispense\n* dosageInstruction.timing.repeat.boundsDuration: total duration of the repeat\n* dosageInstruction.timing.repeat.boundsRange: range of durations of the repeat\n* dosageInstruction.timing.repeat.boundsPeriod: period bounds of the repeat\n* dosageInstruction.timing.repeat.count: number of times to repeat\n* dosageInstruction.timing.repeat.countMax: maximum number of times to repeat\n* dosageInstruction.timing.repeat.frequency: event occurs frequency times per period\n* dosageInstruction.timing.repeat.frequencyMax: event occurs up to frequencyMax times per period\n* dosageInstruction.timing.repeat.period: event occurs frequency times per period\n* dosageInstruction.timing.repeat.periodMax: upper limit of period\n* dosageInstruction.timing.repeat.periodUnit: period duration (s | min | h | d | wk | mo | a)\n* dosageInstruction.timing.repeat.timeOfDay: time of day for the event (0..*)\n* dosageInstruction.timing.repeat.when: event timing (HS | WAKE | C | CM | CD | CV | AC | ACM...)\n* dosageInstruction.timing.code: BID | TID | QID | AM | PM | QD | QOD...\n* dosageInstruction.asNeeded\n* dosageInstruction.doseAndRate.doseQuantity\n* dosageInstruction.doseAndRate.doseRange\nIf expectedSupplyDuration is present, then the duration is\n    expectedSupplyDuration * (1 + numberOfRepeatsAllowed)\nIf expectedSupplyDuration is not present, then it must be calculated based on the quantity, dosage, and frequency:\n    (quantity / (dosage * frequency)) * (1 + numberOfRepeatsAllowed)\n    dosage: Coalesce(end of doseAndRate.doseRange, doseAndRate.doseQuantity)\n    frequency: Coalesce(frequencyMax, frequency)\n    period: Quantity(period, periodUnit)\nIf expectedSupplyDuration is not present and cannot be calculated, and the boundsPeriod is present (and completely specified), we can use that directly\n    dosage.timing.repeat.boundsPeriod\nThis calculation results in a number of days, which can then be turned into a period by anchoring that to the\nstart of the validityPeriod or the authoredOn:\n    Interval[earliestDispensable, earliestDispensable + expectedSupplyDuration - 1]\n    earliestDispensable: Coalesce(start of validityPeriod, authoredOn)\nThe following function illustrates this completely:\n*/\n\n/*\nCalculates the Medication Period for a single MedicationRequest.\nMedicationRequest instances provided to this function are expected\nto conform to the [MMEMedicationRequest](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationrequest.html)\nprofile, which expects:\n* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error\n* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error\n* 1 timing with 1 repeat, missing timing or repeat elements will result in a null\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* timeOfDay\n* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null\nNote that MedicationRequest status is not considered by this calculation, as the\nlist of MedicationRequest instances provided to this function should already have\nconsidered appropriate statuses, depending on the use case, typically `completed`.\n*/\ndefine function MedicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -503,7 +503,7 @@
         "valueString": "/**********************************************************************/\n/* Functions in this region are copied from opioid-mme-r4             */\n/**********************************************************************/\n\ndefine function Quantity(value Decimal, unit String):\n  if value is not null then\n    System.Quantity { value: value, unit: unit }\n  else\n    null"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -515,10 +515,10 @@
         "valueString": "ToDaily"
       }, {
         "url": "statement",
-        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when &#39;h&#39; then frequency * (24.0 / period.value)\n    when &#39;min&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;s&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;d&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;wk&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;mo&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;a&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when &#39;hour&#39; then frequency * (24.0 / period.value)\n    when &#39;minute&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;second&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;day&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;week&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;month&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;year&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when &#39;hours&#39; then frequency * (24.0 / period.value)\n    when &#39;minutes&#39; then frequency * (24.0 / period.value) * 60\n    when &#39;seconds&#39; then frequency * (24.0 / period.value) * 60 * 60\n    when &#39;days&#39; then frequency * (24.0 / period.value) / 24\n    when &#39;weeks&#39; then frequency * (24.0 / period.value) / (24 * 7)\n    when &#39;months&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when &#39;years&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, &#39;CMDLogic.ToDaily.UnknownUnit&#39;, ErrorLevel, &#39;Unknown unit &#39; &amp; period.unit)\n  end"
+        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when 'h' then frequency * (24.0 / period.value)\n    when 'min' then frequency * (24.0 / period.value) * 60\n    when 's' then frequency * (24.0 / period.value) * 60 * 60\n    when 'd' then frequency * (24.0 / period.value) / 24\n    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hour' then frequency * (24.0 / period.value)\n    when 'minute' then frequency * (24.0 / period.value) * 60\n    when 'second' then frequency * (24.0 / period.value) * 60 * 60\n    when 'day' then frequency * (24.0 / period.value) / 24\n    when 'week' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hours' then frequency * (24.0 / period.value)\n    when 'minutes' then frequency * (24.0 / period.value) * 60\n    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60\n    when 'days' then frequency * (24.0 / period.value) / 24\n    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -530,10 +530,10 @@
         "valueString": "isMedicationOrder"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List&lt;MedicationRequest&gt;):\n  MedicationRequest M\n    where M.status in { &#39;active&#39;, &#39;completed&#39; }\n      and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status in { 'active', 'completed' }\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -545,10 +545,10 @@
         "valueString": "cumulativeDuration"
       }, {
         "url": "statement",
-        "valueString": "/*\nNow that we have functions for determining the medication period for individual\nprescriptions, administrations, and dispenses, we can combine those using\nan overall cumulative medication duration calculation.\nThere are two broad approaches to calculating cumulative duration, one that _collapses_\noverlapping intervals so that calculations are not duplicated, and one that _rolls out_\noverlapping intervals so that the durations are laid end-to-end.\nFirst, we define a function that simply calculates CumulativeDuration of a set of\nintervals:\n*/\ndefine fluent function cumulativeDuration(Intervals List&lt;Interval&lt;Date&gt;&gt;):\n   if Intervals is not null then ( Sum((collapse Intervals per day)X\n        return all(difference in days between start of X and \n          end of X\n        )+ 1\n    )\n  ) \n    else null"
+        "valueString": "/*\nNow that we have functions for determining the medication period for individual\nprescriptions, administrations, and dispenses, we can combine those using\nan overall cumulative medication duration calculation.\nThere are two broad approaches to calculating cumulative duration, one that _collapses_\noverlapping intervals so that calculations are not duplicated, and one that _rolls out_\noverlapping intervals so that the durations are laid end-to-end.\nFirst, we define a function that simply calculates CumulativeDuration of a set of\nintervals:\n*/\ndefine fluent function cumulativeDuration(Intervals List<Interval<Date>>):\n   if Intervals is not null then ( Sum((collapse Intervals per day)X\n        return all(difference in days between start of X and \n          end of X\n        )+ 1\n    )\n  ) \n    else null"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -560,10 +560,10 @@
         "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "define fluent function medicationRequestPeriod(Request &quot;MedicationRequest&quot;):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval&lt;DateTime&gt;,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;) ]\n      else if startDate is not null and boundsPeriod.&quot;high&quot; is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -575,10 +575,10 @@
         "valueString": "diagnosisInPatientHistory"
       }, {
         "url": "statement",
-        "valueString": "define fluent function &quot;diagnosisInPatientHistory&quot;(Condition List&lt;&quot;Condition&quot;&gt;):\n  ( Condition ) Dx\n    where Dx.prevalenceInterval ( ) starts on or before day of end of &quot;Measurement Period&quot;"
+        "valueString": "define fluent function \"diagnosisInPatientHistory\"(Condition List<\"Condition\">):\n  ( Condition ) Dx\n    where Dx.prevalenceInterval ( ) starts on or before day of end of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -590,12 +590,13 @@
         "valueString": "procedureInPatientHistory"
       }, {
         "url": "statement",
-        "valueString": "define fluent function &quot;procedureInPatientHistory&quot;(Procedure List&lt;&quot;Procedure&quot;&gt;):\n  ( ( Procedure ).isProcedurePerformed ( ) ) Proc\n    where Proc.performed.toInterval ( ) ends on or before day of end of &quot;Measurement Period&quot;"
+        "valueString": "define fluent function \"procedureInPatientHistory\"(Procedure List<\"Procedure\">):\n  ( ( Procedure ).isProcedurePerformed ( ) ) Proc\n    where Proc.performed.toInterval ( ) ends on or before day of end of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "34"
+        "valueInteger": 34
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -745,7 +746,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1016"
     }, {
       "type": "depends-on",
-      "display": "Value set Marfan&#39;s Syndrome",
+      "display": "Value set Marfan's Syndrome",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1048"
     }, {
       "type": "depends-on",
@@ -849,12 +850,7 @@
     } ],
     "dataRequirement": [ {
       "type": "Patient",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "birthDate", "birthDate.value", "gender", "gender.value" ]
-    }, {
-      "type": "ServiceRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
-      "mustSupport": [ "authoredOn", "status", "status.value", "intent", "intent.value", "authoredOn.value" ]
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
     }, {
       "type": "ServiceRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
@@ -863,6 +859,10 @@
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1051"
       } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -879,10 +879,6 @@
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025"
       } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -930,6 +926,18 @@
           "code": "74013-4",
           "display": "Alcoholic drinks per day"
         } ]
+      } ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Observation",
@@ -938,6 +946,9 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1040"
+      } ],
+      "dateFilter": [ {
+        "path": "effective"
       } ]
     }, {
       "type": "Observation",
@@ -1170,6 +1181,9 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1050"
+      } ],
+      "dateFilter": [ {
+        "path": "performed"
       } ]
     }, {
       "type": "Procedure",
@@ -1244,6 +1258,18 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.485"
       } ]
     }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ],
@@ -1254,25 +1280,27 @@
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ],
       "codeFilter": [ {
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1266"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     } ]
   } ],
   "extension": [ {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/AppropriateDXAScansForWomenUnder65FHIR",
@@ -1338,7 +1366,7 @@
   "title": "Appropriate Use of DXA Scans in Women Under 65 Years Who Do Not Meet the Risk Factor Profile for Osteoporotic FractureFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T13:44:02+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1363,6 +1391,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/AppropriateDXAScansForWomenUnder65FHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND. \n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "This measure is expected to increase recording of patient risk for fracture data and decrease the amount of inappropriate DXA scans. Current osteoporosis guidelines recommend using bone measurement testing to assess osteoporosis risk in women 65 years and older. In postmenopausal women younger than age 65, guidelines recommend using a formal clinical risk assessment tool to establish a patient's risk for osteoporosis, in order to determine whether to screen a patient for osteoporosis using bone measurement testing. Clinical information, such as age, body mass index (BMI), parental hip fracture history, and alcohol use, can be used to determine a woman's fracture risk (U.S. Preventive Services Task Force [USPSTF], 2018). Additionally, there are potentially avoidable harms associated with screening for osteoporosis in general, including exposure to radiation, false positive exams, and resulting side effects from unnecessary osteoporosis medications, which add costs to an already burdened health care system (Lim, Hoeksema, & Sherin, 2009).",
   "clinicalRecommendationStatement": "USPSTF 2018:\n\"The USPSTF recommends screening for osteoporosis with bone measurement testing to prevent osteoporotic fractures in women 65 years and older.\" This is a B recommendation. \n\n\"The USPSTF concludes that the current evidence is insufficient to assess the balance of benefits and harms of screening for osteoporosis to prevent osteoporotic fractures in men.\" This is an I statement.\n\n\"The USPSTF recommends screening for osteoporosis with bone measurement testing to prevent osteoporotic fractures in postmenopausal women younger than 65 years who are at increased risk of osteoporosis, as determined by a formal clinical risk assessment tool.\" This is a B recommendation. \n\"For postmenopausal women younger than 65 years who have at least 1 risk factor, a reasonable approach to determine who should be screened with bone measurement testing is to use a clinical risk assessment tool.\" \n\n\"Several tools are available to assess osteoporosis risk: the Simple Calculated Osteoporosis Risk Estimate (SCORE; Merck), Osteoporosis Risk Assessment Instrument (ORAI), Osteoporosis Index of Risk (OSIRIS), and the Osteoporosis Self-Assessment Tool (OST). These tools seem to perform similarly and are moderately accurate at predicting osteoporosis. The Fracture Risk Assessment (FRAX) tool (University of Sheffield), which assesses a person's 10-year risk of fracture, is also a commonly used tool.\"\n\n\"Because the benefits of treatment are greater in persons at higher risk of fracture, one approach is to perform bone measurement testing in postmenopausal women younger than 65 years who have a 10-year FRAX risk of major osteoporotic fracture (MOF) (without DXA) greater than that of a 65-year-old white woman without major risk factors. For example, in the United States, a 65-year-old white woman of mean height and weight without major risk factors has a 10-year FRAX risk of MOF of 8.4%.\"",
   "group": [ {

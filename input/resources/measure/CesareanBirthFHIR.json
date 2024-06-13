@@ -73,10 +73,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -88,10 +88,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -103,10 +103,10 @@
         "valueString": "Inpatient Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounter&quot;:\n  [Encounter: &quot;Encounter Inpatient&quot;] EncounterInpatient\n\t\twhere EncounterInpatient.status = &#39;finished&#39;\n\t\tand EncounterInpatient.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Inpatient Encounter\":\n  [Encounter: \"Encounter Inpatient\"] EncounterInpatient\n\t\twhere EncounterInpatient.status = 'finished'\n\t\tand EncounterInpatient.period ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -118,10 +118,10 @@
         "valueString": "Encounter with Age Range"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Age Range&quot;:\n CQMCommon.&quot;Inpatient Encounter&quot; InpatientEncounter\n                      where AgeInYearsAt(date from start of InpatientEncounter.period) in Interval[ 8, 65 )"
+        "valueString": "define \"Encounter with Age Range\":\n CQMCommon.\"Inpatient Encounter\" InpatientEncounter\n                      where AgeInYearsAt(date from start of InpatientEncounter.period) in Interval[ 8, 65 )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -133,10 +133,10 @@
         "valueString": "Delivery Encounter with Age Range"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Age Range&quot;:\n  &quot;Encounter with Age Range&quot; EncounterWithAge\n                with [&quot;Procedure&quot;: &quot;Delivery Procedures&quot;] DeliveryProcedure\n                such that DeliveryProcedure.status = &#39;completed&#39;\n                and DeliveryProcedure.performed.toInterval  ( ) starts during EncounterWithAge.hospitalizationWithEDOBTriageObservation ()"
+        "valueString": "define \"Delivery Encounter with Age Range\":\n  \"Encounter with Age Range\" EncounterWithAge\n                with [\"Procedure\": \"Delivery Procedures\"] DeliveryProcedure\n                such that DeliveryProcedure.status = 'completed'\n                and DeliveryProcedure.performed.toInterval  ( ) starts during EncounterWithAge.hospitalizationWithEDOBTriageObservation ()"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -148,10 +148,10 @@
         "valueString": "Delivery Encounter with Calculated Gestational Age Greater than or Equal to 37 Weeks"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Calculated Gestational Age Greater than or Equal to 37 Weeks&quot;:\n  PCMaternal.&quot;Delivery Encounter with Age Range&quot; DeliveryEncounter\n    where DeliveryEncounter.calculatedGestationalAge ( ) &gt;= 37"
+        "valueString": "define \"Delivery Encounter with Calculated Gestational Age Greater than or Equal to 37 Weeks\":\n  PCMaternal.\"Delivery Encounter with Age Range\" DeliveryEncounter\n    where DeliveryEncounter.calculatedGestationalAge ( ) >= 37"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -163,10 +163,10 @@
         "valueString": "Delivery Encounter with Estimated Gestational Age Greater than or Equal to 37 Weeks"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Estimated Gestational Age Greater than or Equal to 37 Weeks&quot;:\n  PCMaternal.&quot;Delivery Encounter with Age Range&quot; DeliveryEncounter\n    where DeliveryEncounter.calculatedGestationalAge ( ) is null\n      and DeliveryEncounter.lastEstimatedGestationalAge ( ) &gt;= 37 weeks"
+        "valueString": "define \"Delivery Encounter with Estimated Gestational Age Greater than or Equal to 37 Weeks\":\n  PCMaternal.\"Delivery Encounter with Age Range\" DeliveryEncounter\n    where DeliveryEncounter.calculatedGestationalAge ( ) is null\n      and DeliveryEncounter.lastEstimatedGestationalAge ( ) >= 37 weeks"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -178,10 +178,10 @@
         "valueString": "Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks Based on Coding"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks Based on Coding&quot;:\n  PCMaternal.&quot;Delivery Encounter with Age Range&quot; DeliveryEncounter\n    let CGA: DeliveryEncounter.calculatedGestationalAge ( ),\n    EGA: DeliveryEncounter.lastEstimatedGestationalAge ( )\n    where CGA is null\n      and EGA is null\n      and exists ( ( DeliveryEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n          where EncounterDiagnosis.code in &quot;37 to 42 Plus Weeks Gestation&quot;\n      )"
+        "valueString": "define \"Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks Based on Coding\":\n  PCMaternal.\"Delivery Encounter with Age Range\" DeliveryEncounter\n    let CGA: DeliveryEncounter.calculatedGestationalAge ( ),\n    EGA: DeliveryEncounter.lastEstimatedGestationalAge ( )\n    where CGA is null\n      and EGA is null\n      and exists ( ( DeliveryEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n          where EncounterDiagnosis.code in \"37 to 42 Plus Weeks Gestation\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -193,10 +193,10 @@
         "valueString": "Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks&quot;:\n  &quot;Delivery Encounter with Calculated Gestational Age Greater than or Equal to 37 Weeks&quot;\n    union &quot;Delivery Encounter with Estimated Gestational Age Greater than or Equal to 37 Weeks&quot;\n    union &quot;Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks Based on Coding&quot;"
+        "valueString": "define \"Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks\":\n  \"Delivery Encounter with Calculated Gestational Age Greater than or Equal to 37 Weeks\"\n    union \"Delivery Encounter with Estimated Gestational Age Greater than or Equal to 37 Weeks\"\n    union \"Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks Based on Coding\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -208,10 +208,10 @@
         "valueString": "Encounter with Singleton Delivery"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Singleton Delivery&quot;:\n  PCMaternal.&quot;Delivery Encounter with Age Range&quot; DeliveryEncounter\n    where exists ( ( DeliveryEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n        where EncounterDiagnosis.code in &quot;Delivery of Singleton&quot;\n    )"
+        "valueString": "define \"Encounter with Singleton Delivery\":\n  PCMaternal.\"Delivery Encounter with Age Range\" DeliveryEncounter\n    where exists ( ( DeliveryEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n        where EncounterDiagnosis.code in \"Delivery of Singleton\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -223,10 +223,10 @@
         "valueString": "Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births&quot;:\n  ( &quot;Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks&quot;\n    intersect &quot;Encounter with Singleton Delivery&quot; ) SingletonEncounterGE37Weeks\n    where ( ( SingletonEncounterGE37Weeks.lastGravida ( ) = 1 )\n        or ( SingletonEncounterGE37Weeks.lastParity ( ) = 0 )\n        or ( ( SingletonEncounterGE37Weeks.lastHistoryPretermBirth ( ) = 0 )\n            and ( SingletonEncounterGE37Weeks.lastHistoryTermBirth ( ) = 0 )\n        )\n    )"
+        "valueString": "define \"Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births\":\n  ( \"Delivery Encounter with Gestational Age Greater than or Equal to 37 Weeks\"\n    intersect \"Encounter with Singleton Delivery\" ) SingletonEncounterGE37Weeks\n    where ( ( SingletonEncounterGE37Weeks.lastGravida ( ) = 1 )\n        or ( SingletonEncounterGE37Weeks.lastParity ( ) = 0 )\n        or ( ( SingletonEncounterGE37Weeks.lastHistoryPretermBirth ( ) = 0 )\n            and ( SingletonEncounterGE37Weeks.lastHistoryTermBirth ( ) = 0 )\n        )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -238,10 +238,10 @@
         "valueString": "Delivery Encounter with Cesarean Birth"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Cesarean Birth&quot;:\n  &quot;Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births&quot; ThirtysevenWeeksPlusEncounter\n    with [&quot;Procedure&quot;: &quot;Cesarean Birth&quot;] CSection\n      such that CSection.performed.toInterval ( ) during ThirtysevenWeeksPlusEncounter.hospitalizationWithEDOBTriageObservation ( )\n        and CSection.status = &#39;completed&#39;"
+        "valueString": "define \"Delivery Encounter with Cesarean Birth\":\n  \"Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births\" ThirtysevenWeeksPlusEncounter\n    with [\"Procedure\": \"Cesarean Birth\"] CSection\n      such that CSection.performed.toInterval ( ) during ThirtysevenWeeksPlusEncounter.hospitalizationWithEDOBTriageObservation ( )\n        and CSection.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -253,10 +253,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Delivery Encounter with Cesarean Birth&quot;"
+        "valueString": "define \"Numerator\":\n  \"Delivery Encounter with Cesarean Birth\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -268,10 +268,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births&quot;"
+        "valueString": "define \"Denominator\":\n  \"Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -283,10 +283,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -298,10 +298,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -313,10 +313,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  PCMaternal.&quot;Delivery Encounter with Age Range&quot;"
+        "valueString": "define \"Initial Population\":\n  PCMaternal.\"Delivery Encounter with Age Range\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -328,10 +328,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -343,10 +343,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -358,10 +358,10 @@
         "valueString": "Encounter with Abnormal Presentation"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Abnormal Presentation&quot;:\n  &quot;Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births&quot; ThirtysevenWeeksPlusEncounter\n    let LastAbnormalPresentation: Last([&quot;Observation&quot;: &quot;Abnormal Presentation&quot;] AbnormalPresentation\n        where AbnormalPresentation.effective.earliest() before or on ThirtysevenWeeksPlusEncounter.lastTimeOfDelivery()\n          and AbnormalPresentation.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        sort by effective.earliest()\n    )\n    where LastAbnormalPresentation.effective.earliest ( ) during ThirtysevenWeeksPlusEncounter.period\n      or exists ( ( ThirtysevenWeeksPlusEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n          where EncounterDiagnosis.code in &quot;Abnormal Presentation&quot;\n      )"
+        "valueString": "define \"Encounter with Abnormal Presentation\":\n  \"Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births\" ThirtysevenWeeksPlusEncounter\n    let LastAbnormalPresentation: Last([\"Observation\": \"Abnormal Presentation\"] AbnormalPresentation\n        where AbnormalPresentation.effective.earliest() before or on ThirtysevenWeeksPlusEncounter.lastTimeOfDelivery()\n          and AbnormalPresentation.status in { 'final', 'amended', 'corrected' }\n        sort by effective.earliest()\n    )\n    where LastAbnormalPresentation.effective.earliest ( ) during ThirtysevenWeeksPlusEncounter.period\n      or exists ( ( ThirtysevenWeeksPlusEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n          where EncounterDiagnosis.code in \"Abnormal Presentation\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -373,10 +373,10 @@
         "valueString": "Encounter with Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum&quot;:\n  &quot;Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births&quot; ThirtysevenWeeksPlusEncounter\n    where exists ( ( ThirtysevenWeeksPlusEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n        where EncounterDiagnosis.code in &quot;Placenta Accreta Spectrum Previa or Vasa Previa&quot;\n          or EncounterDiagnosis.code in &quot;Genital Herpes&quot;\n    )"
+        "valueString": "define \"Encounter with Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum\":\n  \"Singleton Delivery Encounters at 37 Plus Weeks Gravida 1 Parity 0, No Previous Births\" ThirtysevenWeeksPlusEncounter\n    where exists ( ( ThirtysevenWeeksPlusEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n        where EncounterDiagnosis.code in \"Placenta Accreta Spectrum Previa or Vasa Previa\"\n          or EncounterDiagnosis.code in \"Genital Herpes\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -388,10 +388,10 @@
         "valueString": "Delivery Encounter with Abnormal Presentation, Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Delivery Encounter with Abnormal Presentation, Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum&quot;:\n  &quot;Encounter with Abnormal Presentation&quot;\n    union &quot;Encounter with Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum&quot;"
+        "valueString": "define \"Delivery Encounter with Abnormal Presentation, Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum\":\n  \"Encounter with Abnormal Presentation\"\n    union \"Encounter with Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum\""
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -403,10 +403,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Delivery Encounter with Abnormal Presentation, Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Delivery Encounter with Abnormal Presentation, Genital Herpes, Placenta Previa, Vasa Previa or Placenta Accreta Spectrum\""
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -418,10 +418,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -433,10 +433,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -448,10 +448,10 @@
         "valueString": "Variable Calculated Gestational Age"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Variable Calculated Gestational Age&quot;:\n // This definition establishes a variable of CGA (Calculated Gestational Age).  CGA is a supplemental data element to store the calculated gestational age result from the &quot;CalculatedGestationalAge&quot; function.  The data element enables the capturing and saving of the CGA for data analysis post data receipt. Hospitals do not need to submit any additional data to comply with this definition\n  &quot;Delivery Encounter with Age Range&quot; DeliveryEncounter\n    let CGA: DeliveryEncounter.calculatedGestationalAge()\n  //  return { QualifyingEncounter, CGA }\n    return {\n      EncounterID: DeliveryEncounter.id,\n      CalculatedCGA: CGA\n    }"
+        "valueString": "define \"Variable Calculated Gestational Age\":\n // This definition establishes a variable of CGA (Calculated Gestational Age).  CGA is a supplemental data element to store the calculated gestational age result from the \"CalculatedGestationalAge\" function.  The data element enables the capturing and saving of the CGA for data analysis post data receipt. Hospitals do not need to submit any additional data to comply with this definition\n  \"Delivery Encounter with Age Range\" DeliveryEncounter\n    let CGA: DeliveryEncounter.calculatedGestationalAge()\n  //  return { QualifyingEncounter, CGA }\n    return {\n      EncounterID: DeliveryEncounter.id,\n      CalculatedCGA: CGA\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -463,10 +463,10 @@
         "valueString": "SDE Variable Calculated Gestational Age"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Variable Calculated Gestational Age&quot;:\n  PCMaternal.&quot;Variable Calculated Gestational Age&quot;"
+        "valueString": "define \"SDE Variable Calculated Gestational Age\":\n  PCMaternal.\"Variable Calculated Gestational Age\""
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -478,10 +478,10 @@
         "valueString": "hospitalizationWithEDOBTriageObservation"
       }, {
         "url": "statement",
-        "valueString": "/*define function &quot;HospitalizationWithEDOBTriageObservation&quot;(Encounter Encounter ):\n  HospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter\n  Encounter Visit\n    let ObsVisit: Last([&quot;Encounter&quot;: &quot;Observation Services&quot;] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = &#39;finished&#39;\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([&quot;Encounter&quot;: &quot;ED Visit and OB Triage&quot;] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = &#39;finished&#39;\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]*/\n    \n    \ndefine fluent function hospitalizationWithEDOBTriageObservation (TheEncounter Encounter ):\n  /*hospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter*/\n  TheEncounter Visit\n    let ObsVisit: Last([&quot;Encounter&quot;: &quot;Observation Services&quot;] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = &#39;finished&#39;\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([&quot;Encounter&quot;: &quot;ED Visit and OB Triage&quot;] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = &#39;finished&#39;\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]"
+        "valueString": "/*define function \"HospitalizationWithEDOBTriageObservation\"(Encounter Encounter ):\n  HospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter\n  Encounter Visit\n    let ObsVisit: Last([\"Encounter\": \"Observation Services\"] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = 'finished'\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([\"Encounter\": \"ED Visit and OB Triage\"] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = 'finished'\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]*/\n    \n    \ndefine fluent function hospitalizationWithEDOBTriageObservation (TheEncounter Encounter ):\n  /*hospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter*/\n  TheEncounter Visit\n    let ObsVisit: Last([\"Encounter\": \"Observation Services\"] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = 'finished'\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([\"Encounter\": \"ED Visit and OB Triage\"] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = 'finished'\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -496,7 +496,7 @@
         "valueString": "define fluent function calculatedGestationalAge (TheEncounter Encounter ):\n  //Gestational Age = (280-(Estimated Delivery Date minus Reference Date/Delivery Date))/7\n ( 280 - ( difference in days between TheEncounter.lastTimeOfDelivery () and TheEncounter.lastEstimatedDeliveryDate( )) ) div 7"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -508,10 +508,10 @@
         "valueString": "lastTimeOfDelivery"
       }, {
         "url": "statement",
-        "valueString": "define fluent function lastTimeOfDelivery (TheEncounter Encounter ):\n  Last([&quot;Observation&quot;: &quot;Date and time of obstetric delivery&quot;] TimeOfDelivery\n      where TimeOfDelivery.value as DateTime is not null\n        and TimeOfDelivery.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and TimeOfDelivery.effective.earliest () during TheEncounter.hospitalizationWithEDOBTriageObservation ()\n        and TimeOfDelivery.value as DateTime during TheEncounter.hospitalizationWithEDOBTriageObservation()\n      sort by effective.earliest()\n  ).value as DateTime"
+        "valueString": "define fluent function lastTimeOfDelivery (TheEncounter Encounter ):\n  Last([\"Observation\": \"Date and time of obstetric delivery\"] TimeOfDelivery\n      where TimeOfDelivery.value as DateTime is not null\n        and TimeOfDelivery.status in { 'final', 'amended', 'corrected' }\n        and TimeOfDelivery.effective.earliest () during TheEncounter.hospitalizationWithEDOBTriageObservation ()\n        and TimeOfDelivery.value as DateTime during TheEncounter.hospitalizationWithEDOBTriageObservation()\n      sort by effective.earliest()\n  ).value as DateTime"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -523,10 +523,10 @@
         "valueString": "earliest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (period.&quot;hasStart&quot;()) then start of period\n      else end of period"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -538,10 +538,10 @@
         "valueString": "lastEstimatedDeliveryDate"
       }, {
         "url": "statement",
-        "valueString": "/*===============================================================*/\n  /*  03/14/2022 from MATGlobalCommonFunctionsv7.000 - latest QDM  */\n  /*     even though this PCMaternalFHIR was derived from          */\n  /*     PCMaternal=2.1.000 cql, to make next update easier.       */\n  /*     Will need to re-insert &quot;Global&quot;. in front of these        */\n  /*     function names later (whereever they are directly used.*/\n\ndefine fluent function lastEstimatedDeliveryDate (TheEncounter Encounter ):\n  /*This function identifies the last time the EDD was assessed 42 weeks or less prior to or on delivery and stores the result of that assessment.*/\n  Last([&quot;Observation&quot;: &quot;Delivery date Estimated&quot;] EstimatedDateOfDelivery\n      where EstimatedDateOfDelivery.value as DateTime is not null\n        and EstimatedDateOfDelivery.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and EstimatedDateOfDelivery.effective.earliest ( ) 42 weeks or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ( )\n  ).value as DateTime"
+        "valueString": "/*===============================================================*/\n  /*  03/14/2022 from MATGlobalCommonFunctionsv7.000 - latest QDM  */\n  /*     even though this PCMaternalFHIR was derived from          */\n  /*     PCMaternal=2.1.000 cql, to make next update easier.       */\n  /*     Will need to re-insert \"Global\". in front of these        */\n  /*     function names later (whereever they are directly used.*/\n\ndefine fluent function lastEstimatedDeliveryDate (TheEncounter Encounter ):\n  /*This function identifies the last time the EDD was assessed 42 weeks or less prior to or on delivery and stores the result of that assessment.*/\n  Last([\"Observation\": \"Delivery date Estimated\"] EstimatedDateOfDelivery\n      where EstimatedDateOfDelivery.value as DateTime is not null\n        and EstimatedDateOfDelivery.status in { 'final', 'amended', 'corrected' }\n        and EstimatedDateOfDelivery.effective.earliest ( ) 42 weeks or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ( )\n  ).value as DateTime"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -553,10 +553,10 @@
         "valueString": "lastEstimatedGestationalAge"
       }, {
         "url": "statement",
-        "valueString": "/*define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([&quot;Observation&quot;: &quot;Estimated Gestational Age at Delivery&quot;] EstimatedGestationalAge\n      where EstimatedGestationalAge.value is not null\n        and EstimatedGestationalAge.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and EstimatedGestationalAge.effective.earliest() 24 hours or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ()\n  ).value as Quantity*/\n  \n  define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([&quot;Observation&quot;: &quot;Estimated Gestational Age at Delivery&quot;] EstimatedGestationalAge\n  let EGATiming:  EstimatedGestationalAge.effective.earliest() where \n  (EGATiming 24 hours or less before or on TheEncounter.lastTimeOfDelivery () \n  and EstimatedGestationalAge.value is not null \n  and EstimatedGestationalAge.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }) or \n      (EGATiming same day as TheEncounter.lastTimeOfDelivery () \n      and EGATiming during TheEncounter.hospitalizationWithEDOBTriageObservation() \n      and EstimatedGestationalAge.value is not null)\n sort by effective.earliest ())\n         .value as Quantity"
+        "valueString": "/*define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([\"Observation\": \"Estimated Gestational Age at Delivery\"] EstimatedGestationalAge\n      where EstimatedGestationalAge.value is not null\n        and EstimatedGestationalAge.status in { 'final', 'amended', 'corrected' }\n        and EstimatedGestationalAge.effective.earliest() 24 hours or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ()\n  ).value as Quantity*/\n  \n  define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([\"Observation\": \"Estimated Gestational Age at Delivery\"] EstimatedGestationalAge\n  let EGATiming:  EstimatedGestationalAge.effective.earliest() where \n  (EGATiming 24 hours or less before or on TheEncounter.lastTimeOfDelivery () \n  and EstimatedGestationalAge.value is not null \n  and EstimatedGestationalAge.status in { 'final', 'amended', 'corrected' }) or \n      (EGATiming same day as TheEncounter.lastTimeOfDelivery () \n      and EGATiming during TheEncounter.hospitalizationWithEDOBTriageObservation() \n      and EstimatedGestationalAge.value is not null)\n sort by effective.earliest ())\n         .value as Quantity"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -571,7 +571,7 @@
         "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -583,10 +583,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "34"
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -598,10 +598,10 @@
         "valueString": "lastGravida"
       }, {
         "url": "statement",
-        "valueString": "//       and EncounterDiagnoses.verificationStatus  ~ FHIRCommon.&quot;confirmed&quot;\n\n\ndefine fluent function lastGravida(TheEncounter Encounter):\n  Last([&quot;Observation&quot;: &quot;[#] Pregnancies&quot;] Gravida\n      where Gravida.value is not null\n        and Gravida.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and Gravida.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n      sort by effective.earliest()\n  ).value as Integer"
+        "valueString": "//       and EncounterDiagnoses.verificationStatus  ~ FHIRCommon.\"confirmed\"\n\n\ndefine fluent function lastGravida(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Pregnancies\"] Gravida\n      where Gravida.value is not null\n        and Gravida.status in { 'final', 'amended', 'corrected' }\n        and Gravida.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueString": "35"
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -613,10 +613,10 @@
         "valueString": "lastParity"
       }, {
         "url": "statement",
-        "valueString": "define fluent function lastParity(TheEncounter Encounter):\n  Last([&quot;Observation&quot;: &quot;[#] Parity&quot;] Parity\n      where Parity.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and Parity.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and Parity.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
+        "valueString": "define fluent function lastParity(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Parity\"] Parity\n      where Parity.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and Parity.status in { 'final', 'amended', 'corrected' }\n        and Parity.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueString": "36"
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -628,10 +628,10 @@
         "valueString": "lastHistoryPretermBirth"
       }, {
         "url": "statement",
-        "valueString": "define fluent function lastHistoryPretermBirth(TheEncounter Encounter):\n  Last([&quot;Observation&quot;: &quot;[#] Births.preterm&quot;] PretermBirth\n      where PretermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and PretermBirth.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and PretermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
+        "valueString": "define fluent function lastHistoryPretermBirth(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Births.preterm\"] PretermBirth\n      where PretermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and PretermBirth.status in { 'final', 'amended', 'corrected' }\n        and PretermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueString": "37"
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -643,10 +643,10 @@
         "valueString": "lastHistoryTermBirth"
       }, {
         "url": "statement",
-        "valueString": "define fluent function lastHistoryTermBirth(TheEncounter Encounter):\n  Last([&quot;Observation&quot;: &quot;[#] Births.term&quot;] TermBirth\n      where TermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and TermBirth.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and TermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
+        "valueString": "define fluent function lastHistoryTermBirth(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Births.term\"] TermBirth\n      where TermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and TermBirth.status in { 'final', 'amended', 'corrected' }\n        and TermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueString": "38"
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -661,7 +661,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "39"
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -676,9 +676,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "40"
+        "valueInteger": 40
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -770,6 +771,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -782,25 +789,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -810,6 +805,12 @@
       "use": "out",
       "min": 0,
       "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
       "type": "Resource"
     }, {
       "name": "SDE Race",
@@ -827,7 +828,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -835,6 +836,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -843,6 +849,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1029.369"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -851,6 +871,23 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Procedure",
@@ -859,6 +896,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.59"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -867,6 +909,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.282"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Observation",
@@ -951,10 +998,6 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
-      "mustSupport": [ "value" ]
-    }, {
-      "type": "Observation",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value" ],
       "codeFilter": [ {
         "path": "code",
@@ -992,9 +1035,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/CesareanBirthFHIR",
@@ -1060,7 +1109,7 @@
   "title": "Cesarean BirthFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T17:08:15+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "The Joint Commission",
   "contact": [ {
     "telecom": [ {
@@ -1085,6 +1134,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/CesareanBirthFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care and have not been tested for all potential applications. The measures and specifications are provided without warranty.",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "The removal of any pressure to not perform a cesarean birth has led to a skyrocketing of hospital, state and national cesarean birth (CB) rates. Some hospitals’ CB rates were over 50%. Hospitals with CB rates at 15-20% have infant outcomes that are just as good and better maternal outcomes (Symum & Zayas-Castro, 2023). There is no data that higher rates improve any outcomes, yet the CB rates continue to rise (Bailit, Garrett, Miller, McMahon, & Cefalo, 2002; Main, Bloomfield, & Hunt, 2004). This measure seeks to focus attention on the most variable portion of the CB epidemic, the term labor CB in nulliparous women. This population segment accounts for the large majority of the variable portion of the CB rate and is the area most affected by subjectivity.\n\nAs compared to other CB measures, what is different about Nulliparous, Term, Singleton, Vertex (NTSV) CB rate is that there are clear cut quality improvement activities that can be done to address the differences. Main et al. (2012) found that over 60% of the variation among hospitals can be attributed to first birth labor induction rates and first birth early labor admission rates (Main et al., 2006). The results showed if labor was forced when the cervix was not ready the outcomes were poorer. Rosenstein et al. (2021) also showed that labor and delivery guidelines can make a difference in labor outcomes. Many authors have shown that physician factors, rather than patient characteristics or obstetric diagnoses are the major drivers for the difference in rates within a hospital (Berkowitz, Fiarman, Mojica, Bauman, & de Regt, 1989; Goyert, Bottoms, Treadwell, & Nehra, 1989; Luthy, Malmgren, Zingheim, & Leininger, 2003; Symum & Zayas-Castro, 2023; Main et al., 2006). The dramatic variation in cesarean rates seen in all populations studied is striking. Cesarean rates varied tenfold in US hospitals nationwide across hospitals (Agency for Healthcare Research and Quality [AHRQ], 2002), from 7.1% to 69.9%, and there was a 15-fold variation among low-risk women, from 2.4% to 36.5% (Kozhimannil, Law, & Virnig, 2013).\n\nA reduction in the number of NTSV patients delivering by cesarean birth will result in increased patient safety, a substantial decrease in maternal and neonatal morbidity and substantial savings in health care costs (Main et al., 2019). Successful quality improvement efforts incorporate audit and feedback strategies combined with provider and nurse education, guidelines and peer review.\n\nThe measure will assist health care organizations to track NTSV patients delivering by cesarean birth to reduce the occurrence. Nulliparous women have 4-6 times the cesarean birth rate than multiparous women thus the NTSV population is the largest driver of primary cesarean birth rate (Sakala, Belanoff, Declercq, 2020). NTSV has a large variation among facilities, thus identifying an important population on which to focus quality improvement efforts.\n\nIn accordance with the American College of Obstetricians and Gynecologists (ACOG) recommendations (2020), cesarean delivery is indicated for patients with active genital lesions of genital herpes or prodromal symptoms (i.e., vulvar pain or burning at delivery) that may indicate viral shedding. Therefore, the measure will exclude encounters with a diagnosis of active genital herpes.\n\nIn addition, the accepted approach to treat placenta accreta spectrum, or the range of pathologic adherence of the placenta that includes placenta increta, placenta percreta, and placenta accreta, as well as placenta previa, is cesarean delivery (ACOG & Society for Maternal-Fetal Medicine (SMFM), 2018). Vasa previa is an indication for cesarean delivery (SMFM Publications Committee, Sinkey, Odibo, & Dashe, 2015). Accordingly, placenta previa, vasa previa, and placenta accreta spectrum are all qualifying conditions to also be excluded from the measure. \n\nUltimately, a reduction in primary cesarean births will reduce the number of women having repeat cesarean births (almost 90% of mothers who have a primary cesarean birth will have subsequent cesarean birth (CDC, 2020)). Thus, improvement in the rates of cesarean delivery for the first birth will reduce the morbidity of all future births and avoid all the controversies with trial of labor after cesarean/elective repeat cesarean deliveries.",
   "clinicalRecommendationStatement": "The American College of Obstetrics and Gynecology (ACOG) report, Evaluation of Cesarean Delivery, recognizes the importance of the Nulliparous, Term Singleton Vertex (NTSV) population as the optimal focus for measurement and quality improvement action. A reduction in the number of nulliparous patients with live term singleton newborns in vertex position delivering by cesarean birth will result in increased patient safety, a substantial decrease in maternal and neonatal morbidity and substantial savings in health care costs.",
   "group": [ {

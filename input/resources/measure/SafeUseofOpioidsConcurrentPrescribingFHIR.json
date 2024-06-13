@@ -59,10 +59,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -74,10 +74,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -89,10 +89,10 @@
         "valueString": "Inpatient Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounter&quot;:   [Encounter: &quot;Encounter Inpatient&quot;] EncounterInpatient   where EncounterInpatient.status = &#39;finished&#39;   and EncounterInpatient.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Inpatient Encounter\":\n  [Encounter: \"Encounter Inpatient\"] EncounterInpatient\n\t\twhere EncounterInpatient.status = 'finished'\n\t\tand EncounterInpatient.period ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -104,10 +104,10 @@
         "valueString": "Inpatient Encounter with Age Greater than or Equal to 18"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounter with Age Greater than or Equal to 18&quot;:   CQMCommon.&quot;Inpatient Encounter&quot; InpatientHospitalEncounter     where AgeInYearsAt(date from start of InpatientHospitalEncounter.period) &gt;= 18"
+        "valueString": "define \"Inpatient Encounter with Age Greater than or Equal to 18\":\n  CQMCommon.\"Inpatient Encounter\" InpatientHospitalEncounter\n    where AgeInYearsAt(date from start of InpatientHospitalEncounter.period) >= 18"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -119,10 +119,10 @@
         "valueString": "Opioid at Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Opioid at Discharge&quot;:   ( [MedicationRequest: &quot;Schedule II, III and IV Opioid Medications&quot;] OpioidMedications     where ( OpioidMedications.isCommunity ( )         or OpioidMedications.isDischarge ( )     ) ) OpioidDischargeMedication     where OpioidDischargeMedication.status in { &#39;active&#39;, &#39;completed&#39; }       and OpioidDischargeMedication.intent = &#39;order&#39;"
+        "valueString": "define \"Opioid at Discharge\":\n  ( [MedicationRequest: \"Schedule II, III and IV Opioid Medications\"] OpioidMedications\n    where ( OpioidMedications.isCommunity ( )\n        or OpioidMedications.isDischarge ( )\n    ) ) OpioidDischargeMedication\n    where OpioidDischargeMedication.status in { 'active', 'completed' }\n      and OpioidDischargeMedication.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -134,10 +134,10 @@
         "valueString": "Benzodiazepine at Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Benzodiazepine at Discharge&quot;:   ( [MedicationRequest: medication in &quot;Schedule IV Benzodiazepines&quot;] BenzoMedications     where ( BenzoMedications.isCommunity ( )         or BenzoMedications.isDischarge ( )     ) ) BenzodiazepineDischargeMedication     where BenzodiazepineDischargeMedication.status in { &#39;active&#39;, &#39;completed&#39; }       and BenzodiazepineDischargeMedication.intent = &#39;order&#39;"
+        "valueString": "define \"Benzodiazepine at Discharge\":\n  ( [MedicationRequest: medication in \"Schedule IV Benzodiazepines\"] BenzoMedications\n    where ( BenzoMedications.isCommunity ( )\n        or BenzoMedications.isDischarge ( )\n    ) ) BenzodiazepineDischargeMedication\n    where BenzodiazepineDischargeMedication.status in { 'active', 'completed' }\n      and BenzodiazepineDischargeMedication.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -149,10 +149,10 @@
         "valueString": "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Inpatient Encounters with an Opioid or Benzodiazepine at Discharge&quot;:   &quot;Inpatient Encounter with Age Greater than or Equal to 18&quot; InpatientEncounter     with ( &quot;Opioid at Discharge&quot;       union &quot;Benzodiazepine at Discharge&quot; ) OpioidOrBenzodiazepineAtDischarge       such that OpioidOrBenzodiazepineAtDischarge.authoredOn during day of InpatientEncounter.period"
+        "valueString": "define \"Inpatient Encounters with an Opioid or Benzodiazepine at Discharge\":\n  \"Inpatient Encounter with Age Greater than or Equal to 18\" InpatientEncounter\n    with ( \"Opioid at Discharge\"\n      union \"Benzodiazepine at Discharge\" ) OpioidOrBenzodiazepineAtDischarge\n      such that OpioidOrBenzodiazepineAtDischarge.authoredOn during day of InpatientEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -164,10 +164,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   /*Encounters of patients prescribed two or more opioids or an opioid and benzodiazepine at discharge.*/      ( ( &quot;Inpatient Encounters with an Opioid or Benzodiazepine at Discharge&quot; InpatientEncounter         where ( Count(&quot;Opioid at Discharge&quot; OpioidMedications               where OpioidMedications.authoredOn during day of InpatientEncounter.period               return distinct OpioidMedications.medication           ) &gt;= 2         )           or exists ( &quot;Opioid at Discharge&quot; OpioidDischargeMedications               where OpioidDischargeMedications.authoredOn during day of InpatientEncounter.period                 and exists &quot;Benzodiazepine at Discharge&quot; BenzodiazepineDischargeMedication                   where BenzodiazepineDischargeMedication.authoredOn during day of InpatientEncounter.period           )     )   )"
+        "valueString": "define \"Numerator\":\n  /*Encounters of patients prescribed two or more opioids or an opioid and benzodiazepine at discharge.*/\n  \n  ( ( \"Inpatient Encounters with an Opioid or Benzodiazepine at Discharge\" InpatientEncounter\n        where ( Count(\"Opioid at Discharge\" OpioidMedications\n              where OpioidMedications.authoredOn during day of InpatientEncounter.period\n              return distinct OpioidMedications.medication\n          ) >= 2\n        )\n          or exists ( \"Opioid at Discharge\" OpioidDischargeMedications\n              where OpioidDischargeMedications.authoredOn during day of InpatientEncounter.period\n                and exists \"Benzodiazepine at Discharge\" BenzodiazepineDischargeMedication\n                  where BenzodiazepineDischargeMedication.authoredOn during day of InpatientEncounter.period\n          )\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -179,10 +179,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   &quot;Inpatient Encounters with an Opioid or Benzodiazepine at Discharge&quot;"
+        "valueString": "define \"Initial Population\":\n  \"Inpatient Encounters with an Opioid or Benzodiazepine at Discharge\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -194,10 +194,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -209,10 +209,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -224,10 +224,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -239,10 +239,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -254,10 +254,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -269,10 +269,10 @@
         "valueString": "Treatment for Opioid Use Disorders"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Treatment for Opioid Use Disorders&quot;:   [MedicationRequest: &quot;Medications for Opioid Use Disorder (MOUD)&quot;] MedicationTreatment     with [Procedure: &quot;Opioid Medication Assisted Treatment (MAT)&quot;] MAT       such that MedicationTreatment.authoredOn during day of MAT.performed.toInterval ( )         and MedicationTreatment.authoredOn during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Treatment for Opioid Use Disorders\":\n  [MedicationRequest: \"Medications for Opioid Use Disorder (MOUD)\"] MedicationTreatment\n    with [Procedure: \"Opioid Medication Assisted Treatment (MAT)\"] MAT\n      such that MedicationTreatment.authoredOn during day of MAT.performed.toInterval ( )\n        and MedicationTreatment.authoredOn during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -284,10 +284,10 @@
         "valueString": "Intervention Palliative or Hospice Care"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intervention Palliative or Hospice Care&quot;:   [ServiceRequest: &quot;Palliative or Hospice Care&quot;]     union [Procedure: &quot;Palliative or Hospice Care&quot;]"
+        "valueString": "define \"Intervention Palliative or Hospice Care\":\n  [ServiceRequest: \"Palliative or Hospice Care\"]\n    union [Procedure: \"Palliative or Hospice Care\"]"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -299,10 +299,10 @@
         "valueString": "Denominator Exclusion"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusion&quot;:   /*Excludes encounters of patients with cancer or who are receiving palliative or hospice care at the time of the encounter or who are discharged to another inpatient care facility or expire during the inpatient stay*/      ( &quot;Inpatient Encounters with an Opioid or Benzodiazepine at Discharge&quot; InpatientEncounter       where exists ( [Condition: &quot;Cancer Related Pain&quot;] CancerPain           where ( CancerPain.isProblemListItem ( )               or CancerPain.isHealthConcern ( )           )             and CancerPain.prevalenceInterval ( ) overlaps day of InpatientEncounter.period       )         or exists ( ( InpatientEncounter.encounterDiagnosis ( ) ) InpatientEncounterDiagnosis             where InpatientEncounterDiagnosis.code in &quot;Cancer Related Pain&quot;         )         or exists ( [Condition: &quot;Sickle Cell Disease with and without Crisis&quot;] SickleCellDisease             where SickleCellDisease.prevalenceInterval ( ) overlaps day of InpatientEncounter.period         )         or exists ( [Condition: &quot;Opioid Use Disorder&quot;] OUD             where start of OUD.prevalenceInterval ( ) before day of end of InpatientEncounter.period         )         or exists ( &quot;Treatment for Opioid Use Disorders&quot; OUDTreatment             where OUDTreatment.authoredOn during day of InpatientEncounter.period         )         or exists ( &quot;Intervention Palliative or Hospice Care&quot; PalliativeOrHospiceCare             where Coalesce(start of PalliativeOrHospiceCare.performed.toInterval(), PalliativeOrHospiceCare.authoredOn) during day of InpatientEncounter.&quot;hospitalizationWithObservation&quot; ( )         )         or ( InpatientEncounter.hospitalization.dischargeDisposition in &quot;Discharge To Acute Care Facility&quot;             or InpatientEncounter.hospitalization.dischargeDisposition in &quot;Hospice Care Referral or Admission&quot;             or InpatientEncounter.hospitalization.dischargeDisposition in &quot;Patient Expired&quot;             or InpatientEncounter.hospitalization.dischargeDisposition in &quot;Left Against Medical Advice&quot;         )   )"
+        "valueString": "define \"Denominator Exclusion\":\n  /*Excludes encounters of patients with cancer or who are receiving palliative or hospice care at the time of the encounter or who are discharged to another inpatient care facility or expire during the inpatient stay*/\n  \n  ( \"Inpatient Encounters with an Opioid or Benzodiazepine at Discharge\" InpatientEncounter\n      where exists ( [Condition: \"Cancer Related Pain\"] CancerPain\n          where ( CancerPain.isProblemListItem ( )\n              or CancerPain.isHealthConcern ( )\n          )\n            and CancerPain.prevalenceInterval ( ) overlaps day of InpatientEncounter.period\n      )\n        or exists ( ( InpatientEncounter.encounterDiagnosis ( ) ) InpatientEncounterDiagnosis\n            where InpatientEncounterDiagnosis.code in \"Cancer Related Pain\"\n        )\n        or exists ( [Condition: \"Sickle Cell Disease with and without Crisis\"] SickleCellDisease\n            where SickleCellDisease.prevalenceInterval ( ) overlaps day of InpatientEncounter.period\n        )\n        or exists ( [Condition: \"Opioid Use Disorder\"] OUD\n            where start of OUD.prevalenceInterval ( ) before day of end of InpatientEncounter.period\n        )\n        or exists ( \"Treatment for Opioid Use Disorders\" OUDTreatment\n            where OUDTreatment.authoredOn during day of InpatientEncounter.period\n        )\n        or exists ( \"Intervention Palliative or Hospice Care\" PalliativeOrHospiceCare\n            where Coalesce(start of PalliativeOrHospiceCare.performed.toInterval(), PalliativeOrHospiceCare.authoredOn) during day of InpatientEncounter.\"hospitalizationWithObservation\" ( )\n        )\n        or ( InpatientEncounter.hospitalization.dischargeDisposition in \"Discharge To Acute Care Facility\"\n            or InpatientEncounter.hospitalization.dischargeDisposition in \"Hospice Care Referral or Admission\"\n            or InpatientEncounter.hospitalization.dischargeDisposition in \"Patient Expired\"\n            or InpatientEncounter.hospitalization.dischargeDisposition in \"Left Against Medical Advice\"\n        )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -314,10 +314,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -329,10 +329,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -344,10 +344,10 @@
         "valueString": "isCommunity"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given MedicationRequest has a category of Community */ define fluent function isCommunity(medicationRequest MedicationRequest):   exists (medicationRequest.category C     where C ~ Community   )"
+        "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Community\n*/\ndefine fluent function isCommunity(medicationRequest MedicationRequest):\n  exists (medicationRequest.category C\n    where C ~ Community\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -359,10 +359,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -374,10 +374,10 @@
         "valueString": "isDischarge"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given MedicationRequest has a category of Discharge */ define fluent function isDischarge(medicationRequest MedicationRequest):   exists (medicationRequest.category C     where C ~ Discharge   )"
+        "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Discharge\n*/\ndefine fluent function isDischarge(medicationRequest MedicationRequest):\n  exists (medicationRequest.category C\n    where C ~ Discharge\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -392,7 +392,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -404,10 +404,10 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -419,10 +419,10 @@
         "valueString": "isProblemListItem"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given condition is a problem list item. */ define fluent function isProblemListItem(condition Condition):   exists (condition.category C     where C ~ &quot;problem-list-item&quot;   )"
+        "valueString": "/*\n@description: Returns true if the given condition is a problem list item.\n*/\ndefine fluent function isProblemListItem(condition Condition):\n  exists (condition.category C\n    where C ~ \"problem-list-item\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -434,10 +434,10 @@
         "valueString": "isHealthConcern"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given condition is a health concern */ define fluent function isHealthConcern(condition Condition):   exists (condition.category C     where C ~ &quot;health-concern&quot;   )"
+        "valueString": "/*\n@description: Returns true if the given condition is a health concern\n*/\ndefine fluent function isHealthConcern(condition Condition):\n  exists (condition.category C\n    where C ~ \"health-concern\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -449,10 +449,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -464,10 +464,10 @@
         "valueString": "encounterDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the Condition resources referenced by the diagnosis element of the Encounter */ define fluent function encounterDiagnosis(Encounter Encounter ):   Encounter.diagnosis D     return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
+        "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -479,10 +479,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the tail of the given uri (i.e. everything after the last slash in the URI). @comment: This function can be used to determine the logical id of a given resource. It can be used in a single-server environment to trace references. However, this function does not attempt to resolve or distinguish the base of the given url, and so cannot be used safely in multi-server environments. */ define fluent function getId(uri String):   Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -494,12 +494,13 @@
         "valueString": "hospitalizationWithObservation"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter */ define fluent function hospitalizationWithObservation(TheEncounter Encounter ):   TheEncounter Visit     let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs       where LastObs.status = &#39;finished&#39;             and LastObs.period ends 1 hour or less on or before start of Visit.period       sort by end of period      ),      VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),      EDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED       where LastED.status = &#39;finished&#39;             and LastED.period ends 1 hour or less on or before VisitStart       sort by end of period      )     return Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -611,6 +612,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -623,25 +630,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusion",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -653,6 +648,12 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusion",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
@@ -662,7 +663,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -670,6 +671,23 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -678,6 +696,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -686,7 +709,29 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -709,16 +754,25 @@
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "medication",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.269"
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1125.1"
+      }, {
+        "path": "intent.value",
+        "code": [ {
+          "code": "order"
+        } ]
       } ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "medication" ]
     }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "medication",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.269"
+      } ]
     }, {
       "type": "Coverage",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
@@ -799,9 +853,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/SafeUseofOpioidsConcurrentPrescribingFHIR",
@@ -867,7 +927,7 @@
   "title": "Safe Use of Opioids Concurrent PrescribingFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T19:35:27+00:00",
+  "date": "2024-06-13T20:12:39+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -892,6 +952,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/SafeUseofOpioidsConcurrentPrescribingFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines, do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Unintentional opioid overdose fatalities have become a major public health concern in the United States (Rudd et al., 2016). Reducing the number of unintentional overdoses has become a priority for numerous federal organizations including, but not limited to, the Centers for Disease Control and Prevention (CDC), the Federal Interagency Workgroup for Opioid Adverse Drug Events, and the Substance Abuse and Mental Health Services Administration.   Concurrent prescriptions of opioids or opioids and benzodiazepines places patients at a greater risk of unintentional overdose due to the increased risk of respiratory depression (Dowell, Haegerich, & Chou, 2016; Dowell, Ragan, Jones, Baldwin, & Chou, 2022).  An analysis of national prescribing patterns shows that more than half of patients who received an opioid prescription in 2009 had filled another opioid prescription within the previous 30 days (National Institute on Drug Abuse, 2011). Studies of multiple claims and prescription databases have shown that between 5%-15% of patients receive concurrent opioid prescriptions and 5%-20% of patients receive concurrent opioid and benzodiazepine prescriptions across various settings (Liu et al., 2013; Mack et al., 2015, Park et al., 2015). Patients who have multiple opioid prescriptions have an increased risk for overdose (Jena et al., 2014). Rates of fatal overdose are ten times higher in patients who are co-dispensed opioid analgesics and benzodiazepines than opioids alone (Dasgupta et al., 2015). The number of opioid overdose deaths involving benzodiazepines increased 14% on average each year from 2006 to 2011, while the number of opioid analgesic overdose deaths not involving benzodiazepines did not change significantly (Jones & McAninch, 2015). Furthermore, concurrent use of benzodiazepines with opioids was prevalent in 31%-51% of fatal overdoses (Dowell, Haegerich, & Chou, 2016). One study found that eliminating concurrent use of opioids and benzodiazepines could reduce the risk of opioid overdose-related emergency department (ED) and inpatient visits by 15% and potentially could have prevented an estimated 2,630 deaths related to opioid painkiller overdoses in 2015 (Sun et al., 2017).   A study on The Opioid Safety Initiative in the Veterans Health Administration (VHA), which includes an opioid and benzodiazepine concurrent prescribing measure that this measure is based on, was associated with a decrease of 20.67% overall and 0.86% patients per month (781 patients per month) receiving concurrent benzodiazepine with an opioid among all adult VHA patients who filled outpatient opioid prescriptions from October 2012 to September 2014 (Lin et al., 2017).  Adopting a measure that calculates the proportion of patients with two or more opioids or opioids and benzodiazepines concurrently has the potential to reduce preventable mortality and reduce the costs associated with adverse events related to opioid use by (1) encouraging providers to identify patients with concurrent prescriptions of opioids or opioids and benzodiazepines and (2) discouraging providers from prescribing two or more opioids or opioids and benzodiazepines concurrently.",
   "clinicalRecommendationStatement": "The CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022 recommends that clinicians should: - “[Use strategies minimizing] opioid use…for both opioid-naïve and opioid-tolerant patients with acute pain when possible. If patients receiving long-term opioid therapy require additional medication for acute pain, nonopioid medications should be used when possible.” - ”Use particular caution when prescribing opioid pain medication and benzodiazepines concurrently.\" - “Review increased risks for respiratory depression when opioids are taken with benzodiazepines, other sedatives, alcohol, nonprescribed or illicit drugs (e.g., heroin), or other opioids (see Recommendations 8 and 11)” - “Closely monitor patients who are unable to taper and who continue on high-dose or otherwise high-risk opioid regimens (e.g., opioids prescribed concurrently with benzodiazepines) and should work with patients to mitigate overdose risk (e.g., by providing overdose education and naloxone) (see Recommendation 8).” - \"Discuss information from the PDMP with the patient and confirm that the patient is aware of any additional prescriptions.” - “Discuss safety concerns, including increased risk for respiratory depression and overdose, with patients found to be receiving overlapping prescription opioids from multiple clinicians who are not coordinating the patient’s care or patients who are receiving medications that increase risk when combined with opioids (e.g., benzodiazepines) (see Recommendation 11), and offer naloxone (see Recommendation 8).\" - \"Discuss safety concerns with other clinicians who are prescribing controlled substances for the patient. Ideally, clinicians should first discuss concerns with the patient and inform them that they plan to coordinate care with their other clinicians to improve the patient’s safety.”  In addition to the 2022 CDC Clinical Practice Guideline for Prescribing Opioids for Pain, opioid prescribing guidelines issued by various state agencies and professional societies for various settings agree with the recommendation to avoid concurrently prescribing opioids  (American Academy of Emergency Medicine (AAEM), 2013; and Washington Agency Medical Directors’ Group (WAMDG), 2015), and opioids and benzodiazepines (WAMDG, 2015; American Society of Interventional Pain Physicians (ASIPP), 2012.",
   "group": [ {

@@ -227,16 +227,16 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
+        "system": "http://snomed.info/sct",
+        "code": "373066001",
+        "display": "Yes (qualifier value)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "373066001",
-        "display": "Yes (qualifier value)"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -255,10 +255,10 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( ( [Encounter: &quot;Office Visit&quot;]\n      union [Encounter: &quot;Telephone Visits&quot;]\n      union [Encounter: &quot;Virtual Encounter&quot;]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Office Visit\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Virtual Encounter\"]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -270,10 +270,10 @@
         "valueString": "Date PROMIS10 Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date PROMIS10 Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;PROMIS-10 Global Mental Health (GMH) score T-score&quot;] ).isAssessmentPerformed ( ) ) PROMIS10MentalScore,\n    ( ( [Observation: &quot;PROMIS-10 Global Physical Health (GPH) score T-score&quot;] ).isAssessmentPerformed ( ) ) PROMIS10PhysicalScore\n    let PROMIS10MentalScoreDate: date from start of PROMIS10MentalScore.effective.toInterval ( ),\n    PROMIS10PhysicalScoreDate: date from start of PROMIS10PhysicalScore.effective.toInterval ( )\n    where PROMIS10MentalScoreDate same day as PROMIS10PhysicalScoreDate\n      and PROMIS10MentalScore.value is not null\n      and PROMIS10PhysicalScore.value is not null\n    return PROMIS10MentalScoreDate"
+        "valueString": "define \"Date PROMIS10 Total Assessment Completed\":\n  from\n    ( ( [Observation: \"PROMIS-10 Global Mental Health (GMH) score T-score\"] ).isAssessmentPerformed ( ) ) PROMIS10MentalScore,\n    ( ( [Observation: \"PROMIS-10 Global Physical Health (GPH) score T-score\"] ).isAssessmentPerformed ( ) ) PROMIS10PhysicalScore\n    let PROMIS10MentalScoreDate: date from start of PROMIS10MentalScore.effective.toInterval ( ),\n    PROMIS10PhysicalScoreDate: date from start of PROMIS10PhysicalScore.effective.toInterval ( )\n    where PROMIS10MentalScoreDate same day as PROMIS10PhysicalScoreDate\n      and PROMIS10MentalScore.value is not null\n      and PROMIS10PhysicalScore.value is not null\n    return PROMIS10MentalScoreDate"
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -285,10 +285,10 @@
         "valueString": "Has Encounter with Initial and Follow Up PROMIS10 Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up PROMIS10 Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date PROMIS10 Total Assessment Completed&quot; InitialPROMIS10Date,\n      &quot;Date PROMIS10 Total Assessment Completed&quot; FollowupPROMIS10Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialPROMIS10Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupPROMIS10Date during day of Interval[date from InitialPROMIS10Date + 30 days, date from InitialPROMIS10Date + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up PROMIS10 Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date PROMIS10 Total Assessment Completed\" InitialPROMIS10Date,\n      \"Date PROMIS10 Total Assessment Completed\" FollowupPROMIS10Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialPROMIS10Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupPROMIS10Date during day of Interval[date from InitialPROMIS10Date + 30 days, date from InitialPROMIS10Date + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -300,10 +300,10 @@
         "valueString": "Date PROMIS29 Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date PROMIS29 Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;PROMIS-29 Sleep disturbance score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Sleep,\n    ( ( [Observation: &quot;PROMIS-29 Satisfaction with participation in social roles score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29SocialRoles,\n    ( ( [Observation: &quot;PROMIS-29 Physical function score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Physical,\n    ( ( [Observation: &quot;PROMIS-29 Pain interference score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Pain,\n    ( ( [Observation: &quot;PROMIS-29 Fatigue score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Fatigue,\n    ( ( [Observation: &quot;PROMIS-29 Depression score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Depression,\n    ( ( [Observation: &quot;PROMIS-29 Anxiety score T-score&quot;] ).isAssessmentPerformed ( ) ) Promis29Anxiety\n    let Promis29SleepDate: date from start of Promis29Sleep.effective.toInterval ( ),\n    Promis29SocialRolesDate: date from start of Promis29SocialRoles.effective.toInterval ( ),\n    Promis29PhysicalDate: date from start of Promis29Physical.effective.toInterval ( ),\n    Promis29PainDate: date from start of Promis29Pain.effective.toInterval ( ),\n    Promis29FatigueDate: date from start of Promis29Fatigue.effective.toInterval ( ),\n    Promis29DepressionDate: date from start of Promis29Depression.effective.toInterval ( ),\n    Promis29AnxietyDate: date from start of Promis29Anxiety.effective.toInterval ( )\n    where Promis29SleepDate same day as Promis29SocialRolesDate\n      and Promis29SocialRoles.value is not null\n      and Promis29SleepDate same day as Promis29PhysicalDate\n      and Promis29Physical.value is not null\n      and Promis29SleepDate same day as Promis29PainDate\n      and Promis29Pain.value is not null\n      and Promis29SleepDate same day as Promis29FatigueDate\n      and Promis29Fatigue.value is not null\n      and Promis29SleepDate same day as Promis29DepressionDate\n      and Promis29Depression.value is not null\n      and Promis29SleepDate same day as Promis29AnxietyDate\n      and Promis29Anxiety.value is not null\n      and Promis29Sleep.value is not null\n    return Promis29SleepDate"
+        "valueString": "define \"Date PROMIS29 Total Assessment Completed\":\n  from\n    ( ( [Observation: \"PROMIS-29 Sleep disturbance score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Sleep,\n    ( ( [Observation: \"PROMIS-29 Satisfaction with participation in social roles score T-score\"] ).isAssessmentPerformed ( ) ) Promis29SocialRoles,\n    ( ( [Observation: \"PROMIS-29 Physical function score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Physical,\n    ( ( [Observation: \"PROMIS-29 Pain interference score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Pain,\n    ( ( [Observation: \"PROMIS-29 Fatigue score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Fatigue,\n    ( ( [Observation: \"PROMIS-29 Depression score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Depression,\n    ( ( [Observation: \"PROMIS-29 Anxiety score T-score\"] ).isAssessmentPerformed ( ) ) Promis29Anxiety\n    let Promis29SleepDate: date from start of Promis29Sleep.effective.toInterval ( ),\n    Promis29SocialRolesDate: date from start of Promis29SocialRoles.effective.toInterval ( ),\n    Promis29PhysicalDate: date from start of Promis29Physical.effective.toInterval ( ),\n    Promis29PainDate: date from start of Promis29Pain.effective.toInterval ( ),\n    Promis29FatigueDate: date from start of Promis29Fatigue.effective.toInterval ( ),\n    Promis29DepressionDate: date from start of Promis29Depression.effective.toInterval ( ),\n    Promis29AnxietyDate: date from start of Promis29Anxiety.effective.toInterval ( )\n    where Promis29SleepDate same day as Promis29SocialRolesDate\n      and Promis29SocialRoles.value is not null\n      and Promis29SleepDate same day as Promis29PhysicalDate\n      and Promis29Physical.value is not null\n      and Promis29SleepDate same day as Promis29PainDate\n      and Promis29Pain.value is not null\n      and Promis29SleepDate same day as Promis29FatigueDate\n      and Promis29Fatigue.value is not null\n      and Promis29SleepDate same day as Promis29DepressionDate\n      and Promis29Depression.value is not null\n      and Promis29SleepDate same day as Promis29AnxietyDate\n      and Promis29Anxiety.value is not null\n      and Promis29Sleep.value is not null\n    return Promis29SleepDate"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -315,10 +315,10 @@
         "valueString": "Has Encounter with Initial and Follow Up PROMIS29 Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up PROMIS29 Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date PROMIS29 Total Assessment Completed&quot; InitialPROMIS29Date,\n      &quot;Date PROMIS29 Total Assessment Completed&quot; FollowupPROMIS29Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialPROMIS29Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupPROMIS29Date during day of Interval[date from InitialPROMIS29Date + 30 days, date from InitialPROMIS29Date + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up PROMIS29 Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date PROMIS29 Total Assessment Completed\" InitialPROMIS29Date,\n      \"Date PROMIS29 Total Assessment Completed\" FollowupPROMIS29Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialPROMIS29Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupPROMIS29Date during day of Interval[date from InitialPROMIS29Date + 30 days, date from InitialPROMIS29Date + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -330,10 +330,10 @@
         "valueString": "Date VR12 Oblique Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date VR12 Oblique Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;VR-12 Mental component summary (MCS) score - oblique method T-score&quot;] ).isAssessmentPerformed ( ) ) VR12MentalAssessment,\n    ( ( [Observation: &quot;VR-12 Physical component summary (PCS) score - oblique method T-score&quot;] ).isAssessmentPerformed ( ) ) VR12PhysicalAssessment\n    let VR12MentalAssessmentDate: date from start of VR12MentalAssessment.effective.toInterval ( ),\n    VR12PhysicalAssessmentDate: date from start of VR12PhysicalAssessment.effective.toInterval ( )\n    where VR12MentalAssessmentDate same day as VR12PhysicalAssessmentDate\n      and VR12MentalAssessment.value is not null\n      and VR12PhysicalAssessment.value is not null\n    return VR12MentalAssessmentDate"
+        "valueString": "define \"Date VR12 Oblique Total Assessment Completed\":\n  from\n    ( ( [Observation: \"VR-12 Mental component summary (MCS) score - oblique method T-score\"] ).isAssessmentPerformed ( ) ) VR12MentalAssessment,\n    ( ( [Observation: \"VR-12 Physical component summary (PCS) score - oblique method T-score\"] ).isAssessmentPerformed ( ) ) VR12PhysicalAssessment\n    let VR12MentalAssessmentDate: date from start of VR12MentalAssessment.effective.toInterval ( ),\n    VR12PhysicalAssessmentDate: date from start of VR12PhysicalAssessment.effective.toInterval ( )\n    where VR12MentalAssessmentDate same day as VR12PhysicalAssessmentDate\n      and VR12MentalAssessment.value is not null\n      and VR12PhysicalAssessment.value is not null\n    return VR12MentalAssessmentDate"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -345,10 +345,10 @@
         "valueString": "Has Encounter with Initial and Follow Up VR12 Oblique Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up VR12 Oblique Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date VR12 Oblique Total Assessment Completed&quot; InitialVR12ObliqueDate,\n      &quot;Date VR12 Oblique Total Assessment Completed&quot; FollowupVR12ObliqueDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialVR12ObliqueDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR12ObliqueDate during day of Interval[date from InitialVR12ObliqueDate + 30 days, date from InitialVR12ObliqueDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up VR12 Oblique Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date VR12 Oblique Total Assessment Completed\" InitialVR12ObliqueDate,\n      \"Date VR12 Oblique Total Assessment Completed\" FollowupVR12ObliqueDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialVR12ObliqueDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR12ObliqueDate during day of Interval[date from InitialVR12ObliqueDate + 30 days, date from InitialVR12ObliqueDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -360,10 +360,10 @@
         "valueString": "Date VR12 Orthogonal Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date VR12 Orthogonal Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;VR-12 Mental component summary (MCS) score - orthogonal method T-score&quot;] ).isAssessmentPerformed ( ) ) VR12MentalAssessment,\n    ( ( [Observation: &quot;VR-12 Physical component summary (PCS) score - orthogonal method T-score&quot;] ).isAssessmentPerformed ( ) ) VR12PhysicalAssessment\n    let VR12MentalAssessmentDate: date from start of VR12MentalAssessment.effective.toInterval ( ),\n    VR12PhysicalAssessmentDate: date from start of VR12PhysicalAssessment.effective.toInterval ( )\n    where VR12MentalAssessmentDate same day as VR12PhysicalAssessmentDate\n      and VR12MentalAssessment.value is not null\n      and VR12PhysicalAssessment.value is not null\n    return VR12MentalAssessmentDate"
+        "valueString": "define \"Date VR12 Orthogonal Total Assessment Completed\":\n  from\n    ( ( [Observation: \"VR-12 Mental component summary (MCS) score - orthogonal method T-score\"] ).isAssessmentPerformed ( ) ) VR12MentalAssessment,\n    ( ( [Observation: \"VR-12 Physical component summary (PCS) score - orthogonal method T-score\"] ).isAssessmentPerformed ( ) ) VR12PhysicalAssessment\n    let VR12MentalAssessmentDate: date from start of VR12MentalAssessment.effective.toInterval ( ),\n    VR12PhysicalAssessmentDate: date from start of VR12PhysicalAssessment.effective.toInterval ( )\n    where VR12MentalAssessmentDate same day as VR12PhysicalAssessmentDate\n      and VR12MentalAssessment.value is not null\n      and VR12PhysicalAssessment.value is not null\n    return VR12MentalAssessmentDate"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -375,10 +375,10 @@
         "valueString": "Has Encounter with Initial and Follow Up VR12 Orthogonal Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up VR12 Orthogonal Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date VR12 Orthogonal Total Assessment Completed&quot; InitialVR12OrthogonalDate,\n      &quot;Date VR12 Orthogonal Total Assessment Completed&quot; FollowupVR12OrthogonalDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialVR12OrthogonalDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR12OrthogonalDate during day of Interval[date from InitialVR12OrthogonalDate + 30 days, date from InitialVR12OrthogonalDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up VR12 Orthogonal Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date VR12 Orthogonal Total Assessment Completed\" InitialVR12OrthogonalDate,\n      \"Date VR12 Orthogonal Total Assessment Completed\" FollowupVR12OrthogonalDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialVR12OrthogonalDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR12OrthogonalDate during day of Interval[date from InitialVR12OrthogonalDate + 30 days, date from InitialVR12OrthogonalDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -390,10 +390,10 @@
         "valueString": "Date VR36 Oblique Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date VR36 Oblique Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;VR-36 Mental component summary (MCS) score - oblique method T-score&quot;] ).isAssessmentPerformed ( ) ) VR36MentalAssessment,\n    ( ( [Observation: &quot;VR-36 Physical component summary (PCS) score - oblique method T-score&quot;] ).isAssessmentPerformed ( ) ) VR36PhysicalAssessment\n    let VR36MentalAssessmentDate: date from start of VR36MentalAssessment.effective.toInterval ( ),\n    VR36PhysicalAssessmentDate: date from start of VR36PhysicalAssessment.effective.toInterval ( )\n    where VR36MentalAssessmentDate same day as VR36PhysicalAssessmentDate\n      and VR36MentalAssessment.value is not null\n      and VR36PhysicalAssessment.value is not null\n    return VR36MentalAssessmentDate"
+        "valueString": "define \"Date VR36 Oblique Total Assessment Completed\":\n  from\n    ( ( [Observation: \"VR-36 Mental component summary (MCS) score - oblique method T-score\"] ).isAssessmentPerformed ( ) ) VR36MentalAssessment,\n    ( ( [Observation: \"VR-36 Physical component summary (PCS) score - oblique method T-score\"] ).isAssessmentPerformed ( ) ) VR36PhysicalAssessment\n    let VR36MentalAssessmentDate: date from start of VR36MentalAssessment.effective.toInterval ( ),\n    VR36PhysicalAssessmentDate: date from start of VR36PhysicalAssessment.effective.toInterval ( )\n    where VR36MentalAssessmentDate same day as VR36PhysicalAssessmentDate\n      and VR36MentalAssessment.value is not null\n      and VR36PhysicalAssessment.value is not null\n    return VR36MentalAssessmentDate"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -405,10 +405,10 @@
         "valueString": "Has Encounter with Initial and Follow Up VR36 Oblique Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up VR36 Oblique Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date VR36 Oblique Total Assessment Completed&quot; InitialVR36ObliqueDate,\n      &quot;Date VR36 Oblique Total Assessment Completed&quot; FollowupVR36ObliqueDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialVR36ObliqueDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR36ObliqueDate during day of Interval[date from InitialVR36ObliqueDate + 30 days, date from InitialVR36ObliqueDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up VR36 Oblique Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date VR36 Oblique Total Assessment Completed\" InitialVR36ObliqueDate,\n      \"Date VR36 Oblique Total Assessment Completed\" FollowupVR36ObliqueDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialVR36ObliqueDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR36ObliqueDate during day of Interval[date from InitialVR36ObliqueDate + 30 days, date from InitialVR36ObliqueDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -420,10 +420,10 @@
         "valueString": "Date VR36 Orthogonal Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date VR36 Orthogonal Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;VR-36 Mental component summary (MCS) score - orthogonal method T-score&quot;] ).isAssessmentPerformed ( ) ) VR36MentalAssessment,\n    ( ( [Observation: &quot;VR-36 Physical component summary (PCS) score - orthogonal method T-score&quot;] ).isAssessmentPerformed ( ) ) VR36PhysicalAssessment\n    let VR36MentalAssessmentDate: date from start of VR36MentalAssessment.effective.toInterval ( ),\n    VR36PhysicalAssessmentDate: date from start of VR36PhysicalAssessment.effective.toInterval ( )\n    where VR36MentalAssessmentDate same day as VR36PhysicalAssessmentDate\n      and VR36MentalAssessment.value is not null\n      and VR36PhysicalAssessment.value is not null\n    return VR36MentalAssessmentDate"
+        "valueString": "define \"Date VR36 Orthogonal Total Assessment Completed\":\n  from\n    ( ( [Observation: \"VR-36 Mental component summary (MCS) score - orthogonal method T-score\"] ).isAssessmentPerformed ( ) ) VR36MentalAssessment,\n    ( ( [Observation: \"VR-36 Physical component summary (PCS) score - orthogonal method T-score\"] ).isAssessmentPerformed ( ) ) VR36PhysicalAssessment\n    let VR36MentalAssessmentDate: date from start of VR36MentalAssessment.effective.toInterval ( ),\n    VR36PhysicalAssessmentDate: date from start of VR36PhysicalAssessment.effective.toInterval ( )\n    where VR36MentalAssessmentDate same day as VR36PhysicalAssessmentDate\n      and VR36MentalAssessment.value is not null\n      and VR36PhysicalAssessment.value is not null\n    return VR36MentalAssessmentDate"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -435,10 +435,10 @@
         "valueString": "Has Encounter with Initial and Follow Up VR36 Orthogonal Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up VR36 Orthogonal Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date VR36 Orthogonal Total Assessment Completed&quot; InitialVR36OrthogonalDate,\n      &quot;Date VR36 Orthogonal Total Assessment Completed&quot; FollowupVR36OrthogonalDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialVR36OrthogonalDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR36OrthogonalDate during day of Interval[date from InitialVR36OrthogonalDate + 30 days, date from InitialVR36OrthogonalDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up VR36 Orthogonal Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date VR36 Orthogonal Total Assessment Completed\" InitialVR36OrthogonalDate,\n      \"Date VR36 Orthogonal Total Assessment Completed\" FollowupVR36OrthogonalDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialVR36OrthogonalDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupVR36OrthogonalDate during day of Interval[date from InitialVR36OrthogonalDate + 30 days, date from InitialVR36OrthogonalDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -450,10 +450,10 @@
         "valueString": "Date MLHFQ Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date MLHFQ Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;Physical score [MLHFQ]&quot;] ).isAssessmentPerformed ( ) ) MLHFQPhysical,\n    ( ( [Observation: &quot;Emotional score [MLHFQ]&quot;] ).isAssessmentPerformed ( ) ) MLHFQEmotional\n    let MLHFQPhysicalDate: date from start of MLHFQPhysical.effective.toInterval ( ),\n    MLHFQEmotionalDate: date from start of MLHFQEmotional.effective.toInterval ( )\n    where MLHFQPhysicalDate same day as MLHFQEmotionalDate\n      and MLHFQPhysical.value is not null\n      and MLHFQEmotional.value is not null\n    return MLHFQPhysicalDate"
+        "valueString": "define \"Date MLHFQ Total Assessment Completed\":\n  from\n    ( ( [Observation: \"Physical score [MLHFQ]\"] ).isAssessmentPerformed ( ) ) MLHFQPhysical,\n    ( ( [Observation: \"Emotional score [MLHFQ]\"] ).isAssessmentPerformed ( ) ) MLHFQEmotional\n    let MLHFQPhysicalDate: date from start of MLHFQPhysical.effective.toInterval ( ),\n    MLHFQEmotionalDate: date from start of MLHFQEmotional.effective.toInterval ( )\n    where MLHFQPhysicalDate same day as MLHFQEmotionalDate\n      and MLHFQPhysical.value is not null\n      and MLHFQEmotional.value is not null\n    return MLHFQPhysicalDate"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -465,10 +465,10 @@
         "valueString": "Has Encounter with Initial and Follow Up MLHFQ Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up MLHFQ Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date MLHFQ Total Assessment Completed&quot; InitialMLHFQDate,\n      &quot;Date MLHFQ Total Assessment Completed&quot; FollowupMLHFQDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialMLHFQDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupMLHFQDate during day of Interval[date from InitialMLHFQDate + 30 days, date from InitialMLHFQDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up MLHFQ Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date MLHFQ Total Assessment Completed\" InitialMLHFQDate,\n      \"Date MLHFQ Total Assessment Completed\" FollowupMLHFQDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialMLHFQDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupMLHFQDate during day of Interval[date from InitialMLHFQDate + 30 days, date from InitialMLHFQDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -480,10 +480,10 @@
         "valueString": "Date KCCQ12 Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date KCCQ12 Total Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;Kansas City Cardiomyopathy Questionnaire - 12 item [KCCQ-12]&quot;] ).isAssessmentPerformed ( ) ) KCCQ12Item,\n    ( ( [Observation: &quot;Overall summary score [KCCQ-12]&quot;] ).isAssessmentPerformed ( ) ) KCCQ12Summary\n    let KCCQ12ItemDate: date from start of KCCQ12Item.effective.toInterval ( ),\n    KCCQ12SummaryDate: date from start of KCCQ12Summary.effective.toInterval ( )\n    where KCCQ12ItemDate same day as KCCQ12SummaryDate\n      and KCCQ12Item.value is not null\n      and KCCQ12Summary.value is not null\n    return KCCQ12ItemDate"
+        "valueString": "define \"Date KCCQ12 Total Assessment Completed\":\n  from\n    ( ( [Observation: \"Kansas City Cardiomyopathy Questionnaire - 12 item [KCCQ-12]\"] ).isAssessmentPerformed ( ) ) KCCQ12Item,\n    ( ( [Observation: \"Overall summary score [KCCQ-12]\"] ).isAssessmentPerformed ( ) ) KCCQ12Summary\n    let KCCQ12ItemDate: date from start of KCCQ12Item.effective.toInterval ( ),\n    KCCQ12SummaryDate: date from start of KCCQ12Summary.effective.toInterval ( )\n    where KCCQ12ItemDate same day as KCCQ12SummaryDate\n      and KCCQ12Item.value is not null\n      and KCCQ12Summary.value is not null\n    return KCCQ12ItemDate"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -495,10 +495,10 @@
         "valueString": "Has Encounter with Initial and Follow Up KCCQ12 Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up KCCQ12 Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date KCCQ12 Total Assessment Completed&quot; InitialKCCQ12Date,\n      &quot;Date KCCQ12 Total Assessment Completed&quot; FollowupKCCQ12Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialKCCQ12Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQ12Date during day of Interval[date from InitialKCCQ12Date + 30 days, date from InitialKCCQ12Date + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up KCCQ12 Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date KCCQ12 Total Assessment Completed\" InitialKCCQ12Date,\n      \"Date KCCQ12 Total Assessment Completed\" FollowupKCCQ12Date\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialKCCQ12Date 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQ12Date during day of Interval[date from InitialKCCQ12Date + 30 days, date from InitialKCCQ12Date + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -510,10 +510,10 @@
         "valueString": "Date KCCQ Domain Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date KCCQ Domain Assessment Completed&quot;:\n  from\n    ( ( [Observation: &quot;Quality of life score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQLifeQuality,\n    ( ( [Observation: &quot;Symptom stability score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQSymptomStability,\n    ( ( [Observation: &quot;Self-efficacy score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQSelfEfficacy,\n    ( ( [Observation: &quot;Total symptom score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQSymptoms,\n    ( ( [Observation: &quot;Physical limitation score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQPhysicalLimits,\n    ( ( [Observation: &quot;Social limitation score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQSocialLimits\n    let KCCQLifeQualityDate: date from start of KCCQLifeQuality.effective.toInterval ( ),\n    KCCQSymptomStabilityDate: date from start of KCCQSymptomStability.effective.toInterval ( ),\n    KCCQSelfEfficacyDate: date from start of KCCQSelfEfficacy.effective.toInterval ( ),\n    KCCQSymptomsDate: date from start of KCCQSymptoms.effective.toInterval ( ),\n    KCCQPhysicalLimitsDate: date from start of KCCQPhysicalLimits.effective.toInterval ( ),\n    KCCQSocialLimitsDate: date from start of KCCQSocialLimits.effective.toInterval ( )\n    where KCCQLifeQualityDate same day as KCCQSymptomStabilityDate\n      and KCCQSymptomStability.value is not null\n      and KCCQLifeQualityDate same day as KCCQSelfEfficacyDate\n      and KCCQSelfEfficacy.value is not null\n      and KCCQLifeQualityDate same day as KCCQSymptomsDate\n      and KCCQSymptoms.value is not null\n      and KCCQLifeQualityDate same day as KCCQPhysicalLimitsDate\n      and KCCQPhysicalLimits.value is not null\n      and KCCQLifeQualityDate same day as KCCQSocialLimitsDate\n      and KCCQSocialLimits.value is not null\n      and KCCQLifeQuality.value is not null\n    return KCCQLifeQualityDate"
+        "valueString": "define \"Date KCCQ Domain Assessment Completed\":\n  from\n    ( ( [Observation: \"Quality of life score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQLifeQuality,\n    ( ( [Observation: \"Symptom stability score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQSymptomStability,\n    ( ( [Observation: \"Self-efficacy score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQSelfEfficacy,\n    ( ( [Observation: \"Total symptom score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQSymptoms,\n    ( ( [Observation: \"Physical limitation score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQPhysicalLimits,\n    ( ( [Observation: \"Social limitation score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQSocialLimits\n    let KCCQLifeQualityDate: date from start of KCCQLifeQuality.effective.toInterval ( ),\n    KCCQSymptomStabilityDate: date from start of KCCQSymptomStability.effective.toInterval ( ),\n    KCCQSelfEfficacyDate: date from start of KCCQSelfEfficacy.effective.toInterval ( ),\n    KCCQSymptomsDate: date from start of KCCQSymptoms.effective.toInterval ( ),\n    KCCQPhysicalLimitsDate: date from start of KCCQPhysicalLimits.effective.toInterval ( ),\n    KCCQSocialLimitsDate: date from start of KCCQSocialLimits.effective.toInterval ( )\n    where KCCQLifeQualityDate same day as KCCQSymptomStabilityDate\n      and KCCQSymptomStability.value is not null\n      and KCCQLifeQualityDate same day as KCCQSelfEfficacyDate\n      and KCCQSelfEfficacy.value is not null\n      and KCCQLifeQualityDate same day as KCCQSymptomsDate\n      and KCCQSymptoms.value is not null\n      and KCCQLifeQualityDate same day as KCCQPhysicalLimitsDate\n      and KCCQPhysicalLimits.value is not null\n      and KCCQLifeQualityDate same day as KCCQSocialLimitsDate\n      and KCCQSocialLimits.value is not null\n      and KCCQLifeQuality.value is not null\n    return KCCQLifeQualityDate"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -525,10 +525,10 @@
         "valueString": "Has Encounter with Initial and Follow Up KCCQ Domain Score Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up KCCQ Domain Score Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date KCCQ Domain Assessment Completed&quot; InitialKCCQAssessmentDate,\n      &quot;Date KCCQ Domain Assessment Completed&quot; FollowupKCCQAssessmentDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialKCCQAssessmentDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQAssessmentDate during day of Interval[date from InitialKCCQAssessmentDate + 30 days, date from InitialKCCQAssessmentDate + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up KCCQ Domain Score Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date KCCQ Domain Assessment Completed\" InitialKCCQAssessmentDate,\n      \"Date KCCQ Domain Assessment Completed\" FollowupKCCQAssessmentDate\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialKCCQAssessmentDate 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQAssessmentDate during day of Interval[date from InitialKCCQAssessmentDate + 30 days, date from InitialKCCQAssessmentDate + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -540,10 +540,10 @@
         "valueString": "Date KCCQ Total Assessment Completed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Date KCCQ Total Assessment Completed&quot;:\n  ( ( [Observation: &quot;Overall summary score [KCCQ]&quot;] ).isAssessmentPerformed ( ) ) KCCQSummaryScore\n    let KCCQSummaryScoreDate: date from start of KCCQSummaryScore.effective.toInterval ( )\n    where KCCQSummaryScore.value is not null\n    return KCCQSummaryScoreDate"
+        "valueString": "define \"Date KCCQ Total Assessment Completed\":\n  ( ( [Observation: \"Overall summary score [KCCQ]\"] ).isAssessmentPerformed ( ) ) KCCQSummaryScore\n    let KCCQSummaryScoreDate: date from start of KCCQSummaryScore.effective.toInterval ( )\n    where KCCQSummaryScore.value is not null\n    return KCCQSummaryScoreDate"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -555,10 +555,10 @@
         "valueString": "Has Encounter with Initial and Follow Up KCCQ Total Score Assessments"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter with Initial and Follow Up KCCQ Total Score Assessments&quot;:\n  exists ( from\n      &quot;Qualifying Encounters&quot; ValidEncounters,\n      &quot;Date KCCQ Total Assessment Completed&quot; InitialKCCQTotalScore,\n      &quot;Date KCCQ Total Assessment Completed&quot; FollowupKCCQTotalScore\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of &quot;Measurement Period&quot;\n        and InitialKCCQTotalScore 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQTotalScore during day of Interval[date from InitialKCCQTotalScore + 30 days, date from InitialKCCQTotalScore + 180 days]\n      return ValidEncounters\n  )"
+        "valueString": "define \"Has Encounter with Initial and Follow Up KCCQ Total Score Assessments\":\n  exists ( from\n      \"Qualifying Encounters\" ValidEncounters,\n      \"Date KCCQ Total Assessment Completed\" InitialKCCQTotalScore,\n      \"Date KCCQ Total Assessment Completed\" FollowupKCCQTotalScore\n      where ValidEncounters.period.toInterval ( ) ends 180 days or more before day of end of \"Measurement Period\"\n        and InitialKCCQTotalScore 14 days or less on or before day of end of ValidEncounters.period.toInterval ( )\n        and date from FollowupKCCQTotalScore during day of Interval[date from InitialKCCQTotalScore + 30 days, date from InitialKCCQTotalScore + 180 days]\n      return ValidEncounters\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -570,10 +570,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  ( &quot;Has Encounter with Initial and Follow Up PROMIS10 Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up PROMIS29 Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up VR12 Oblique Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up VR12 Orthogonal Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up VR36 Oblique Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up VR36 Orthogonal Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up MLHFQ Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up KCCQ12 Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up KCCQ Domain Score Assessments&quot; )\n    or ( &quot;Has Encounter with Initial and Follow Up KCCQ Total Score Assessments&quot; )"
+        "valueString": "define \"Numerator\":\n  ( \"Has Encounter with Initial and Follow Up PROMIS10 Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up PROMIS29 Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up VR12 Oblique Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up VR12 Orthogonal Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up VR36 Oblique Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up VR36 Orthogonal Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up MLHFQ Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up KCCQ12 Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up KCCQ Domain Score Assessments\" )\n    or ( \"Has Encounter with Initial and Follow Up KCCQ Total Score Assessments\" )"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -585,10 +585,10 @@
         "valueString": "Two Outpatient Encounters during Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Two Outpatient Encounters during Measurement Period&quot;:\n  from\n    &quot;Qualifying Encounters&quot; OfficeVisit1,\n    &quot;Qualifying Encounters&quot; OfficeVisit2\n    where OfficeVisit2.period.toInterval ( ) starts 1 day or more after day of end of OfficeVisit1.period.toInterval ( )\n    return OfficeVisit1"
+        "valueString": "define \"Two Outpatient Encounters during Measurement Period\":\n  from\n    \"Qualifying Encounters\" OfficeVisit1,\n    \"Qualifying Encounters\" OfficeVisit2\n    where OfficeVisit2.period.toInterval ( ) starts 1 day or more after day of end of OfficeVisit1.period.toInterval ( )\n    return OfficeVisit1"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -600,10 +600,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 18\n    and exists ( ( [Condition: &quot;Heart Failure&quot;] ) HeartFailure\n        where HeartFailure.prevalenceInterval ( ) overlaps before &quot;Measurement Period&quot;\n    )\n    and exists ( &quot;Two Outpatient Encounters during Measurement Period&quot; )"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(date from start of \"Measurement Period\") >= 18\n    and exists ( ( [Condition: \"Heart Failure\"] ) HeartFailure\n        where HeartFailure.prevalenceInterval ( ) overlaps before \"Measurement Period\"\n    )\n    and exists ( \"Two Outpatient Encounters during Measurement Period\" )"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -615,10 +615,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -630,10 +630,10 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -645,10 +645,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  Hospice.&quot;Has Hospice Services&quot;\n    or exists ( ( [Condition: &quot;Severe cognitive impairment (finding)&quot;] ) SevereCognitiveImpairment\n        where SevereCognitiveImpairment.prevalenceInterval ( ) overlaps &quot;Measurement Period&quot;\n    )"
+        "valueString": "define \"Denominator Exclusions\":\n  Hospice.\"Has Hospice Services\"\n    or exists ( ( [Condition: \"Severe cognitive impairment (finding)\"] ) SevereCognitiveImpairment\n        where SevereCognitiveImpairment.prevalenceInterval ( ) overlaps \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -660,10 +660,10 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -675,10 +675,10 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -690,10 +690,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -708,7 +708,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -720,10 +720,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -735,10 +735,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -750,12 +750,13 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -857,8 +858,7 @@
     } ],
     "dataRequirement": [ {
       "type": "Patient",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "birthDate", "birthDate.value" ]
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -1246,6 +1246,8 @@
           "code": "45755-6",
           "display": "Hospice care [Minimum Data Set]"
         } ]
+      }, {
+        "path": "value"
       } ]
     }, {
       "type": "Condition",
@@ -1294,9 +1296,15 @@
     } ]
   } ],
   "extension": [ {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/FunctionalStatusAssessmentsforHeartFailureFHIR",
@@ -1349,7 +1357,7 @@
   "title": "Functional Status Assessments for Heart FailureFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T15:18:22+00:00",
+  "date": "2024-06-13T20:12:42+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1374,6 +1382,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/FunctionalStatusAssessmentsforHeartFailureFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Patients living with heart failure often have poor functional status and health-related quality of life, which declines as the disease progresses (Allen et al., 2012). In addition, their care is often complicated by multiple comorbidities. To assist in managing these complex patients, the American College of Cardiology Foundation and American Heart Association recommend collecting initial and repeat assessments of a patient's function and ability to complete desired activities of daily living (Hunt et al., 2009). The American Heart Association also released scientific statements emphasizing the collection of patient-reported health status (for example, functional limitations, symptom burden, quality of life) from heart failure patients as an important means of establishing a dynamic conversation between patient and provider regarding care goals and the patient's priorities (Allen et al., 2012; Rumsfeld et al., 2013).\n\nThe most recent update to clinical guidelines by the American Heart Association, the American College of Cardiology, and the Heart Failure Society of America further emphasizes that better understanding of symptom burden and prognosis may improve the quality of treatment decisions. The guideline also indicates that routine assessment can facilitate population health management by identifying high-risk patients needing closer monitoring or referral to specialized centers and that patient-reported health status assessment increases the patient’s role in care, which can motivate initiation and uptake of medical therapy (Heidenreich et al., 2022).",
   "clinicalRecommendationStatement": "The American Heart Association, the American College of Cardiology, and the Heart Failure Society of America (2022): \nThis guideline provides patient-centric recommendations for clinicians to prevent, diagnose, and manage patients with heart failure and specifically recommends assessing patient-reported health status using a validated questionnaire to provide incremental information for patient functional status, symptom burden, and prognosis. Tools specifically recommended in the guideline are as follows: \n- The Kansas City Cardiomyopathy Questionnaire or,\n- The Minnesota Living with Heart Failure Questionnaire \n- PROMIS-Plus-HF [Patient Reported Outcomes Measurement Information System Plus-Heart Failure]",
   "group": [ {

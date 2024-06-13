@@ -94,10 +94,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -109,10 +109,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -124,10 +124,10 @@
         "valueString": "Documented IPSS Assessment Result"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Documented IPSS Assessment Result&quot;:   [Observation: &quot;International Prostate Symptom Score [IPSS]&quot;] IPSSAssessment     where IPSSAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       and IPSSAssessment.value is not null     return {       effectiveDatetime: IPSSAssessment.effective.earliest ( ),       valueInteger: IPSSAssessment.value as Integer     }"
+        "valueString": "define \"Documented IPSS Assessment Result\":\n  [Observation: \"International Prostate Symptom Score [IPSS]\"] IPSSAssessment\n    where IPSSAssessment.status in { 'final', 'amended', 'corrected' }\n      and IPSSAssessment.value is not null\n    return {\n      effectiveDatetime: IPSSAssessment.effective.earliest ( ),\n      valueInteger: IPSSAssessment.value as Integer\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -139,10 +139,10 @@
         "valueString": "AUA Symptom Index and Quality of Life Assessment Result"
       }, {
         "url": "statement",
-        "valueString": "define &quot;AUA Symptom Index and Quality of Life Assessment Result&quot;:   [Observation: &quot;American Urological Association Symptom Index [AUASI]&quot;] AUASIAssessment     let LastQOLOnDate: Last([Observation: &quot;If you were to spend the rest of your life with your urinary condition just the way it is now, how would you feel about that [IPSS]&quot;] QOLAssessment         where QOLAssessment.effective.earliest() same day as AUASIAssessment.effective.earliest()           and QOLAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and QOLAssessment.value is not null         sort by effective.earliest()     )     where AUASIAssessment.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       and AUASIAssessment.value is not null     return {       effectiveDatetime: AUASIAssessment.effective.earliest ( ),       valueInteger: ( AUASIAssessment.value as Integer ) + ( LastQOLOnDate.value as Integer )     }"
+        "valueString": "define \"AUA Symptom Index and Quality of Life Assessment Result\":\n  [Observation: \"American Urological Association Symptom Index [AUASI]\"] AUASIAssessment\n    let LastQOLOnDate: Last([Observation: \"If you were to spend the rest of your life with your urinary condition just the way it is now, how would you feel about that [IPSS]\"] QOLAssessment\n        where QOLAssessment.effective.earliest() same day as AUASIAssessment.effective.earliest()\n          and QOLAssessment.status in { 'final', 'amended', 'corrected' }\n          and QOLAssessment.value is not null\n        sort by effective.earliest()\n    )\n    where AUASIAssessment.status in { 'final', 'amended', 'corrected' }\n      and AUASIAssessment.value is not null\n    return {\n      effectiveDatetime: AUASIAssessment.effective.earliest ( ),\n      valueInteger: ( AUASIAssessment.value as Integer ) + ( LastQOLOnDate.value as Integer )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -154,10 +154,10 @@
         "valueString": "Urinary Symptom Score Assessment"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Symptom Score Assessment&quot;:   &quot;Documented IPSS Assessment Result&quot;     union &quot;AUA Symptom Index and Quality of Life Assessment Result&quot;"
+        "valueString": "define \"Urinary Symptom Score Assessment\":\n  \"Documented IPSS Assessment Result\"\n    union \"AUA Symptom Index and Quality of Life Assessment Result\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -169,10 +169,10 @@
         "valueString": "Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot;:   First([Condition: &quot;Benign prostatic hyperplasia with lower urinary tract symptoms&quot;] NewBPHDiagnosis       where NewBPHDiagnosis.prevalenceInterval() starts during Interval[start of &quot;Measurement Period&quot; - 6 months, start of &quot;Measurement Period&quot;]         and NewBPHDiagnosis.isConfirmedActiveDiagnosis()       sort by start of onset.toInterval()   )"
+        "valueString": "define \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\":\n  First([Condition: \"Benign prostatic hyperplasia with lower urinary tract symptoms\"] NewBPHDiagnosis\n      where NewBPHDiagnosis.prevalenceInterval() starts during Interval[start of \"Measurement Period\" - 6 months, start of \"Measurement Period\"]\n        and NewBPHDiagnosis.isConfirmedActiveDiagnosis()\n      sort by start of onset.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -184,10 +184,10 @@
         "valueString": "Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis&quot;:   First(&quot;Urinary Symptom Score Assessment&quot; USSAssessment       with &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot; InitialBPHDiagnosis         such that USSAssessment.effectiveDatetime 1 month or less on or after day of start of InitialBPHDiagnosis.prevalenceInterval()       sort by effectiveDatetime   )"
+        "valueString": "define \"Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis\":\n  First(\"Urinary Symptom Score Assessment\" USSAssessment\n      with \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\" InitialBPHDiagnosis\n        such that USSAssessment.effectiveDatetime 1 month or less on or after day of start of InitialBPHDiagnosis.prevalenceInterval()\n      sort by effectiveDatetime\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -199,10 +199,10 @@
         "valueString": "Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis&quot;:   Last(&quot;Urinary Symptom Score Assessment&quot; USSAssessment       with &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot; InitialBPHDiagnosis         such that months between start of InitialBPHDiagnosis.prevalenceInterval() and USSAssessment.effectiveDatetime in Interval[6, 12]       sort by effectiveDatetime   )"
+        "valueString": "define \"Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis\":\n  Last(\"Urinary Symptom Score Assessment\" USSAssessment\n      with \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\" InitialBPHDiagnosis\n        such that months between start of InitialBPHDiagnosis.prevalenceInterval() and USSAssessment.effectiveDatetime in Interval[6, 12]\n      sort by effectiveDatetime\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -214,10 +214,10 @@
         "valueString": "Urinary Symptom Score Change"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Symptom Score Change&quot;:   from     &quot;Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis&quot; FirstUSSAssessment,     &quot;Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis&quot; FollowUpUSSAssessment     let USSChange: ( FirstUSSAssessment.valueInteger ) - ( FollowUpUSSAssessment.valueInteger )     return USSChange"
+        "valueString": "define \"Urinary Symptom Score Change\":\n  from\n    \"Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis\" FirstUSSAssessment,\n    \"Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis\" FollowUpUSSAssessment\n    let USSChange: ( FirstUSSAssessment.valueInteger ) - ( FollowUpUSSAssessment.valueInteger )\n    return USSChange"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -229,10 +229,10 @@
         "valueString": "Urinary Symptom Score Improvement Greater Than or Equal To 3"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Symptom Score Improvement Greater Than or Equal To 3&quot;:   ( &quot;Urinary Symptom Score Change&quot; USSImprovement       where USSImprovement &gt;= 3   ) is not null"
+        "valueString": "define \"Urinary Symptom Score Improvement Greater Than or Equal To 3\":\n  ( \"Urinary Symptom Score Change\" USSImprovement\n      where USSImprovement >= 3\n  ) is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -244,10 +244,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   &quot;Urinary Symptom Score Improvement Greater Than or Equal To 3&quot;"
+        "valueString": "define \"Numerator\":\n  \"Urinary Symptom Score Improvement Greater Than or Equal To 3\""
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -259,10 +259,10 @@
         "valueString": "Patient is Male"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Patient is Male&quot;:   Patient.gender = &#39;male&#39;"
+        "valueString": "define \"Patient is Male\":\n  Patient.gender = 'male'"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -274,10 +274,10 @@
         "valueString": "Has Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Qualifying Encounter&quot;:   exists ( [Encounter: &quot;Office Visit&quot;] ValidEncounter       where ValidEncounter.period during day of &quot;Measurement Period&quot;         and ValidEncounter.class !~ &quot;virtual&quot;         and ValidEncounter.status = &#39;finished&#39;   )"
+        "valueString": "define \"Has Qualifying Encounter\":\n  exists ( [Encounter: \"Office Visit\"] ValidEncounter\n      where ValidEncounter.period during day of \"Measurement Period\"\n        and ValidEncounter.class !~ \"virtual\"\n        and ValidEncounter.status = 'finished'\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -289,10 +289,10 @@
         "valueString": "Has Qualifying BPH Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Qualifying BPH Diagnosis&quot;:   &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot; is not null"
+        "valueString": "define \"Has Qualifying BPH Diagnosis\":\n  \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -304,10 +304,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   ( &quot;Patient is Male&quot; )     and &quot;Has Qualifying Encounter&quot;     and &quot;Has Qualifying BPH Diagnosis&quot;     and &quot;Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis&quot; is not null     and &quot;Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis&quot; is not null"
+        "valueString": "define \"Initial Population\":\n  ( \"Patient is Male\" )\n    and \"Has Qualifying Encounter\"\n    and \"Has Qualifying BPH Diagnosis\"\n    and \"Urinary Symptom Score Within 1 Month after Initial BPH Diagnosis\" is not null\n    and \"Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -319,10 +319,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -334,10 +334,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -349,10 +349,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -364,10 +364,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -379,10 +379,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -394,10 +394,10 @@
         "valueString": "Urinary Retention Diagnosis Starts Within 1 Year After Initial BPH Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Urinary Retention Diagnosis Starts Within 1 Year After Initial BPH Diagnosis&quot;:   [Condition: &quot;Urinary retention&quot;] UrinaryRetention     with &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot; InitialBPHDiagnosis       such that UrinaryRetention.prevalenceInterval ( ) starts 1 year or less on or after day of start of InitialBPHDiagnosis.prevalenceInterval ( )     where UrinaryRetention.isConfirmedActiveDiagnosis ( )"
+        "valueString": "define \"Urinary Retention Diagnosis Starts Within 1 Year After Initial BPH Diagnosis\":\n  [Condition: \"Urinary retention\"] UrinaryRetention\n    with \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\" InitialBPHDiagnosis\n      such that UrinaryRetention.prevalenceInterval ( ) starts 1 year or less on or after day of start of InitialBPHDiagnosis.prevalenceInterval ( )\n    where UrinaryRetention.isConfirmedActiveDiagnosis ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -409,10 +409,10 @@
         "valueString": "Has Initial BPH Diagnosis Starts During or Within 30 Days After End of Hospitalization"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Initial BPH Diagnosis Starts During or Within 30 Days After End of Hospitalization&quot;:   &quot;Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period&quot; InitialBPHDiagnosis     with [Encounter: &quot;Hospital Services for Urology&quot;] InHospitalServices       such that InitialBPHDiagnosis.prevalenceInterval ( ) starts during Interval[start of InHospitalServices.period, end of InHospitalServices.period + 31 days]         and InHospitalServices.status = &#39;finished&#39;"
+        "valueString": "define \"Has Initial BPH Diagnosis Starts During or Within 30 Days After End of Hospitalization\":\n  \"Initial BPH Diagnosis Starts Within 6 Months Before the Measurement Period\" InitialBPHDiagnosis\n    with [Encounter: \"Hospital Services for Urology\"] InHospitalServices\n      such that InitialBPHDiagnosis.prevalenceInterval ( ) starts during Interval[start of InHospitalServices.period, end of InHospitalServices.period + 31 days]\n        and InHospitalServices.status = 'finished'"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -424,10 +424,10 @@
         "valueString": "Morbid Obesity Diagnosis On or Before Follow Up USS Assessment"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Morbid Obesity Diagnosis On or Before Follow Up USS Assessment&quot;:   [Condition: &quot;Morbid Obesity&quot;] MorbidObesity     with &quot;Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis&quot; FollowUpUSSAssessment       such that MorbidObesity.prevalenceInterval ( ) overlaps &quot;Measurement Period&quot;         and MorbidObesity.prevalenceInterval ( ) starts on or before FollowUpUSSAssessment.effectiveDatetime     where MorbidObesity.isConfirmedActiveDiagnosis ( )"
+        "valueString": "define \"Morbid Obesity Diagnosis On or Before Follow Up USS Assessment\":\n  [Condition: \"Morbid Obesity\"] MorbidObesity\n    with \"Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis\" FollowUpUSSAssessment\n      such that MorbidObesity.prevalenceInterval ( ) overlaps \"Measurement Period\"\n        and MorbidObesity.prevalenceInterval ( ) starts on or before FollowUpUSSAssessment.effectiveDatetime\n    where MorbidObesity.isConfirmedActiveDiagnosis ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -439,10 +439,10 @@
         "valueString": "BMI Exam Result Greater Than or Equal To 40 During Measurement Period and On or Before Follow Up USS Assessment"
       }, {
         "url": "statement",
-        "valueString": "/* * @code: Body mass index (BMI) [Ratio] - 39156-5 * @profile: http://hl7.org/fhir/StructureDefinition/bmi */   define &quot;BMI Exam Result Greater Than or Equal To 40 During Measurement Period and On or Before Follow Up USS Assessment&quot;:   exists ( [&quot;observation-bmi&quot;] BMIExam       with &quot;Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis&quot; FollowUpUSSAssessment         such that BMIExam.value &gt;= 40 &#39;kg/m2&#39;           and BMIExam.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and BMIExam.effective.earliest ( ) during day of &quot;Measurement Period&quot;           and BMIExam.effective.earliest ( ) on or before FollowUpUSSAssessment.effectiveDatetime       return BMIExam.effective.earliest ( )   )"
+        "valueString": "/*\n* @code: Body mass index (BMI) [Ratio] - 39156-5\n* @profile: http://hl7.org/fhir/StructureDefinition/bmi\n*/\n\n\ndefine \"BMI Exam Result Greater Than or Equal To 40 During Measurement Period and On or Before Follow Up USS Assessment\":\n  exists ( [\"observation-bmi\"] BMIExam\n      with \"Urinary Symptom Score 6 to 12 Months After Initial BPH Diagnosis\" FollowUpUSSAssessment\n        such that BMIExam.value >= 40 'kg/m2'\n          and BMIExam.status in { 'final', 'amended', 'corrected' }\n          and BMIExam.effective.earliest ( ) during day of \"Measurement Period\"\n          and BMIExam.effective.earliest ( ) on or before FollowUpUSSAssessment.effectiveDatetime\n      return BMIExam.effective.earliest ( )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -454,10 +454,10 @@
         "valueString": "Morbid Obesity Diagnosis or BMI Exam Result Greater Than or Equal to 40 Starts On or Before Follow Up USS Assessment"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Morbid Obesity Diagnosis or BMI Exam Result Greater Than or Equal to 40 Starts On or Before Follow Up USS Assessment&quot;:   exists &quot;Morbid Obesity Diagnosis On or Before Follow Up USS Assessment&quot;     or &quot;BMI Exam Result Greater Than or Equal To 40 During Measurement Period and On or Before Follow Up USS Assessment&quot;"
+        "valueString": "define \"Morbid Obesity Diagnosis or BMI Exam Result Greater Than or Equal to 40 Starts On or Before Follow Up USS Assessment\":\n  exists \"Morbid Obesity Diagnosis On or Before Follow Up USS Assessment\"\n    or \"BMI Exam Result Greater Than or Equal To 40 During Measurement Period and On or Before Follow Up USS Assessment\""
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -469,10 +469,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:   exists ( &quot;Urinary Retention Diagnosis Starts Within 1 Year After Initial BPH Diagnosis&quot; )     or ( &quot;Has Initial BPH Diagnosis Starts During or Within 30 Days After End of Hospitalization&quot; is not null )     or ( &quot;Morbid Obesity Diagnosis or BMI Exam Result Greater Than or Equal to 40 Starts On or Before Follow Up USS Assessment&quot; )"
+        "valueString": "define \"Denominator Exclusions\":\n  exists ( \"Urinary Retention Diagnosis Starts Within 1 Year After Initial BPH Diagnosis\" )\n    or ( \"Has Initial BPH Diagnosis Starts During or Within 30 Days After End of Hospitalization\" is not null )\n    or ( \"Morbid Obesity Diagnosis or BMI Exam Result Greater Than or Equal to 40 Starts On or Before Follow Up USS Assessment\" )"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -484,10 +484,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -499,10 +499,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -514,10 +514,10 @@
         "valueString": "earliest"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):   (choice.toInterval()) period     return       if (period.&quot;hasStart&quot;()) then start of period       else end of period"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -529,10 +529,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -544,10 +544,10 @@
         "valueString": "isConfirmedActiveDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isConfirmedActiveDiagnosis(condition Condition):   condition.isActive ( )     and condition.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;"
+        "valueString": "define fluent function isConfirmedActiveDiagnosis(condition Condition):\n  condition.isActive ( )\n    and condition.verificationStatus ~ QICoreCommon.\"confirmed\""
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -559,10 +559,10 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */  /* @description: Returns true if the given condition has a clinical status of active, recurrence, or relapse */ define fluent function isActive(condition Condition):   condition.clinicalStatus ~ &quot;active&quot;     or condition.clinicalStatus ~ &quot;recurrence&quot;     or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -577,7 +577,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -589,12 +589,13 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -666,6 +667,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -678,35 +685,29 @@
       "max": "1",
       "type": "boolean"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
     }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
       "name": "SDE Ethnicity",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     }, {
       "name": "SDE Race",
       "use": "out",
@@ -717,19 +718,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
-    }, {
-      "type": "Observation",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
-      "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
-      "codeFilter": [ {
-        "path": "code",
-        "code": [ {
-          "system": "http://loinc.org",
-          "code": "80883-2",
-          "display": "American Urological Association Symptom Index [AUASI]"
-        } ]
-      } ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
@@ -745,6 +734,18 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "80883-2",
+          "display": "American Urological Association Symptom Index [AUASI]"
+        } ]
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "status", "status.value", "value", "effective" ],
       "codeFilter": [ {
         "path": "code",
@@ -754,10 +755,6 @@
           "display": "International Prostate Symptom Score [IPSS]"
         } ]
       } ]
-    }, {
-      "type": "Condition",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "clinicalStatus", "verificationStatus" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -793,6 +790,13 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
+      }, {
+        "path": "class"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -801,6 +805,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.59"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Coverage",
@@ -813,7 +822,19 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/StructureDefinition/bmi" ],
-      "mustSupport": [ "value", "status", "status.value", "effective" ]
+      "mustSupport": [ "value", "status", "status.value", "effective" ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
+      } ]
     } ]
   } ],
   "extension": [ {
@@ -834,9 +855,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/UrinarySymptomScoreChangeAfterBenignProstaticHyperplasiaFHIR",
@@ -889,7 +916,7 @@
   "title": "Urinary Symptom Score Change 6-12 Months After Diagnosis of Benign Prostatic HyperplasiaFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-14T19:17:56+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Large Urology Group Practice Association (LUGPA)",
   "contact": [ {
     "telecom": [ {
@@ -914,6 +941,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/UrinarySymptomScoreChangeAfterBenignProstaticHyperplasiaFHIR" ],
   "disclaimer": "The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R], and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Benign prostatic hyperplasia (BPH) is one of the most common conditions affecting older men, with a prevalence of 50% by age 60 years and 90% by the ninth decade of life (Medina et al., 1999). The enlarged gland had been proposed to contribute to the overall lower urinary tract symptoms (LUTS) complex (McVary et al., 2014). Although LUTS secondary to BPH is not often a life-threatening condition, the impact of LUTS/BPH on quality of life can be significant (Wei et al., 2005). The American Urological Association Symptom Index (AUA-SI) and the International Prostate Symptom Score (IPSS) were developed to measure outcomes in studies of different treatments for BPH (Wuerstle et al., 2011). The IPSS uses the same questions as the AUA-SI, but also adds a disease-specific quality of life question (OLeary, 2005). The IPSS was adopted in 1993 by the World Health Organization. It is a reproducible, validated index designed to determine disease severity and response to therapy (D’Silva et al., 2014). It includes 3 storage symptom questions (frequency, nocturia, urgency) and four voiding symptoms (feeling of incomplete emptying, intermittency, straining, and a weak stream) as well as a Bother question: If you were to spend the rest of your life with your urinary condition just the way it is now, how would you feel about that? A three-point improvement in the score is considered meaningful (McVary et al., 2014).",
   "clinicalRecommendationStatement": "The symptoms of BPH are lower urinary tract symptoms (LUTS). There are other disorders with similar symptoms that need to be excluded. History, physical examination, and testing are required prior to a diagnosis of BPH. IPSS by itself is not a reliable diagnostic tool for LUTS suggestive of BPH but serves as a quantitative measure of LUTS after the diagnosis is established (D’Silva et al., 2014). Medical and surgical interventions for BPH recommend a follow up IPSS evaluation to determine effectiveness of treatment. IPSS should be evaluated at the time of diagnosis and after definitive treatment.",
   "group": [ {

@@ -66,16 +66,16 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
+        "system": "http://snomed.info/sct",
+        "code": "373066001",
+        "display": "Yes (qualifier value)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "373066001",
-        "display": "Yes (qualifier value)"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -87,10 +87,10 @@
         "valueString": "Qualifying Visit During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Visit During Measurement Period&quot;:   ( ( ( [Encounter] E         where exists ( ( E.type ) T             where T ~ &quot;Health behavior intervention, individual, face-to-face; initial 30 minutes&quot;         )     )       union ( [Encounter] E           where exists ( ( E.type ) T               where T ~ &quot;Health behavior assessment, or re-assessment (ie, health-focused clinical interview, behavioral observations, clinical decision making)&quot;           )       )       union [Encounter: &quot;Home Healthcare Services&quot;]       union [Encounter: &quot;Occupational Therapy Evaluation&quot;]       union [Encounter: &quot;Office Visit&quot;]       union [Encounter: &quot;Ophthalmological Services&quot;]       union [Encounter: &quot;Physical Therapy Evaluation&quot;]       union [Encounter: &quot;Psych Visit Diagnostic Evaluation&quot;]       union [Encounter: &quot;Psych Visit Psychotherapy&quot;]       union [Encounter: &quot;Psychoanalysis&quot;]       union [Encounter: &quot;Speech and Hearing Evaluation&quot;]       union [Encounter: &quot;Telephone Visits&quot;]       union [Encounter: &quot;Virtual Encounter&quot;]   ).isEncounterPerformed ( ) ) OfficeBasedEncounter     where OfficeBasedEncounter.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Qualifying Visit During Measurement Period\":\n  ( ( ( [Encounter] E\n        where exists ( ( E.type ) T\n            where T ~ \"Health behavior intervention, individual, face-to-face; initial 30 minutes\"\n        )\n    )\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ \"Health behavior assessment, or re-assessment (ie, health-focused clinical interview, behavioral observations, clinical decision making)\"\n          )\n      )\n      union [Encounter: \"Home Healthcare Services\"]\n      union [Encounter: \"Occupational Therapy Evaluation\"]\n      union [Encounter: \"Office Visit\"]\n      union [Encounter: \"Ophthalmological Services\"]\n      union [Encounter: \"Physical Therapy Evaluation\"]\n      union [Encounter: \"Psych Visit Diagnostic Evaluation\"]\n      union [Encounter: \"Psych Visit Psychotherapy\"]\n      union [Encounter: \"Psychoanalysis\"]\n      union [Encounter: \"Speech and Hearing Evaluation\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Virtual Encounter\"]\n  ).isEncounterPerformed ( ) ) OfficeBasedEncounter\n    where OfficeBasedEncounter.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -102,10 +102,10 @@
         "valueString": "Preventive Visit During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Preventive Visit During Measurement Period&quot;:   ( ( [Encounter: &quot;Annual Wellness Visit&quot;]       union [Encounter: &quot;Preventive Care Services Established Office Visit, 18 and Up&quot;]       union [Encounter: &quot;Preventive Care Services Initial Office Visit, 18 and Up&quot;]       union [Encounter: &quot;Preventive Care, Established Office Visit, 0 to 17&quot;]       union [Encounter: &quot;Preventive Care Services, Initial Office Visit, 0 to 17&quot;]       union [Encounter: &quot;Preventive Care Services Group Counseling&quot;]       union [Encounter: &quot;Preventive Care Services Individual Counseling&quot;]       union ( [Encounter] E           where exists ( ( E.type ) T               where T ~ &quot;Unlisted preventive medicine service&quot;           )       )       union ( [Encounter] E           where exists ( ( E.type ) T               where T ~ &quot;Postoperative follow-up visit, normally included in the surgical package, to indicate that an evaluation and management service was performed during a postoperative period for a reason(s) related to the original procedure&quot;           )       )       union [Encounter: &quot;Nutrition Services&quot;]   ).isEncounterPerformed ( ) ) PreventiveEncounter     where PreventiveEncounter.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Preventive Visit During Measurement Period\":\n  ( ( [Encounter: \"Annual Wellness Visit\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care, Established Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care Services, Initial Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care Services Group Counseling\"]\n      union [Encounter: \"Preventive Care Services Individual Counseling\"]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ \"Unlisted preventive medicine service\"\n          )\n      )\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ \"Postoperative follow-up visit, normally included in the surgical package, to indicate that an evaluation and management service was performed during a postoperative period for a reason(s) related to the original procedure\"\n          )\n      )\n      union [Encounter: \"Nutrition Services\"]\n  ).isEncounterPerformed ( ) ) PreventiveEncounter\n    where PreventiveEncounter.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -117,10 +117,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 12     and ( Count(&quot;Qualifying Visit During Measurement Period&quot;) &gt;= 2         or exists &quot;Preventive Visit During Measurement Period&quot;     )"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(date from start of \"Measurement Period\") >= 12\n    and ( Count(\"Qualifying Visit During Measurement Period\") >= 2\n        or exists \"Preventive Visit During Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -132,10 +132,10 @@
         "valueString": "Denominator 3"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator 3&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator 3\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -147,10 +147,10 @@
         "valueString": "Most Recent Tobacco Use Screening Indicates Tobacco Non User"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Most Recent Tobacco Use Screening Indicates Tobacco Non User&quot;:   ( Last((([Observation: &quot;Tobacco Use Screening&quot;]).isAssessmentPerformed()) TobaccoUseScreening       where TobaccoUseScreening.effective.toInterval() during day of &quot;Measurement Period&quot;       sort by start of effective.toInterval()   ) ) MostRecentTobaccoUseScreening     where MostRecentTobaccoUseScreening.value as Concept in &quot;Tobacco Non User&quot;"
+        "valueString": "define \"Most Recent Tobacco Use Screening Indicates Tobacco Non User\":\n  ( Last((([Observation: \"Tobacco Use Screening\"]).isAssessmentPerformed()) TobaccoUseScreening\n      where TobaccoUseScreening.effective.toInterval() during day of \"Measurement Period\"\n      sort by start of effective.toInterval()\n  ) ) MostRecentTobaccoUseScreening\n    where MostRecentTobaccoUseScreening.value as Concept in \"Tobacco Non User\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -162,10 +162,10 @@
         "valueString": "Most Recent Tobacco Use Screening Indicates Tobacco User"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Most Recent Tobacco Use Screening Indicates Tobacco User&quot;:   ( Last((([Observation: &quot;Tobacco Use Screening&quot;]).isAssessmentPerformed()) TobaccoUseScreening       where TobaccoUseScreening.effective.toInterval() during day of &quot;Measurement Period&quot;       sort by start of effective.toInterval()   ) ) MostRecentTobaccoUseScreening     where MostRecentTobaccoUseScreening.value as Concept in &quot;Tobacco User&quot;"
+        "valueString": "define \"Most Recent Tobacco Use Screening Indicates Tobacco User\":\n  ( Last((([Observation: \"Tobacco Use Screening\"]).isAssessmentPerformed()) TobaccoUseScreening\n      where TobaccoUseScreening.effective.toInterval() during day of \"Measurement Period\"\n      sort by start of effective.toInterval()\n  ) ) MostRecentTobaccoUseScreening\n    where MostRecentTobaccoUseScreening.value as Concept in \"Tobacco User\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -177,10 +177,10 @@
         "valueString": "Tobacco Cessation Counseling Given"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Tobacco Cessation Counseling Given&quot;:   ( ( ( [Procedure: &quot;Tobacco Use Cessation Counseling&quot;] ).isInterventionPerformed ( ) ) TobaccoCessationCounseling       where TobaccoCessationCounseling.performed.toInterval ( ) during day of Interval[start of &quot;Measurement Period&quot; - 6 months, end of &quot;Measurement Period&quot;]   )     union ( ( [Condition: &quot;Tobacco abuse counseling&quot;] ) TobaccoCounseling         where TobaccoCounseling.prevalenceInterval ( ) starts during day of Interval[start of &quot;Measurement Period&quot; - 6 months, end of &quot;Measurement Period&quot;]     )"
+        "valueString": "define \"Tobacco Cessation Counseling Given\":\n  ( ( ( [Procedure: \"Tobacco Use Cessation Counseling\"] ).isInterventionPerformed ( ) ) TobaccoCessationCounseling\n      where TobaccoCessationCounseling.performed.toInterval ( ) during day of Interval[start of \"Measurement Period\" - 6 months, end of \"Measurement Period\"]\n  )\n    union ( ( [Condition: \"Tobacco abuse counseling\"] ) TobaccoCounseling\n        where TobaccoCounseling.prevalenceInterval ( ) starts during day of Interval[start of \"Measurement Period\" - 6 months, end of \"Measurement Period\"]\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -192,10 +192,10 @@
         "valueString": "Tobacco Cessation Pharmacotherapy Ordered"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Tobacco Cessation Pharmacotherapy Ordered&quot;:   ( ( [MedicationRequest: &quot;Tobacco Use Cessation Pharmacotherapy&quot;] ).isMedicationOrder ( ) ) CessationPharmacotherapyOrdered     where CessationPharmacotherapyOrdered.authoredOn during day of Interval[start of &quot;Measurement Period&quot; - 6 months, end of &quot;Measurement Period&quot;]"
+        "valueString": "define \"Tobacco Cessation Pharmacotherapy Ordered\":\n  ( ( [MedicationRequest: \"Tobacco Use Cessation Pharmacotherapy\"] ).isMedicationOrder ( ) ) CessationPharmacotherapyOrdered\n    where CessationPharmacotherapyOrdered.authoredOn during day of Interval[start of \"Measurement Period\" - 6 months, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -207,10 +207,10 @@
         "valueString": "Active Pharmacotherapy for Tobacco Cessation"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Active Pharmacotherapy for Tobacco Cessation&quot;:   ( ( [MedicationRequest: &quot;Tobacco Use Cessation Pharmacotherapy&quot;] ).isMedicationActive ( ) ) TakingCessationPharmacotherapy     where TakingCessationPharmacotherapy.medicationRequestPeriod ( ) during day of Interval[start of &quot;Measurement Period&quot; - 6 months, end of &quot;Measurement Period&quot;]"
+        "valueString": "define \"Active Pharmacotherapy for Tobacco Cessation\":\n  ( ( [MedicationRequest: \"Tobacco Use Cessation Pharmacotherapy\"] ).isMedicationActive ( ) ) TakingCessationPharmacotherapy\n    where TakingCessationPharmacotherapy.medicationRequestPeriod ( ) during day of Interval[start of \"Measurement Period\" - 6 months, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -222,10 +222,10 @@
         "valueString": "Numerator 3"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator 3&quot;:   &quot;Most Recent Tobacco Use Screening Indicates Tobacco Non User&quot; is not null     or ( &quot;Most Recent Tobacco Use Screening Indicates Tobacco User&quot; is not null         and ( exists &quot;Tobacco Cessation Counseling Given&quot;             or exists &quot;Tobacco Cessation Pharmacotherapy Ordered&quot;             or exists &quot;Active Pharmacotherapy for Tobacco Cessation&quot;         )     )"
+        "valueString": "define \"Numerator 3\":\n  \"Most Recent Tobacco Use Screening Indicates Tobacco Non User\" is not null\n    or ( \"Most Recent Tobacco Use Screening Indicates Tobacco User\" is not null\n        and ( exists \"Tobacco Cessation Counseling Given\"\n            or exists \"Tobacco Cessation Pharmacotherapy Ordered\"\n            or exists \"Active Pharmacotherapy for Tobacco Cessation\"\n        )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -237,10 +237,10 @@
         "valueString": "Denominator 2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator 2&quot;:   &quot;Initial Population&quot;     and &quot;Most Recent Tobacco Use Screening Indicates Tobacco User&quot; is not null"
+        "valueString": "define \"Denominator 2\":\n  \"Initial Population\"\n    and \"Most Recent Tobacco Use Screening Indicates Tobacco User\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -252,10 +252,10 @@
         "valueString": "Numerator 1"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator 1&quot;:   &quot;Most Recent Tobacco Use Screening Indicates Tobacco Non User&quot; is not null     or &quot;Most Recent Tobacco Use Screening Indicates Tobacco User&quot; is not null"
+        "valueString": "define \"Numerator 1\":\n  \"Most Recent Tobacco Use Screening Indicates Tobacco Non User\" is not null\n    or \"Most Recent Tobacco Use Screening Indicates Tobacco User\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -267,10 +267,10 @@
         "valueString": "Numerator 2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator 2&quot;:   exists &quot;Tobacco Cessation Counseling Given&quot;     or exists &quot;Tobacco Cessation Pharmacotherapy Ordered&quot;     or exists &quot;Active Pharmacotherapy for Tobacco Cessation&quot;"
+        "valueString": "define \"Numerator 2\":\n  exists \"Tobacco Cessation Counseling Given\"\n    or exists \"Tobacco Cessation Pharmacotherapy Ordered\"\n    or exists \"Active Pharmacotherapy for Tobacco Cessation\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -282,10 +282,10 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:   exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter       where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;           or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;       )         and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;   )     or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter         where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment         where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;           and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder         where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;         // and HospiceOrder.doNotPerform is not true         // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447     )     or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed         where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis         where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;     )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -297,10 +297,10 @@
         "valueString": "Denominator Exclusion"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusion&quot;:   Hospice.&quot;Has Hospice Services&quot;"
+        "valueString": "define \"Denominator Exclusion\":\n  Hospice.\"Has Hospice Services\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -312,10 +312,10 @@
         "valueString": "Denominator 1"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator 1&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator 1\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -327,10 +327,10 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed //General usage unless required otherwise by measure intent (e.g., follow-up encounters) define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):   Enc E     where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -342,10 +342,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -357,10 +357,10 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Normalizes a value that is a choice of timing-valued types to an equivalent interval @comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types to an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible representations for timing-valued elements in QICore, allowing this function to be used across any resource. The input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;. The intent of this function is to provide a clear and concise mechanism to treat single elements that have multiple possible representations as intervals so that logic doesn&#39;t have to account for the variability. More complex calculations (such as medication request period or dispense period calculation) need specific guidance and consideration. That guidance may make use of this function, but the focus of this function is on single element calculations where the semantics are unambiguous. If the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime. If the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age, and the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later. If the input is a DateTime Interval, the result is the input. If the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result is a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending immediately before one year later than the date the patient turned the age given as the end of the quantity interval. If the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval */ define fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):   case    when choice is DateTime then      Interval[choice as DateTime, choice as DateTime]   when choice is Interval&lt;DateTime&gt; then     choice as Interval&lt;DateTime&gt;   when choice is Quantity then     Interval[Patient.birthDate + (choice as Quantity),      Patient.birthDate + (choice as Quantity) + 1 year)   when choice is Interval&lt;Quantity&gt; then     Interval[Patient.birthDate + (choice.low as Quantity),      Patient.birthDate + (choice.high as Quantity) + 1 year)   when choice is Timing then       Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;   else    null as Interval&lt;DateTime&gt;  end"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -372,10 +372,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.  //Assessment, Performed define fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):   Obs O     where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and exists ( O.category ObservationCategory           where ( ObservationCategory ) ~ &quot;survey&quot;       )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -387,10 +387,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Performed define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):   Proc P     where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -402,10 +402,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -417,10 +417,10 @@
         "valueString": "isMedicationOrder"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Order: active and completed only define fluent function isMedicationOrder(MedicationRequest List&lt;MedicationRequest&gt;):   MedicationRequest M     where M.status in { &#39;active&#39;, &#39;completed&#39; }       and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status in { 'active', 'completed' }\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -432,10 +432,10 @@
         "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Active define fluent function isMedicationActive(MedicationRequest List&lt;MedicationRequest&gt;):   MedicationRequest M     where M.status = &#39;active&#39;       and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -447,10 +447,10 @@
         "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "define fluent function medicationRequestPeriod(Request &quot;MedicationRequest&quot;):   Request R     let       dosage: singleton from R.dosageInstruction,       doseAndRate: singleton from dosage.doseAndRate,       timing: dosage.timing,       frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),       period: Quantity(timing.repeat.period, timing.repeat.periodUnit),       doseRange: doseAndRate.dose,       doseQuantity: doseAndRate.dose,       dose: Coalesce(end of doseRange, doseQuantity),       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),       boundsPeriod: timing.repeat.bounds as Interval&lt;DateTime&gt;,       daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,       quantity: R.dispenseRequest.quantity,       refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),       startDate:         Coalesce(           date from start of boundsPeriod,           date from R.authoredOn,           date from start of R.dispenseRequest.validityPeriod         ),       totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)     return       if startDate is not null and totalDaysSupplied is not null then         Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;) ]       else if startDate is not null and boundsPeriod.&quot;high&quot; is not null then         Interval[startDate, date from end of boundsPeriod]       else         null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -462,10 +462,10 @@
         "valueString": "Quantity"
       }, {
         "url": "statement",
-        "valueString": "/**********************************************************************/ /* Functions in this region are copied from opioid-mme-r4             */ /**********************************************************************/  define function Quantity(value Decimal, unit String):   if value is not null then     System.Quantity { value: value, unit: unit }   else     null"
+        "valueString": "/**********************************************************************/\n/* Functions in this region are copied from opioid-mme-r4             */\n/**********************************************************************/\n\ndefine function Quantity(value Decimal, unit String):\n  if value is not null then\n    System.Quantity { value: value, unit: unit }\n  else\n    null"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -477,10 +477,10 @@
         "valueString": "ToDaily"
       }, {
         "url": "statement",
-        "valueString": "/*  Goal is to get to number of days  Two broad approaches to the calculation:   1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered   2) Based on relevant period, determine a covered interval and calculate the length of that interval in days This topic covers several use cases and illustrates how to calculate Cumulative Medication Duration for each type of medication resource using the supply and frequency approach. */  /*   For the first approach, we need to get from frequency to a frequency/day   So we define ToDaily */  /*   Calculates daily frequency given frequency within a period */ define function ToDaily(frequency System.Integer, period System.Quantity):   case period.unit     when &#39;h&#39; then frequency * (24.0 / period.value)     when &#39;min&#39; then frequency * (24.0 / period.value) * 60     when &#39;s&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;d&#39; then frequency * (24.0 / period.value) / 24     when &#39;wk&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;mo&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;a&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &#39;hour&#39; then frequency * (24.0 / period.value)     when &#39;minute&#39; then frequency * (24.0 / period.value) * 60     when &#39;second&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;day&#39; then frequency * (24.0 / period.value) / 24     when &#39;week&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;month&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;year&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &#39;hours&#39; then frequency * (24.0 / period.value)     when &#39;minutes&#39; then frequency * (24.0 / period.value) * 60     when &#39;seconds&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;days&#39; then frequency * (24.0 / period.value) / 24     when &#39;weeks&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;months&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;years&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     else Message(null, true, &#39;CMDLogic.ToDaily.UnknownUnit&#39;, ErrorLevel, &#39;Unknown unit &#39; &amp; period.unit)   end"
+        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when 'h' then frequency * (24.0 / period.value)\n    when 'min' then frequency * (24.0 / period.value) * 60\n    when 's' then frequency * (24.0 / period.value) * 60 * 60\n    when 'd' then frequency * (24.0 / period.value) / 24\n    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hour' then frequency * (24.0 / period.value)\n    when 'minute' then frequency * (24.0 / period.value) * 60\n    when 'second' then frequency * (24.0 / period.value) * 60 * 60\n    when 'day' then frequency * (24.0 / period.value) / 24\n    when 'week' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hours' then frequency * (24.0 / period.value)\n    when 'minutes' then frequency * (24.0 / period.value) * 60\n    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60\n    when 'days' then frequency * (24.0 / period.value) / 24\n    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -492,12 +492,13 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Order: active and completed only     define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):   ServiceRequest S     where S.status in { &#39;active&#39;, &#39;completed&#39; }       and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -721,8 +722,7 @@
     } ],
     "dataRequirement": [ {
       "type": "Patient",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "birthDate", "birthDate.value" ]
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -814,6 +814,10 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
       "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
@@ -870,10 +874,6 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period" ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
       "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
@@ -898,10 +898,32 @@
     }, {
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
-      "mustSupport": [ "code", "effective", "status", "status.value", "category", "value" ],
+      "mustSupport": [ "code", "effective", "value", "status", "status.value", "category" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1278"
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1189"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "status", "status.value", "category" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1278"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "value", "status", "status.value", "category" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1278"
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1170"
       } ]
     }, {
       "type": "Observation",
@@ -914,6 +936,8 @@
           "code": "45755-6",
           "display": "Hospice care [Minimum Data Set]"
         } ]
+      }, {
+        "path": "value"
       } ]
     }, {
       "type": "Procedure",
@@ -952,6 +976,18 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1165"
       } ]
     }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "dispenseRequest.validityPeriod" ]
+    }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "dispenseRequest.validityPeriod" ],
@@ -959,14 +995,6 @@
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1190"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "dispenseRequest.validityPeriod" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     }, {
       "type": "ServiceRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
@@ -978,9 +1006,15 @@
     } ]
   } ],
   "extension": [ {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/PreventiveCareAndTobaccoUseScreeningAndCessationInterventionFHIR",
@@ -1033,7 +1067,7 @@
   "title": "Preventive Care and Screening: Tobacco Use: Screening and Cessation InterventionFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T13:41:43+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -1070,6 +1104,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/PreventiveCareAndTobaccoUseScreeningAndCessationInterventionFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.   Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "This measure is intended to promote adult tobacco screening and tobacco cessation interventions for those who use tobacco products. There is good evidence that tobacco screening and brief cessation intervention (including counseling and/or pharmacotherapy) is successful in helping tobacco users quit. Tobacco users who are able to stop using tobacco lower their risk for heart disease, lung disease, and stroke.",
   "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (USPSTF) recommends that clinicians ask all adults about tobacco use, advise them to stop using tobacco, and provide behavioral interventions and U.S. Food and Drug Administration (FDA)-approved pharmacotherapy for cessation to nonpregnant adults who use tobacco (Grade A Recommendation) (U.S. Preventive Services Task Force, 2021).  The USPSTF recommends that clinicians ask all pregnant persons about tobacco use, advise them to stop using tobacco, and provide behavioral interventions for cessation to pregnant persons who use tobacco (Grade A Recommendation) (U.S. Preventive Services Task Force, 2021).  The USPSTF concludes that the current evidence is insufficient to assess the balance of benefits and harms of pharmacotherapy interventions for tobacco cessation in pregnant women (Grade I Statement) (U.S. Preventive Services Task Force, 2021).   The USPSTF concludes that the current evidence is insufficient to assess the balance of benefits and harms of electronic cigarettes (e-cigarettes) for tobacco cessation in adults, including pregnant persons. The USPSTF recommends that clinicians direct patients who use tobacco to other tobacco cessation interventions with proven effectiveness and established safety (Grade I Statement) (U.S. Preventive Services Task Force, 2021).  The USPSTF recommends that primary care clinicians provide interventions, including education or brief counseling, to prevent initiation of tobacco use among school-aged children and adolescents (Grade B Statement) (U.S. Preventive Services Task Force, 2020).  The USPSTF concludes that the current evidence is insufficient to assess the balance of benefits and harms of primary care--feasible interventions for the cessation of tobacco use among school-aged children and adolescents (Grade I Statement) (U.S. Preventive Services Task Force, 2020).  All patients should be asked if they use tobacco and should have their tobacco use status documented on a regular basis. Evidence has shown that clinic screening systems, such as expanding the vital signs to include tobacco use status or the use of other reminder systems such as chart stickers or computer prompts, significantly increase rates of clinician intervention. (Strength of Evidence = A) (U.S. Department of Health and Human Services. Public Health Service, 2008).  All physicians should strongly advise every patient who smokes to quit because evidence shows that physician advice to quit smoking increases abstinence rates. (Strength of Evidence = A) (U.S. Department of Health and Human Services. Public Health Service, 2008).  Minimal interventions lasting less than 3 minutes increase overall tobacco abstinence rates. Every tobacco user should be offered at least a minimal intervention, whether or not he or she is referred to an intensive intervention. (Strength of Evidence = A) (U.S. Department of Health and Human Services. Public Health Service, 2008).  The combination of counseling and medication is more effective for smoking cessation than either medication or counseling alone. Therefore, whenever feasible and appropriate, both counseling and medication should be provided to patients trying to quit smoking. (Strength of Evidence = A) (U.S. Department of Health and Human Services. Public Health Service, 2008).",
   "group": [ {

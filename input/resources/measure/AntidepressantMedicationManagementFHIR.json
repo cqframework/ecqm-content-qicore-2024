@@ -31,16 +31,16 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
+        "system": "http://snomed.info/sct",
+        "code": "373066001",
+        "display": "Yes (qualifier value)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "373066001",
-        "display": "Yes (qualifier value)"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -52,10 +52,10 @@
         "valueString": "May 1 of the Year Prior to the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;May 1 of the Year Prior to the Measurement Period&quot;:   DateTime((year from start of &quot;Measurement Period&quot; - 1), 5, 1, 0, 0, 0, 0, 0)"
+        "valueString": "define \"May 1 of the Year Prior to the Measurement Period\":\n  DateTime((year from start of \"Measurement Period\" - 1), 5, 1, 0, 0, 0, 0, 0)"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -67,10 +67,10 @@
         "valueString": "April 30 of the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;April 30 of the Measurement Period&quot;:   DateTime((year from start of &quot;Measurement Period&quot;), 4, 30, 23, 59, 59, 0, 0)"
+        "valueString": "define \"April 30 of the Measurement Period\":\n  DateTime((year from start of \"Measurement Period\"), 4, 30, 23, 59, 59, 0, 0)"
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -82,10 +82,10 @@
         "valueString": "Intake Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intake Period&quot;:   Interval[&quot;May 1 of the Year Prior to the Measurement Period&quot;, &quot;April 30 of the Measurement Period&quot;]"
+        "valueString": "define \"Intake Period\":\n  Interval[\"May 1 of the Year Prior to the Measurement Period\", \"April 30 of the Measurement Period\"]"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -97,10 +97,10 @@
         "valueString": "Earliest Antidepressant Dispensed During Intake Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Earliest Antidepressant Dispensed During Intake Period&quot;:   First((([MedicationDispense: &quot;Antidepressant Medication&quot;]).isMedicationDispensed()) Antidepressant       where start of Antidepressant.medicationDispensePeriod() in day of &quot;Intake Period&quot;       return {         AntidepressantDate: date from start of Antidepressant.medicationDispensePeriod()       }       sort by AntidepressantDate   ).AntidepressantDate"
+        "valueString": "define \"Earliest Antidepressant Dispensed During Intake Period\":\n  First((([MedicationDispense: \"Antidepressant Medication\"]).isMedicationDispensed()) Antidepressant\n      where start of Antidepressant.medicationDispensePeriod() in day of \"Intake Period\"\n      return {\n        AntidepressantDate: date from start of Antidepressant.medicationDispensePeriod()\n      }\n      sort by AntidepressantDate\n  ).AntidepressantDate"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -112,10 +112,10 @@
         "valueString": "IPSD"
       }, {
         "url": "statement",
-        "valueString": "define &quot;IPSD&quot;:   &quot;Earliest Antidepressant Dispensed During Intake Period&quot;"
+        "valueString": "define \"IPSD\":\n  \"Earliest Antidepressant Dispensed During Intake Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -127,10 +127,10 @@
         "valueString": "Has IPSD and Major Depression Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has IPSD and Major Depression Diagnosis&quot;:   exists ( [Condition: &quot;Major Depression&quot;] MajorDepression       where &quot;IPSD&quot; is not null         and date from start of MajorDepression.prevalenceInterval ( ) within 60 days of &quot;IPSD&quot;   )"
+        "valueString": "define \"Has IPSD and Major Depression Diagnosis\":\n  exists ( [Condition: \"Major Depression\"] MajorDepression\n      where \"IPSD\" is not null\n        and date from start of MajorDepression.prevalenceInterval ( ) within 60 days of \"IPSD\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -142,10 +142,10 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounters&quot;:   ( ( [Encounter: &quot;Office Visit&quot;]       union [Encounter: &quot;Preventive Care Services Established Office Visit, 18 and Up&quot;]       union [Encounter: &quot;Preventive Care Services Initial Office Visit, 18 and Up&quot;]       union [Encounter: &quot;Home Healthcare Services&quot;]       union [Encounter: &quot;Annual Wellness Visit&quot;]       union [Encounter: &quot;Nursing Facility Visit&quot;]       union [Encounter: &quot;Psych Visit Diagnostic Evaluation&quot;]       union [Encounter: &quot;Psych Visit Psychotherapy&quot;]       union [Encounter: &quot;Telephone Visits&quot;]       union [Encounter: &quot;Virtual Encounter&quot;]   ).isEncounterPerformed ( ) ) ValidEncounter     where date from start of ValidEncounter.period.toInterval ( ) within 60 days of &quot;IPSD&quot;"
+        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Office Visit\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Home Healthcare Services\"]\n      union [Encounter: \"Annual Wellness Visit\"]\n      union [Encounter: \"Nursing Facility Visit\"]\n      union [Encounter: \"Psych Visit Diagnostic Evaluation\"]\n      union [Encounter: \"Psych Visit Psychotherapy\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Virtual Encounter\"]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where date from start of ValidEncounter.period.toInterval ( ) within 60 days of \"IPSD\""
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -157,10 +157,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   AgeInYearsAt(date from &quot;IPSD&quot;) &gt;= 18     and &quot;Has IPSD and Major Depression Diagnosis&quot;     and exists &quot;Qualifying Encounters&quot;"
+        "valueString": "define \"Initial Population\":\n  AgeInYearsAt(date from \"IPSD\") >= 18\n    and \"Has IPSD and Major Depression Diagnosis\"\n    and exists \"Qualifying Encounters\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -172,10 +172,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -187,10 +187,10 @@
         "valueString": "Antidepressant Medication Period Between IPSD and 114 Days After IPSD"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Antidepressant Medication Period Between IPSD and 114 Days After IPSD&quot;:   ( ( [MedicationDispense: &quot;Antidepressant Medication&quot;] ).isMedicationDispensed ( ) ) Antidepressant     let MedicationPeriod: Antidepressant.medicationDispensePeriod ( )     return MedicationPeriod       intersect Interval[&quot;IPSD&quot;, &quot;IPSD&quot; + 114 days]"
+        "valueString": "define \"Antidepressant Medication Period Between IPSD and 114 Days After IPSD\":\n  ( ( [MedicationDispense: \"Antidepressant Medication\"] ).isMedicationDispensed ( ) ) Antidepressant\n    let MedicationPeriod: Antidepressant.medicationDispensePeriod ( )\n    return MedicationPeriod\n      intersect Interval[\"IPSD\", \"IPSD\" + 114 days]"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -202,10 +202,10 @@
         "valueString": "Cumulative Medication Duration Greater Than or Equal to 84 Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Cumulative Medication Duration Greater Than or Equal to 84 Days&quot;:   ( &quot;Antidepressant Medication Period Between IPSD and 114 Days After IPSD&quot;.cumulativeDuration ( ) ) &gt;= 84"
+        "valueString": "define \"Cumulative Medication Duration Greater Than or Equal to 84 Days\":\n  ( \"Antidepressant Medication Period Between IPSD and 114 Days After IPSD\".cumulativeDuration ( ) ) >= 84"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -217,10 +217,10 @@
         "valueString": "Numerator 1"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator 1&quot;:   &quot;Cumulative Medication Duration Greater Than or Equal to 84 Days&quot;"
+        "valueString": "define \"Numerator 1\":\n  \"Cumulative Medication Duration Greater Than or Equal to 84 Days\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -232,10 +232,10 @@
         "valueString": "Antidepressant Medication Period Between IPSD and 231 Days After IPSD"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Antidepressant Medication Period Between IPSD and 231 Days After IPSD&quot;:   ( ( [MedicationDispense: &quot;Antidepressant Medication&quot;] ).isMedicationDispensed ( ) ) Antidepressant     let MedicationPeriod: Antidepressant.medicationDispensePeriod ( )     return MedicationPeriod       intersect Interval[&quot;IPSD&quot;, &quot;IPSD&quot; + 231 days]"
+        "valueString": "define \"Antidepressant Medication Period Between IPSD and 231 Days After IPSD\":\n  ( ( [MedicationDispense: \"Antidepressant Medication\"] ).isMedicationDispensed ( ) ) Antidepressant\n    let MedicationPeriod: Antidepressant.medicationDispensePeriod ( )\n    return MedicationPeriod\n      intersect Interval[\"IPSD\", \"IPSD\" + 231 days]"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -247,10 +247,10 @@
         "valueString": "Cumulative Medication Duration Greater Than or Equal to 180 Days"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Cumulative Medication Duration Greater Than or Equal to 180 Days&quot;:   ( &quot;Antidepressant Medication Period Between IPSD and 231 Days After IPSD&quot;.cumulativeDuration ( ) ) &gt;= 180"
+        "valueString": "define \"Cumulative Medication Duration Greater Than or Equal to 180 Days\":\n  ( \"Antidepressant Medication Period Between IPSD and 231 Days After IPSD\".cumulativeDuration ( ) ) >= 180"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -262,10 +262,10 @@
         "valueString": "Numerator 2"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator 2&quot;:   &quot;Cumulative Medication Duration Greater Than or Equal to 180 Days&quot;"
+        "valueString": "define \"Numerator 2\":\n  \"Cumulative Medication Duration Greater Than or Equal to 180 Days\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -277,10 +277,10 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:   exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter       where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;           or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;       )         and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;   )     or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter         where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment         where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;           and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder         where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;         // and HospiceOrder.doNotPerform is not true         // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447     )     or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed         where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;     )     or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis         where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;     )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -292,10 +292,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:   Hospice.&quot;Has Hospice Services&quot;     or exists ( ( ( ( [MedicationRequest: &quot;Antidepressant Medication&quot;] ).isMedicationActive ( ) ) ActiveAntidepressant           where &quot;IPSD&quot; is not null             and CQMCommon.ToDateInterval ( ActiveAntidepressant.medicationRequestPeriod ( ) ) overlaps Interval[&quot;IPSD&quot; - 105 days, &quot;IPSD&quot; )       )     )"
+        "valueString": "define \"Denominator Exclusions\":\n  Hospice.\"Has Hospice Services\"\n    or exists ( ( ( ( [MedicationRequest: \"Antidepressant Medication\"] ).isMedicationActive ( ) ) ActiveAntidepressant\n          where \"IPSD\" is not null\n            and CQMCommon.ToDateInterval ( ActiveAntidepressant.medicationRequestPeriod ( ) ) overlaps Interval[\"IPSD\" - 105 days, \"IPSD\" )\n      )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -307,10 +307,10 @@
         "valueString": "isMedicationDispensed"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Dispensed define fluent function isMedicationDispensed(Med List&lt;MedicationDispense&gt;):   Med M     where M.status in { &#39;completed&#39;, &#39;in-progress&#39;, &#39;on-hold&#39; }"
+        "valueString": "//Medication, Dispensed\ndefine fluent function isMedicationDispensed(Med List<MedicationDispense>):\n  Med M\n    where M.status in { 'completed', 'in-progress', 'on-hold' }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -322,10 +322,10 @@
         "valueString": "medicationDispensePeriod"
       }, {
         "url": "statement",
-        "valueString": "/* Calculates Medication Period for a given MedicationDispense MedicationDispense instances provided to this function are expected to conform to the [TODO: MMEMedicationDispense](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationdispense.html) profile, which expects: * 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error * 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error * 1 timing with 1 repeat, missing timing or repeat elements will result in a null * frequency, frequencyMax, defaulting to 1 * period, periodUnit, defaulting to 1 &#39;d&#39; * timeOfDay * doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null * whenHandedOver or whenPrepared, if missing both whenHandedOver and whenPrepared will result in a null Note that MedicationDispense status is not considered by this calculation, as the list of MedicationDispense instances provided to this function should already have considered appropriate statuses, depending on the use case, typically `completed`, especially since whenHandedOver would be expected to be present for a completed MedicationDispense. Note also that the dosage information recorded in a dispense is expected to be a copy of the dispense information from the related medication request. As such, the boundsPeriod would be expected to cover the entire range, and should _not_ be used for timing of the event. There is also active discussion in the Pharmacy WG about what date should be used if whenPrepared/whenHandedOver is not present. This may take the form of an &quot;original creation date&quot;, but may also be a &quot;status change date&quot; for dispense events that are updating status of an existing dispense. That discussion is ongoing, so until that is resolved, this logic will return null if whenPrepared/whenHandedOver are not available. */ define fluent function medicationDispensePeriod(Dispense &quot;MedicationDispense&quot;):   Dispense D     let       dosage: singleton from D.dosageInstruction,       doseAndRate: singleton from dosage.doseAndRate,       timing: dosage.timing,       frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),       period: Quantity(timing.repeat.period, timing.repeat.periodUnit),       doseRange: doseAndRate.dose,       doseQuantity: doseAndRate.dose,       dose: Coalesce(end of doseRange, doseQuantity),       daysSupply: (convert D.daysSupply to days).value,       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),       startDate:         Coalesce(           date from D.whenHandedOver,           date from D.whenPrepared         ),       totalDaysSupplied: Coalesce(daysSupply, D.quantity.value / (dose.value * dosesPerDay))     return       if startDate is not null and totalDaysSupplied is not null then         Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;)]       else         null"
+        "valueString": "/*\nCalculates Medication Period for a given MedicationDispense\nMedicationDispense instances provided to this function are expected\nto conform to the [TODO: MMEMedicationDispense](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationdispense.html)\nprofile, which expects:\n* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error\n* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error\n* 1 timing with 1 repeat, missing timing or repeat elements will result in a null\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* timeOfDay\n* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null\n* whenHandedOver or whenPrepared, if missing both whenHandedOver and whenPrepared will result in a null\nNote that MedicationDispense status is not considered by this calculation, as the\nlist of MedicationDispense instances provided to this function should already have\nconsidered appropriate statuses, depending on the use case, typically `completed`,\nespecially since whenHandedOver would be expected to be present for a completed\nMedicationDispense.\nNote also that the dosage information recorded in a dispense is expected to be a copy of the\ndispense information from the related medication request. As such, the boundsPeriod would be expected\nto cover the entire range, and should _not_ be used for timing of the event.\nThere is also active discussion in the Pharmacy WG about what date should be used if whenPrepared/whenHandedOver is not present.\nThis may take the form of an \"original creation date\", but may also be a \"status change date\" for dispense events that are updating\nstatus of an existing dispense. That discussion is ongoing, so until that is resolved, this logic will return\nnull if whenPrepared/whenHandedOver are not available.\n*/\ndefine fluent function medicationDispensePeriod(Dispense \"MedicationDispense\"):\n  Dispense D\n    let\n      dosage: singleton from D.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      daysSupply: (convert D.daysSupply to days).value,\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      startDate:\n        Coalesce(\n          date from D.whenHandedOver,\n          date from D.whenPrepared\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, D.quantity.value / (dose.value * dosesPerDay))\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day')]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -337,10 +337,10 @@
         "valueString": "Quantity"
       }, {
         "url": "statement",
-        "valueString": "/**********************************************************************/ /* Functions in this region are copied from opioid-mme-r4             */ /**********************************************************************/  define function Quantity(value Decimal, unit String):   if value is not null then     System.Quantity { value: value, unit: unit }   else     null"
+        "valueString": "/**********************************************************************/\n/* Functions in this region are copied from opioid-mme-r4             */\n/**********************************************************************/\n\ndefine function Quantity(value Decimal, unit String):\n  if value is not null then\n    System.Quantity { value: value, unit: unit }\n  else\n    null"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -352,10 +352,10 @@
         "valueString": "ToDaily"
       }, {
         "url": "statement",
-        "valueString": "/*  Goal is to get to number of days  Two broad approaches to the calculation:   1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered   2) Based on relevant period, determine a covered interval and calculate the length of that interval in days This topic covers several use cases and illustrates how to calculate Cumulative Medication Duration for each type of medication resource using the supply and frequency approach. */  /*   For the first approach, we need to get from frequency to a frequency/day   So we define ToDaily */  /*   Calculates daily frequency given frequency within a period */ define function ToDaily(frequency System.Integer, period System.Quantity):   case period.unit     when &#39;h&#39; then frequency * (24.0 / period.value)     when &#39;min&#39; then frequency * (24.0 / period.value) * 60     when &#39;s&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;d&#39; then frequency * (24.0 / period.value) / 24     when &#39;wk&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;mo&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;a&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &#39;hour&#39; then frequency * (24.0 / period.value)     when &#39;minute&#39; then frequency * (24.0 / period.value) * 60     when &#39;second&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;day&#39; then frequency * (24.0 / period.value) / 24     when &#39;week&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;month&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;year&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &#39;hours&#39; then frequency * (24.0 / period.value)     when &#39;minutes&#39; then frequency * (24.0 / period.value) * 60     when &#39;seconds&#39; then frequency * (24.0 / period.value) * 60 * 60     when &#39;days&#39; then frequency * (24.0 / period.value) / 24     when &#39;weeks&#39; then frequency * (24.0 / period.value) / (24 * 7)     when &#39;months&#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &#39;years&#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     else Message(null, true, &#39;CMDLogic.ToDaily.UnknownUnit&#39;, ErrorLevel, &#39;Unknown unit &#39; &amp; period.unit)   end"
+        "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when 'h' then frequency * (24.0 / period.value)\n    when 'min' then frequency * (24.0 / period.value) * 60\n    when 's' then frequency * (24.0 / period.value) * 60 * 60\n    when 'd' then frequency * (24.0 / period.value) / 24\n    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hour' then frequency * (24.0 / period.value)\n    when 'minute' then frequency * (24.0 / period.value) * 60\n    when 'second' then frequency * (24.0 / period.value) * 60 * 60\n    when 'day' then frequency * (24.0 / period.value) / 24\n    when 'week' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hours' then frequency * (24.0 / period.value)\n    when 'minutes' then frequency * (24.0 / period.value) * 60\n    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60\n    when 'days' then frequency * (24.0 / period.value) / 24\n    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -367,10 +367,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -382,10 +382,10 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed //General usage unless required otherwise by measure intent (e.g., follow-up encounters) define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):   Enc E     where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -397,10 +397,10 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Normalizes a value that is a choice of timing-valued types to an equivalent interval @comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types to an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible representations for timing-valued elements in QICore, allowing this function to be used across any resource. The input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;. The intent of this function is to provide a clear and concise mechanism to treat single elements that have multiple possible representations as intervals so that logic doesn&#39;t have to account for the variability. More complex calculations (such as medication request period or dispense period calculation) need specific guidance and consideration. That guidance may make use of this function, but the focus of this function is on single element calculations where the semantics are unambiguous. If the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime. If the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age, and the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later. If the input is a DateTime Interval, the result is the input. If the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result is a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending immediately before one year later than the date the patient turned the age given as the end of the quantity interval. If the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval */ define fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):   case    when choice is DateTime then      Interval[choice as DateTime, choice as DateTime]   when choice is Interval&lt;DateTime&gt; then     choice as Interval&lt;DateTime&gt;   when choice is Quantity then     Interval[Patient.birthDate + (choice as Quantity),      Patient.birthDate + (choice as Quantity) + 1 year)   when choice is Interval&lt;Quantity&gt; then     Interval[Patient.birthDate + (choice.low as Quantity),      Patient.birthDate + (choice.high as Quantity) + 1 year)   when choice is Timing then       Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;   else    null as Interval&lt;DateTime&gt;  end"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -412,10 +412,10 @@
         "valueString": "cumulativeDuration"
       }, {
         "url": "statement",
-        "valueString": "/* Now that we have functions for determining the medication period for individual prescriptions, administrations, and dispenses, we can combine those using an overall cumulative medication duration calculation. There are two broad approaches to calculating cumulative duration, one that _collapses_ overlapping intervals so that calculations are not duplicated, and one that _rolls out_ overlapping intervals so that the durations are laid end-to-end. First, we define a function that simply calculates CumulativeDuration of a set of intervals: */ define fluent function cumulativeDuration(Intervals List&lt;Interval&lt;Date&gt;&gt;):    if Intervals is not null then ( Sum((collapse Intervals per day)X         return all(difference in days between start of X and            end of X         )+ 1     )   )      else null"
+        "valueString": "/*\nNow that we have functions for determining the medication period for individual\nprescriptions, administrations, and dispenses, we can combine those using\nan overall cumulative medication duration calculation.\nThere are two broad approaches to calculating cumulative duration, one that _collapses_\noverlapping intervals so that calculations are not duplicated, and one that _rolls out_\noverlapping intervals so that the durations are laid end-to-end.\nFirst, we define a function that simply calculates CumulativeDuration of a set of\nintervals:\n*/\ndefine fluent function cumulativeDuration(Intervals List<Interval<Date>>):\n   if Intervals is not null then ( Sum((collapse Intervals per day)X\n        return all(difference in days between start of X and \n          end of X\n        )+ 1\n    )\n  ) \n    else null"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -427,10 +427,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.  //Assessment, Performed define fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):   Obs O     where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           and exists ( O.category ObservationCategory           where ( ObservationCategory ) ~ &quot;survey&quot;       )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -442,10 +442,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -457,10 +457,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Order: active and completed only     define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):   ServiceRequest S     where S.status in { &#39;active&#39;, &#39;completed&#39; }       and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -472,10 +472,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Performed define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):   Proc P     where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -487,10 +487,10 @@
         "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Active define fluent function isMedicationActive(MedicationRequest List&lt;MedicationRequest&gt;):   MedicationRequest M     where M.status = &#39;active&#39;       and M.intent = &#39;order&#39;"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -502,10 +502,10 @@
         "valueString": "ToDateInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval of date values extracted from the input interval of date-time values @comment: This function returns an interval constructed using the `date from` extractor on the start and end values of the input date-time interval. Note that using a precision specifier such as `day of` as part of a timing phrase is preferred to communicate intent to perform day-level comparison, as well as for general readability. */ define function &quot;ToDateInterval&quot;(period Interval&lt;DateTime&gt;):   Interval[date from start of period, date from end of period]"
+        "valueString": "/*\n@description: Returns an interval of date values extracted from the input interval of date-time values\n@comment: This function returns an interval constructed using the `date from` extractor on the start\nand end values of the input date-time interval. Note that using a precision specifier such as `day of`\nas part of a timing phrase is preferred to communicate intent to perform day-level comparison, as well\nas for general readability.\n*/\ndefine function \"ToDateInterval\"(period Interval<DateTime>):\n  Interval[date from start of period, date from end of period]"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -517,12 +517,13 @@
         "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "define fluent function medicationRequestPeriod(Request &quot;MedicationRequest&quot;):   Request R     let       dosage: singleton from R.dosageInstruction,       doseAndRate: singleton from dosage.doseAndRate,       timing: dosage.timing,       frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),       period: Quantity(timing.repeat.period, timing.repeat.periodUnit),       doseRange: doseAndRate.dose,       doseQuantity: doseAndRate.dose,       dose: Coalesce(end of doseRange, doseQuantity),       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),       boundsPeriod: timing.repeat.bounds as Interval&lt;DateTime&gt;,       daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,       quantity: R.dispenseRequest.quantity,       refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),       startDate:         Coalesce(           date from start of boundsPeriod,           date from R.authoredOn,           date from start of R.dispenseRequest.validityPeriod         ),       totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)     return       if startDate is not null and totalDaysSupplied is not null then         Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &#39;day&#39;) ]       else if startDate is not null and boundsPeriod.&quot;high&quot; is not null then         Interval[startDate, date from end of boundsPeriod]       else         null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -632,17 +633,17 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1165"
     } ],
     "parameter": [ {
-      "name": "Measurement Period",
-      "use": "in",
-      "min": 0,
-      "max": "1",
-      "type": "Period"
-    }, {
       "name": "ErrorLevel",
       "use": "in",
       "min": 0,
       "max": "1",
       "type": "string"
+    }, {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
     }, {
       "name": "Denominator",
       "use": "out",
@@ -676,8 +677,7 @@
     } ],
     "dataRequirement": [ {
       "type": "Patient",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "birthDate", "birthDate.value" ]
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
     }, {
       "type": "MedicationDispense",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationdispense" ],
@@ -809,6 +809,8 @@
           "code": "45755-6",
           "display": "Hospice care [Minimum Data Set]"
         } ]
+      }, {
+        "path": "value"
       } ]
     }, {
       "type": "ServiceRequest",
@@ -827,6 +829,25 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1584"
       } ]
     }, {
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
+        "extension": [ {
+          "url": "targetId",
+          "valueString": "479"
+        }, {
+          "url": "targetProperty",
+          "valueString": "medication"
+        } ]
+      } ],
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "id": "479",
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ]
+    }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ],
@@ -834,20 +855,18 @@
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1213"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     } ]
   } ],
   "extension": [ {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/AntidepressantMedicationManagementFHIR",
@@ -900,7 +919,7 @@
   "title": "Antidepressant Medication ManagementFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-15T16:20:35+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -925,6 +944,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/AntidepressantMedicationManagementFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.   Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Depression affects over 17 million adults in the U.S. (NIMH, 2021) and is estimated to affect nearly a quarter of adults in their lifetime (Burcusa & Iacono, 2007). Symptoms of depression include disturbances in appetite and sleep, anxiety, decreased concentration, and suicidal ideation (NAMI, 2017; Charbonneau et al., 2005). When left untreated, depression can have a dramatic effect on one’s quality of life, causing constant feelings of hopelessness, loss of interest in daily activities and in some cases suicidal ideation (SAMHSA, 2014).  The American Psychiatric Association (APA) recommends use of antidepressant medication and behavioral therapies, such as psychotherapy, for the treatment and management of depression (APA, 2010). For the past 60 years, antidepressant medication has proven to be effective, especially for patients with more severe symptoms (Fournier et al., 2010). However, studies analyzing adherence to antidepressant medications found that prevalence of nonadherence was high, ranging from 13 percent to 55.7 percent (Sansone, 2012).   Clinical guidelines for depression emphasize the importance of effective clinical management in increasing patients’ medication compliance, monitoring treatment effectiveness, and identifying and managing side effects. If pharmacological treatment is initiated, appropriate dosing and continuation of therapy through the acute and continuation phases decrease recurrence of symptoms. Thus, the evaluation of the duration of pharmacological treatment serves as an important indicator in understanding patient compliance with establishing and maintaining an effective medication regimen.",
   "clinicalRecommendationStatement": "American Psychological Association (2019):  - \"For initial treatment of adult patients with depression, the panel recommends the following in the context of sharing decision-making with the patient when considering options:  1. That clinicians offer either psychotherapy or second-generation antidepressant. 2. If considering combined treatment, the panel recommends cognitive-behavioral therapy or interpersonal psychotherapy plus a second-generation antidepressant.”   - “For initial treatment of older adult patients with depression, the panel recommends the following in the context of shared decision-making with the patient:  1. Either group life review treatment or Group Cognitive Behavioral Therapy (either alone or added to usual care) over no treatment  2. Combined pharmacotherapy and interpersonal psychotherapy (IPT) over IPT alone. Of note, while the study upon which this is based used nortriptyline, the panel recommends a second-generation antidepressant due to the reduced risk of side effects.”  American Psychiatric Association (2010):  - “An antidepressant medication is recommended as an initial treatment choice for patients with mild to moderate major depressive disorder [I: Recommended with substantial clinical confidence] and definitely should be provided for those with severe major depressive disorder unless electroconvulsive therapy (ECT) is planned [I: Recommended with substantial clinical confidence].”   - \"Patients should be given a realistic notion of what can be expected during the different phases of treatment, including the likely time course of symptom response and the importance of adherence for successful treatment and prophylaxis [I].\"  - \"During the acute phase of treatment, patients should be carefully and systematically monitored on a regular basis to assess their response to pharmacotherapy, identify the emergence of side effects (e.g., gastrointestinal symptoms, sedation, insomnia, activation, changes in weight, and cardiovascular, neurological, anticholinergic, or sexual side effects), and assess patient safety [I].\"  - “During the continuation phase of treatment, the patient should be carefully monitored for signs of possible relapse [I: Recommended with substantial clinical confidence]. Systematic assessment of symptoms, side effects, adherence, and functional status is essential [I: Recommended with substantial clinical confidence], and may be facilitated through the use of clinician- and/or patient-administered rating scales [II: Recommended with moderate clinical confidence]. To reduce the risk of relapse, patients who have been treated successfully with antidepressant medications in the acute phase should continue treatment with these agents for 4–9 months [I: Recommended with substantial clinical confidence].”  Department of Veterans Affairs, and Health Affairs, Department of Defense (2022):  - “For patients with major depressive disorder (MDD), we suggest using a quantitative measure of depression severity in the initial treatment planning and to monitor treatment progress at regular intervals to guide shared treatment decision making.” [Weak For]   - “In patients with MDD who achieve remission with antidepressant medication, we recommend continuation of antidepressants at the therapeutic dose for at least six months to decrease risk of relapse.” [Strong For]  Department of Veterans Affairs, and Health Affairs, Department of Defense (2016): - ”In patients at high risk for recurrent depressive episodes and who are treated with pharmacotherapy, we recommend offering maintenance pharmacotherapy for at least 12 months and possibly indefinitely.” [Strong For]    - “After initiation of therapy or a change in treatment, we recommend monitoring patients at least monthly until the patient achieves remission. At minimum, assessments should include a measure of symptoms, adherence to medication and psychotherapy, and emergence of adverse effects.” [Strong For]   - “In patients with MDD who achieve remission with antidepressant medication, we recommend continuation of antidepressants at the therapeutic dose for at least six months to decrease risk of relapse.” [Strong For]",
   "group": [ {

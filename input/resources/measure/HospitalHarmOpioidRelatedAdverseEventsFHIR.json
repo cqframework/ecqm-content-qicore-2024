@@ -31,10 +31,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -46,10 +46,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -61,10 +61,10 @@
         "valueString": "Opioid Antagonist Administration"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Opioid Antagonist Administration&quot;:\n  [&quot;MedicationAdministration&quot;: &quot;Opioid Antagonist&quot;] AntagonistGiven\n    where AntagonistGiven.status = &#39;completed&#39;\n      and AntagonistGiven.status != &#39;not-done&#39;"
+        "valueString": "define \"Opioid Antagonist Administration\":\n  [\"MedicationAdministration\": \"Opioid Antagonist\"] AntagonistGiven\n    where AntagonistGiven.status = 'completed'\n      and AntagonistGiven.status != 'not-done'"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -76,10 +76,10 @@
         "valueString": "Opioid Administration"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Opioid Administration&quot;:\n  [&quot;MedicationAdministration&quot;: &quot;Opioids, All&quot;] Opioids\n    where Opioids.status = &#39;completed&#39;\n      and Opioids.status != &#39;not-done&#39;"
+        "valueString": "define \"Opioid Administration\":\n  [\"MedicationAdministration\": \"Opioids, All\"] Opioids\n    where Opioids.status = 'completed'\n      and Opioids.status != 'not-done'"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -91,10 +91,10 @@
         "valueString": "Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter&quot;:\n  [&quot;Encounter&quot;: &quot;Encounter Inpatient&quot;] InpatientEncounter\n    where AgeInYearsAt(date from start of InpatientEncounter.period) &gt;= 18\n      and InpatientEncounter.period ends during day of &quot;Measurement Period&quot;\n      and InpatientEncounter.status = &#39;finished&#39;"
+        "valueString": "define \"Qualifying Encounter\":\n  [\"Encounter\": \"Encounter Inpatient\"] InpatientEncounter\n    where AgeInYearsAt(date from start of InpatientEncounter.period) >= 18\n      and InpatientEncounter.period ends during day of \"Measurement Period\"\n      and InpatientEncounter.status = 'finished'"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -106,10 +106,10 @@
         "valueString": "Encounter with Opioid Administration Outside of Operating Room"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Opioid Administration Outside of Operating Room&quot;:\n  &quot;Qualifying Encounter&quot; InpatientEncounter\n    with &quot;Opioid Administration&quot; OpioidGiven\n      such that QICoreCommon.&quot;ToInterval&quot; ( OpioidGiven.effective ) starts during CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientEncounter )\n        and not exists ( InpatientEncounter.location EncounterLocation\n            where CQMCommon.GetLocation ( EncounterLocation.location ).type in &quot;Operating Room Suite&quot;\n              and QICoreCommon.&quot;ToInterval&quot; ( OpioidGiven.effective ) starts during EncounterLocation.period\n        )"
+        "valueString": "define \"Encounter with Opioid Administration Outside of Operating Room\":\n  \"Qualifying Encounter\" InpatientEncounter\n    with \"Opioid Administration\" OpioidGiven\n      such that QICoreCommon.\"ToInterval\" ( OpioidGiven.effective ) starts during CQMCommon.\"HospitalizationWithObservation\" ( InpatientEncounter )\n        and not exists ( InpatientEncounter.location EncounterLocation\n            where CQMCommon.GetLocation ( EncounterLocation.location ).type in \"Operating Room Suite\"\n              and QICoreCommon.\"ToInterval\" ( OpioidGiven.effective ) starts during EncounterLocation.period\n        )"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -121,10 +121,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Encounter with Opioid Administration Outside of Operating Room&quot;"
+        "valueString": "define \"Initial Population\":\n  \"Encounter with Opioid Administration Outside of Operating Room\""
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -136,10 +136,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -151,10 +151,10 @@
         "valueString": "Encounter with Non Enteral Opioid Antagonist Administration Outside of Operating Room and within 12 Hrs After Opioid"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with Non Enteral Opioid Antagonist Administration Outside of Operating Room and within 12 Hrs After Opioid&quot;:\n  // Opioids administered before opioid antagonist AND excludes opioid antagonist administered in operating room AND limits opioid antagonist to non-enteral routes//\n  \n  from\n    &quot;Opioid Antagonist Administration&quot; OpioidAntagonistGiven,\n    &quot;Opioid Administration&quot; OpioidGiven,\n    &quot;Denominator&quot; EncounterWithQualifyingAge\n    where not exists ( EncounterWithQualifyingAge.location EncounterLocation\n        where CQMCommon.GetLocation ( EncounterLocation.location ).type in &quot;Operating Room Suite&quot;\n          and QICoreCommon.&quot;ToInterval&quot; ( OpioidAntagonistGiven.effective ) starts during EncounterLocation.period\n    )\n      and ( QICoreCommon.&quot;ToInterval&quot; ( OpioidAntagonistGiven.effective ) starts during CQMCommon.&quot;HospitalizationWithObservation&quot; ( EncounterWithQualifyingAge )\n          and QICoreCommon.&quot;ToInterval&quot; ( OpioidGiven.effective ) starts during CQMCommon.&quot;HospitalizationWithObservation&quot; ( EncounterWithQualifyingAge )\n          and QICoreCommon.&quot;ToInterval&quot; ( OpioidGiven.effective ) ends 12 hours or less before start of QICoreCommon.&quot;ToInterval&quot; ( OpioidAntagonistGiven.effective )\n          and OpioidAntagonistGiven.dosage.route in &quot;Routes of Administration for Opioid Antagonists&quot;\n      )\n    return EncounterWithQualifyingAge"
+        "valueString": "define \"Encounter with Non Enteral Opioid Antagonist Administration Outside of Operating Room and within 12 Hrs After Opioid\":\n  // Opioids administered before opioid antagonist AND excludes opioid antagonist administered in operating room AND limits opioid antagonist to non-enteral routes//\n  \n  from\n    \"Opioid Antagonist Administration\" OpioidAntagonistGiven,\n    \"Opioid Administration\" OpioidGiven,\n    \"Denominator\" EncounterWithQualifyingAge\n    where not exists ( EncounterWithQualifyingAge.location EncounterLocation\n        where CQMCommon.GetLocation ( EncounterLocation.location ).type in \"Operating Room Suite\"\n          and QICoreCommon.\"ToInterval\" ( OpioidAntagonistGiven.effective ) starts during EncounterLocation.period\n    )\n      and ( QICoreCommon.\"ToInterval\" ( OpioidAntagonistGiven.effective ) starts during CQMCommon.\"HospitalizationWithObservation\" ( EncounterWithQualifyingAge )\n          and QICoreCommon.\"ToInterval\" ( OpioidGiven.effective ) starts during CQMCommon.\"HospitalizationWithObservation\" ( EncounterWithQualifyingAge )\n          and QICoreCommon.\"ToInterval\" ( OpioidGiven.effective ) ends 12 hours or less before start of QICoreCommon.\"ToInterval\" ( OpioidAntagonistGiven.effective )\n          and OpioidAntagonistGiven.dosage.route in \"Routes of Administration for Opioid Antagonists\"\n      )\n    return EncounterWithQualifyingAge"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -166,10 +166,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Encounter with Non Enteral Opioid Antagonist Administration Outside of Operating Room and within 12 Hrs After Opioid&quot;"
+        "valueString": "define \"Numerator\":\n  \"Encounter with Non Enteral Opioid Antagonist Administration Outside of Operating Room and within 12 Hrs After Opioid\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -181,10 +181,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -196,10 +196,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -211,10 +211,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -226,10 +226,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -241,10 +241,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -256,10 +256,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -271,10 +271,10 @@
         "valueString": "HospitalizationWithObservation"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservation()` instead.\n*/\ndefine function &quot;HospitalizationWithObservation&quot;(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n  \t\t\t\twhere LastObs.status = &#39;finished&#39;\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n  \t\t\t\twhere LastED.status = &#39;finished&#39;\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservation()` instead.\n*/\ndefine function \"HospitalizationWithObservation\"(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -286,10 +286,10 @@
         "valueString": "GetLocation"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the Location resource specified by the given reference\n@deprecated: This function is deprecated. Use the fluent function `getLocation()` instead.\n*/\ndefine function &quot;GetLocation&quot;(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
+        "valueString": "/*\n@description: Returns the Location resource specified by the given reference\n@deprecated: This function is deprecated. Use the fluent function `getLocation()` instead.\n*/\ndefine function \"GetLocation\"(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -301,10 +301,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -319,7 +319,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -334,7 +334,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -349,9 +349,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -419,6 +420,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -431,19 +438,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
+      "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
-      "name": "SDE Payer",
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -464,7 +465,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "MedicationAdministration",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationadministration" ],
@@ -488,6 +489,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -496,6 +502,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -504,6 +524,23 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Location",
@@ -537,9 +574,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/HospitalHarmOpioidRelatedAdverseEventsFHIR",
@@ -605,7 +648,7 @@
   "title": "Hospital Harm - Opioid-Related Adverse EventsFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-15T18:39:37+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -630,6 +673,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/HospitalHarmOpioidRelatedAdverseEventsFHIR" ],
   "disclaimer": "This performance measure is not a clinical guideline, does not establish a standard of medical care and has not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Opioids are often the foundation for sedation and pain relief. Opioid-based analgesia continues to be the most commonly used treatment in postoperative pain management, with more than 95% of surgical patients receiving opioids during their hospitalization (Baker et al., 2020). However, use of opioids can also lead to serious adverse events, including constipation, over sedation, delirium, and respiratory depression (Urman, 2021a). Opioid-related adverse events (ORADE) have both patient-level and financial implications. The presence of an ORADE was associated with a 55% longer postoperative length of stay, 29% lower odds of discharge home, and 2.9 times the odds of death (Urman, 2021b). For surgical patients, occurrence of opioid-related adverse events was associated with an increase of 1.6 days in LOS and $8225 more in cost for the index hospitalization. Patients who experienced ORADEs while in a hospitalized setting were more likely to have received a higher total dose of opioids during hospitalization (Cone et al., 2023; Shafi et al., 2018). Numerous studies report the additive (risk-adjusted) hospitalization cost burden of surgical patients with ORADEs to be between $4350–$8225, representing a 27–47% increase in (risk-adjusted) admission costs (Khanna et al., 2021).\n\nMost opioid-related adverse events are preventable. Each year, adverse drug events (ADE) account for nearly 700,000 emergency department visits and 100,000 hospitalizations (AHRQ, 2019). An estimated one-third of all adverse events that occur in the inpatient setting are adverse drug events (ODPHP, 2020). Additionally, in a closed-claims analysis, 97% of adverse events were judged preventable with better monitoring and response (Lee et al., 2015). Naloxone administration is often used as an indicator of a severe opioid-related adverse event, and implementation of this measure can advance safe use of opioids in hospitals and prevent these serious and potentially lethal adverse drug events.",
   "clinicalRecommendationStatement": "Naloxone is an opioid reversal agent typically used for severe opioid-related adverse events. Naloxone administration has been used in a number of studies as an indicator of opioid-related adverse events (Yiu, et al., 2022; Lynn et al., 2017; Nwulu et al., 2013).\n\nFrom Section 10 of the 2015 American Heart Association Guidelines Update for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care (Lavonas et al., 2015), the following recommendation is listed for use of naloxone:\n\nNaloxone is a potent opioid receptor antagonist in the brain, spinal cord, and gastrointestinal system. Naloxone has an excellent safety profile and can rapidly reverse central nervous system (CNS) and respiratory depression in a patient with an opioid-associated resuscitative emergency.\n\n2020 American Heart Association guidelines update for cardiopulmonary resuscitation continue to recommend naloxone for a patient with suspected opioid overdose who has a definite pulse but no normal breathing or only gasping (i.e., a respiratory arrest), in addition to providing standard Pediatric Basic Life Support (PBLS) or Pediatric Advanced Life Support (PALS), it is reasonable for responders to administer intramuscular or intranasal naloxone. These recommendations are identical for adults.\n\nIn February 2022, FDA approved its abbreviated new drug application for nalmefene hydrochloride injection, 2mg/2mL (1mg/1mL). Nalmefene is an opioid antagonist indicated for the complete or partial reversal of opioid drug effects, including respiratory depression, induced by either natural or synthetic opioids, and in the management of known or suspected opioid overdose (FDA, 2022). In contrast to naloxone, the long half-life of nalmefene is similar to or greater than that of many opioid receptor agonists (Britch et al., 2022), which could decrease the need for repeat drug administration. In May 2023, FDA approved nalmefene hydrochloride nasal spray that delivers 2.7 milligrams (mg) of nalmefene into the nasal cavity.",
   "group": [ {

@@ -31,10 +31,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -46,10 +46,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -61,10 +61,10 @@
         "valueString": "Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter&quot;:\n  [&quot;Encounter&quot;: &quot;Encounter Inpatient&quot;] InpatientEncounter\n    where AgeInYearsAt(date from start of InpatientEncounter.period) &gt;= 18\n      and InpatientEncounter.period ends during day of &quot;Measurement Period&quot;\n      and InpatientEncounter.status = &#39;finished&#39;"
+        "valueString": "define \"Qualifying Encounter\":\n  [\"Encounter\": \"Encounter Inpatient\"] InpatientEncounter\n    where AgeInYearsAt(date from start of InpatientEncounter.period) >= 18\n      and InpatientEncounter.period ends during day of \"Measurement Period\"\n      and InpatientEncounter.status = 'finished'"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -76,10 +76,10 @@
         "valueString": "Encounter with Hospitalization Period"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Create paring of encounters to hospitalization period so this calculation can be inspected and the result \n * can be reused, making the logic faster.*/\n\n\ndefine &quot;Encounter with Hospitalization Period&quot;:\n  &quot;Qualifying Encounter&quot; QualifyingHospitalization\n    return Tuple {\n      encounter: QualifyingHospitalization,\n      hospitalizationPeriod: CQMCommon.&quot;HospitalizationWithObservation&quot; ( QualifyingHospitalization )\n    }"
+        "valueString": "/**\n * Create paring of encounters to hospitalization period so this calculation can be inspected and the result \n * can be reused, making the logic faster.*/\n\n\ndefine \"Encounter with Hospitalization Period\":\n  \"Qualifying Encounter\" QualifyingHospitalization\n    return Tuple {\n      encounter: QualifyingHospitalization,\n      hospitalizationPeriod: CQMCommon.\"HospitalizationWithObservation\" ( QualifyingHospitalization )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -91,10 +91,10 @@
         "valueString": "Encounter with Existing Diabetes Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * diabetes and return the encounter.*/\n\n\ndefine &quot;Encounter with Existing Diabetes Diagnosis&quot;:\n  &quot;Encounter with Hospitalization Period&quot; Hospitalization\n    with [&quot;Condition&quot;: &quot;Diabetes&quot;] Diabetes\n      such that ( QICoreCommon.&quot;ToPrevalenceInterval&quot; ( Diabetes ) starts before end of Hospitalization.hospitalizationPeriod )\n    return Hospitalization.encounter"
+        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * diabetes and return the encounter.*/\n\n\ndefine \"Encounter with Existing Diabetes Diagnosis\":\n  \"Encounter with Hospitalization Period\" Hospitalization\n    with [\"Condition\": \"Diabetes\"] Diabetes\n      such that ( QICoreCommon.\"ToPrevalenceInterval\" ( Diabetes ) starts before end of Hospitalization.hospitalizationPeriod )\n    return Hospitalization.encounter"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -106,10 +106,10 @@
         "valueString": "Encounter with Hypoglycemic Medication"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * hypoglycemic medicatons and return the encounter.*/\n\n\ndefine &quot;Encounter with Hypoglycemic Medication&quot;:\n  from\n    &quot;Encounter with Hospitalization Period&quot; Hospitalization,\n    [&quot;MedicationAdministration&quot;: &quot;Hypoglycemics Treatment Medications&quot;] HypoglycemicMed\n    where HypoglycemicMed.status = &#39;completed&#39;\n      and HypoglycemicMed.status != &#39;not-done&#39;\n      and QICoreCommon.&quot;ToInterval&quot; ( HypoglycemicMed.effective ) during Hospitalization.hospitalizationPeriod\n    return Hospitalization.encounter"
+        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * hypoglycemic medicatons and return the encounter.*/\n\n\ndefine \"Encounter with Hypoglycemic Medication\":\n  from\n    \"Encounter with Hospitalization Period\" Hospitalization,\n    [\"MedicationAdministration\": \"Hypoglycemics Treatment Medications\"] HypoglycemicMed\n    where HypoglycemicMed.status = 'completed'\n      and HypoglycemicMed.status != 'not-done'\n      and QICoreCommon.\"ToInterval\" ( HypoglycemicMed.effective ) during Hospitalization.hospitalizationPeriod\n    return Hospitalization.encounter"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -121,10 +121,10 @@
         "valueString": "Encounter with Elevated Glucose Greater Than or Equal to 200"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * any elevated (&gt;= 200) blood glucose reading during the hospitalization*/\n\n\ndefine &quot;Encounter with Elevated Glucose Greater Than or Equal to 200&quot;:\n  &quot;Encounter with Hospitalization Period&quot; Hospitalization\n    with [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest\n      such that QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during Hospitalization.hospitalizationPeriod\n        and GlucoseTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n        and GlucoseTest.status != &#39;cancelled&#39;\n        and GlucoseTest.value &gt;= 200 &#39;mg/dL&#39;\n    return Hospitalization.encounter"
+        "valueString": "/**\n * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with \n * any elevated (>= 200) blood glucose reading during the hospitalization*/\n\n\ndefine \"Encounter with Elevated Glucose Greater Than or Equal to 200\":\n  \"Encounter with Hospitalization Period\" Hospitalization\n    with [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] GlucoseTest\n      such that QICoreCommon.\"Earliest\" ( GlucoseTest.effective ) during Hospitalization.hospitalizationPeriod\n        and GlucoseTest.status in { 'final', 'amended', 'corrected' }\n        and GlucoseTest.status != 'cancelled'\n        and GlucoseTest.value >= 200 'mg/dL'\n    return Hospitalization.encounter"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -136,10 +136,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Encounter with Existing Diabetes Diagnosis&quot;\n    union &quot;Encounter with Hypoglycemic Medication&quot;\n    union &quot;Encounter with Elevated Glucose Greater Than or Equal to 200&quot;"
+        "valueString": "define \"Initial Population\":\n  \"Encounter with Existing Diabetes Diagnosis\"\n    union \"Encounter with Hypoglycemic Medication\"\n    union \"Encounter with Elevated Glucose Greater Than or Equal to 200\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -151,10 +151,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -166,10 +166,10 @@
         "valueString": "Measurement Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Measurement Population&quot;:\n  &quot;Denominator&quot;"
+        "valueString": "define \"Measurement Population\":\n  \"Denominator\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -181,10 +181,10 @@
         "valueString": "Days in Hospitalization"
       }, {
         "url": "statement",
-        "valueString": "/***/\n\n\ndefine &quot;Days in Hospitalization&quot;:\n  &quot;Measurement Population&quot; EligibleInpatientHospitalization\n    let period: CQMCommon.&quot;HospitalizationWithObservation&quot; ( EligibleInpatientHospitalization ),\n    relevantPeriod: &quot;Hospital Days Max 10&quot;(period)\n    return Tuple {\n      encounter: EligibleInpatientHospitalization,\n      hospitalizationPeriod: period,\n      relevantPeriod: relevantPeriod,\n      relevantDays: &quot;Days In Period&quot;(relevantPeriod)\n    }"
+        "valueString": "/***/\n\n\ndefine \"Days in Hospitalization\":\n  \"Measurement Population\" EligibleInpatientHospitalization\n    let period: CQMCommon.\"HospitalizationWithObservation\" ( EligibleInpatientHospitalization ),\n    relevantPeriod: \"Hospital Days Max 10\"(period)\n    return Tuple {\n      encounter: EligibleInpatientHospitalization,\n      hospitalizationPeriod: period,\n      relevantPeriod: relevantPeriod,\n      relevantDays: \"Days In Period\"(relevantPeriod)\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -196,10 +196,10 @@
         "valueString": "Days with Glucose Results"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Days with Glucose Results&quot;:\n  &quot;Days in Hospitalization&quot; InpatientHospitalDays\n    return Tuple {\n      encounter: InpatientHospitalDays.encounter,\n      relevantPeriod: InpatientHospitalDays.relevantPeriod,\n      relevantDays: ( InpatientHospitalDays.relevantDays EncounterDay\n          return Tuple {\n            dayNumber: EncounterDay.dayNumber,\n            dayPeriod: EncounterDay.dayPeriod,\n            hasSevereResult: exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest\n                where GlucoseTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n                  and GlucoseTest.status != &#39;cancelled&#39;\n                  and GlucoseTest.value &gt; 300 &#39;mg/dL&#39;\n                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            ),\n            hasElevatedResult: exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest\n                where GlucoseTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n                  and GlucoseTest.status != &#39;cancelled&#39;\n                  and GlucoseTest.value &gt;= 200 &#39;mg/dL&#39;\n                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            ),\n            hasNoGlucoseTest: not exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest\n                where GlucoseTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n                  and GlucoseTest.status != &#39;cancelled&#39;\n                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            )\n          }\n      )\n    }"
+        "valueString": "define \"Days with Glucose Results\":\n  \"Days in Hospitalization\" InpatientHospitalDays\n    return Tuple {\n      encounter: InpatientHospitalDays.encounter,\n      relevantPeriod: InpatientHospitalDays.relevantPeriod,\n      relevantDays: ( InpatientHospitalDays.relevantDays EncounterDay\n          return Tuple {\n            dayNumber: EncounterDay.dayNumber,\n            dayPeriod: EncounterDay.dayPeriod,\n            hasSevereResult: exists ( [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] GlucoseTest\n                where GlucoseTest.status in { 'final', 'amended', 'corrected' }\n                  and GlucoseTest.status != 'cancelled'\n                  and GlucoseTest.value > 300 'mg/dL'\n                  and QICoreCommon.\"Earliest\" ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            ),\n            hasElevatedResult: exists ( [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] GlucoseTest\n                where GlucoseTest.status in { 'final', 'amended', 'corrected' }\n                  and GlucoseTest.status != 'cancelled'\n                  and GlucoseTest.value >= 200 'mg/dL'\n                  and QICoreCommon.\"Earliest\" ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            ),\n            hasNoGlucoseTest: not exists ( [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] GlucoseTest\n                where GlucoseTest.status in { 'final', 'amended', 'corrected' }\n                  and GlucoseTest.status != 'cancelled'\n                  and QICoreCommon.\"Earliest\" ( GlucoseTest.effective ) during EncounterDay.dayPeriod\n            )\n          }\n      )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -211,10 +211,10 @@
         "valueString": "Days with Hyperglycemic Events"
       }, {
         "url": "statement",
-        "valueString": "/*# hyper days uses &quot;Relevant Encounters With Glucose Result Days&quot; to find if hyper event on each day. Skips 1st day in &#39;RelevantDays`. Returns boolean based on: Today high result OR Today no result AND Yesterday high result AND 2 days ago high result*/\n\n\ndefine &quot;Days with Hyperglycemic Events&quot;:\n  &quot;Days with Glucose Results&quot; EncounterWithResultDays\n    let eligibleEventDays: EncounterWithResultDays.relevantDays EncounterDay\n      where EncounterDay.dayNumber &gt; 1\n      return Tuple {\n        dayIndex: EncounterDay.dayNumber,\n        dayPeriod: EncounterDay.dayPeriod,\n        hasHyperglycemicEvent: ( EncounterDay.hasSevereResult\n            or ( EncounterDay.hasNoGlucoseTest\n                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 2].hasElevatedResult\n                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 3].hasElevatedResult\n            )\n        )\n      }\n    return Tuple {\n      encounter: EncounterWithResultDays.encounter,\n      relevantPeriod: EncounterWithResultDays.relevantPeriod,\n      eligibleEventDays: eligibleEventDays\n    }"
+        "valueString": "/*# hyper days uses \"Relevant Encounters With Glucose Result Days\" to find if hyper event on each day. Skips 1st day in 'RelevantDays`. Returns boolean based on: Today high result OR Today no result AND Yesterday high result AND 2 days ago high result*/\n\n\ndefine \"Days with Hyperglycemic Events\":\n  \"Days with Glucose Results\" EncounterWithResultDays\n    let eligibleEventDays: EncounterWithResultDays.relevantDays EncounterDay\n      where EncounterDay.dayNumber > 1\n      return Tuple {\n        dayIndex: EncounterDay.dayNumber,\n        dayPeriod: EncounterDay.dayPeriod,\n        hasHyperglycemicEvent: ( EncounterDay.hasSevereResult\n            or ( EncounterDay.hasNoGlucoseTest\n                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 2].hasElevatedResult\n                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 3].hasElevatedResult\n            )\n        )\n      }\n    return Tuple {\n      encounter: EncounterWithResultDays.encounter,\n      relevantPeriod: EncounterWithResultDays.relevantPeriod,\n      eligibleEventDays: eligibleEventDays\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -226,10 +226,10 @@
         "valueString": "Encounter with Hyperglycemic Events"
       }, {
         "url": "statement",
-        "valueString": "/***/\n\n\ndefine &quot;Encounter with Hyperglycemic Events&quot;:\n  &quot;Days with Hyperglycemic Events&quot; HyperglycemicEventDays\n    where exists ( HyperglycemicEventDays.eligibleEventDays EligibleEventDay\n        where EligibleEventDay.hasHyperglycemicEvent\n    )\n    return HyperglycemicEventDays.encounter"
+        "valueString": "/***/\n\n\ndefine \"Encounter with Hyperglycemic Events\":\n  \"Days with Hyperglycemic Events\" HyperglycemicEventDays\n    where exists ( HyperglycemicEventDays.eligibleEventDays EligibleEventDay\n        where EligibleEventDay.hasHyperglycemicEvent\n    )\n    return HyperglycemicEventDays.encounter"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -241,10 +241,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Encounter with Hyperglycemic Events&quot;"
+        "valueString": "define \"Numerator\":\n  \"Encounter with Hyperglycemic Events\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -256,10 +256,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -271,10 +271,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -286,10 +286,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -301,10 +301,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -316,10 +316,10 @@
         "valueString": "Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:\n  from\n    &quot;Initial Population&quot; InpatientHospitalization,\n    [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest\n    let HospitalizationInterval: CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ),\n    GlucoseTestTime: QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective )\n    where GlucoseTest.value as Quantity &gt;= 1000 &#39;mg/dL&#39;\n      and GlucoseTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n      and GlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hours )]\n    return GlucoseTest"
+        "valueString": "define \"Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\":\n  from\n    \"Initial Population\" InpatientHospitalization,\n    [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] GlucoseTest\n    let HospitalizationInterval: CQMCommon.\"HospitalizationWithObservation\" ( InpatientHospitalization ),\n    GlucoseTestTime: QICoreCommon.\"Earliest\" ( GlucoseTest.effective )\n    where GlucoseTest.value as Quantity >= 1000 'mg/dL'\n      and GlucoseTest.status in { 'final', 'amended', 'corrected' }\n      and GlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hours )]\n    return GlucoseTest"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -331,10 +331,10 @@
         "valueString": "Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:\n  from\n    &quot;Initial Population&quot; InpatientHospitalization,\n    &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; GlucoseResult1000,\n    [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] EarlierGlucoseTest\n    let HospitalizationInterval: CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ),\n    GlucoseTest1000Time: QICoreCommon.&quot;Earliest&quot; ( GlucoseResult1000.effective ),\n    EarlierGlucoseTestTime: QICoreCommon.&quot;Earliest&quot; ( EarlierGlucoseTest.effective )\n    where GlucoseTest1000Time during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hour )]\n      and EarlierGlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), GlucoseTest1000Time )\n      and EarlierGlucoseTest.id !~ GlucoseResult1000.id\n    return GlucoseResult1000"
+        "valueString": "define \"Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\":\n  from\n    \"Initial Population\" InpatientHospitalization,\n    \"Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\" GlucoseResult1000,\n    [\"Observation\": \"Glucose Lab Test Mass Per Volume\"] EarlierGlucoseTest\n    let HospitalizationInterval: CQMCommon.\"HospitalizationWithObservation\" ( InpatientHospitalization ),\n    GlucoseTest1000Time: QICoreCommon.\"Earliest\" ( GlucoseResult1000.effective ),\n    EarlierGlucoseTestTime: QICoreCommon.\"Earliest\" ( EarlierGlucoseTest.effective )\n    where GlucoseTest1000Time during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hour )]\n      and EarlierGlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), GlucoseTest1000Time )\n      and EarlierGlucoseTest.id !~ GlucoseResult1000.id\n    return GlucoseResult1000"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -346,10 +346,10 @@
         "valueString": "Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:\n  &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; GlucoseResult1000\n    where not ( GlucoseResult1000.id in &quot;Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;.id )"
+        "valueString": "define \"Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\":\n  \"Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\" GlucoseResult1000\n    where not ( GlucoseResult1000.id in \"Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\".id )"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -361,10 +361,10 @@
         "valueString": "Encounter with First Glucose Greater Than or Equal to 1000"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Encounter with First Glucose Greater Than or Equal to 1000&quot;:\n  &quot;Initial Population&quot; InpatientHospitalization\n    with &quot;Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; FirstGlucoseResult\n      such that FirstGlucoseResult.value as Quantity &gt;= 1000 &#39;mg/dL&#39;\n        and QICoreCommon.&quot;Earliest&quot; ( FirstGlucoseResult.effective ) during Interval[( start of CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ) - 1 hour ), ( start of CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ) + 6 hours )]"
+        "valueString": "define \"Encounter with First Glucose Greater Than or Equal to 1000\":\n  \"Initial Population\" InpatientHospitalization\n    with \"Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start\" FirstGlucoseResult\n      such that FirstGlucoseResult.value as Quantity >= 1000 'mg/dL'\n        and QICoreCommon.\"Earliest\" ( FirstGlucoseResult.effective ) during Interval[( start of CQMCommon.\"HospitalizationWithObservation\" ( InpatientHospitalization ) - 1 hour ), ( start of CQMCommon.\"HospitalizationWithObservation\" ( InpatientHospitalization ) + 6 hours )]"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -376,10 +376,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Encounter with First Glucose Greater Than or Equal to 1000&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Encounter with First Glucose Greater Than or Equal to 1000\""
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -391,10 +391,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -406,10 +406,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -421,10 +421,10 @@
         "valueString": "HospitalizationWithObservation"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservation()` instead.\n*/\ndefine function &quot;HospitalizationWithObservation&quot;(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n  \t\t\t\twhere LastObs.status = &#39;finished&#39;\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n  \t\t\t\twhere LastED.status = &#39;finished&#39;\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
+        "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservation()` instead.\n*/\ndefine function \"HospitalizationWithObservation\"(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -436,10 +436,10 @@
         "valueString": "ToPrevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -451,10 +451,10 @@
         "valueString": "Earliest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n@deprecated: This function is deprecated. Use the fluent function `earliest()` instead\n*/\ndefine function &quot;Earliest&quot;(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (HasStart(period)) then start of period\n      else end of period"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n@deprecated: This function is deprecated. Use the fluent function `earliest()` instead\n*/\ndefine function \"Earliest\"(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (HasStart(period)) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -466,10 +466,10 @@
         "valueString": "Hospital Days Max 10"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Crops an interval to a maximum length of 10 days.*/\n\n\ndefine function &quot;Hospital Days Max 10&quot;(Period Interval&lt;DateTime&gt;):\n  Interval[start of Period, Min({ \n    end of Period, start of Period + 10 days }\n  )]"
+        "valueString": "/**\n * Crops an interval to a maximum length of 10 days.*/\n\n\ndefine function \"Hospital Days Max 10\"(Period Interval<DateTime>):\n  Interval[start of Period, Min({ \n    end of Period, start of Period + 10 days }\n  )]"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -481,10 +481,10 @@
         "valueString": "Days In Period"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Creates a list of 24 hour long intervals in an interval paired with the index (1 indexed) to which 24 hour interval it is.*/\n\n\ndefine function &quot;Days In Period&quot;(Period Interval&lt;DateTime&gt;):\n  ( &quot;Interval To Day Numbers&quot;(Period) ) DayNumber\n    let startPeriod: start of Period + ( 24 hours * ( DayNumber - 1 ) ),\n    endPeriod: if ( hours between startPeriod and end of Period &lt; 24 ) then startPeriod \n      else start of Period + ( 24 hours * DayNumber )\n    return Tuple {\n      dayNumber: DayNumber,\n      dayPeriod: Interval[startPeriod, endPeriod )\n    }"
+        "valueString": "/**\n * Creates a list of 24 hour long intervals in an interval paired with the index (1 indexed) to which 24 hour interval it is.*/\n\n\ndefine function \"Days In Period\"(Period Interval<DateTime>):\n  ( \"Interval To Day Numbers\"(Period) ) DayNumber\n    let startPeriod: start of Period + ( 24 hours * ( DayNumber - 1 ) ),\n    endPeriod: if ( hours between startPeriod and end of Period < 24 ) then startPeriod \n      else start of Period + ( 24 hours * DayNumber )\n    return Tuple {\n      dayNumber: DayNumber,\n      dayPeriod: Interval[startPeriod, endPeriod )\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -496,10 +496,10 @@
         "valueString": "Interval To Day Numbers"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Creates a list of integers from 1 to how many days are in the interval. Note, this wont create an index for\n * the final day if it is less than 24 hours. This also includes the first 24 hour period.*/\n\n\ndefine function &quot;Interval To Day Numbers&quot;(Period Interval&lt;DateTime&gt;):\n  ( expand { Interval[1, duration in days between start of Period and end of Period]} ) DayExpand\n    return end of DayExpand"
+        "valueString": "/**\n * Creates a list of integers from 1 to how many days are in the interval. Note, this wont create an index for\n * the final day if it is less than 24 hours. This also includes the first 24 hour period.*/\n\n\ndefine function \"Interval To Day Numbers\"(Period Interval<DateTime>):\n  ( expand { Interval[1, duration in days between start of Period and end of Period]} ) DayExpand\n    return end of DayExpand"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -511,10 +511,10 @@
         "valueString": "Denominator Observations"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Counts the number of eligible days in an encounter. This simply filters and counts the data built in\n * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/\n\n\ndefine function &quot;Denominator Observations&quot;(QualifyingEncounter Encounter):\n  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return 0\n  ) \n    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return Count(EncounterWithEventDays.eligibleEventDays)\n  )"
+        "valueString": "/**\n * Counts the number of eligible days in an encounter. This simply filters and counts the data built in\n * \"Relevant Encounters With Hyperglycemic Event Days\".*/\n\n\ndefine function \"Denominator Observations\"(QualifyingEncounter Encounter):\n  if QualifyingEncounter.id in \"Denominator Exclusions\".id then singleton from ( \"Days with Hyperglycemic Events\" EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return 0\n  ) \n    else singleton from ( \"Days with Hyperglycemic Events\" EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return Count(EncounterWithEventDays.eligibleEventDays)\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -529,7 +529,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -544,7 +544,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "34"
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -556,12 +556,13 @@
         "valueString": "Numerator Observations"
       }, {
         "url": "statement",
-        "valueString": "/**\n * Counts the number of eligible days with a hyperglycemic event in an encounter. This simply filters and counts the data built in\n * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/\n\n\ndefine function &quot;Numerator Observations&quot;(QualifyingEncounter Encounter):\n  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return 0\n  ) \n    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return Count(EncounterWithEventDays.eligibleEventDays EligibleEventDay\n          where EligibleEventDay.hasHyperglycemicEvent\n      )\n  )"
+        "valueString": "/**\n * Counts the number of eligible days with a hyperglycemic event in an encounter. This simply filters and counts the data built in\n * \"Relevant Encounters With Hyperglycemic Event Days\".*/\n\n\ndefine function \"Numerator Observations\"(QualifyingEncounter Encounter):\n  if QualifyingEncounter.id in \"Denominator Exclusions\".id then singleton from ( \"Days with Hyperglycemic Events\" EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return 0\n  ) \n    else singleton from ( \"Days with Hyperglycemic Events\" EncounterWithEventDays\n      where EncounterWithEventDays.encounter = QualifyingEncounter\n      return Count(EncounterWithEventDays.eligibleEventDays EligibleEventDay\n          where EligibleEventDay.hasHyperglycemicEvent\n      )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "35"
+        "valueInteger": 35
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -625,6 +626,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -637,25 +644,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -667,6 +662,12 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
@@ -676,7 +677,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
@@ -684,6 +685,11 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Encounter",
@@ -692,6 +698,20 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/uv/crmi-analysisException",
+            "valueString": "Error attempting to determine filter value: toFhirValue not implemented for Subtract"
+          } ]
+        }
       } ]
     }, {
       "type": "Encounter",
@@ -700,6 +720,23 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Condition",
@@ -721,6 +758,19 @@
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value", "value", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.34"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "cancelled"
+        } ]
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "value", "status", "status.value", "id", "id.value" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.34"
@@ -753,9 +803,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/HospitalHarmHyperglycemiainHospitalizedPatientsFHIR",
@@ -821,7 +877,7 @@
   "title": "Hospital Harm - Severe HyperglycemiaFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-15T18:44:38+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -846,6 +902,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/HospitalHarmHyperglycemiainHospitalizedPatientsFHIR" ],
   "disclaimer": "This performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Hyperglycemia, i.e., elevated glucose level, is common among hospitalized patients, especially those with preexisting diabetes (Umpierrez et al., 2012) and account for over 30% of noncritically ill hospitalized patients (Korytkowski, 2022). Hyperglycemia can also affect individuals with no prior history of diabetes and may be induced by medications such as steroids, or parenteral (intravenous) or enteral (tube) feeding.\n\nSevere hyperglycemia, i.e., extremely elevated glucose level, is significantly associated with a range of harms, including increased in-hospital mortality, infection rates, and hospital length of stay (Pasquel, et al., 2021; Umpierrez et al., 2012, 2015). Lower rates of inpatient severe hyperglycemia may not only improve care for patients, but also reduce costs for healthcare payers (Krinsley et al., 2016). The rate of hyperglycemia varies across hospitals, suggesting opportunities for improvement in inpatient glycemic management (Seisa et al., 2022; Bersoux et al., 2013). The rate of inpatient hyperglycemia can be considered a marker for quality of hospital care, since inpatient hyperglycemia is largely avoidable with proper glycemic management. The use of evidence-based standardized protocols and insulin management protocols have been shown to improve glycemic control and safety (Leroy et al., 2020; Maynard et al., 2015).\n\nFrom the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting, 2022:\nRecommendation 1.1\nIn adults with insulin-treated diabetes hospitalized for noncritical illness who are at high risk of hypoglycemia, we suggest the use of real-time continuous glucose monitoring (CGM) with confirmatory bedside point-of-care blood glucose (POC-BG) monitoring for adjustments in insulin dosing rather than point-of-care blood glucose (POC-BG) testing alone in hospital settings where resources and training are available.",
   "clinicalRecommendationStatement": "Multiple guidelines address recommended levels of glycemic control, though these do not define severe hyperglycemia: \n\nFrom Section 16, Diabetes Care in the Hospital, in the Standards of Medical Care in Diabetes by the American Diabetes Association, (American Diabetes Association, 2023): \n\n16.4 Insulin therapy should be initiated for the treatment of persistent hyperglycemia starting at a threshold ≥180 mg/dL (10.0 mmol/L) (checked on two occasions). Once insulin therapy is started, a target glucose range of 140–180 mg/dL (7.8–10.0 mmol/L) is recommended for most critically ill and noncritically ill patients.\n\n16.5 More stringent goals, such as 110–140 mg/dL (6.1–7.8 mmol/L) or 100–180 mg/dL (5.6–10.0 mmol/L), may be appropriate for selected patients and are acceptable if they can be achieved without significant hypoglycemia.\n\nFrom the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting (2022): \n\nRecommendation 10.1\nIn adults with no prior history of diabetes hospitalized for noncritical illness with hyperglycemia [defined as blood glucose (BG) > 140 mg/dL (7.8 mmol/L)] during hospitalization, we suggest initial therapy with correctional insulin over scheduled insulin therapy (defined as basal or basal/bolus insulin) to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L). For patients with persistent hyperglycemia [≥2 point-of-care blood glucose (POC-BG) measurements ≥ 180 mg/dL (≥10.0 mmol/L) in a 24-hour period on correctional insulin alone], we suggest the addition of scheduled insulin therapy. \n\nRecommendation 10.2\nIn adults with diabetes treated with diet or noninsulin diabetes medications prior to admission, we suggest initial therapy with correctional insulin or scheduled insulin therapy to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L). For hospitalized adults started on correctional insulin alone and with persistent hyperglycemia [≥2 point-of-care blood glucose (POC-BG) measurements ≥ 180 mg/dL in a 24-hour period (≥10.0 mmol/L)], we suggest addition of scheduled insulin therapy. We suggest initiation of scheduled insulin therapy for patients with confirmed admission blood glucose (BG) ≥ 180 mg/dL (≥10.0 mmol/L). \n\nRecommendation 10.3\nIn adults with insulin-treated diabetes prior to admission who are hospitalized for noncritical illness, we recommend continuation of the scheduled insulin regimen modified for nutritional status and severity of illness to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L).\n\nRemarks\nReductions in the dose of basal insulin (by 10% to 20%) at time of hospitalization may be required for patients on basal heavy insulin regimens (defined as doses of basal insulin ≥ 0.6 to 1.0 units/kg/day), in which basal insulin is being used inappropriately to cover meal-related excursions in BG.\n\nThere is no clinically accepted cutoff for severe hyperglycemia. Studies have used thresholds of >140, >180 , >300, >350 and >400 mg/dL, among other values (American Diabetes Association, 2023; Umpierrez et al, 2012, 2015; Jamesen et al., 2015; Donihi et al., 2011; Mendez et al, 2015; Seisa et al., 2022). BGL <180 mg/dL is associated with lower rates of mortality and stroke compared with a target glucose <200 mg/dL (Sathya et al., 2013). Glycemic goals may also differ among hospitalized patients. For inpatient management of hyperglycemia in noncritical care, the expert consensus recommends a target range of 100–180 mg/dL (5.6–10.0 mmol/L) for noncritically ill patients with “new” hyperglycemia as well as people with known diabetes prior to admission. Glycemic levels >250 mg/dL (13.9 mmol/L) may be acceptable in terminally ill patients with short life expectancy. In these individuals, less aggressive insulin regimens to minimize glucosuria, dehydration, and electrolyte disturbances are often more appropriate. (ElSayed et al., 2023). In an older patient with a prior history of severe hypoglycemia, some degree of hyperglycemia may be tolerated to maximize safety. Intensive insulin therapy to target glucose of 100 and 140mg/dLin the ICU didn’t significantly reduce perioperative complications compared with target glucose of 141and180mg/dL after coronary artery bypass surgery (Umpierrez et al., 2015). The current recommendation is to maintain a blood glucose level between 140-180 mg/dL (7.8-10.0 mmol/L) in both cardiac and non-cardiac ICU patients (Sreedharan et al., 2022). \n\nFor patients who present with hyperglycemic crises, neurologic status must be monitored closely, with frequent re-examination. Care should be taken to prevent over-correction of hyperglycemia and hyperosmolarity following initial ﬂuid resuscitation of these patients to prevent cerebral edema, which carries a high mortality rate. (Gosmanov et al., 2021).\n\nFrom the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting, 2022:\nRecommendation 1.1\nIn adults with insulin-treated diabetes hospitalized for noncritical illness who are at high risk of hypoglycemia, we suggest the use of real-time continuous glucose monitoring (CGM) with confirmatory bedside point-of-care blood glucose (POC-BG) monitoring for adjustments in insulin dosing rather than point-of-care blood glucose (POC-BG) testing alone in hospital settings where resources and training are available.",
   "group": [ {

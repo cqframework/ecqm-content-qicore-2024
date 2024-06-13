@@ -94,10 +94,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -109,10 +109,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -124,10 +124,10 @@
         "valueString": "Prostate Cancer Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Prostate Cancer Diagnosis&quot;:   [Condition: &quot;Prostate Cancer&quot;] ProstateCancer     where ProstateCancer.prevalenceInterval ( ) overlaps day of &quot;Measurement Period&quot;       and ( ProstateCancer.isProblemListItem ( )           or ProstateCancer.isHealthConcern ( )       )"
+        "valueString": "define \"Prostate Cancer Diagnosis\":\n  [Condition: \"Prostate Cancer\"] ProstateCancer\n    where ProstateCancer.prevalenceInterval ( ) overlaps day of \"Measurement Period\"\n      and ( ProstateCancer.isProblemListItem ( )\n          or ProstateCancer.isHealthConcern ( )\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -139,10 +139,10 @@
         "valueString": "Bone Scan Study Performed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Bone Scan Study Performed&quot;:   [Observation: &quot;Bone Scan&quot;] BoneScan     with &quot;Prostate Cancer Diagnosis&quot; ActiveProstateCancer       such that BoneScan.effective.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )     where BoneScan.effective.toInterval ( ) ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define \"Bone Scan Study Performed\":\n  [Observation: \"Bone Scan\"] BoneScan\n    with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n      such that BoneScan.effective.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n    where BoneScan.effective.toInterval ( ) ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -154,10 +154,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   not exists &quot;Bone Scan Study Performed&quot;"
+        "valueString": "define \"Numerator\":\n  not exists \"Bone Scan Study Performed\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -169,10 +169,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   exists &quot;Prostate Cancer Diagnosis&quot;"
+        "valueString": "define \"Initial Population\":\n  exists \"Prostate Cancer Diagnosis\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -184,10 +184,10 @@
         "valueString": "First Prostate Cancer Treatment during day of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First Prostate Cancer Treatment during day of Measurement Period&quot;:   First([Procedure: &quot;Prostate Cancer Treatment&quot;] ProstateCancerTreatment       where ProstateCancerTreatment.performed.toInterval() ends during day of &quot;Measurement Period&quot;         and ProstateCancerTreatment.status = &#39;completed&#39;       sort by start of performed.toInterval()   )"
+        "valueString": "define \"First Prostate Cancer Treatment during day of Measurement Period\":\n  First([Procedure: \"Prostate Cancer Treatment\"] ProstateCancerTreatment\n      where ProstateCancerTreatment.performed.toInterval() ends during day of \"Measurement Period\"\n        and ProstateCancerTreatment.status = 'completed'\n      sort by start of performed.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -199,10 +199,10 @@
         "valueString": "Most Recent Prostate Cancer Staging Tumor Size T1a to T2a"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Most Recent Prostate Cancer Staging Tumor Size T1a to T2a&quot;:   ( Last([Observation: &quot;Tumor staging (tumor staging)&quot;] ProstateCancerStaging       with &quot;First Prostate Cancer Treatment during day of Measurement Period&quot; FirstProstateCancerTreatment         such that ProstateCancerStaging.effective.toInterval() starts before start of FirstProstateCancerTreatment.performed.toInterval()           and ProstateCancerStaging.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       sort by start of effective.toInterval()   ) ) LastProstateCancerStaging     where ( LastProstateCancerStaging.value ~ &quot;T1a: Prostate tumor incidental histologic finding in 5 percent or less of tissue resected (finding)&quot;         or LastProstateCancerStaging.value ~ &quot;T1b: Prostate tumor incidental histologic finding in greater than 5 percent of tissue resected (finding)&quot;         or LastProstateCancerStaging.value ~ &quot;Neoplasm of prostate primary tumor staging category T1c: Tumor identified by needle biopsy (finding)&quot;         or LastProstateCancerStaging.value ~ &quot;Neoplasm of prostate primary tumor staging category T2a: Involves one-half of one lobe or less (finding)&quot;     )"
+        "valueString": "define \"Most Recent Prostate Cancer Staging Tumor Size T1a to T2a\":\n  ( Last([Observation: \"Tumor staging (tumor staging)\"] ProstateCancerStaging\n      with \"First Prostate Cancer Treatment during day of Measurement Period\" FirstProstateCancerTreatment\n        such that ProstateCancerStaging.effective.toInterval() starts before start of FirstProstateCancerTreatment.performed.toInterval()\n          and ProstateCancerStaging.status in { 'final', 'amended', 'corrected' }\n      sort by start of effective.toInterval()\n  ) ) LastProstateCancerStaging\n    where ( LastProstateCancerStaging.value ~ \"T1a: Prostate tumor incidental histologic finding in 5 percent or less of tissue resected (finding)\"\n        or LastProstateCancerStaging.value ~ \"T1b: Prostate tumor incidental histologic finding in greater than 5 percent of tissue resected (finding)\"\n        or LastProstateCancerStaging.value ~ \"Neoplasm of prostate primary tumor staging category T1c: Tumor identified by needle biopsy (finding)\"\n        or LastProstateCancerStaging.value ~ \"Neoplasm of prostate primary tumor staging category T2a: Involves one-half of one lobe or less (finding)\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -214,10 +214,10 @@
         "valueString": "Most Recent PSA Test Result is Low"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Most Recent PSA Test Result is Low&quot;:   ( Last([Observation: &quot;Prostate Specific Antigen Test&quot;] PSATest       with &quot;Most Recent Prostate Cancer Staging Tumor Size T1a to T2a&quot; MostRecentProstateCancerStaging         such that PSATest.effective.toInterval() starts before MostRecentProstateCancerStaging.effective.toInterval()           and PSATest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       sort by start of effective.toInterval()   ) ) LastPSATest     return LastPSATest.value as Quantity &lt; 10 &#39;ng/mL&#39;"
+        "valueString": "define \"Most Recent PSA Test Result is Low\":\n  ( Last([Observation: \"Prostate Specific Antigen Test\"] PSATest\n      with \"Most Recent Prostate Cancer Staging Tumor Size T1a to T2a\" MostRecentProstateCancerStaging\n        such that PSATest.effective.toInterval() starts before MostRecentProstateCancerStaging.effective.toInterval()\n          and PSATest.status in { 'final', 'amended', 'corrected' }\n      sort by start of effective.toInterval()\n  ) ) LastPSATest\n    return LastPSATest.value as Quantity < 10 'ng/mL'"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -229,10 +229,10 @@
         "valueString": "Most Recent Gleason Score is Low"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Most Recent Gleason Score is Low&quot;:   ( Last([Observation: &quot;Gleason score in Specimen Qualitative&quot;] GleasonScore       with &quot;First Prostate Cancer Treatment during day of Measurement Period&quot; FirstProstateCancerTreatment         such that GleasonScore.effective.toInterval() starts before start of FirstProstateCancerTreatment.performed.toInterval()           and GleasonScore.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       sort by start of effective.toInterval()   ) ) LastGleasonScore     return LastGleasonScore.value as Integer &lt;= 6"
+        "valueString": "define \"Most Recent Gleason Score is Low\":\n  ( Last([Observation: \"Gleason score in Specimen Qualitative\"] GleasonScore\n      with \"First Prostate Cancer Treatment during day of Measurement Period\" FirstProstateCancerTreatment\n        such that GleasonScore.effective.toInterval() starts before start of FirstProstateCancerTreatment.performed.toInterval()\n          and GleasonScore.status in { 'final', 'amended', 'corrected' }\n      sort by start of effective.toInterval()\n  ) ) LastGleasonScore\n    return LastGleasonScore.value as Integer <= 6"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -244,10 +244,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;     and &quot;First Prostate Cancer Treatment during day of Measurement Period&quot; is not null     and &quot;Most Recent Prostate Cancer Staging Tumor Size T1a to T2a&quot; is not null     and &quot;Most Recent PSA Test Result is Low&quot;     and &quot;Most Recent Gleason Score is Low&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\"\n    and \"First Prostate Cancer Treatment during day of Measurement Period\" is not null\n    and \"Most Recent Prostate Cancer Staging Tumor Size T1a to T2a\" is not null\n    and \"Most Recent PSA Test Result is Low\"\n    and \"Most Recent Gleason Score is Low\""
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -259,10 +259,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -274,10 +274,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -289,10 +289,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -304,10 +304,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -319,10 +319,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -334,10 +334,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -349,10 +349,10 @@
         "valueString": "Has Diagnosis of Pain related to Prostate Cancer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Diagnosis of Pain related to Prostate Cancer&quot;:   exists ( [Condition: &quot;Pain Warranting Further Investigation for Prostate Cancer&quot;] ProstateCancerPain       with &quot;Prostate Cancer Diagnosis&quot; ActiveProstateCancer         such that ProstateCancerPain.prevalenceInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )           and ( ProstateCancerPain.isProblemListItem ( )               or ProstateCancerPain.isHealthConcern ( )           )   )"
+        "valueString": "define \"Has Diagnosis of Pain related to Prostate Cancer\":\n  exists ( [Condition: \"Pain Warranting Further Investigation for Prostate Cancer\"] ProstateCancerPain\n      with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n        such that ProstateCancerPain.prevalenceInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n          and ( ProstateCancerPain.isProblemListItem ( )\n              or ProstateCancerPain.isHealthConcern ( )\n          )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -364,10 +364,10 @@
         "valueString": "Has Salvage Therapy Performed after Prostate Cancer Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Salvage Therapy Performed after Prostate Cancer Diagnosis&quot;:   exists ( [Procedure: &quot;Salvage Therapy&quot;] SalvageTherapy       with &quot;Prostate Cancer Diagnosis&quot; ActiveProstateCancer         such that SalvageTherapy.performed.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )           and SalvageTherapy.status = &#39;completed&#39;   )"
+        "valueString": "define \"Has Salvage Therapy Performed after Prostate Cancer Diagnosis\":\n  exists ( [Procedure: \"Salvage Therapy\"] SalvageTherapy\n      with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n        such that SalvageTherapy.performed.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n          and SalvageTherapy.status = 'completed'\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -379,10 +379,10 @@
         "valueString": "Has Bone Scan Study Performed with Documented Reason"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Bone Scan Study Performed with Documented Reason&quot;:   exists &quot;Bone Scan Study Performed&quot; BoneScanAfterDiagnosis     where BoneScanAfterDiagnosis.value ~ &quot;Procedure reason record (record artifact)&quot;"
+        "valueString": "define \"Has Bone Scan Study Performed with Documented Reason\":\n  exists \"Bone Scan Study Performed\" BoneScanAfterDiagnosis\n    where BoneScanAfterDiagnosis.value ~ \"Procedure reason record (record artifact)\""
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -394,10 +394,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exceptions&quot;:   &quot;Has Diagnosis of Pain related to Prostate Cancer&quot;     or &quot;Has Salvage Therapy Performed after Prostate Cancer Diagnosis&quot;     or &quot;Has Bone Scan Study Performed with Documented Reason&quot;"
+        "valueString": "define \"Denominator Exceptions\":\n  \"Has Diagnosis of Pain related to Prostate Cancer\"\n    or \"Has Salvage Therapy Performed after Prostate Cancer Diagnosis\"\n    or \"Has Bone Scan Study Performed with Documented Reason\""
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -409,10 +409,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -424,10 +424,10 @@
         "valueString": "isProblemListItem"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given condition is a problem list item. */ define fluent function isProblemListItem(condition Condition):   exists (condition.category C     where C ~ &quot;problem-list-item&quot;   )"
+        "valueString": "/*\n@description: Returns true if the given condition is a problem list item.\n*/\ndefine fluent function isProblemListItem(condition Condition):\n  exists (condition.category C\n    where C ~ \"problem-list-item\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -439,10 +439,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -454,10 +454,10 @@
         "valueString": "isHealthConcern"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns true if the given condition is a health concern */ define fluent function isHealthConcern(condition Condition):   exists (condition.category C     where C ~ &quot;health-concern&quot;   )"
+        "valueString": "/*\n@description: Returns true if the given condition is a health concern\n*/\ndefine fluent function isHealthConcern(condition Condition):\n  exists (condition.category C\n    where C ~ \"health-concern\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -472,7 +472,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -484,12 +484,13 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -565,6 +566,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -577,29 +584,17 @@
       "max": "1",
       "type": "boolean"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     }, {
       "name": "SDE Ethnicity",
       "use": "out",
@@ -612,11 +607,17 @@
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -640,8 +641,21 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.320"
+      } ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
+      "id": "344",
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
@@ -662,6 +676,7 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.401"
       } ]
     }, {
+      "id": "489",
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
@@ -680,6 +695,93 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.398"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "performed",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
+      } ]
+    }, {
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
+        "extension": [ {
+          "url": "targetId",
+          "valueString": "344"
+        }, {
+          "url": "targetProperty",
+          "valueString": "effective"
+        } ]
+      } ],
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "performed", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.398"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "performed",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
+      } ]
+    }, {
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
+        "extension": [ {
+          "url": "targetId",
+          "valueString": "489"
+        }, {
+          "url": "targetProperty",
+          "valueString": "effective"
+        } ]
+      } ],
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "performed", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.398"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "performed",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Procedure",
@@ -688,6 +790,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.399"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Coverage",
@@ -717,9 +824,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/ProstateCaAvoidanceBoneScanOveruseFHIR",
@@ -772,7 +885,7 @@
   "title": "Prostate Cancer Avoidance of Overuse of Bone Scan for Staging Low Risk Prostate Cancer PatientsFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-16T12:19:00+00:00",
+  "date": "2024-06-13T20:12:42+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -803,6 +916,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/ProstateCaAvoidanceBoneScanOveruseFHIR" ],
   "disclaimer": "The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Multiple studies have indicated that a bone scan is not clinically necessary for staging prostate cancer in men with a low (or very low) risk of recurrence and receiving primary therapy. For patients who are categorized as low risk, bone scans are unlikely to identify their disease. Furthermore, bone scans are not necessary for low risk patients who have no history of bony involvement or if the clinical examination suggests no bony involvement. Less than 1% of low risk patients are at risk of metastatic disease.  While clinical practice guidelines do not recommend bone scans in low risk prostate cancer patients, overuse is still common. An analysis of prostate cancer patients in the Surveillance, Epidemiology and End Results Medicare database diagnosed from 2004-2007 found that 43% of patients for whom a bone scan was not recommended received it (Falchook, Hendrix, & Chen, 2015). The analysis also found that the use of bone scans in low risk patients leads to an annual cost of $4 million dollars to Medicare. The overuse of bone scan imaging for low risk prostate cancer patients is a concept included on the American Urological Association's (AUA) list in the Choosing Wisely Initiative as a means to promote adherence to evidence-based imaging practices and to reduce health care dollars wasted (AUA, 2019). This measure is intended to promote adherence to evidence-based imaging practices, lessen the financial burden of unnecessary imaging, and ultimately to improve the quality of care for prostate cancer patients in the United States.",
   "clinicalRecommendationStatement": "For symptomatic patients and/or those with a life expectancy of greater than 5 years, bone imaging is appropriate for patients with unfavorable intermediate-risk prostate cancer, high-risk and very-high-risk prostate cancer (National Comprehensive Cancer Network, 2022) (Evidence Level: Category 2A).  Clinicians should not perform routine bone scans in the staging of asymptomatic very low- or low-risk localized prostate cancer patients (AUA, American Society for Radiation Oncology, & Society of Urologic Oncology, 2017) (Strong Recommendation; Evidence Level: Grade C).  Very low-risk or low-risk patients are unlikely to have disease identified by bone scan. Accordingly, bone scans are generally unnecessary in patients with newly diagnosed prostate cancer who have a PSA <10.0 ng/mL and a Gleason score less than 7 unless the patient’s history or clinical examination suggests bony involvement. Progression to the bone is much more common in advanced local disease or in high-grade disease that is characterized by fast and aggressive growth into surrounding areas such as bones or lymph nodes (AUA, 2019).",
   "group": [ {

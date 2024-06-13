@@ -108,10 +108,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -123,10 +123,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -138,10 +138,10 @@
         "valueString": "Bladder Cancer Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Bladder Cancer Diagnosis&quot;:\n  [Condition: &quot;Bladder Cancer for Urology Care&quot;] BladderCancer\n    where BladderCancer.prevalenceInterval ( ) starts before end of &quot;Measurement Period&quot;\n      and BladderCancer.isConfirmedActiveDiagnosis ( )"
+        "valueString": "define \"Bladder Cancer Diagnosis\":\n  [Condition: \"Bladder Cancer for Urology Care\"] BladderCancer\n    where BladderCancer.prevalenceInterval ( ) starts before end of \"Measurement Period\"\n      and BladderCancer.isConfirmedActiveDiagnosis ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -153,10 +153,10 @@
         "valueString": "First Bladder Cancer Staging Procedure"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First Bladder Cancer Staging Procedure&quot;:\n  First([Procedure: &quot;Tumor staging (tumor staging)&quot;] BladderCancerStaging\n      with &quot;Bladder Cancer Diagnosis&quot; BladderCancer\n        such that BladderCancerStaging.performed.toInterval() starts on or before day of start of BladderCancer.prevalenceInterval()\n      where BladderCancerStaging.status = &#39;completed&#39;\n      sort by start of performed.toInterval()\n  )"
+        "valueString": "define \"First Bladder Cancer Staging Procedure\":\n  First([Procedure: \"Tumor staging (tumor staging)\"] BladderCancerStaging\n      with \"Bladder Cancer Diagnosis\" BladderCancer\n        such that BladderCancerStaging.performed.toInterval() starts on or before day of start of BladderCancer.prevalenceInterval()\n      where BladderCancerStaging.status = 'completed'\n      sort by start of performed.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -168,10 +168,10 @@
         "valueString": "First BCG Administered"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First BCG Administered&quot;:\n  First([MedicationAdministration: &quot;BCG Bacillus Calmette Guerin for Urology Care&quot;] BCG\n      with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n        such that BCG.effective.toInterval() starts 6 months or less after start of FirstBladderCancerStaging.performed.toInterval()\n          and BCG.effective.toInterval() starts during &quot;Measurement Period&quot;\n      where BCG.status in { &#39;in-progress&#39;, &#39;completed&#39; }\n      sort by start of effective.toInterval()\n  )"
+        "valueString": "define \"First BCG Administered\":\n  First([MedicationAdministration: \"BCG Bacillus Calmette Guerin for Urology Care\"] BCG\n      with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n        such that BCG.effective.toInterval() starts 6 months or less after start of FirstBladderCancerStaging.performed.toInterval()\n          and BCG.effective.toInterval() starts during \"Measurement Period\"\n      where BCG.status in { 'in-progress', 'completed' }\n      sort by start of effective.toInterval()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -183,10 +183,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;First BCG Administered&quot; is not null"
+        "valueString": "define \"Numerator\":\n  \"First BCG Administered\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -198,10 +198,10 @@
         "valueString": "Denominator Exception"
       }, {
         "url": "statement",
-        "valueString": "/*\n@commentedOut: exists &quot;BCG Not Available Within 6 Months After Bladder Cancer Staging&quot;\n@commentedOutReason: Negation issue related to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455. Due to this being the only logic in this population added &#39;false&#39; as a placeholder.\n*/\n\n\ndefine &quot;Denominator Exception&quot;:\n    //placeholder\n  \n  false"
+        "valueString": "/*\n@commentedOut: exists \"BCG Not Available Within 6 Months After Bladder Cancer Staging\"\n@commentedOutReason: Negation issue related to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455. Due to this being the only logic in this population added 'false' as a placeholder.\n*/\n\n\ndefine \"Denominator Exception\":\n    //placeholder\n  \n  false"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -213,10 +213,10 @@
         "valueString": "July 1 of Year Prior to the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;July 1 of Year Prior to the Measurement Period&quot;:\n  DateTime((year from start of &quot;Measurement Period&quot; - 1), 7, 1, 0, 0, 0, 0, 0)"
+        "valueString": "define \"July 1 of Year Prior to the Measurement Period\":\n  DateTime((year from start of \"Measurement Period\" - 1), 7, 1, 0, 0, 0, 0, 0)"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -228,10 +228,10 @@
         "valueString": "June 30 of the Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;June 30 of the Measurement Period&quot;:\n  DateTime((year from start of &quot;Measurement Period&quot;), 6, 30, 23, 59, 59, 0, 0)"
+        "valueString": "define \"June 30 of the Measurement Period\":\n  DateTime((year from start of \"Measurement Period\"), 6, 30, 23, 59, 59, 0, 0)"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -243,10 +243,10 @@
         "valueString": "First Bladder Cancer Staging Procedure during 6 Months Prior to Measurement Period through the First 6 Months of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First Bladder Cancer Staging Procedure during 6 Months Prior to Measurement Period through the First 6 Months of Measurement Period&quot;:\n  &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n    where FirstBladderCancerStaging.performed.toInterval ( ) during day of Interval[&quot;July 1 of Year Prior to the Measurement Period&quot;, &quot;June 30 of the Measurement Period&quot;]"
+        "valueString": "define \"First Bladder Cancer Staging Procedure during 6 Months Prior to Measurement Period through the First 6 Months of Measurement Period\":\n  \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n    where FirstBladderCancerStaging.performed.toInterval ( ) during day of Interval[\"July 1 of Year Prior to the Measurement Period\", \"June 30 of the Measurement Period\"]"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -258,10 +258,10 @@
         "valueString": "Has Most Recent Bladder Cancer Tumor Staging is Ta HG, Tis, T1"
       }, {
         "url": "statement",
-        "valueString": "/*Ta High Grade only to be included.  Ta low grade is to be excluded from this measure.*/\n\n\ndefine &quot;Has Most Recent Bladder Cancer Tumor Staging is Ta HG, Tis, T1&quot;:\n  exists ( [Observation] StagingObservation\n      where StagingObservation.getStagingProcedure ( ) is not null\n        and ( StagingObservation.value as Concept ~ &quot;American Joint Committee on Cancer cT1 (qualifier value)&quot;\n            or StagingObservation.value as Concept ~ &quot;American Joint Committee on Cancer cTis (qualifier value)&quot;\n            or StagingObservation.value as Concept ~ &quot;American Joint Committee on Cancer cTa (qualifier value)&quot;\n            or StagingObservation.value as Concept ~ &quot;Carcinoma in situ of bladder&quot;\n        )\n        and StagingObservation.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n  )"
+        "valueString": "/*Ta High Grade only to be included.  Ta low grade is to be excluded from this measure.*/\n\n\ndefine \"Has Most Recent Bladder Cancer Tumor Staging is Ta HG, Tis, T1\":\n  exists ( [Observation] StagingObservation\n      where StagingObservation.getStagingProcedure ( ) is not null\n        and ( StagingObservation.value as Concept ~ \"American Joint Committee on Cancer cT1 (qualifier value)\"\n            or StagingObservation.value as Concept ~ \"American Joint Committee on Cancer cTis (qualifier value)\"\n            or StagingObservation.value as Concept ~ \"American Joint Committee on Cancer cTa (qualifier value)\"\n            or StagingObservation.value as Concept ~ \"Carcinoma in situ of bladder\"\n        )\n        and StagingObservation.status in { 'final', 'amended', 'corrected' }\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -273,10 +273,10 @@
         "valueString": "Has Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Qualifying Encounter&quot;:\n  exists ( [Encounter: &quot;Office Visit&quot;] ValidEncounter\n      where ValidEncounter.period during &quot;Measurement Period&quot;\n        and ValidEncounter.class !~ &quot;virtual&quot;\n        and ValidEncounter.status = &#39;finished&#39;\n  )"
+        "valueString": "define \"Has Qualifying Encounter\":\n  exists ( [Encounter: \"Office Visit\"] ValidEncounter\n      where ValidEncounter.period during \"Measurement Period\"\n        and ValidEncounter.class !~ \"virtual\"\n        and ValidEncounter.status = 'finished'\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -288,10 +288,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Has Most Recent Bladder Cancer Tumor Staging is Ta HG, Tis, T1&quot;\n    and &quot;Has Qualifying Encounter&quot;"
+        "valueString": "define \"Initial Population\":\n  \"Has Most Recent Bladder Cancer Tumor Staging is Ta HG, Tis, T1\"\n    and \"Has Qualifying Encounter\""
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -303,10 +303,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -318,10 +318,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -333,10 +333,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -348,10 +348,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -363,10 +363,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -378,10 +378,10 @@
         "valueString": "Acute Tuberculosis Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Acute Tuberculosis Diagnosis&quot;:\n  [Condition: &quot;Active Tuberculosis for Urology Care&quot;] ActiveTuberculosis\n    with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n      such that ActiveTuberculosis.prevalenceInterval ( ) overlaps after day of FirstBladderCancerStaging.performed.toInterval ( )\n    where ActiveTuberculosis.isConfirmedActiveDiagnosis ( )"
+        "valueString": "define \"Acute Tuberculosis Diagnosis\":\n  [Condition: \"Active Tuberculosis for Urology Care\"] ActiveTuberculosis\n    with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n      such that ActiveTuberculosis.prevalenceInterval ( ) overlaps after day of FirstBladderCancerStaging.performed.toInterval ( )\n    where ActiveTuberculosis.isConfirmedActiveDiagnosis ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -393,10 +393,10 @@
         "valueString": "Immunosuppressive Drugs"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Immunosuppressive Drugs&quot;:\n  [MedicationRequest: &quot;Immunosuppressive Drugs for Urology Care&quot;] ImmunosuppressiveDrugs\n    let firstMedicationPeriod: First((collapse(ImmunosuppressiveDrugs.dosageInstruction.timing.repeat.bounds DoseTime\n          return DoseTime.toInterval()\n      )) DrugPeriods\n        sort by start of $this\n    ),\n        //get the very first event\n    \n    firstMedicationEvent: First((ImmunosuppressiveDrugs.dosageInstruction.timing dosageTiming\n                                      //returns first event for the specific dosageTiming\n        \n        return First(dosageTiming.event dosageTimingEvents\n            sort ascending\n        )) firstEvents\n        sort ascending\n    ),\n    medicationPeriod: Coalesce(firstMedicationEvent.toInterval(), firstMedicationPeriod)\n    with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n      such that medicationPeriod starts on or before day of start of FirstBladderCancerStaging.performed.toInterval ( )\n    where ImmunosuppressiveDrugs.status in { &#39;active&#39;, &#39;completed&#39; }\n      and ImmunosuppressiveDrugs.intent = &#39;order&#39;"
+        "valueString": "define \"Immunosuppressive Drugs\":\n  [MedicationRequest: \"Immunosuppressive Drugs for Urology Care\"] ImmunosuppressiveDrugs\n    let firstMedicationPeriod: First((collapse(ImmunosuppressiveDrugs.dosageInstruction.timing.repeat.bounds DoseTime\n          return DoseTime.toInterval()\n      )) DrugPeriods\n        sort by start of $this\n    ),\n        //get the very first event\n    \n    firstMedicationEvent: First((ImmunosuppressiveDrugs.dosageInstruction.timing dosageTiming\n                                      //returns first event for the specific dosageTiming\n        \n        return First(dosageTiming.event dosageTimingEvents\n            sort ascending\n        )) firstEvents\n        sort ascending\n    ),\n    medicationPeriod: Coalesce(firstMedicationEvent.toInterval(), firstMedicationPeriod)\n    with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n      such that medicationPeriod starts on or before day of start of FirstBladderCancerStaging.performed.toInterval ( )\n    where ImmunosuppressiveDrugs.status in { 'active', 'completed' }\n      and ImmunosuppressiveDrugs.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -408,10 +408,10 @@
         "valueString": "Cystectomy Done"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Cystectomy Done&quot;:\n  [Procedure: &quot;Cystectomy for Urology Care&quot;] Cystectomy\n    with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n      such that Cystectomy.performed.toInterval ( ) 6 months or less before start of FirstBladderCancerStaging.performed.toInterval ( )\n    where Cystectomy.status = &#39;completed&#39;"
+        "valueString": "define \"Cystectomy Done\":\n  [Procedure: \"Cystectomy for Urology Care\"] Cystectomy\n    with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n      such that Cystectomy.performed.toInterval ( ) 6 months or less before start of FirstBladderCancerStaging.performed.toInterval ( )\n    where Cystectomy.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -423,10 +423,10 @@
         "valueString": "Has Excluding HIV, Immunocompromised Conditions or Mixed Histology Before Staging"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Excluding HIV, Immunocompromised Conditions or Mixed Histology Before Staging&quot;:\n  exists ( ( [Condition: &quot;HIV&quot;]\n      union [Condition: &quot;Immunocompromised Conditions&quot;]\n      union [Condition: &quot;Mixed histology urothelial cell carcinoma for Urology Care&quot;] ) ExclusionDiagnosis\n      with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n        such that ExclusionDiagnosis.prevalenceInterval ( ) starts on or before day of start of FirstBladderCancerStaging.performed.toInterval ( )\n      where ExclusionDiagnosis.isConfirmedActiveDiagnosis ( )\n  )"
+        "valueString": "define \"Has Excluding HIV, Immunocompromised Conditions or Mixed Histology Before Staging\":\n  exists ( ( [Condition: \"HIV\"]\n      union [Condition: \"Immunocompromised Conditions\"]\n      union [Condition: \"Mixed histology urothelial cell carcinoma for Urology Care\"] ) ExclusionDiagnosis\n      with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n        such that ExclusionDiagnosis.prevalenceInterval ( ) starts on or before day of start of FirstBladderCancerStaging.performed.toInterval ( )\n      where ExclusionDiagnosis.isConfirmedActiveDiagnosis ( )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -438,10 +438,10 @@
         "valueString": "Has Excluding Chemotherapy or Radiotherapy Procedure Before Staging"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Excluding Chemotherapy or Radiotherapy Procedure Before Staging&quot;:\n  exists ( ( [MedicationRequest: &quot;Chemotherapy Agents for Advanced Cancer&quot;] ExclusionMed\n        let firstMedicationPeriod: First((collapse(ExclusionMed.dosageInstruction.timing.repeat.bounds DoseTime\n              return DoseTime.toInterval()\n          )) DrugPeriods\n            sort by start of $this\n        )\n        with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n          such that firstMedicationPeriod starts 6 months or less before FirstBladderCancerStaging.performed.toInterval ( )\n        where ExclusionMed.status in { &#39;active&#39;, &#39;completed&#39; }\n          and ExclusionMed.intent = &#39;order&#39;\n    )\n      union ( [Procedure: &quot;Combined radiotherapy (procedure)&quot;] ExclusionProcedure\n          with &quot;First Bladder Cancer Staging Procedure&quot; FirstBladderCancerStaging\n            such that ExclusionProcedure.performed.toInterval ( ) starts 6 months or less before FirstBladderCancerStaging.performed.toInterval ( )\n          where ExclusionProcedure.status = &#39;completed&#39;\n      )\n  )"
+        "valueString": "define \"Has Excluding Chemotherapy or Radiotherapy Procedure Before Staging\":\n  exists ( ( [MedicationRequest: \"Chemotherapy Agents for Advanced Cancer\"] ExclusionMed\n        let firstMedicationPeriod: First((collapse(ExclusionMed.dosageInstruction.timing.repeat.bounds DoseTime\n              return DoseTime.toInterval()\n          )) DrugPeriods\n            sort by start of $this\n        )\n        with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n          such that firstMedicationPeriod starts 6 months or less before FirstBladderCancerStaging.performed.toInterval ( )\n        where ExclusionMed.status in { 'active', 'completed' }\n          and ExclusionMed.intent = 'order'\n    )\n      union ( [Procedure: \"Combined radiotherapy (procedure)\"] ExclusionProcedure\n          with \"First Bladder Cancer Staging Procedure\" FirstBladderCancerStaging\n            such that ExclusionProcedure.performed.toInterval ( ) starts 6 months or less before FirstBladderCancerStaging.performed.toInterval ( )\n          where ExclusionProcedure.status = 'completed'\n      )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -453,10 +453,10 @@
         "valueString": "Denominator Exclusion"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusion&quot;:\n  exists &quot;Acute Tuberculosis Diagnosis&quot;\n    or exists &quot;Immunosuppressive Drugs&quot;\n    or exists &quot;Cystectomy Done&quot;\n    or &quot;Has Excluding HIV, Immunocompromised Conditions or Mixed Histology Before Staging&quot;\n    or &quot;Has Excluding Chemotherapy or Radiotherapy Procedure Before Staging&quot;"
+        "valueString": "define \"Denominator Exclusion\":\n  exists \"Acute Tuberculosis Diagnosis\"\n    or exists \"Immunosuppressive Drugs\"\n    or exists \"Cystectomy Done\"\n    or \"Has Excluding HIV, Immunocompromised Conditions or Mixed Histology Before Staging\"\n    or \"Has Excluding Chemotherapy or Radiotherapy Procedure Before Staging\""
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -468,10 +468,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -483,10 +483,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -498,10 +498,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -513,10 +513,10 @@
         "valueString": "isConfirmedActiveDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isConfirmedActiveDiagnosis(Condition Condition):\n  Condition.isActive ( )\n    and Condition.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;"
+        "valueString": "define fluent function isConfirmedActiveDiagnosis(Condition Condition):\n  Condition.isActive ( )\n    and Condition.verificationStatus ~ QICoreCommon.\"confirmed\""
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -528,10 +528,10 @@
         "valueString": "isActive"
       }, {
         "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ &quot;active&quot;\n    or condition.clinicalStatus ~ &quot;recurrence&quot;\n    or condition.clinicalStatus ~ &quot;relapse&quot;"
+        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -543,10 +543,10 @@
         "valueString": "getStagingProcedure"
       }, {
         "url": "statement",
-        "valueString": "define fluent function getStagingProcedure(StagingObservation Observation):\n  StagingObservation.partOf StagingReference\n    return &quot;First Bladder Cancer Staging Procedure during 6 Months Prior to Measurement Period through the First 6 Months of Measurement Period&quot; FirstBladderCancerStagingMP\n      where FirstBladderCancerStagingMP.id = StagingReference.reference.getId ( )"
+        "valueString": "define fluent function getStagingProcedure(StagingObservation Observation):\n  StagingObservation.partOf StagingReference\n    return \"First Bladder Cancer Staging Procedure during 6 Months Prior to Measurement Period through the First 6 Months of Measurement Period\" FirstBladderCancerStagingMP\n      where FirstBladderCancerStagingMP.id = StagingReference.reference.getId ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -558,10 +558,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -576,7 +576,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -591,7 +591,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -603,12 +603,13 @@
         "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -704,6 +705,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -722,35 +729,29 @@
       "max": "1",
       "type": "boolean"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "Denominator Exclusion",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
     }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
       "name": "SDE Ethnicity",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exclusion",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     }, {
       "name": "SDE Race",
       "use": "out",
@@ -761,11 +762,7 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension", "birthDate", "birthDate.value" ]
-    }, {
-      "type": "Condition",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "clinicalStatus", "verificationStatus" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
@@ -817,6 +814,11 @@
           "code": "254292007",
           "display": "Tumor staging (tumor staging)"
         } ]
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -825,6 +827,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.55"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -836,6 +843,11 @@
           "system": "http://snomed.info/sct",
           "code": "169331000",
           "display": "Combined radiotherapy (procedure)"
+        } ]
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
         } ]
       } ]
     }, {
@@ -857,6 +869,13 @@
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
+      }, {
+        "path": "class"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
       } ]
     }, {
       "type": "Coverage",
@@ -866,6 +885,14 @@
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
       } ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -877,19 +904,15 @@
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "dosageInstruction", "status", "status.value", "intent", "intent.value" ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication", "dosageInstruction", "status", "status.value", "intent", "intent.value" ],
       "codeFilter": [ {
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.60"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "dosageInstruction", "status", "status.value", "intent", "intent.value" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     } ]
   } ],
   "extension": [ {
@@ -910,9 +933,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/IntravesicalBacillusCalmetteGuerinForBladderCancerFHIR",
@@ -965,7 +994,7 @@
   "title": "Intravesical Bacillus-Calmette-Guerin for Non-Muscle Invasive Bladder CancerFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-14T19:26:01+00:00",
+  "date": "2024-06-13T20:12:41+00:00",
   "publisher": "Oregon Urology",
   "contact": [ {
     "telecom": [ {
@@ -990,6 +1019,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/IntravesicalBacillusCalmetteGuerinForBladderCancerFHIR" ],
   "disclaimer": "The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by TM or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Bladder cancer is ranked 10th for new cancer cases in 2020 and is the 9th leading cause of cancer death in the United States. There are 81,400 estimated new cases in 2020 and 17,980 estimated deaths in 2020. In 2016, there were an estimated 699,450 people living with bladder cancer in the United States. Early detection (discovery of cancer in situ or localized to the primary site) is found in 85% of the patients, and with these there is a five-year survival rate of 95.8% for In Situ and 69.2% for Localized. Bladder cancer is rarely found in patients under age 20, with the median age of diagnosis being 73 (NIH, 2020).\nNational Comprehensive Cancer Network (NCCN) Guidelines for Bladder Cancer (version 6.2021) defines intravesical BCG as Category 1 Treatment for Ta - high grade, T1 and Tis non-muscle invasive bladder cancer. Most public data reflects prophylactic or adjuvant use of intravesical therapy with the goal of preventing recurrence or delaying progression to a higher grade or stage. BCG has been shown to be effective as prophylaxis to prevent bladder cancer recurrences following TURBT. The NCCN Bladder Cancer Panel Members recommend BCG as the preferred option over Mitomycin C for adjuvant treatment of high-grade lesions (Ta). BCG is also standard therapy for Primary Tis. Most T1 lesions are high risk and are similarly treated with adjuvant intravesical therapy with BCG being a Category 1 recommendation. (NCCN, 2021).",
   "clinicalRecommendationStatement": "Intravesical BCG should be administered within 6 months of the initial diagnosis of non-muscle invasive bladder cancer. It may be administered 3-4 weeks after resection, but there needs to be pathological tumor confirmation and must be withheld if there is traumatic catheterization, bacteriuria, persistent gross hematuria, persistent severe local symptoms or systemic symptoms. The normal induction course is 6 weekly instillations of intravesical BCG (AUA Non-Muscle Invasive Bladder Cancer and American Urological Association (AUA) Guideline for the Management of Non-muscle Invasive Bladder Cancer: Stages Ta High Risk, T1 and TIS).",
   "group": [ {

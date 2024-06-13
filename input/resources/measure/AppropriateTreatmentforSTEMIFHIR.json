@@ -59,10 +59,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -74,10 +74,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -89,10 +89,10 @@
         "valueString": "ED Encounter During MP"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Encounter During MP&quot;:   [&quot;Encounter&quot;: &quot;Emergency Department Evaluation and Management Visit&quot;] EDEncounter     where EDEncounter.period ends during day of &quot;Measurement Period&quot;       and EDEncounter.status = &#39;finished&#39;       and EDEncounter.class ~ &quot;EMER&quot;"
+        "valueString": "define \"ED Encounter During MP\":\n  [\"Encounter\": \"Emergency Department Evaluation and Management Visit\"] EDEncounter\n    where EDEncounter.period ends during day of \"Measurement Period\"\n      and EDEncounter.status = 'finished'\n      and EDEncounter.class ~ \"EMER\""
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -104,10 +104,10 @@
         "valueString": "ED Encounter with Encounter Diagnosis of STEMI"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Encounter with Encounter Diagnosis of STEMI&quot;:   &quot;ED Encounter During MP&quot; EDEncounter     where ( EDEncounter.reasonCode in &quot;STEMI&quot;         or exists ( ( EDEncounter.encounterDiagnosis ( ) ) EncDiagnosis             where EncDiagnosis.code in &quot;STEMI&quot;         )     )"
+        "valueString": "define \"ED Encounter with Encounter Diagnosis of STEMI\":\n  \"ED Encounter During MP\" EDEncounter\n    where ( EDEncounter.reasonCode in \"STEMI\"\n        or exists ( ( EDEncounter.encounterDiagnosis ( ) ) EncDiagnosis\n            where EncDiagnosis.code in \"STEMI\"\n        )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -119,10 +119,10 @@
         "valueString": "ED Encounter with Diagnosis of STEMI"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Encounter with Diagnosis of STEMI&quot;:   &quot;ED Encounter During MP&quot; EDEncounter     with [&quot;Condition&quot;: &quot;STEMI&quot;] DxSTEMI       such that DxSTEMI.clinicalStatus ~ QICoreCommon.&quot;active&quot;         and DxSTEMI.prevalenceInterval ( ) starts during EDEncounter.period"
+        "valueString": "define \"ED Encounter with Diagnosis of STEMI\":\n  \"ED Encounter During MP\" EDEncounter\n    with [\"Condition\": \"STEMI\"] DxSTEMI\n      such that DxSTEMI.clinicalStatus ~ QICoreCommon.\"active\"\n        and DxSTEMI.prevalenceInterval ( ) starts during EDEncounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -134,10 +134,10 @@
         "valueString": "ED Encounter with STEMI Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Encounter with STEMI Diagnosis&quot;:   &quot;ED Encounter with Encounter Diagnosis of STEMI&quot;     union &quot;ED Encounter with Diagnosis of STEMI&quot;"
+        "valueString": "define \"ED Encounter with STEMI Diagnosis\":\n  \"ED Encounter with Encounter Diagnosis of STEMI\"\n    union \"ED Encounter with Diagnosis of STEMI\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 5
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -149,10 +149,10 @@
         "valueString": "Fibrinolytic Therapy within 30 Minutes of Arrival"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Fibrinolytic Therapy within 30 Minutes of Arrival&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with [&quot;MedicationAdministration&quot;: &quot;Fibrinolytic Therapy&quot;] Fibrinolytic       such that Fibrinolytic.status = &#39;completed&#39;         and start of ( Fibrinolytic.effective.toInterval ( ) ) 30 minutes or less after EDwithSTEMI.currentemergencyDepartmentArrivalTime ( )"
+        "valueString": "define \"Fibrinolytic Therapy within 30 Minutes of Arrival\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with [\"MedicationAdministration\": \"Fibrinolytic Therapy\"] Fibrinolytic\n      such that Fibrinolytic.status = 'completed'\n        and start of ( Fibrinolytic.effective.toInterval ( ) ) 30 minutes or less after EDwithSTEMI.currentemergencyDepartmentArrivalTime ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -164,10 +164,10 @@
         "valueString": "PCI within 90 Minutes of Arrival"
       }, {
         "url": "statement",
-        "valueString": "define &quot;PCI within 90 Minutes of Arrival&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with [&quot;Procedure&quot;: &quot;Percutaneous Coronary Intervention&quot;] PCI       such that PCI.performed.toInterval ( ) starts 90 minutes or less after EDwithSTEMI.currentemergencyDepartmentArrivalTime ( )         and PCI.status = &#39;completed&#39;"
+        "valueString": "define \"PCI within 90 Minutes of Arrival\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with [\"Procedure\": \"Percutaneous Coronary Intervention\"] PCI\n      such that PCI.performed.toInterval ( ) starts 90 minutes or less after EDwithSTEMI.currentemergencyDepartmentArrivalTime ( )\n        and PCI.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -179,10 +179,10 @@
         "valueString": "ED Departure with Transfer to Acute Care Facility Within 45 Minutes of Arrival"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Departure with Transfer to Acute Care Facility Within 45 Minutes of Arrival&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     where ( EDwithSTEMI.period ) ends 45 minutes or less after start of ( EDwithSTEMI.period )       and EDwithSTEMI.hospitalization.dischargeDisposition in &quot;Discharge To Acute Care Facility&quot;"
+        "valueString": "define \"ED Departure with Transfer to Acute Care Facility Within 45 Minutes of Arrival\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    where ( EDwithSTEMI.period ) ends 45 minutes or less after start of ( EDwithSTEMI.period )\n      and EDwithSTEMI.hospitalization.dischargeDisposition in \"Discharge To Acute Care Facility\""
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -194,10 +194,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:   &quot;Fibrinolytic Therapy within 30 Minutes of Arrival&quot;     union &quot;PCI within 90 Minutes of Arrival&quot;     union &quot;ED Departure with Transfer to Acute Care Facility Within 45 Minutes of Arrival&quot;"
+        "valueString": "define \"Numerator\":\n  \"Fibrinolytic Therapy within 30 Minutes of Arrival\"\n    union \"PCI within 90 Minutes of Arrival\"\n    union \"ED Departure with Transfer to Acute Care Facility Within 45 Minutes of Arrival\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -209,10 +209,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     where AgeInYearsAt(date from start of(EDwithSTEMI.period)) &gt;= 18"
+        "valueString": "define \"Initial Population\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    where AgeInYearsAt(date from start of(EDwithSTEMI.period)) >= 18"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -224,10 +224,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -239,10 +239,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -254,10 +254,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -269,10 +269,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -284,10 +284,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -299,10 +299,10 @@
         "valueString": "Allergy or Intolerance to Thrombolytic Medications Overlaps ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Allergy or Intolerance to Thrombolytic Medications Overlaps ED Encounter&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwSTEMI     with [&quot;AllergyIntolerance&quot;: &quot;Thrombolytic medications&quot;] ThrombolyticAllergy       such that ThrombolyticAllergy.clinicalStatus ~ QICoreCommon.&quot;allergy-active&quot;         and ThrombolyticAllergy.onset.toInterval ( ) overlaps ( EDwSTEMI.period )"
+        "valueString": "define \"Allergy or Intolerance to Thrombolytic Medications Overlaps ED Encounter\":\n  \"ED Encounter with STEMI Diagnosis\" EDwSTEMI\n    with [\"AllergyIntolerance\": \"Thrombolytic medications\"] ThrombolyticAllergy\n      such that ThrombolyticAllergy.clinicalStatus ~ QICoreCommon.\"allergy-active\"\n        and ThrombolyticAllergy.onset.toInterval ( ) overlaps ( EDwSTEMI.period )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -314,10 +314,10 @@
         "valueString": "Adverse Effect to Thrombolytic Medications Before End of ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "/*define &quot;Adverse Effect to Thrombolytic Medications Before End of ED Encounter&quot;: &quot;ED Encounter with STEMI Diagnosis&quot; EDwSTEMI     with [AdverseEvent: event in &quot;Thrombolytic medications&quot;] ThrombolyticAdverseEvent     such that ThrombolyticAdverseEvent.category in &quot;Adverse reaction to thrombolytics&quot;     and ThrombolyticAdverseEvent.recordedDate before end of ( EDwSTEMI.period )         and ThrombolyticAdverseEvent.actuality = &#39;actual&#39;*/ /*KS Note - not sure we need category in the logic - it is must support, but not sure this brings value to the measure logic*/    define &quot;Adverse Effect to Thrombolytic Medications Before End of ED Encounter&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwSTEMI     with [AdverseEvent: event in &quot;Thrombolytics Adverse Event&quot;] ThrombolyticAdverseEvent       such that ThrombolyticAdverseEvent.recordedDate before end of ( EDwSTEMI.period )         and ThrombolyticAdverseEvent.actuality = &#39;actual&#39;"
+        "valueString": "/*define \"Adverse Effect to Thrombolytic Medications Before End of ED Encounter\":\n\"ED Encounter with STEMI Diagnosis\" EDwSTEMI\n    with [AdverseEvent: event in \"Thrombolytic medications\"] ThrombolyticAdverseEvent\n    such that ThrombolyticAdverseEvent.category in \"Adverse reaction to thrombolytics\"\n    and ThrombolyticAdverseEvent.recordedDate before end of ( EDwSTEMI.period )\n        and ThrombolyticAdverseEvent.actuality = 'actual'*/\n/*KS Note - not sure we need category in the logic - it is must support, but not sure this brings value to the measure logic*/\n\n\n\ndefine \"Adverse Effect to Thrombolytic Medications Before End of ED Encounter\":\n  \"ED Encounter with STEMI Diagnosis\" EDwSTEMI\n    with [AdverseEvent: event in \"Thrombolytics Adverse Event\"] ThrombolyticAdverseEvent\n      such that ThrombolyticAdverseEvent.recordedDate before end of ( EDwSTEMI.period )\n        and ThrombolyticAdverseEvent.actuality = 'actual'"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -329,10 +329,10 @@
         "valueString": "Active Exclusion Diagnosis at Start of ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Active Exclusion Diagnosis at Start of ED Encounter&quot;: /*KS 8-10-23: in CQLIT-389, discussed the impacts of requiring a clinical status of active but the condition could end before the end (during) the ED Visit, which would trigger an inactive status. Decided to not follow the Authoring Patterns and remove the requirement for a clinicalstatus of &#39;active&#39;  */      &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with ( [&quot;Condition&quot;: &quot;Active Bleeding Excluding Menses or Bleeding Diathesis&quot;]       union [&quot;Condition&quot;: &quot;Malignant Intracranial Neoplasm Group&quot;]       union [&quot;Condition&quot;: &quot;Cerebral Vascular Lesion&quot;]       union [&quot;Condition&quot;: &quot;Dementia and Related Intracranial Pathologies&quot;]       union [&quot;Condition&quot;: &quot;Pregnant State&quot;]       union [&quot;Condition&quot;: &quot;Allergy to thrombolytics&quot;] ) ActiveExclusionDx       such that /*ActiveExclusionDx.isActive ()         and */       ActiveExclusionDx.prevalenceInterval ( ) overlaps before ( EDwithSTEMI.period )"
+        "valueString": "define \"Active Exclusion Diagnosis at Start of ED Encounter\":\n/*KS 8-10-23: in CQLIT-389, discussed the impacts of requiring a clinical status of active but the condition could end before the end (during) the ED Visit, which would trigger an inactive status. Decided to not follow the Authoring Patterns and remove the requirement for a clinicalstatus of 'active'  */\n  \n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with ( [\"Condition\": \"Active Bleeding Excluding Menses or Bleeding Diathesis\"]\n      union [\"Condition\": \"Malignant Intracranial Neoplasm Group\"]\n      union [\"Condition\": \"Cerebral Vascular Lesion\"]\n      union [\"Condition\": \"Dementia and Related Intracranial Pathologies\"]\n      union [\"Condition\": \"Pregnant State\"]\n      union [\"Condition\": \"Allergy to thrombolytics\"] ) ActiveExclusionDx\n      such that /*ActiveExclusionDx.isActive ()\n        and */\n      ActiveExclusionDx.prevalenceInterval ( ) overlaps before ( EDwithSTEMI.period )"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -344,10 +344,10 @@
         "valueString": "Active Oral Anticoagulant Medication at the Start of ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Active Oral Anticoagulant Medication at the Start of ED Encounter&quot;:     /*this definition differs from QDM re: timing - cannot use overlaps for a single point in time*/      &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with [&quot;MedicationRequest&quot;: &quot;Oral Anticoagulant Medications&quot;] OralAnticoagulant       such that OralAnticoagulant.status = &#39;active&#39;         and OralAnticoagulant.intent = &#39;order&#39;         and OralAnticoagulant.authoredOn 90 days or less before or on start of EDwithSTEMI.period"
+        "valueString": "define \"Active Oral Anticoagulant Medication at the Start of ED Encounter\":\n    /*this definition differs from QDM re: timing - cannot use overlaps for a single point in time*/\n  \n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with [\"MedicationRequest\": \"Oral Anticoagulant Medications\"] OralAnticoagulant\n      such that OralAnticoagulant.status = 'active'\n        and OralAnticoagulant.intent = 'order'\n        and OralAnticoagulant.authoredOn 90 days or less before or on start of EDwithSTEMI.period"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -359,10 +359,10 @@
         "valueString": "Exclusion Diagnosis During ED Encounter or Within 24 Hours of ED Encounter Start"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Exclusion Diagnosis During ED Encounter or Within 24 Hours of ED Encounter Start&quot;: /*Did not include a status of active as any diagnosis that resolves during the ED visit would not be counted*/      &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with ( [&quot;Condition&quot;: &quot;Aortic Dissection or Ruptured Aortic Aneurysm&quot;]       union [&quot;Condition&quot;: &quot;Neurologic impairment&quot;]       union [&quot;Condition&quot;: &quot;Cardiopulmonary Arrest&quot;] ) ExclusionDiagnosis       such that ( ExclusionDiagnosis.prevalenceInterval ( ) starts during EDwithSTEMI.period )         or ( ExclusionDiagnosis.prevalenceInterval ( ) starts 24 hours or less before start of EDwithSTEMI.period )"
+        "valueString": "define \"Exclusion Diagnosis During ED Encounter or Within 24 Hours of ED Encounter Start\":\n/*Did not include a status of active as any diagnosis that resolves during the ED visit would not be counted*/\n  \n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with ( [\"Condition\": \"Aortic Dissection or Ruptured Aortic Aneurysm\"]\n      union [\"Condition\": \"Neurologic impairment\"]\n      union [\"Condition\": \"Cardiopulmonary Arrest\"] ) ExclusionDiagnosis\n      such that ( ExclusionDiagnosis.prevalenceInterval ( ) starts during EDwithSTEMI.period )\n        or ( ExclusionDiagnosis.prevalenceInterval ( ) starts 24 hours or less before start of EDwithSTEMI.period )"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -374,10 +374,10 @@
         "valueString": "Major Surgical Procedure 21 Days or Less Before Start of or Starts During ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Major Surgical Procedure 21 Days or Less Before Start of or Starts During ED Encounter&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with [&quot;Procedure&quot;: &quot;Major Surgical Procedure&quot;] MajorSurgery       such that MajorSurgery.performed.toInterval ( ) starts 21 days or less before start of ( EDwithSTEMI.period )         and MajorSurgery.status = &#39;completed&#39;"
+        "valueString": "define \"Major Surgical Procedure 21 Days or Less Before Start of or Starts During ED Encounter\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with [\"Procedure\": \"Major Surgical Procedure\"] MajorSurgery\n      such that MajorSurgery.performed.toInterval ( ) starts 21 days or less before start of ( EDwithSTEMI.period )\n        and MajorSurgery.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -389,10 +389,10 @@
         "valueString": "Intubation or Mechanical Circulatory Assist Procedure During ED Encounter or Within 24 Hours of ED Encounter Start"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intubation or Mechanical Circulatory Assist Procedure During ED Encounter or Within 24 Hours of ED Encounter Start&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with ( [&quot;Procedure&quot;: &quot;Endotracheal Intubation&quot;]       union [&quot;Procedure&quot;: &quot;Insertion or Replacement of Mechanical Circulatory Assist Device&quot;] ) AirwayProcedure       such that ( ( AirwayProcedure.performed.toInterval ( ) starts during ( EDwithSTEMI.period ) )           or ( AirwayProcedure.performed.toInterval ( ) starts 24 hours or less before start of ( EDwithSTEMI.period ) )       )         and AirwayProcedure.status = &#39;completed&#39;"
+        "valueString": "define \"Intubation or Mechanical Circulatory Assist Procedure During ED Encounter or Within 24 Hours of ED Encounter Start\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with ( [\"Procedure\": \"Endotracheal Intubation\"]\n      union [\"Procedure\": \"Insertion or Replacement of Mechanical Circulatory Assist Device\"] ) AirwayProcedure\n      such that ( ( AirwayProcedure.performed.toInterval ( ) starts during ( EDwithSTEMI.period ) )\n          or ( AirwayProcedure.performed.toInterval ( ) starts 24 hours or less before start of ( EDwithSTEMI.period ) )\n      )\n        and AirwayProcedure.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -404,10 +404,10 @@
         "valueString": "Active Exclusion Diagnosis Within 90 Days Before or At the Start of ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Active Exclusion Diagnosis Within 90 Days Before or At the Start of ED Encounter&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwSTEMI     with ( [&quot;Condition&quot;: &quot;Ischemic Stroke&quot;]       union [&quot;Condition&quot;: &quot;Closed Head and Facial Trauma&quot;]       union [&quot;Condition&quot;: &quot;Active Peptic Ulcer&quot;]       union [&quot;Condition&quot;: &quot;Cardiopulmonary Arrest&quot;] ) ExclusionCondition       such that /* ExclusionCondition.isActive ()    and */       ExclusionCondition.prevalenceInterval ( ) starts during Interval[start of ( EDwSTEMI.period ) - 90 days, start of ( EDwSTEMI.period )]"
+        "valueString": "define \"Active Exclusion Diagnosis Within 90 Days Before or At the Start of ED Encounter\":\n  \"ED Encounter with STEMI Diagnosis\" EDwSTEMI\n    with ( [\"Condition\": \"Ischemic Stroke\"]\n      union [\"Condition\": \"Closed Head and Facial Trauma\"]\n      union [\"Condition\": \"Active Peptic Ulcer\"]\n      union [\"Condition\": \"Cardiopulmonary Arrest\"] ) ExclusionCondition\n      such that /* ExclusionCondition.isActive ()\n   and */\n      ExclusionCondition.prevalenceInterval ( ) starts during Interval[start of ( EDwSTEMI.period ) - 90 days, start of ( EDwSTEMI.period )]"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -419,10 +419,10 @@
         "valueString": "Intracranial or Intraspinal Procedure 90 Days or Less Before Start of ED Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Intracranial or Intraspinal Procedure 90 Days or Less Before Start of ED Encounter&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with [&quot;Procedure&quot;: &quot;Intracranial or Intraspinal surgery&quot;] CranialorSpinalSurgery       such that CranialorSpinalSurgery.performed.toInterval ( ) starts 90 days or less before start of ( EDwithSTEMI.period )         and CranialorSpinalSurgery.status = &#39;completed&#39;"
+        "valueString": "define \"Intracranial or Intraspinal Procedure 90 Days or Less Before Start of ED Encounter\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with [\"Procedure\": \"Intracranial or Intraspinal surgery\"] CranialorSpinalSurgery\n      such that CranialorSpinalSurgery.performed.toInterval ( ) starts 90 days or less before start of ( EDwithSTEMI.period )\n        and CranialorSpinalSurgery.status = 'completed'"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -434,10 +434,10 @@
         "valueString": "ED Encounter with Discharge Disposition as Patient Expired"
       }, {
         "url": "statement",
-        "valueString": "define &quot;ED Encounter with Discharge Disposition as Patient Expired&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     where EDwithSTEMI.hospitalization.dischargeDisposition in &quot;Patient Expired&quot;"
+        "valueString": "define \"ED Encounter with Discharge Disposition as Patient Expired\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    where EDwithSTEMI.hospitalization.dischargeDisposition in \"Patient Expired\""
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -449,10 +449,10 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:   &quot;Allergy or Intolerance to Thrombolytic Medications Overlaps ED Encounter&quot;     union &quot;Adverse Effect to Thrombolytic Medications Before End of ED Encounter&quot;     union &quot;Active Exclusion Diagnosis at Start of ED Encounter&quot;     union &quot;Active Oral Anticoagulant Medication at the Start of ED Encounter&quot;     union &quot;Exclusion Diagnosis During ED Encounter or Within 24 Hours of ED Encounter Start&quot;     union &quot;Major Surgical Procedure 21 Days or Less Before Start of or Starts During ED Encounter&quot;     union &quot;Intubation or Mechanical Circulatory Assist Procedure During ED Encounter or Within 24 Hours of ED Encounter Start&quot;     union &quot;Active Exclusion Diagnosis Within 90 Days Before or At the Start of ED Encounter&quot;     union &quot;Intracranial or Intraspinal Procedure 90 Days or Less Before Start of ED Encounter&quot;     union &quot;ED Encounter with Discharge Disposition as Patient Expired&quot;"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Allergy or Intolerance to Thrombolytic Medications Overlaps ED Encounter\"\n    union \"Adverse Effect to Thrombolytic Medications Before End of ED Encounter\"\n    union \"Active Exclusion Diagnosis at Start of ED Encounter\"\n    union \"Active Oral Anticoagulant Medication at the Start of ED Encounter\"\n    union \"Exclusion Diagnosis During ED Encounter or Within 24 Hours of ED Encounter Start\"\n    union \"Major Surgical Procedure 21 Days or Less Before Start of or Starts During ED Encounter\"\n    union \"Intubation or Mechanical Circulatory Assist Procedure During ED Encounter or Within 24 Hours of ED Encounter Start\"\n    union \"Active Exclusion Diagnosis Within 90 Days Before or At the Start of ED Encounter\"\n    union \"Intracranial or Intraspinal Procedure 90 Days or Less Before Start of ED Encounter\"\n    union \"ED Encounter with Discharge Disposition as Patient Expired\""
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -464,10 +464,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -479,10 +479,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -494,10 +494,10 @@
         "valueString": "Received tPA in Another Facility within 24 hours Prior to Admission"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Received tPA in Another Facility within 24 hours Prior to Admission&quot;:   &quot;ED Encounter with STEMI Diagnosis&quot; EDwithSTEMI     with ( [&quot;Condition&quot;: &quot;Status post administration of tPA (rtPA) in a different facility within the last 24 hours prior to admission to current facility&quot;] ) TPA       such that TPA.prevalenceInterval ( ) starts during EDwithSTEMI.period"
+        "valueString": "define \"Received tPA in Another Facility within 24 hours Prior to Admission\":\n  \"ED Encounter with STEMI Diagnosis\" EDwithSTEMI\n    with ( [\"Condition\": \"Status post administration of tPA (rtPA) in a different facility within the last 24 hours prior to admission to current facility\"] ) TPA\n      such that TPA.prevalenceInterval ( ) starts during EDwithSTEMI.period"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -509,10 +509,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exceptions&quot;:   &quot;Received tPA in Another Facility within 24 hours Prior to Admission&quot;"
+        "valueString": "define \"Denominator Exceptions\":\n  \"Received tPA in Another Facility within 24 hours Prior to Admission\""
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -524,10 +524,10 @@
         "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -539,10 +539,10 @@
         "valueString": "encounterDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the Condition resources referenced by the diagnosis element of the Encounter */ define fluent function encounterDiagnosis(Encounter Encounter ):   Encounter.diagnosis D     return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
+        "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueString": "32"
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -554,10 +554,10 @@
         "valueString": "getId"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the tail of the given uri (i.e. everything after the last slash in the URI). @comment: This function can be used to determine the logical id of a given resource. It can be used in a single-server environment to trace references. However, this function does not attempt to resolve or distinguish the base of the given url, and so cannot be used safely in multi-server environments. */ define fluent function getId(uri String):   Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "33"
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -569,10 +569,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueString": "34"
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -584,10 +584,10 @@
         "valueString": "currentemergencyDepartmentArrivalTime"
       }, {
         "url": "statement",
-        "valueString": "define fluent function currentemergencyDepartmentArrivalTime(EDEncounter Encounter): /* @description: Returns the emergency department arrival time for the encounter. */      start of ( singleton from ( ( ( EDEncounter.location ) ) EDLocation         where CQMCommon.GetLocation ( EDLocation.location ).type in &quot;Emergency Department Visit&quot;     )   ).period"
+        "valueString": "define fluent function currentemergencyDepartmentArrivalTime(EDEncounter Encounter):\n/*\n@description: Returns the emergency department arrival time for the encounter.\n*/\n  \n  start of ( singleton from ( ( ( EDEncounter.location ) ) EDLocation\n        where CQMCommon.GetLocation ( EDLocation.location ).type in \"Emergency Department Visit\"\n    )\n  ).period"
       }, {
         "url": "displaySequence",
-        "valueString": "35"
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -599,10 +599,10 @@
         "valueString": "GetLocation"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Returns the Location resource specified by the given reference @deprecated: This function is deprecated. Use the fluent function `getLocation()` instead. */ define function &quot;GetLocation&quot;(reference Reference ):   singleton from (     [Location] L where L.id = reference.reference.getId()   )"
+        "valueString": "/*\n@description: Returns the Location resource specified by the given reference\n@deprecated: This function is deprecated. Use the fluent function `getLocation()` instead.\n*/\ndefine function \"GetLocation\"(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "36"
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -617,7 +617,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "37"
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -629,12 +629,13 @@
         "valueString": "ToCode"
       }, {
         "url": "statement",
-        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "38"
+        "valueInteger": 38
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -794,6 +795,12 @@
       "max": "1",
       "type": "Period"
     }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
       "name": "Numerator",
       "use": "out",
       "min": 0,
@@ -806,31 +813,13 @@
       "max": "*",
       "type": "Resource"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exclusions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "Denominator Exceptions",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "Resource"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -842,27 +831,54 @@
       "max": "1",
       "type": "Resource"
     }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
       "name": "SDE Race",
       "use": "out",
       "min": 0,
       "max": "1",
       "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
     } ],
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "location", "condition", "condition.reference", "condition.reference.value", "period", "hospitalization", "hospitalization.dischargeDisposition" ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value", "class", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition", "reasonCode" ],
+      "mustSupport": [ "type", "period", "status", "status.value", "class", "condition", "condition.reference", "condition.reference.value", "location", "location.type", "hospitalization", "hospitalization.dischargeDisposition", "reasonCode" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1010"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      }, {
+        "path": "class"
+      } ],
+      "dateFilter": [ {
+        "path": "period",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "Condition",
@@ -875,6 +891,8 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.4017"
+      }, {
+        "path": "clinicalStatus"
       } ]
     }, {
       "type": "Condition",
@@ -1003,6 +1021,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.2000.5"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -1011,6 +1034,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.4056"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Procedure",
@@ -1035,6 +1063,11 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.2"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
       } ]
     }, {
       "type": "Coverage",
@@ -1051,6 +1084,8 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.4"
+      }, {
+        "path": "clinicalStatus"
       } ]
     }, {
       "type": "AdverseEvent",
@@ -1059,7 +1094,31 @@
       "codeFilter": [ {
         "path": "event",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.6"
+      }, {
+        "path": "actuality.value",
+        "code": [ {
+          "code": "actual"
+        } ]
       } ]
+    }, {
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
+        "extension": [ {
+          "url": "targetId",
+          "valueString": "497"
+        }, {
+          "url": "targetProperty",
+          "valueString": "medication"
+        } ]
+      } ],
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "id": "497",
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -1068,14 +1127,6 @@
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.4045"
       } ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ]
-    }, {
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
     } ]
   } ],
   "extension": [ {
@@ -1096,9 +1147,15 @@
       }
     } ]
   }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/AppropriateTreatmentforSTEMIFHIR",
@@ -1151,7 +1208,7 @@
   "title": "Appropriate Treatment for ST-Segment Elevation Myocardial Infarction (STEMI) Patients in the Emergency Department (ED)FHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-05-06T18:28:26+00:00",
+  "date": "2024-06-13T20:12:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1182,6 +1239,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/AppropriateTreatmentforSTEMIFHIR" ],
   "disclaimer": "These performance specifications are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "proportion",
+      "display": "Proportion"
+    } ]
+  },
   "rationale": "Studies have shown that delays in the treatment of acute myocardial infarction (AMI) leads to increased risk of in-hospital mortality and morbidity, with nearly two lives per 1,000 patients lost per hour of delay in treatment (Sohlpour & Yusuf, 2014; Fibrinolytic Therapy Trialists' Collaborative Group, 1994). For patients receiving fibrinolytic therapy, the American Heart Association (AHA) estimates that 65 lives will be saved per 1,000 patients if treatment is administered within the first hour of symptom onset, and 131 lives will be saved per 1,000 patients treated if fibrinolytic therapy is delivered within the first three hours (O'Connor et al., 2010).  The total ischemic time-that is, the time from onset of STEMI symptoms to the initiation of some form of reperfusion therapy-is the principal determinant of health outcomes for patients with an AMI, so timely care is essential to minimize disease morbidity and mortality. Primary PCI is the preferred treatment approach, with guidelines recommending initiation of PCI within 120 minutes from first medical contact (O'Gara et al., 2013). In situations where it is unlikely or impossible for a patient to receive primary PCI within the 120-minute timeframe, fibrinolytic therapy may be used for reperfusion and should be rapidly administered to reduce mortality and minimize morbidity; guidelines recommend that fibrinolytic therapy administration occur within 30 minutes of hospital arrival; this may also require rapid transfer for PCI (O'Gara et al., 2013). Implementation of an eCQM addressing appropriateness and effectiveness of care for STEMI patients in the ED has the potential to improve the delivery of care furthering alignment with current clinical practice guidelines, while reducing adverse health outcomes such as mortality, bleeding events, and reinfarction. Use of the proposed eCQM could also reduce burden on facilities currently measured using the chart-abstracted Fibrinolytic Therapy Received within 30 Minutes of ED Arrival (OP-2) measure and broaden the population for which performance scores could be publicly reported.",
   "clinicalRecommendationStatement": "Primary PCI in STEMI: The 2013 ACCF/AHA clinical practice guideline for the management of STEMI recommends that: - \"Primary PCI should be performed in patients with STEMI and ischemic symptoms of less than 12 hours' duration.\" - \"Primary PCI should be performed in patients with STEMI and ischemic symptoms of less than 12 hours' duration who have contraindications to fibrinolytic therapy, irrespective of the time delay from first medical contact.\"   Fibrinolytic Therapy when there is an Anticipated Delay to Performing Primary PCI within 120 Minutes of First Medical Contact: The 2013 American College of Cardiology Foundation (ACCF)/American Heart Association (AHA) clinical practice guideline for the management of STEMI recommends that: - \"In the absence of contraindications, fibrinolytic therapy should be given to patients with STEMI and onset of ischemic symptoms within the previous 12 hours when it is anticipated that primary PCI cannot be performed within 120 minutes of first medical contact.\"   Transfer to a PCI-Capable Hospital after Fibrinolytic Therapy: The 2013 ACCF/AHA clinical practice guideline for the management of STEMI recommends that: - Immediate transfer to a PCI-capable hospital for coronary angiography is recommended for suitable patients with STEMI who develop cardiogenic shock or acute severe heart failure (HF), irrespective of the time delay from MI onset. - Urgent transfer to a PCI-capable hospital for coronary angiography is reasonable for patients with STEMI who demonstrate evidence of failed reperfusion or reocclusion after fibrinolytic therapy.  - Transfer to a PCI-capable hospital for coronary angiography is reasonable for patients with STEMI who have received fibrinolytic therapy even when hemodynamically stable and with clinical evidence of successful reperfusion. Angiography can be performed as soon as logistically feasible at the receiving hospital, and ideally within 24 hours, but should not be performed within the first 2 to 3 hours after administration of fibrinolytic therapy.",
   "group": [ {
