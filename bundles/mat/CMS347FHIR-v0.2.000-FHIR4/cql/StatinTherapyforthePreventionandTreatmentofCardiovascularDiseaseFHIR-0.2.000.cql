@@ -2,13 +2,14 @@ library StatinTherapyforthePreventionandTreatmentofCardiovascularDiseaseFHIR ver
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include Hospice version '6.9.000' called Hospice
-include PalliativeCare version '1.9.000' called PalliativeCare
-include QICoreCommon version '2.0.000' called QICoreCommon
-include SupplementalDataElements version '3.4.000' called SDE
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include Hospice version '6.12.000' called Hospice
+include PalliativeCare version '1.11.000' called PalliativeCare
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
 
 codesystem "CPT": 'http://www.ama-assn.org/go/cpt'
+codesystem "ICD10CM": 'http://hl7.org/fhir/sid/icd-10-cm'
 codesystem "LOINC": 'http://loinc.org'
 codesystem "ObservationCategoryCodes": 'http://terminology.hl7.org/CodeSystem/observation-category'
 codesystem "RxNorm": 'https://www.nlm.nih.gov/research/umls/rxnorm/index.html'
@@ -41,21 +42,24 @@ valueset "PCI": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045
 valueset "Preventive Care Services Established Office Visit, 18 and Up": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025'
 valueset "Preventive Care Services Individual Counseling": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1026'
 valueset "Preventive Care Services Initial Office Visit, 18 and Up": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023'
+valueset "Preventive Care Services Other": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.11.1150'
 valueset "Rhabdomyolysis": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.102'
 valueset "Stable and Unstable Angina": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.47'
 valueset "Statin Allergen": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.42'
 valueset "Statin Associated Muscle Symptoms": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.85'
-valueset "Preventive Care Services Other": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.11.1150'
 
 code "Cardiovascular disease 10Y risk [Likelihood]": '99055-6' from "LOINC" display 'Cardiovascular disease 10Y risk [Likelihood]'
 code "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013": '79423-0' from "LOINC" display 'Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013'
+code "Subsequent non-ST elevation (NSTEMI) myocardial infarction": 'I22.2' from "ICD10CM" display 'Subsequent non-ST elevation (NSTEMI) myocardial infarction'
 
 parameter "Measurement Period" Interval<DateTime>
 
 context Patient
 
 define "Initial Population 1":
-  exists "ASVCD Diagnosis or Procedure before End of Measurement Period"
+  exists ( "ASVCD Diagnosis or Procedure before End of Measurement Period"
+      union "Myocardial Infarction before End of Measurement Period"
+  )
     and exists "Qualifying Encounter during day of Measurement Period"
 
 define "Initial Population 2":
@@ -89,7 +93,6 @@ define "Denominator Exclusions":
           or ExclusionDiagnosis.isHealthConcern ( )
       )
         and ExclusionDiagnosis.prevalenceInterval ( ) overlaps day of "Measurement Period"
-        and ExclusionDiagnosis.isActive ( )
   )
 
 define "Denominator Exceptions":
@@ -115,7 +118,6 @@ define "ASVCD Diagnosis or Procedure before End of Measurement Period":
           or ASCVDDiagnosis.isHealthConcern ( )
       )
         and ASCVDDiagnosis.prevalenceInterval ( ) starts on or before day of end of "Measurement Period"
-        and ASCVDDiagnosis.isActive ( )
   )
     union ( ( [Procedure: "PCI"]
         union [Procedure: "CABG Surgeries"]
@@ -124,6 +126,13 @@ define "ASVCD Diagnosis or Procedure before End of Measurement Period":
         where ASCVDProcedure.performed.toInterval ( ) starts on or before day of end of "Measurement Period"
           and ASCVDProcedure.status = 'completed'
     )
+
+define "Myocardial Infarction before End of Measurement Period":
+  [Condition: "Subsequent non-ST elevation (NSTEMI) myocardial infarction"] SubsequentMI
+    where ( SubsequentMI.isProblemListItem ( )
+        or SubsequentMI.isHealthConcern ( )
+    )
+      and SubsequentMI.prevalenceInterval ( ) starts on or before day of end of "Measurement Period"
 
 define "Has Adverse Reaction to Statin":
   exists ( [AdverseEvent: event in "Statin Allergen"] StatinReaction
@@ -142,7 +151,6 @@ define "Has Diabetes Diagnosis":
           or Diabetes.isHealthConcern ( )
       )
         and Diabetes.prevalenceInterval ( ) overlaps day of "Measurement Period"
-        and Diabetes.isActive ( )
   )
 
 define "Has ESRD Diagnosis":
@@ -151,7 +159,6 @@ define "Has ESRD Diagnosis":
           or ESRD.isHealthConcern ( )
       )
         and ESRD.prevalenceInterval ( ) overlaps day of "Measurement Period"
-        and ESRD.isActive ( )
   )
 
 define "Has Hepatitis or Liver Disease Diagnosis":
@@ -162,7 +169,6 @@ define "Has Hepatitis or Liver Disease Diagnosis":
           or HepatitisLiverDisease.isHealthConcern ( )
       )
         and HepatitisLiverDisease.prevalenceInterval ( ) overlaps day of "Measurement Period"
-        and HepatitisLiverDisease.isActive ( )
   )
 
 define "Has Medical Reason for Not Ordering Statin Therapy":
@@ -181,7 +187,6 @@ define "Has Statin Associated Muscle Symptoms":
           or StatinMuscleSymptom.isHealthConcern ( )
       )
         and StatinMuscleSymptom.prevalenceInterval ( ) overlaps day of "Measurement Period"
-        and StatinMuscleSymptom.isActive ( )
   )
 
 define "Hypercholesterolemia Diagnosis":
@@ -190,7 +195,6 @@ define "Hypercholesterolemia Diagnosis":
           or Hypercholesterolemia.isHealthConcern ( )
       )
         and Hypercholesterolemia.prevalenceInterval ( ) starts on or before day of end of "Measurement Period"
-        and Hypercholesterolemia.isActive ( )
   )
 
 define "LDL Result Greater Than or Equal To 190":

@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
         "code": "active",
         "display": "Active"
@@ -59,7 +73,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueString": "0"
@@ -104,7 +118,7 @@
         "valueString": "Dementia Encounter During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Dementia Encounter During Measurement Period&quot;:\n  &quot;Encounter to Assess Cognition&quot; EncounterAssessCognition\n    with [Condition: &quot;Dementia &amp; Mental Degenerations&quot;] Dementia\n      such that EncounterAssessCognition.period during &quot;Measurement Period&quot;\n        and Dementia.prevalenceInterval ( ) overlaps day of EncounterAssessCognition.period\n        and Dementia.isActive ( )\n        and not ( Dementia.verificationStatus ~ QICoreCommon.&quot;unconfirmed&quot;\n            or Dementia.verificationStatus ~ QICoreCommon.&quot;refuted&quot;\n            or Dementia.verificationStatus ~ QICoreCommon.&quot;entered-in-error&quot;\n        )"
+        "valueString": "define &quot;Dementia Encounter During Measurement Period&quot;:\n  &quot;Encounter to Assess Cognition&quot; EncounterAssessCognition\n    with [Condition: &quot;Dementia &amp; Mental Degenerations&quot;] Dementia\n      such that EncounterAssessCognition.period during day of &quot;Measurement Period&quot;\n        and Dementia.prevalenceInterval ( ) overlaps day of EncounterAssessCognition.period\n        and Dementia.isActive ( )\n        and not ( Dementia.verificationStatus ~ QICoreCommon.&quot;unconfirmed&quot;\n            or Dementia.verificationStatus ~ QICoreCommon.&quot;refuted&quot;\n            or Dementia.verificationStatus ~ QICoreCommon.&quot;entered-in-error&quot;\n        )"
       }, {
         "url": "displaySequence",
         "valueString": "3"
@@ -149,7 +163,7 @@
         "valueString": "Qualifying Encounter During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounter During Measurement Period&quot;:\n  ( &quot;Encounter to Assess Cognition&quot;\n    union [&quot;Encounter&quot;: &quot;Patient Provider Interaction&quot;] ) ValidEncounter\n    where ValidEncounter.period during &quot;Measurement Period&quot;\n      and ValidEncounter.status = &#39;finished&#39;"
+        "valueString": "define &quot;Qualifying Encounter During Measurement Period&quot;:\n  ( &quot;Encounter to Assess Cognition&quot;\n    union [&quot;Encounter&quot;: &quot;Patient Provider Interaction&quot;] ) ValidEncounter\n    where ValidEncounter.period during day of &quot;Measurement Period&quot;\n      and ValidEncounter.status = &#39;finished&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "6"
@@ -314,7 +328,7 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueString": "17"
@@ -375,15 +389,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system ConditionClinicalStatusCodes",
@@ -650,7 +668,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex\n "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -707,10 +726,10 @@
         "code": "endorser"
       } ]
     },
-    "system": "https://madie.cms.gov/measure/nqfId",
+    "system": "https://madie.cms.gov/measure/cbeId",
     "value": "2872e",
     "assigner": {
-      "display": "NQF"
+      "display": "CMS Consensus Based Entity"
     }
   }, {
     "use": "official",
@@ -731,7 +750,7 @@
   "title": "Dementia: Cognitive AssessmentFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-07T18:33:02+00:00",
+  "date": "2024-05-03T15:59:24+00:00",
   "publisher": "American Academy of Neurology",
   "contact": [ {
     "telecom": [ {
@@ -741,10 +760,8 @@
   } ],
   "description": "Percentage of patients, regardless of age, with a diagnosis of dementia for whom an assessment of cognition is performed and the results reviewed at least once within a 12-month period",
   "purpose": "UNKNOWN",
-  "usage": "Use of a standardized tool or instrument to assess cognition other than those listed will meet numerator performance if mapped to the concept \"Intervention, Performed\": \"Cognitive Assessment\" included in the numerator logic below.\n\nThe requirement of two or more visits is to establish that the eligible professional or eligible clinician has an existing relationship with the patient.\n\nIn recognition of the growing use of integrated and team-based care, the diagnosis of dementia and the assessment of cognitive function need not be performed by the same provider or clinician. \n\nThe DSM-5 has replaced the term dementia with major neurocognitive disorder and mild neurocognitive disorder. For the purposes of this measure, the terms are equivalent.\n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS149v12.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "usage": "The measure requires a diagnosis of dementia is present before the routine assessment of cognition once in a 12-month period.\n\nUse of a standardized tool or instrument to assess cognition other than those listed will meet numerator performance if mapped to the concept \"Intervention, Performed\": \"Cognitive Assessment\" included in the numerator logic below.\n\nThe requirement of two or more visits is to establish that the eligible clinician has an existing relationship with the patient.\n\nIn recognition of the growing use of integrated and team-based care, the diagnosis of dementia and the assessment of cognitive function need not be performed by the same provider or clinician. \n\nThe Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition DMS-5 has replaced the term dementia with major neurocognitive disorder and mild neurocognitive disorder. For the purposes of this measure, the terms are equivalent.\n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS149v13.\n\nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)",
   "copyright": "Attribution: The American Psychiatric Association’s (APA), PCPI’s, and American Medical Association’s (AMA) significant past efforts and contributions to the development and updating of the Measure are acknowledged. \n\nCopyright: (C)2024 American Academy of Neurology Institute (AANI). All rights reserved.",
-  "approvalDate": "2023-11-17",
-  "lastReviewDate": "2023-11-17",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -765,7 +782,7 @@
   "library": [ "https://madie.cms.gov/Library/DementiaCognitiveAssessmentFHIR" ],
   "disclaimer": "Limited proprietary coding may be contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measure. Any other use of CPT or other coding by the third party is strictly prohibited. AANI, APA, AMA, and the former members of the PCPI disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications.\n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
   "rationale": "An estimated 5.8 million of adults in the US were living with dementia in 2019. Dementia is often characterized by the gradual onset and continuing cognitive decline in one or more domains including memory, communication and language, ability to focus or pay attention, reasoning and judgment and visual perception (Alzheimer’s Association, 2019). Cognitive deterioration represents a major source of morbidity and mortality and poses a significant burden on affected individuals and their caregivers (Daviglus et al., 2010). Although cognitive deterioration follows a different course depending on the type of dementia, significant rates of decline have been reported. For example, one study found that the annual rate of decline for Alzheimer's disease patients was more than four times that of older adults with no cognitive impairment (Wilson et al., 2010). Nevertheless, measurable cognitive abilities remain throughout the course of dementia (American Psychiatric Association, 2007). Initial and ongoing assessments of cognition are fundamental to the proper management of patients with dementia. These assessments serve as the basis for identifying treatment goals, developing a treatment plan, monitoring the effects of treatment, and modifying treatment as appropriate.",
-  "clinicalRecommendationStatement": "Ongoing assessment includes periodic monitoring of the development and evolution of cognitive and noncognitive psychiatric symptoms and their response to intervention (Category I). Both cognitive and noncognitive neuropsychiatric and behavioral symptoms of dementia tend to evolve over time, so regular monitoring allows detection of new symptoms and adaptation of treatment strategies to current needs... Cognitive symptoms that almost always require assessment include impairments in memory, executive function, language, judgment, and spatial abilities. It is often helpful to track cognitive status with a structured simple examination (American Psychiatric Association, 2007).\n\nThe American Psychiatric Association recommends that patients with dementia be assessed for the type, frequency, severity, pattern, and timing of symptoms (Category 1C). Quantitative measures provide a structured replicable way to document the patient's baseline symptoms and determine which symptoms (if any) should be the target of intervention based on factors such as frequency of occurrence, magnitude, potential for associated harm to the patient or others, and associated distress to the patient. The exact frequency at which measures are warranted will depend on clinical circumstances. However, use of quantitative measures as treatment proceeds allows more precise tracking of whether nonpharmacological and pharmacological treatments are having their intended effect or whether a shift in the treatment plan is needed (American Psychiatric Association, 2016).\n\nConduct and document an assessment and monitor changes in cognitive status using a reliable and valid instrument, e.g., Montreal Cognitive Assessment (MoCA), Ascertain Dementia 8 (AD8) or other tool. Cognitive status should be reassessed periodically to identify sudden changes, as well as to monitor the potential beneficial or harmful effects of environmental changes (including safety, care needs, and abuse and/or neglect), specific medications (both prescription and non-prescription, for appropriate use and contraindications), or other interventions. Proper assessment requires the use of a standardized, objective instrument that is relatively easy to use, reliable (with less variability between different assessors), and valid (results that would be similar to gold-standard evaluations) (California Department of Public Health, 2017).\n\nRecommendation: Perform regular, comprehensive person-centered assessments and timely interim assessments.\nAssessments, conducted at least every 6 months, should prioritize issues that help the person with dementia to live fully. These include assessments of the individual and care partner’s relationships and subjective experience and assessment of cognition, behavior, and function, using reliable and valid tools. Assessment is ongoing and dynamic, combining nomothetic (norm based) and idiographic (individualized) approaches (Fazio, Pace, Maslow, Zimmerman, & Kallmyer, 2018).\n\nRecommendation: Assess cognitive status, functional abilities, behavioral and psychological symptoms of dementia, medical status, living environment, and safety. Reassess regularly and when there is a significant change in condition (U.S. Department of Health and Human Services, 2016).",
+  "clinicalRecommendationStatement": "Ongoing assessment includes periodic monitoring of the development and evolution of cognitive and noncognitive psychiatric symptoms and their response to intervention (Category I). Both cognitive and noncognitive neuropsychiatric and behavioral symptoms of dementia tend to evolve over time, so regular monitoring allows detection of new symptoms and adaptation of treatment strategies to current needs... Cognitive symptoms that almost always require assessment include impairments in memory, executive function, language, judgment, and spatial abilities. It is often helpful to track cognitive status with a structured simple examination (American Psychiatric Association, 2007).\n\nThe American Psychiatric Association recommends that patients with dementia be assessed for the type, frequency, severity, pattern, and timing of symptoms (Category 1C). Quantitative measures provide a structured replicable way to document the patient's baseline symptoms and determine which symptoms (if any) should be the target of intervention based on factors such as frequency of occurrence, magnitude, potential for associated harm to the patient or others, and associated distress to the patient. The exact frequency at which measures are warranted will depend on clinical circumstances. However, use of quantitative measures as treatment proceeds allows more precise tracking of whether nonpharmacological and pharmacological treatments are having their intended effect or whether a shift in the treatment plan is needed (American Psychiatric Association, 2016).\n\nConduct and document an assessment and monitor changes in cognitive status using a reliable and valid instrument, e.g., Montreal Cognitive Assessment (MoCA), Ascertain Dementia 8 (AD8) or other tool. Cognitive status should be reassessed periodically to identify sudden changes, as well as to monitor the potential beneficial or harmful effects of environmental changes (including safety, care needs, and abuse and/or neglect), specific medications (both prescription and non-prescription, for appropriate use and contraindications), or other interventions. Proper assessment requires the use of a standardized, objective instrument that is relatively easy to use, reliable (with less variability between different assessors), and valid (results that would be similar to gold-standard evaluations) (California Department of Public Health, 2017).\n\nRecommendation: Perform regular, comprehensive person-centered assessments and timely interim assessments.\n\nAssessments, conducted at least every 6 months, should prioritize issues that help the person with dementia to live fully. These include assessments of the individual and care partner’s relationships and subjective experience and assessment of cognition, behavior, and function, using reliable and valid tools. Assessment is ongoing and dynamic, combining nomothetic (norm based) and idiographic (individualized) approaches (Fazio, Pace, Maslow, Zimmerman, & Kallmyer, 2018).\n\nRecommendation: Assess cognitive status, functional abilities, behavioral and psychological symptoms of dementia, medical status, living environment, and safety. Reassess regularly and when there is a significant change in condition (U.S. Department of Health and Human Services, 2016).",
   "group": [ {
     "id": "64f8f6e7da013638e7b3d970",
     "extension": [ {
@@ -787,6 +804,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -819,18 +848,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "cb27e565-17da-44ae-8a35-041cfcfef20c",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "005F739D-804C-450C-A90A-EC6AAEB37B55",
       "code": {
         "coding": [ {
@@ -843,18 +860,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "913db5e6-2e5a-46ab-ae7c-86432872d15b",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "1C8C30E2-BAFE-4A65-A837-7876EE5CDB75",

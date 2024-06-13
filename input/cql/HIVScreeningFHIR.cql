@@ -28,7 +28,8 @@ code "active": 'active' from "ConditionClinicalStatusCodes"
 code "refuted": 'refuted' from "ConditionVerificationStatus"
 code "Dead (finding)": '419099009' from "SNOMEDCT" display 'Dead (finding)'
 
-parameter "Measurement Period" Interval<DateTime> default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

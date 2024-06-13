@@ -1,0 +1,1485 @@
+{
+  "resourceType": "Measure",
+  "id": "PCSBPScreeningFollowUpFHIR",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Library",
+    "id": "effective-data-requirements",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "VR",
+        "display": "virtual"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://loinc.org",
+        "code": "34534-8",
+        "display": "EKG 12 channel panel"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://loinc.org",
+        "code": "11524-6",
+        "display": "EKG study"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+        "code": "problem-list-item",
+        "display": "Problem List Item"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/us/core/CodeSystem/condition-category",
+        "code": "health-concern",
+        "display": "Health Concern"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+      }, {
+        "url": "displaySequence",
+        "valueString": "0"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "1"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Qualifying Encounter during Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Qualifying Encounter during Measurement Period&quot;:   [Encounter: &quot;Encounter to Screen for Blood Pressure&quot;] ValidEncounter     where ValidEncounter.period during day of &quot;Measurement Period&quot;       and ValidEncounter.status ~ &#39;finished&#39;       and ValidEncounter.class !~ &quot;virtual&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "2"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Normal Blood Pressure Reading"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Normal Blood Pressure Reading&quot;:   &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter     let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure         where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period           and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }         sort by start of effective.toInterval()     )     where EncounterLastBP.SystolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 120 &#39;mm[Hg]&#39; )       and EncounterLastBP.DiastolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 80 &#39;mm[Hg]&#39; )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "3"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot;:   &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter     let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure         where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period           and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }         sort by start of effective.toInterval()     )     where ( EncounterLastBP.SystolicBP.value in Interval[120 &#39;mm[Hg]&#39;, 129 &#39;mm[Hg]&#39;]         and EncounterLastBP.DiastolicBP.value in Interval[1 &#39;mm[Hg]&#39;, 80 &#39;mm[Hg]&#39; )     )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "4"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Follow up with Rescreen Within 6 Months"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Follow up with Rescreen Within 6 Months&quot;:   [ServiceRequest: &quot;Follow Up Within 6 Months&quot;] FollowUp     where FollowUp.intent ~ &#39;order&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "5"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "NonPharmacological Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;NonPharmacological Interventions&quot;:   ( [ServiceRequest: &quot;Lifestyle Recommendation&quot;]     union [ServiceRequest: &quot;Weight Reduction Recommended&quot;]     union [ServiceRequest: &quot;Dietary Recommendations&quot;]     union [ServiceRequest: &quot;Recommendation to Increase Physical Activity&quot;]     union [ServiceRequest: &quot;Referral or Counseling for Alcohol Consumption&quot;] ) NonPharmaInterventions     where NonPharmaInterventions.intent ~ &#39;order&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "6"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot;:   [ServiceRequest: &quot;Referral to Primary Care or Alternate Provider&quot;] Referral     where Referral.reasonCode in &quot;Finding of Elevated Blood Pressure or Hypertension&quot;       and Referral.intent ~ &#39;order&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "7"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions&quot;:   ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedEncounter       with &quot;Follow up with Rescreen Within 6 Months&quot; Twoto6MonthRescreen         such that Twoto6MonthRescreen.authoredOn during day of ElevatedEncounter.period       with &quot;NonPharmacological Interventions&quot; NonPharmInterventions         such that NonPharmInterventions.authoredOn during day of ElevatedEncounter.period   )     union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedEncounter         with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; Referral           such that Referral.authoredOn during day of ElevatedEncounter.period     )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "8"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Hypertensive Reading Within Year Prior"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Hypertensive Reading Within Year Prior&quot;:   ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter       let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure           where BloodPressure.effective.toInterval() ends 1 year or less before or on start of QualifyingEncounter.period             and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           sort by start of effective.toInterval()       )       where ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;           and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;           and ( EncounterLastBP.SystolicBP.value &gt;= 130 &#39;mm[Hg]&#39;               or EncounterLastBP.DiastolicBP.value &gt;= 80 &#39;mm[Hg]&#39;           )       )   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "9"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot;:   ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter       let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure           where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period           sort by start of effective.toInterval()       )       where ( ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;             and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;         )           and ( EncounterLastBP.SystolicBP.value &gt;= 130 &#39;mm[Hg]&#39;               or EncounterLastBP.DiastolicBP.value &gt;= 80 &#39;mm[Hg]&#39;           )       )   )     except &quot;Encounter with Hypertensive Reading Within Year Prior&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "10"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "First Hypertensive Reading Interventions or Referral to Alternate Professional"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;First Hypertensive Reading Interventions or Referral to Alternate Professional&quot;:   ( [ServiceRequest: &quot;Follow Up Within 4 Weeks&quot;] FourWeekRescreen       with &quot;NonPharmacological Interventions&quot; NonPharmInterventionsHTN         such that FourWeekRescreen.authoredOn during day of &quot;Measurement Period&quot;           and NonPharmInterventionsHTN.authoredOn during day of &quot;Measurement Period&quot;           and FourWeekRescreen.intent ~ &#39;order&#39;   )     union ( &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "11"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions&quot;:   &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter     with &quot;First Hypertensive Reading Interventions or Referral to Alternate Professional&quot; FirstHTNIntervention       such that FirstHTNIntervention.authoredOn during day of FirstHTNEncounter.period"
+      }, {
+        "url": "displaySequence",
+        "valueString": "12"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot;:   ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter       let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure           where BloodPressure.effective.toInterval() ends during day of QualifyingEncounter.period             and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           sort by start of effective.toInterval()       )       where ( ( EncounterLastBP.SystolicBP.value in Interval[130 &#39;mm[Hg]&#39;, 139 &#39;mm[Hg]&#39;]             or EncounterLastBP.DiastolicBP.value in Interval[80 &#39;mm[Hg]&#39;, 89 &#39;mm[Hg]&#39;]         )           and not ( EncounterLastBP.SystolicBP.value &gt;= 140 &#39;mm[Hg]&#39;               or EncounterLastBP.DiastolicBP.value &gt;= 90 &#39;mm[Hg]&#39;           )       )         and ( exists &quot;Encounter with Hypertensive Reading Within Year Prior&quot; )   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "13"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Laboratory Test or ECG for Hypertension"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Laboratory Test or ECG for Hypertension&quot;:   ( [ServiceRequest: &quot;12 lead EKG panel&quot;]     union [ServiceRequest: &quot;EKG study&quot;]     union [ServiceRequest: &quot;Laboratory Tests for Hypertension&quot;] ) EKGLab     where EKGLab.intent ~ &#39;order&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "14"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot;:   &quot;Follow up with Rescreen Within 6 Months&quot; Rescreen2to6     with &quot;Laboratory Test or ECG for Hypertension&quot; LabECGIntervention       such that Rescreen2to6.authoredOn during day of &quot;Measurement Period&quot;         and LabECGIntervention.authoredOn during day of &quot;Measurement Period&quot;     with &quot;NonPharmacological Interventions&quot; NonPharmSecondIntervention       such that NonPharmSecondIntervention.authoredOn during day of &quot;Measurement Period&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "15"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot;:   ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounterReading       with &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot; EncounterInterventions         such that EncounterInterventions.authoredOn during day of SecondHTNEncounterReading.period   )     union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounterReading         with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; ReferralForHTN           such that ReferralForHTN.authoredOn during day of SecondHTNEncounterReading.period     )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "16"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot;:   ( &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter       let EncounterLastBP: Last([&quot;observation-bp&quot;] BloodPressure           where BloodPressure.effective.toInterval() ends during QualifyingEncounter.period             and BloodPressure.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }           sort by start of effective.toInterval()       )       where ( EncounterLastBP.SystolicBP.value &gt; 0 &#39;mm[Hg]&#39;           and EncounterLastBP.DiastolicBP.value &gt; 0 &#39;mm[Hg]&#39;           and ( EncounterLastBP.SystolicBP.value &gt;= 140 &#39;mm[Hg]&#39;               or EncounterLastBP.DiastolicBP.value &gt;= 90 &#39;mm[Hg]&#39;           )       )         and ( exists &quot;Encounter with Hypertensive Reading Within Year Prior&quot; )   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "17"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions&quot;:   ( [ServiceRequest: &quot;Follow Up Within 4 Weeks&quot;] WeeksRescreen       with &quot;Laboratory Test or ECG for Hypertension&quot; ECGLabTest         such that WeeksRescreen.authoredOn during day of &quot;Measurement Period&quot;           and ECGLabTest.authoredOn during day of &quot;Measurement Period&quot;           and WeeksRescreen.intent ~ &#39;order&#39;           and ECGLabTest.intent ~ &#39;order&#39;       with &quot;NonPharmacological Interventions&quot; HTNInterventions         such that HTNInterventions.authoredOn during day of &quot;Measurement Period&quot;       with [&quot;MedicationRequest&quot;: &quot;Pharmacologic Therapy for Hypertension&quot;] Medications         such that Medications.authoredOn during day of &quot;Measurement Period&quot;           and Medications.status ~ &#39;active&#39;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "18"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions&quot;:   ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTNEncounterReading140Over90       with &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions&quot; SecondHTN140Over90Interventions         such that SecondHTN140Over90Interventions.authoredOn during day of SecondHTNEncounterReading140Over90.period   )     union &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTNEncounterReading140Over90       with &quot;Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading&quot; ReferralToProfessional         such that ReferralToProfessional.authoredOn during day of SecondHTNEncounterReading140Over90.period"
+      }, {
+        "url": "displaySequence",
+        "valueString": "19"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Numerator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Numerator&quot;:   &quot;Encounter with Normal Blood Pressure Reading&quot;     union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions&quot; )     union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80 and Interventions&quot; )     union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions&quot; )     union ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 and Interventions&quot; )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "20"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Initial Population"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Initial Population&quot;:   &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter     where AgeInYearsAt(start of &quot;Measurement Period&quot;) &gt;= 18"
+      }, {
+        "url": "displaySequence",
+        "valueString": "21"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "22"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "23"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "24"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "25"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "26"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator Exclusions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator Exclusions&quot;:   &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter     with [Condition: &quot;Diagnosis of Hypertension&quot;] Hypertension       such that ( Hypertension.isProblemListItem ( )           or Hypertension.isHealthConcern ( )       )         and Hypertension.prevalenceInterval ( ) starts before or on day of QualifyingEncounter.period"
+      }, {
+        "url": "displaySequence",
+        "valueString": "27"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "28"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "29"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement&quot;:   &quot;Qualifying Encounter during Measurement Period&quot; QualifyingEncounter     with ( [ObservationNotDone: code ~ &quot;Systolic blood pressure&quot;]       union [ObservationNotDone: code ~ &quot;Diastolic blood pressure&quot;] ) NoBPScreen       such that NoBPScreen.issued during day of QualifyingEncounter.period         and ( NoBPScreen.notDoneReason in &quot;Patient Declined&quot;             or NoBPScreen.notDoneReason in &quot;Medical Reason&quot;         )         and NoBPScreen.status = &#39;cancelled&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "30"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "NonPharmacological Intervention Not Ordered"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;NonPharmacological Intervention Not Ordered&quot;:   ( [ServiceNotRequested: &quot;Lifestyle Recommendation&quot;]     union [ServiceNotRequested: &quot;Weight Reduction Recommended&quot;]     union [ServiceNotRequested: &quot;Dietary Recommendations&quot;]     union [ServiceNotRequested: &quot;Recommendation to Increase Physical Activity&quot;]     union [ServiceNotRequested: &quot;Referral or Counseling for Alcohol Consumption&quot;] ) NonPharmIntervention     where NonPharmIntervention.reasonRefused in &quot;Patient Declined&quot;       and NonPharmIntervention.status = &#39;completed&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "31"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Laboratory Test or ECG for Hypertension Not Ordered"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;:   ( [ServiceNotRequested: code = &quot;12 lead EKG panel&quot;]     union [ServiceNotRequested: code = &quot;EKG study&quot;]     union [ServiceNotRequested: &quot;Laboratory Tests for Hypertension&quot;] ) LabECGNotDone     where LabECGNotDone.reasonRefused in &quot;Patient Declined&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "32"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined&quot;:   ( ( ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]         union [ServiceNotRequested: &quot;Follow Up Within 6 Months&quot;] ) SecondHTNDeclinedReferralAndFollowUp         where SecondHTNDeclinedReferralAndFollowUp.reasonRefused in &quot;Patient Declined&quot;           and SecondHTNDeclinedReferralAndFollowUp.status = &#39;completed&#39;     )       union &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;       union &quot;NonPharmacological Intervention Not Ordered&quot;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "33"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined&quot;:   ( ( ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]         union [ServiceNotRequested: &quot;Follow Up Within 4 Weeks&quot;] ) SecondHTN140Over90ReferralFollowUpNotDone         where SecondHTN140Over90ReferralFollowUpNotDone.reasonRefused in &quot;Patient Declined&quot;           and SecondHTN140Over90ReferralFollowUpNotDone.status = &#39;completed&#39;     )       union ( [MedicationNotRequested: &quot;Pharmacologic Therapy for Hypertension&quot;] MedicationRequestNotOrdered           where MedicationRequestNotOrdered.status = &#39;completed&#39;       )       union &quot;Laboratory Test or ECG for Hypertension Not Ordered&quot;       union &quot;NonPharmacological Intervention Not Ordered&quot;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "34"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Order for Hypertension Follow Up Declined by Patient"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Encounter with Order for Hypertension Follow Up Declined by Patient&quot;:   ( ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedBPEncounter         with ( [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;]           union [ServiceNotRequested: &quot;Follow Up Within 6 Months&quot;] ) ElevatedBPDeclinedInterventions           such that ElevatedBPDeclinedInterventions.reasonRefused in &quot;Patient Declined&quot;             and ElevatedBPDeclinedInterventions.authoredOn during day of ElevatedBPEncounter.period             and ElevatedBPDeclinedInterventions.status = &#39;completed&#39;     )       union ( &quot;Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80&quot; ElevatedBPEncounter           with &quot;NonPharmacological Intervention Not Ordered&quot; NotOrdered             such that NotOrdered.authoredOn during day of ElevatedBPEncounter.period       )       union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter           with ( [ServiceNotRequested: &quot;Follow Up Within 4 Weeks&quot;]             union [ServiceNotRequested: &quot;Referral to Primary Care or Alternate Provider&quot;] ) FirstHTNDeclinedInterventions             such that FirstHTNDeclinedInterventions.reasonRefused in &quot;Patient Declined&quot;               and FirstHTNDeclinedInterventions.authoredOn during day of FirstHTNEncounter.period               and FirstHTNDeclinedInterventions.status = &#39;completed&#39;       )       union ( &quot;Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80&quot; FirstHTNEncounter           with &quot;NonPharmacological Intervention Not Ordered&quot; NoNonPharm             such that NoNonPharm.authoredOn during day of FirstHTNEncounter.period       )       union ( &quot;Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89&quot; SecondHTNEncounter           with &quot;Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined&quot; SecondHTNDeclinedInterventions             such that SecondHTNDeclinedInterventions.authoredOn during day of SecondHTNEncounter.period       )       union ( &quot;Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90&quot; SecondHTN140Over90Encounter           with &quot;Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined&quot; SecondHTN140Over90DeclinedInterventions             such that SecondHTN140Over90DeclinedInterventions.authoredOn during day of SecondHTN140Over90Encounter.period       )   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "35"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "PCSBPScreeningFollowUpFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator Exceptions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator Exceptions&quot;:   &quot;Encounter with Medical Reason for Not Obtaining or Patient Declined Blood Pressure Measurement&quot;     union &quot;Encounter with Order for Hypertension Follow Up Declined by Patient&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "36"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueString": "37"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToConcept"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "38"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToCode"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "39"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "isProblemListItem"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Returns true if the given condition is a problem list item. */ define fluent function isProblemListItem(condition Condition):   exists (condition.category C     where C ~ &quot;problem-list-item&quot;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "40"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "isHealthConcern"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Returns true if the given condition is a health concern */ define fluent function isHealthConcern(condition Condition):   exists (condition.category C     where C ~ &quot;health-concern&quot;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "41"
+      } ]
+    } ],
+    "status": "active",
+    "type": {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/library-type",
+        "code": "module-definition"
+      } ]
+    },
+    "relatedArtifact": [ {
+      "type": "depends-on",
+      "display": "Library SDE",
+      "resource": "Library/SupplementalDataElements|3.5.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library QICoreCommon",
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
+    }, {
+      "type": "depends-on",
+      "display": "Code system ActCode",
+      "resource": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+    }, {
+      "type": "depends-on",
+      "display": "Code system LOINC",
+      "resource": "http://loinc.org"
+    }, {
+      "type": "depends-on",
+      "display": "Code system ConditionCategory",
+      "resource": "http://terminology.hl7.org/CodeSystem/condition-category"
+    }, {
+      "type": "depends-on",
+      "display": "Code system USCoreConditionCategoryExtensionCodes",
+      "resource": "http://hl7.org/fhir/us/core/CodeSystem/condition-category"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Encounter to Screen for Blood Pressure",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1920"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Follow Up Within 6 Months",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Lifestyle Recommendation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1581"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Weight Reduction Recommended",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1510"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Dietary Recommendations",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1515"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Recommendation to Increase Physical Activity",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1518"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Referral or Counseling for Alcohol Consumption",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1583"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Referral to Primary Care or Alternate Provider",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1580"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Finding of Elevated Blood Pressure or Hypertension",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.514"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Follow Up Within 4 Weeks",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1578"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Laboratory Tests for Hypertension",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1482"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Pharmacologic Therapy for Hypertension",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.1577"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Payer Type",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Diagnosis of Hypertension",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.263"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Patient Declined",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1582"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Medical Reason",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1007"
+    } ],
+    "parameter": [ {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
+    }, {
+      "name": "Numerator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exceptions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    } ],
+    "dataRequirement": [ {
+      "type": "Patient",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
+      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "status", "status.value", "class" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1920"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/StructureDefinition/bp" ],
+      "mustSupport": [ "effective", "status", "status.value", "component" ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1581"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1510"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1515"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1518"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1583"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "34534-8",
+          "display": "EKG 12 channel panel"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "11524-6",
+          "display": "EKG study"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1482"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value", "intent", "intent.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1578"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "reasonCode", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1580"
+      } ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication", "authoredOn", "authoredOn.value", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "medication",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.1577"
+      } ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Coverage",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
+      "mustSupport": [ "type", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+      } ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.263"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone" ],
+      "mustSupport": [ "code", "issued", "issued.value", "extension", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "8480-6",
+          "display": "Systolic blood pressure"
+        } ]
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone" ],
+      "mustSupport": [ "code", "issued", "issued.value", "extension", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "8462-4",
+          "display": "Diastolic blood pressure"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1581"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1581"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1510"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1510"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1515"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1515"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1518"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1518"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1583"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1583"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "34534-8",
+          "display": "EKG 12 channel panel"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://loinc.org",
+          "code": "11524-6",
+          "display": "EKG study"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1482"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1482"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1578"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1578"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1580"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ],
+      "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1580"
+      } ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-mednotrequested" ],
+      "mustSupport": [ "medication", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "medication",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.1577"
+      } ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-mednotrequested" ],
+      "mustSupport": [ "medication", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "medication",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.1577"
+      } ]
+    } ]
+  } ],
+  "extension": [ {
+    "id": "supplementalDataGuidance",
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
+    "extension": [ {
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
+    }, {
+      "url": "usage",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+          "code": "supplemental-data",
+          "display": "Supplemental Data"
+        } ],
+        "text": "Supplemental Data Guidance"
+      }
+    } ]
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
+    "valueReference": {
+      "reference": "#effective-data-requirements"
+    }
+  } ],
+  "url": "https://madie.cms.gov/Measure/PCSBPScreeningFollowUpFHIR",
+  "identifier": [ {
+    "use": "usual",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "short-name"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/shortName",
+    "value": "CMS22FHIR"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-independent"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:1b17d846-cbe0-49fa-b503-518addf19fb0"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-specific"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:b7b775e9-0c0d-4f9b-8457-b7ad1a255f80"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "publisher"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cmsId",
+    "value": "22FHIR",
+    "assigner": {
+      "display": "CMS"
+    }
+  } ],
+  "version": "0.2.000",
+  "name": "PCSBPScreeningFollowUpFHIR",
+  "title": "Preventive Care and Screening Screening for High Blood Pressure and Follow Up DocumentedFHIR",
+  "status": "draft",
+  "experimental": false,
+  "date": "2024-05-15T15:43:45+00:00",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+  "contact": [ {
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.cms.gov/"
+    } ]
+  } ],
+  "description": "Percentage of patient visits for patients aged 18 years and older seen during the measurement period who were screened for high blood pressure AND a recommended follow-up plan is documented, as indicated, if blood pressure is elevated or hypertensive",
+  "purpose": "UNKNOWN",
+  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter for patients aged 18 years and older during the measurement period. This measure should be reported for every visit. The measure requires that blood pressure measurements (i.e., diastolic and systolic) be obtained during each visit in order to determine the blood pressure reading used to evaluate if an intervention is needed.   Both the systolic and diastolic blood pressure measurements are required for inclusion. If there are multiple blood pressures obtained during a patient visit, only the last, or most recent, pressure measurement will be used to evaluate the measure requirements.  The intent of this measure is to screen patients for high blood pressure and provide recommended follow-up as indicated. The documented follow-up plan must be related to the current blood pressure reading as indicated, example: \"Patient referred to primary care provider for BP management.\"  Telehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.    This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.   This FHIR-based measure has been derived from the QDM-based measure: CMS 22v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
+  "effectivePeriod": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "author": [ {
+    "name": "Mathematica",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.mathematica.org/"
+    } ]
+  } ],
+  "library": [ "https://madie.cms.gov/Library/PCSBPScreeningFollowUpFHIR" ],
+  "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "rationale": "Hypertension is a prevalent condition that affects approximately 66.9 million people in the United States. It is estimated that about 20-40 percent of the adult population has hypertension; the majority of people over age 65 have a hypertension diagnosis (Appleton et al., 2013 and Luehr et al., 2012). Winter (2013) noted that 1 in 3 American adults have hypertension and the lifetime risk of developing hypertension is 90 percent. The African American population or non-Hispanic Blacks, the elderly, diabetics and those with chronic kidney disease are at increased risk of stroke, myocardial infarction and renal disease. Non-Hispanic Blacks have the highest prevalence at 38.6 percent (Winter et al., 2013). Hypertension is a major risk factor for ischemic heart disease, left ventricular hypertrophy, renal failure, stroke and dementia (Luehr et al., 2012). Prevention of hypertension and the treatment of established hypertension are complementary approaches to reducing cardiovascular disease risk in the population, but prevention of hypertension provides the optimal means of reducing risk and avoiding harmful consequences. Periodic blood pressure (BP) screening can identify individuals who develop elevated BP over time. More frequent BP screening may be particularly important for individuals with elevated atherosclerotic cardiovascular disease (ASCVD) risk (Whelton et al., 2018).    Hypertension is the most common reason for adult office visits other than pregnancy. Garrison (2013) stated that in 2007, 42 million ambulatory visits were attributed to hypertension (Garrison & Oberhelman, 2013). It also has the highest utilization of prescription drugs. Numerous resources and treatment options are available, yet only about 40-50 percent of the hypertensive patients have their blood pressure under control (<140/90) (Appleton et al., 2013 and Luehr et al., 2012). In addition to medication non-compliance, poor outcomes are also attributed to poor adherence to lifestyle changes such as a low-sodium diet, weight loss, increased exercise and limiting alcohol intake. Many adults find it difficult to continue medications and lifestyle changes when they are asymptomatic. Symptoms of elevated blood pressure usually do not occur until secondary problems arise such as with vascular diseases (myocardial infarction, stroke, heart failure and renal insufficiency) (Luehr et al., 2012).  Appropriate follow-up after blood pressure measurement is a pivotal component in preventing the progression of hypertension and the development of heart disease. Detection of marginally or fully elevated blood pressure by a specialty clinician warrants referral to a provider familiar with the management of hypertension and prehypertension.   The American College of Cardiology/American Heart Association (ACC/AHA) 2017 Guidelines provide updated recommendations for ASCVD risk. For additional information please refer to the 2017 ACC/AHA guidelines: https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2017/11/09/11/41/2017-guideline-for-high-blood-pressure-in-adults.  Lifestyle modifications have demonstrated effectiveness in lowering blood pressure (U.S. Department of Health and Human Services, 2003). The synergistic effect of several lifestyle modifications results in greater benefits than a single modification alone. Baseline diagnostic/laboratory testing establishes if a co-existing underlying condition is the etiology of hypertension and evaluates if end organ damage from hypertension has already occurred. Landmark trials such as the Antihypertensive and Lipid-Lowering Treatment to Prevent Heart Attack Trial (ALLHAT) have repeatedly proven the efficacy of pharmacologic therapy to control blood pressure and reduce the complications of hypertension. A review of 35 studies found that the pharmacist-led interventions involved medication counseling and patient education. Twenty-nine of the 35 studies showed statistically significant improvement in BP levels of the intervention groups at follow-up (Reeves et al., 2020). Follow-up intervals based on blood pressure control have been established by the 2017 ACC/AHA guideline and the United States Preventive Services Task Force (Whelton et al., 2018; USPSTF, 2021).",
+  "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (USPSTF, 2021) recommends screening for high blood pressure in adults aged 18 years and older. This is a grade A recommendation.",
+  "group": [ {
+    "id": "64ef76cf56d636294b157c3f",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+          "code": "proportion",
+          "display": "Proportion"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis",
+      "valueCode": "Encounter"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-type",
+          "code": "process",
+          "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
+        } ]
+      }
+    } ],
+    "description": "Percentage of patient visits for patients aged 18 years and older seen during the measurement period who were screened for high blood pressure AND a recommended follow-up plan is documented, as indicated, if blood pressure is elevated or hypertensive",
+    "population": [ {
+      "id": "4B56079F-F91E-4F0D-9721-0FB51857A70B",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "description": "All patient visits for patients aged 18 years and older at the beginning of the measurement period",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Initial Population"
+      }
+    }, {
+      "id": "57E90104-3DEF-45EE-9BA4-06B93E155B33",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "description": "Equals Initial Population",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator"
+      }
+    }, {
+      "id": "F2E50C62-7B4F-4C59-9BBD-F1203697F827",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "description": "Patient has an active diagnosis of hypertension",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator Exclusions"
+      }
+    }, {
+      "id": "E6B4386A-666C-4E35-B065-711BB18A6026",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "description": "Patient visits where patients were screened for high blood pressure AND have a recommended follow-up plan documented, as indicated, if the blood pressure is elevated or hypertensive",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Numerator"
+      }
+    }, {
+      "id": "DACDF805-EA30-4892-9F23-4D3B3D095C22",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exception",
+          "display": "Denominator Exception"
+        } ]
+      },
+      "description": "Documentation of medical reason(s) for not screening for high blood pressure (e.g., patient is in an urgent or emergent medical situation where time is of the essence and to delay treatment would jeopardize the patient's health status).  Documentation of patient reason(s) for not screening for blood pressure measurements or for not ordering an appropriate follow-up intervention if patient BP is elevated or hypertensive (e.g., patient refuses).",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator Exceptions"
+      }
+    } ]
+  } ],
+  "supplementalData": [ {
+    "id": "sde-ethnicity",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Ethnicity",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Ethnicity"
+    }
+  }, {
+    "id": "sde-payer",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Payer",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Payer"
+    }
+  }, {
+    "id": "sde-race",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Race",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Race"
+    }
+  }, {
+    "id": "sde-sex",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Sex",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Sex"
+    }
+  } ]
+}

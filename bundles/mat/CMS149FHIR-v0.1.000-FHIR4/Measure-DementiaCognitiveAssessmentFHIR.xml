@@ -1,997 +1,1005 @@
 <Measure xmlns="http://hl7.org/fhir">
-   <id value="DementiaCognitiveAssessmentFHIR"/>
+   <id value="DementiaCognitiveAssessmentFHIR"></id>
    <meta>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"/>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"/>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"/>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
    </meta>
    <contained>
       <Library xmlns="http://hl7.org/fhir">
-         <id value="effective-data-requirements"/>
+         <id value="effective-data-requirements"></id>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
-               <code value="active"/>
-               <display value="Active"/>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="M"></code>
+               <display value="Male"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
-               <code value="recurrence"/>
-               <display value="Recurrence"/>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="F"></code>
+               <display value="Female"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
-               <code value="relapse"/>
-               <display value="Relapse"/>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="active"></code>
+               <display value="Active"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
-               <code value="unconfirmed"/>
-               <display value="Unconfirmed"/>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="recurrence"></code>
+               <display value="Recurrence"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
-               <code value="refuted"/>
-               <display value="Refuted"/>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="relapse"></code>
+               <display value="Relapse"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
-               <code value="entered-in-error"/>
-               <display value="Entered in Error"/>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></system>
+               <code value="unconfirmed"></code>
+               <display value="Unconfirmed"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></system>
+               <code value="refuted"></code>
+               <display value="Refuted"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></system>
+               <code value="entered-in-error"></code>
+               <display value="Entered in Error"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Sex"/>
+               <valueString value="SDE Sex"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case       when Patient.gender = &amp;#39;male&amp;#39; then Code { code: &amp;#39;M&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Male&amp;#39; }       when Patient.gender = &amp;#39;female&amp;#39; then Code { code: &amp;#39;F&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Female&amp;#39; }       else null     end"/>
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case     when Patient.gender = &amp;#39;male&amp;#39; then &amp;quot;M&amp;quot;     when Patient.gender = &amp;#39;female&amp;#39; then &amp;quot;F&amp;quot;     else null   end"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="0"/>
+               <valueString value="0"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Sex"/>
+               <valueString value="SDE Sex"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="1"/>
+               <valueString value="1"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter to Assess Cognition"/>
+               <valueString value="Encounter to Assess Cognition"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter to Assess Cognition&amp;quot;:   [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Diagnostic Evaluation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Nursing Facility Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Care Services in Long Term Residential Facility&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Home Healthcare Services&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Psychotherapy&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Behavioral/Neuropsych Assessment&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Occupational Therapy Evaluation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Office Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Outpatient Consultation&amp;quot;]"/>
+               <valueString value="define &amp;quot;Encounter to Assess Cognition&amp;quot;:   [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Diagnostic Evaluation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Nursing Facility Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Care Services in Long Term Residential Facility&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Home Healthcare Services&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Psychotherapy&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Behavioral/Neuropsych Assessment&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Occupational Therapy Evaluation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Office Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Outpatient Consultation&amp;quot;]"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="2"/>
+               <valueString value="2"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Dementia Encounter During Measurement Period"/>
+               <valueString value="Dementia Encounter During Measurement Period"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Dementia Encounter During Measurement Period&amp;quot;:   &amp;quot;Encounter to Assess Cognition&amp;quot; EncounterAssessCognition     with [Condition: &amp;quot;Dementia &amp;amp; Mental Degenerations&amp;quot;] Dementia       such that EncounterAssessCognition.period during &amp;quot;Measurement Period&amp;quot;         and Dementia.prevalenceInterval ( ) overlaps day of EncounterAssessCognition.period         and Dementia.isActive ( )         and not ( Dementia.verificationStatus ~ QICoreCommon.&amp;quot;unconfirmed&amp;quot;             or Dementia.verificationStatus ~ QICoreCommon.&amp;quot;refuted&amp;quot;             or Dementia.verificationStatus ~ QICoreCommon.&amp;quot;entered-in-error&amp;quot;         )"/>
+               <valueString value="define &amp;quot;Dementia Encounter During Measurement Period&amp;quot;:   &amp;quot;Encounter to Assess Cognition&amp;quot; EncounterAssessCognition     with [Condition: &amp;quot;Dementia &amp;amp; Mental Degenerations&amp;quot;] Dementia       such that EncounterAssessCognition.period during day of &amp;quot;Measurement Period&amp;quot;         and Dementia.prevalenceInterval ( ) overlaps day of EncounterAssessCognition.period         and Dementia.isActive ( )         and not ( Dementia.verificationStatus ~ QICoreCommon.&amp;quot;unconfirmed&amp;quot;             or Dementia.verificationStatus ~ QICoreCommon.&amp;quot;refuted&amp;quot;             or Dementia.verificationStatus ~ QICoreCommon.&amp;quot;entered-in-error&amp;quot;         )"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="3"/>
+               <valueString value="3"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Assessment of Cognition Using Standardized Tools or Alternate Methods"/>
+               <valueString value="Assessment of Cognition Using Standardized Tools or Alternate Methods"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;:   ( [&amp;quot;Observation&amp;quot;: &amp;quot;Standardized Tools Score for Assessment of Cognition&amp;quot;]     union [&amp;quot;Observation&amp;quot;: &amp;quot;Cognitive Assessment&amp;quot;] ) CognitiveAssessment     with &amp;quot;Dementia Encounter During Measurement Period&amp;quot; EncounterDementia       such that CognitiveAssessment.effective.toInterval ( ) starts 12 months or less on or before day of end of EncounterDementia.period     where CognitiveAssessment.value is not null       and CognitiveAssessment.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39;, &amp;#39;preliminary&amp;#39; }"/>
+               <valueString value="define &amp;quot;Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;:   ( [&amp;quot;Observation&amp;quot;: &amp;quot;Standardized Tools Score for Assessment of Cognition&amp;quot;]     union [&amp;quot;Observation&amp;quot;: &amp;quot;Cognitive Assessment&amp;quot;] ) CognitiveAssessment     with &amp;quot;Dementia Encounter During Measurement Period&amp;quot; EncounterDementia       such that CognitiveAssessment.effective.toInterval ( ) starts 12 months or less on or before day of end of EncounterDementia.period     where CognitiveAssessment.value is not null       and CognitiveAssessment.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39;, &amp;#39;preliminary&amp;#39; }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="4"/>
+               <valueString value="4"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Numerator"/>
+               <valueString value="Numerator"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Numerator&amp;quot;:   exists &amp;quot;Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;"/>
+               <valueString value="define &amp;quot;Numerator&amp;quot;:   exists &amp;quot;Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="5"/>
+               <valueString value="5"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Qualifying Encounter During Measurement Period"/>
+               <valueString value="Qualifying Encounter During Measurement Period"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Qualifying Encounter During Measurement Period&amp;quot;:   ( &amp;quot;Encounter to Assess Cognition&amp;quot;     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Patient Provider Interaction&amp;quot;] ) ValidEncounter     where ValidEncounter.period during &amp;quot;Measurement Period&amp;quot;       and ValidEncounter.status = &amp;#39;finished&amp;#39;"/>
+               <valueString value="define &amp;quot;Qualifying Encounter During Measurement Period&amp;quot;:   ( &amp;quot;Encounter to Assess Cognition&amp;quot;     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Patient Provider Interaction&amp;quot;] ) ValidEncounter     where ValidEncounter.period during day of &amp;quot;Measurement Period&amp;quot;       and ValidEncounter.status = &amp;#39;finished&amp;#39;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="6"/>
+               <valueString value="6"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Initial Population"/>
+               <valueString value="Initial Population"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Initial Population&amp;quot;:   exists &amp;quot;Dementia Encounter During Measurement Period&amp;quot;     and ( Count(&amp;quot;Qualifying Encounter During Measurement Period&amp;quot;) &amp;gt;= 2 )"/>
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   exists &amp;quot;Dementia Encounter During Measurement Period&amp;quot;     and ( Count(&amp;quot;Qualifying Encounter During Measurement Period&amp;quot;) &amp;gt;= 2 )"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="7"/>
+               <valueString value="7"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Denominator"/>
+               <valueString value="Denominator"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;"/>
+               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="8"/>
+               <valueString value="8"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Payer"/>
+               <valueString value="SDE Payer"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"/>
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="9"/>
+               <valueString value="9"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Payer"/>
+               <valueString value="SDE Payer"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="10"/>
+               <valueString value="10"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Ethnicity"/>
+               <valueString value="SDE Ethnicity"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"/>
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="11"/>
+               <valueString value="11"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Ethnicity"/>
+               <valueString value="SDE Ethnicity"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="12"/>
+               <valueString value="12"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Race"/>
+               <valueString value="SDE Race"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"/>
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="13"/>
+               <valueString value="13"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Race"/>
+               <valueString value="SDE Race"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="14"/>
+               <valueString value="14"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods"/>
+               <valueString value="Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;: /*8/09/2023: Negation issue as outlined in BonnieMat-1455 and ticket https://github.com/cqframework/cql-execution/issues/296 */      ( [ObservationNotDone: code in &amp;quot;Standardized Tools Score for Assessment of Cognition&amp;quot;]     union [ObservationNotDone: code in &amp;quot;Cognitive Assessment&amp;quot;] ) NoCognitiveAssessment     with &amp;quot;Dementia Encounter During Measurement Period&amp;quot; EncounterDementia       such that NoCognitiveAssessment.issued during EncounterDementia.period     where NoCognitiveAssessment.notDoneReason in &amp;quot;Patient Reason&amp;quot;"/>
+               <valueString value="define &amp;quot;Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;: /*8/09/2023: Negation issue as outlined in BonnieMat-1455 and ticket https://github.com/cqframework/cql-execution/issues/296 */      ( [ObservationNotDone: code in &amp;quot;Standardized Tools Score for Assessment of Cognition&amp;quot;]     union [ObservationNotDone: code in &amp;quot;Cognitive Assessment&amp;quot;] ) NoCognitiveAssessment     with &amp;quot;Dementia Encounter During Measurement Period&amp;quot; EncounterDementia       such that NoCognitiveAssessment.issued during EncounterDementia.period     where NoCognitiveAssessment.notDoneReason in &amp;quot;Patient Reason&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="15"/>
+               <valueString value="15"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="DementiaCognitiveAssessmentFHIR"/>
+               <valueString value="DementiaCognitiveAssessmentFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Denominator Exceptions"/>
+               <valueString value="Denominator Exceptions"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Denominator Exceptions&amp;quot;:   exists &amp;quot;Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;"/>
+               <valueString value="define &amp;quot;Denominator Exceptions&amp;quot;:   exists &amp;quot;Patient Reason for Not Performing Assessment of Cognition Using Standardized Tools or Alternate Methods&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="16"/>
+               <valueString value="16"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="QICoreCommon"/>
+               <valueString value="QICoreCommon"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="prevalenceInterval"/>
+               <valueString value="prevalenceInterval"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of ToAbatementInterval(condition)) abatementDate     return if abatementDate is null then       Interval[start of ToInterval(condition.onset), abatementDate)     else       Interval[start of ToInterval(condition.onset), abatementDate]"/>
+               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="17"/>
+               <valueString value="17"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="QICoreCommon"/>
+               <valueString value="QICoreCommon"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="isActive"/>
+               <valueString value="isActive"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* Candidates for FHIRCommon */  /* @description: Returns true if the given condition has a clinical status of active, recurrence, or relapse */ define fluent function isActive(condition Condition):   condition.clinicalStatus ~ &amp;quot;active&amp;quot;     or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;     or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot;"/>
+               <valueString value="/* Candidates for FHIRCommon */  /* @description: Returns true if the given condition has a clinical status of active, recurrence, or relapse */ define fluent function isActive(condition Condition):   condition.clinicalStatus ~ &amp;quot;active&amp;quot;     or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;     or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="18"/>
+               <valueString value="18"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="FHIRHelpers"/>
+               <valueString value="FHIRHelpers"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="ToString"/>
+               <valueString value="ToString"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define function ToString(value uri): value.value"/>
+               <valueString value="define function ToString(value uri): value.value"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="19"/>
+               <valueString value="19"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="FHIRHelpers"/>
+               <valueString value="FHIRHelpers"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="ToCode"/>
+               <valueString value="ToCode"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"/>
+               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="20"/>
+               <valueString value="20"></valueString>
             </extension>
          </extension>
-         <status value="active"/>
+         <status value="active"></status>
          <type>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/library-type"/>
-               <code value="module-definition"/>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
             </coding>
          </type>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library SDE"/>
-            <resource value="Library/SupplementalDataElements|3.4.000"/>
+            <type value="depends-on"></type>
+            <display value="Library SDE"></display>
+            <resource value="Library/SupplementalDataElements|3.5.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library FHIRHelpers"/>
-            <resource value="Library/FHIRHelpers|4.3.000"/>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library QICoreCommon"/>
-            <resource value="Library/QICoreCommon|2.0.000"/>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Code system ConditionClinicalStatusCodes"/>
-            <resource value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+            <type value="depends-on"></type>
+            <display value="Code system AdministrativeGender"></display>
+            <resource value="http://hl7.org/fhir/administrative-gender"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Code system ConditionVerificationStatusCodes"/>
-            <resource value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+            <type value="depends-on"></type>
+            <display value="Code system ConditionClinicalStatusCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-clinical"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Standardized Tools Score for Assessment of Cognition"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"/>
+            <type value="depends-on"></type>
+            <display value="Code system ConditionVerificationStatusCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Cognitive Assessment"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"/>
+            <type value="depends-on"></type>
+            <display value="Value set Standardized Tools Score for Assessment of Cognition"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Psych Visit Diagnostic Evaluation"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"/>
+            <type value="depends-on"></type>
+            <display value="Value set Cognitive Assessment"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Nursing Facility Visit"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"/>
+            <type value="depends-on"></type>
+            <display value="Value set Psych Visit Diagnostic Evaluation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Care Services in Long Term Residential Facility"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"/>
+            <type value="depends-on"></type>
+            <display value="Value set Nursing Facility Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Home Healthcare Services"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"/>
+            <type value="depends-on"></type>
+            <display value="Value set Care Services in Long Term Residential Facility"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Psych Visit Psychotherapy"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"/>
+            <type value="depends-on"></type>
+            <display value="Value set Home Healthcare Services"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Behavioral/Neuropsych Assessment"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"/>
+            <type value="depends-on"></type>
+            <display value="Value set Psych Visit Psychotherapy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Occupational Therapy Evaluation"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1011"/>
+            <type value="depends-on"></type>
+            <display value="Value set Behavioral/Neuropsych Assessment"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Office Visit"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"/>
+            <type value="depends-on"></type>
+            <display value="Value set Occupational Therapy Evaluation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1011"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Outpatient Consultation"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"/>
+            <type value="depends-on"></type>
+            <display value="Value set Office Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Dementia &amp;amp; Mental Degenerations"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1005"/>
+            <type value="depends-on"></type>
+            <display value="Value set Outpatient Consultation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Patient Provider Interaction"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1012"/>
+            <type value="depends-on"></type>
+            <display value="Value set Dementia &amp;amp; Mental Degenerations"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1005"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Payer Type"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+            <type value="depends-on"></type>
+            <display value="Value set Patient Provider Interaction"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1012"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Patient Reason"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1008"/>
+            <type value="depends-on"></type>
+            <display value="Value set Payer Type"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Patient Reason"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1008"></resource>
          </relatedArtifact>
          <parameter>
-            <name value="Measurement Period"/>
-            <use value="in"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Period"/>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
          </parameter>
          <parameter>
-            <name value="Numerator"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="boolean"/>
+            <name value="Numerator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
          </parameter>
          <parameter>
-            <name value="Denominator"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="boolean"/>
+            <name value="Denominator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
          </parameter>
          <parameter>
-            <name value="Initial Population"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="boolean"/>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
          </parameter>
          <parameter>
-            <name value="Denominator Exceptions"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="boolean"/>
+            <name value="Denominator Exceptions"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
          </parameter>
          <parameter>
-            <name value="SDE Sex"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Coding"/>
+            <name value="SDE Sex"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Coding"></type>
          </parameter>
          <parameter>
-            <name value="SDE Payer"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="SDE Payer"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Ethnicity"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Resource"/>
+            <name value="SDE Ethnicity"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Race"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Resource"/>
+            <name value="SDE Race"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
          </parameter>
          <dataRequirement>
-            <type value="Patient"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"/>
-            <mustSupport value="gender"/>
-            <mustSupport value="gender.value"/>
-            <mustSupport value="url"/>
-            <mustSupport value="extension"/>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+            <mustSupport value="gender"></mustSupport>
+            <mustSupport value="gender.value"></mustSupport>
+            <mustSupport value="url"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1012"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1011"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1011"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1012"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1012"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Condition"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"/>
-            <mustSupport value="clinicalStatus"/>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="clinicalStatus"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Condition"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"/>
-            <mustSupport value="code"/>
-            <mustSupport value="verificationStatus"/>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="verificationStatus"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1005"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1005"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"/>
-            <mustSupport value="code"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"/>
-            <mustSupport value="code"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Coverage"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="extension"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1006"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="extension"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1332"></valueSet>
             </codeFilter>
          </dataRequirement>
       </Library>
    </contained>
    <extension id="supplementalDataGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="guidance">
+         <valueString value="For every patient evaluated by this measure also identify payer, race, ethnicity and sex  "></valueString>
+      </extension>
       <extension url="usage">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-               <code value="supplemental-data"/>
-               <display value="Supplemental Data"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+               <code value="supplemental-data"></code>
+               <display value="Supplemental Data"></display>
             </coding>
-            <text value="Supplemental Data Guidance"/>
+            <text value="Supplemental Data Guidance"></text>
          </valueCodeableConcept>
       </extension>
    </extension>
    <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
       <valueReference>
-         <reference value="#effective-data-requirements"/>
+         <reference value="#effective-data-requirements"></reference>
       </valueReference>
    </extension>
-   <url value="https://madie.cms.gov/Measure/DementiaCognitiveAssessmentFHIR"/>
+   <url value="https://madie.cms.gov/Measure/DementiaCognitiveAssessmentFHIR"></url>
    <identifier>
-      <use value="usual"/>
+      <use value="usual"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="short-name"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/shortName"/>
-      <value value="CMS149FHIR"/>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS149FHIR"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="version-independent"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
          </coding>
       </type>
-      <system value="urn:ietf:rfc:3986"/>
-      <value value="urn:uuid:5dd075c9-2ce3-49be-a219-055e2444cfea"/>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:5dd075c9-2ce3-49be-a219-055e2444cfea"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="version-specific"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
          </coding>
       </type>
-      <system value="urn:ietf:rfc:3986"/>
-      <value value="urn:uuid:db740bcf-41a7-4e8c-91f7-fecbbb6ffbb3"/>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:db740bcf-41a7-4e8c-91f7-fecbbb6ffbb3"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="endorser"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/nqfId"/>
-      <value value="2872e"/>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="2872e"></value>
       <assigner>
-         <display value="NQF"/>
+         <display value="CMS Consensus Based Entity"></display>
       </assigner>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="publisher"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/cmsId"/>
-      <value value="149FHIR"/>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="149FHIR"></value>
       <assigner>
-         <display value="CMS"/>
+         <display value="CMS"></display>
       </assigner>
    </identifier>
-   <version value="0.1.000"/>
-   <name value="DementiaCognitiveAssessmentFHIR"/>
-   <title value="Dementia: Cognitive AssessmentFHIR"/>
-   <status value="draft"/>
-   <experimental value="false"/>
-   <date value="2023-11-07T18:33:02+00:00"/>
-   <publisher value="American Academy of Neurology"/>
+   <version value="0.1.000"></version>
+   <name value="DementiaCognitiveAssessmentFHIR"></name>
+   <title value="Dementia: Cognitive AssessmentFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-03T15:59:24+00:00"></date>
+   <publisher value="American Academy of Neurology"></publisher>
    <contact>
       <telecom>
-         <system value="url"/>
-         <value value="www.aan.com"/>
+         <system value="url"></system>
+         <value value="www.aan.com"></value>
       </telecom>
    </contact>
-   <description value="Percentage of patients, regardless of age, with a diagnosis of dementia for whom an assessment of cognition is performed and the results reviewed at least once within a 12-month period"/>
-   <purpose value="UNKNOWN"/>
-   <usage value="Use of a standardized tool or instrument to assess cognition other than those listed will meet numerator performance if mapped to the concept &quot;Intervention, Performed&quot;: &quot;Cognitive Assessment&quot; included in the numerator logic below.  The requirement of two or more visits is to establish that the eligible professional or eligible clinician has an existing relationship with the patient.  In recognition of the growing use of integrated and team-based care, the diagnosis of dementia and the assessment of cognitive function need not be performed by the same provider or clinician.   The DSM-5 has replaced the term dementia with major neurocognitive disorder and mild neurocognitive disorder. For the purposes of this measure, the terms are equivalent.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS149v12.  Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html)."/>
-   <copyright value="Attribution: The American Psychiatric Association’s (APA), PCPI’s, and American Medical Association’s (AMA) significant past efforts and contributions to the development and updating of the Measure are acknowledged.   Copyright: (C)2024 American Academy of Neurology Institute (AANI). All rights reserved."/>
-   <approvalDate value="2023-11-17"/>
-   <lastReviewDate value="2023-11-17"/>
+   <description value="Percentage of patients, regardless of age, with a diagnosis of dementia for whom an assessment of cognition is performed and the results reviewed at least once within a 12-month period"></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="The measure requires a diagnosis of dementia is present before the routine assessment of cognition once in a 12-month period.  Use of a standardized tool or instrument to assess cognition other than those listed will meet numerator performance if mapped to the concept &quot;Intervention, Performed&quot;: &quot;Cognitive Assessment&quot; included in the numerator logic below.  The requirement of two or more visits is to establish that the eligible clinician has an existing relationship with the patient.  In recognition of the growing use of integrated and team-based care, the diagnosis of dementia and the assessment of cognitive function need not be performed by the same provider or clinician.   The Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition DMS-5 has replaced the term dementia with major neurocognitive disorder and mild neurocognitive disorder. For the purposes of this measure, the terms are equivalent.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS149v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)"></usage>
+   <copyright value="Attribution: The American Psychiatric Association’s (APA), PCPI’s, and American Medical Association’s (AMA) significant past efforts and contributions to the development and updating of the Measure are acknowledged.   Copyright: (C)2024 American Academy of Neurology Institute (AANI). All rights reserved."></copyright>
    <effectivePeriod>
-      <start value="2025-01-01"/>
-      <end value="2025-12-31"/>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
    </effectivePeriod>
    <author>
-      <name value="American Academy of Neurology"/>
+      <name value="American Academy of Neurology"></name>
       <telecom>
-         <system value="url"/>
-         <value value="www.aan.com"/>
+         <system value="url"></system>
+         <value value="www.aan.com"></value>
       </telecom>
    </author>
    <author>
-      <name value="American Medical Association (AMA)"/>
+      <name value="American Medical Association (AMA)"></name>
       <telecom>
-         <system value="url"/>
-         <value value="https://www.ama-assn.org/"/>
+         <system value="url"></system>
+         <value value="https://www.ama-assn.org/"></value>
       </telecom>
    </author>
-   <library value="https://madie.cms.gov/Library/DementiaCognitiveAssessmentFHIR"/>
-   <disclaimer value="Limited proprietary coding may be contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measure. Any other use of CPT or other coding by the third party is strictly prohibited. AANI, APA, AMA, and the former members of the PCPI disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications.  CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved."/>
-   <rationale value="An estimated 5.8 million of adults in the US were living with dementia in 2019. Dementia is often characterized by the gradual onset and continuing cognitive decline in one or more domains including memory, communication and language, ability to focus or pay attention, reasoning and judgment and visual perception (Alzheimer’s Association, 2019). Cognitive deterioration represents a major source of morbidity and mortality and poses a significant burden on affected individuals and their caregivers (Daviglus et al., 2010). Although cognitive deterioration follows a different course depending on the type of dementia, significant rates of decline have been reported. For example, one study found that the annual rate of decline for Alzheimer's disease patients was more than four times that of older adults with no cognitive impairment (Wilson et al., 2010). Nevertheless, measurable cognitive abilities remain throughout the course of dementia (American Psychiatric Association, 2007). Initial and ongoing assessments of cognition are fundamental to the proper management of patients with dementia. These assessments serve as the basis for identifying treatment goals, developing a treatment plan, monitoring the effects of treatment, and modifying treatment as appropriate."/>
-   <clinicalRecommendationStatement value="Ongoing assessment includes periodic monitoring of the development and evolution of cognitive and noncognitive psychiatric symptoms and their response to intervention (Category I). Both cognitive and noncognitive neuropsychiatric and behavioral symptoms of dementia tend to evolve over time, so regular monitoring allows detection of new symptoms and adaptation of treatment strategies to current needs... Cognitive symptoms that almost always require assessment include impairments in memory, executive function, language, judgment, and spatial abilities. It is often helpful to track cognitive status with a structured simple examination (American Psychiatric Association, 2007).  The American Psychiatric Association recommends that patients with dementia be assessed for the type, frequency, severity, pattern, and timing of symptoms (Category 1C). Quantitative measures provide a structured replicable way to document the patient's baseline symptoms and determine which symptoms (if any) should be the target of intervention based on factors such as frequency of occurrence, magnitude, potential for associated harm to the patient or others, and associated distress to the patient. The exact frequency at which measures are warranted will depend on clinical circumstances. However, use of quantitative measures as treatment proceeds allows more precise tracking of whether nonpharmacological and pharmacological treatments are having their intended effect or whether a shift in the treatment plan is needed (American Psychiatric Association, 2016).  Conduct and document an assessment and monitor changes in cognitive status using a reliable and valid instrument, e.g., Montreal Cognitive Assessment (MoCA), Ascertain Dementia 8 (AD8) or other tool. Cognitive status should be reassessed periodically to identify sudden changes, as well as to monitor the potential beneficial or harmful effects of environmental changes (including safety, care needs, and abuse and/or neglect), specific medications (both prescription and non-prescription, for appropriate use and contraindications), or other interventions. Proper assessment requires the use of a standardized, objective instrument that is relatively easy to use, reliable (with less variability between different assessors), and valid (results that would be similar to gold-standard evaluations) (California Department of Public Health, 2017).  Recommendation: Perform regular, comprehensive person-centered assessments and timely interim assessments. Assessments, conducted at least every 6 months, should prioritize issues that help the person with dementia to live fully. These include assessments of the individual and care partner’s relationships and subjective experience and assessment of cognition, behavior, and function, using reliable and valid tools. Assessment is ongoing and dynamic, combining nomothetic (norm based) and idiographic (individualized) approaches (Fazio, Pace, Maslow, Zimmerman, &amp; Kallmyer, 2018).  Recommendation: Assess cognitive status, functional abilities, behavioral and psychological symptoms of dementia, medical status, living environment, and safety. Reassess regularly and when there is a significant change in condition (U.S. Department of Health and Human Services, 2016)."/>
+   <library value="https://madie.cms.gov/Library/DementiaCognitiveAssessmentFHIR"></library>
+   <disclaimer value="Limited proprietary coding may be contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measure. Any other use of CPT or other coding by the third party is strictly prohibited. AANI, APA, AMA, and the former members of the PCPI disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications.  CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved."></disclaimer>
+   <rationale value="An estimated 5.8 million of adults in the US were living with dementia in 2019. Dementia is often characterized by the gradual onset and continuing cognitive decline in one or more domains including memory, communication and language, ability to focus or pay attention, reasoning and judgment and visual perception (Alzheimer’s Association, 2019). Cognitive deterioration represents a major source of morbidity and mortality and poses a significant burden on affected individuals and their caregivers (Daviglus et al., 2010). Although cognitive deterioration follows a different course depending on the type of dementia, significant rates of decline have been reported. For example, one study found that the annual rate of decline for Alzheimer's disease patients was more than four times that of older adults with no cognitive impairment (Wilson et al., 2010). Nevertheless, measurable cognitive abilities remain throughout the course of dementia (American Psychiatric Association, 2007). Initial and ongoing assessments of cognition are fundamental to the proper management of patients with dementia. These assessments serve as the basis for identifying treatment goals, developing a treatment plan, monitoring the effects of treatment, and modifying treatment as appropriate."></rationale>
+   <clinicalRecommendationStatement value="Ongoing assessment includes periodic monitoring of the development and evolution of cognitive and noncognitive psychiatric symptoms and their response to intervention (Category I). Both cognitive and noncognitive neuropsychiatric and behavioral symptoms of dementia tend to evolve over time, so regular monitoring allows detection of new symptoms and adaptation of treatment strategies to current needs... Cognitive symptoms that almost always require assessment include impairments in memory, executive function, language, judgment, and spatial abilities. It is often helpful to track cognitive status with a structured simple examination (American Psychiatric Association, 2007).  The American Psychiatric Association recommends that patients with dementia be assessed for the type, frequency, severity, pattern, and timing of symptoms (Category 1C). Quantitative measures provide a structured replicable way to document the patient's baseline symptoms and determine which symptoms (if any) should be the target of intervention based on factors such as frequency of occurrence, magnitude, potential for associated harm to the patient or others, and associated distress to the patient. The exact frequency at which measures are warranted will depend on clinical circumstances. However, use of quantitative measures as treatment proceeds allows more precise tracking of whether nonpharmacological and pharmacological treatments are having their intended effect or whether a shift in the treatment plan is needed (American Psychiatric Association, 2016).  Conduct and document an assessment and monitor changes in cognitive status using a reliable and valid instrument, e.g., Montreal Cognitive Assessment (MoCA), Ascertain Dementia 8 (AD8) or other tool. Cognitive status should be reassessed periodically to identify sudden changes, as well as to monitor the potential beneficial or harmful effects of environmental changes (including safety, care needs, and abuse and/or neglect), specific medications (both prescription and non-prescription, for appropriate use and contraindications), or other interventions. Proper assessment requires the use of a standardized, objective instrument that is relatively easy to use, reliable (with less variability between different assessors), and valid (results that would be similar to gold-standard evaluations) (California Department of Public Health, 2017).  Recommendation: Perform regular, comprehensive person-centered assessments and timely interim assessments.  Assessments, conducted at least every 6 months, should prioritize issues that help the person with dementia to live fully. These include assessments of the individual and care partner’s relationships and subjective experience and assessment of cognition, behavior, and function, using reliable and valid tools. Assessment is ongoing and dynamic, combining nomothetic (norm based) and idiographic (individualized) approaches (Fazio, Pace, Maslow, Zimmerman, &amp; Kallmyer, 2018).  Recommendation: Assess cognitive status, functional abilities, behavioral and psychological symptoms of dementia, medical status, living environment, and safety. Reassess regularly and when there is a significant change in condition (U.S. Department of Health and Human Services, 2016)."></clinicalRecommendationStatement>
    <group id="64f8f6e7da013638e7b3d970">
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"/>
-               <code value="proportion"/>
-               <display value="Proportion"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
             </coding>
          </valueCodeableConcept>
       </extension>
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
-         <valueCode value="boolean"/>
+         <valueCode value="boolean"></valueCode>
       </extension>
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-type"/>
-               <code value="process"/>
-               <display value="Process"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="None"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="decrease"></code>
+               <display value="increase"></display>
             </coding>
          </valueCodeableConcept>
       </extension>
       <population id="8E6994EF-0C3B-47B5-9122-1070928DA746">
          <code>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="initial-population"/>
-               <display value="Initial Population"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
             </coding>
          </code>
-         <description value="All patients, regardless of age, with a diagnosis of dementia who have two or more visits during the measurement period"/>
+         <description value="All patients, regardless of age, with a diagnosis of dementia who have two or more visits during the measurement period"></description>
          <criteria>
-            <language value="text/cql-identifier"/>
-            <expression value="Initial Population"/>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
          </criteria>
       </population>
       <population id="A2AE8B3F-E045-4A49-BFD5-2FB639FE69A7">
          <code>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="denominator"/>
-               <display value="Denominator"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
             </coding>
          </code>
-         <description value="Equals Initial Population"/>
+         <description value="Equals Initial Population"></description>
          <criteria>
-            <language value="text/cql-identifier"/>
-            <expression value="Denominator"/>
-         </criteria>
-      </population>
-      <population id="cb27e565-17da-44ae-8a35-041cfcfef20c">
-         <code>
-            <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="denominator-exclusion"/>
-               <display value="Denominator Exclusion"/>
-            </coding>
-         </code>
-         <criteria>
-            <language value="text/cql-identifier"/>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator"></expression>
          </criteria>
       </population>
       <population id="005F739D-804C-450C-A90A-EC6AAEB37B55">
          <code>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="numerator"/>
-               <display value="Numerator"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
             </coding>
          </code>
-         <description value="Patients for whom an assessment of cognition is performed and the results reviewed at least once within a 12-month period"/>
+         <description value="Patients for whom an assessment of cognition is performed and the results reviewed at least once within a 12-month period"></description>
          <criteria>
-            <language value="text/cql-identifier"/>
-            <expression value="Numerator"/>
-         </criteria>
-      </population>
-      <population id="913db5e6-2e5a-46ab-ae7c-86432872d15b">
-         <code>
-            <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="numerator-exclusion"/>
-               <display value="Numerator Exclusion"/>
-            </coding>
-         </code>
-         <criteria>
-            <language value="text/cql-identifier"/>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator"></expression>
          </criteria>
       </population>
       <population id="1C8C30E2-BAFE-4A65-A837-7876EE5CDB75">
          <code>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="denominator-exception"/>
-               <display value="Denominator Exception"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator-exception"></code>
+               <display value="Denominator Exception"></display>
             </coding>
          </code>
-         <description value="Documentation of patient reason(s) for not assessing cognition"/>
+         <description value="Documentation of patient reason(s) for not assessing cognition"></description>
          <criteria>
-            <language value="text/cql-identifier"/>
-            <expression value="Denominator Exceptions"/>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator Exceptions"></expression>
          </criteria>
       </population>
    </group>
    <supplementalData id="sde-ethnicity">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Ethnicity"/>
+      <description value="SDE Ethnicity"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Ethnicity"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Ethnicity"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-payer">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Payer"/>
+      <description value="SDE Payer"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Payer"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Payer"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-race">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Race"/>
+      <description value="SDE Race"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Race"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Race"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-sex">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Sex"/>
+      <description value="SDE Sex"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Sex"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Sex"></expression>
       </criteria>
    </supplementalData>
 </Measure>

@@ -1,0 +1,881 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></id>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"></id>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="M"></code>
+               <display value="Male"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="F"></code>
+               <display value="Female"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://snomed.info/sct"></system>
+               <code value="456381000124102"></code>
+               <display value="Injection of leuprolide acetate for twelve month period (regime/therapy)"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="active"></code>
+               <display value="Active"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></system>
+               <code value="confirmed"></code>
+               <display value="Confirmed"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case     when Patient.gender = &amp;#39;male&amp;#39; then &amp;quot;M&amp;quot;     when Patient.gender = &amp;#39;female&amp;#39; then &amp;quot;F&amp;quot;     else null   end"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Androgen Deprivation Therapy for Urology Care Medication Active Start Dates"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Androgen Deprivation Therapy for Urology Care Medication Active Start Dates&amp;quot;:   [MedicationRequest: &amp;quot;Androgen deprivation therapy for Urology Care&amp;quot;] ADTActive     let firstMedicationPeriod: First((collapse(ADTActive.dosageInstruction.timing.repeat.bounds DoseTime           return DoseTime.toInterval()       )) DrugPeriods         sort by start of $this     ),          //get the very first event          firstMedicationEvent: First((ADTActive.dosageInstruction.timing dosageTiming                                       //returns first event for the specific dosageTiming                  return First(dosageTiming.event dosageTimingEvents             sort ascending         )) firstEvents         sort ascending     ),     medicationDateTime: NormalizeInterval(firstMedicationEvent, firstMedicationPeriod).earliest ( )     where ADTActive.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }       and ADTActive.intent in { &amp;#39;order&amp;#39;, &amp;#39;original-order&amp;#39;, &amp;#39;reflex-order&amp;#39;, &amp;#39;filler-order&amp;#39;, &amp;#39;instance-order&amp;#39; }     return medicationDateTime"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Androgen Deprivation Therapy for Urology Care Medication Order Start Dates"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Androgen Deprivation Therapy for Urology Care Medication Order Start Dates&amp;quot;:   [MedicationRequest: &amp;quot;Androgen deprivation therapy for Urology Care&amp;quot;] ADTOrder     let firstMedicationPeriod: First((collapse(ADTOrder.dosageInstruction.timing.repeat.bounds DoseTime           return DoseTime.toInterval()       )) DrugPeriods         sort by start of $this     ),     medicationDateTime: NormalizeInterval(ADTOrder.authoredOn, firstMedicationPeriod).earliest ( )     where ADTOrder.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }       and ADTOrder.intent in { &amp;#39;order&amp;#39;, &amp;#39;original-order&amp;#39;, &amp;#39;reflex-order&amp;#39;, &amp;#39;filler-order&amp;#39;, &amp;#39;instance-order&amp;#39; }     return medicationDateTime"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Prostate Cancer Diagnosis"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Prostate Cancer Diagnosis&amp;quot;:   [Condition: &amp;quot;Prostate Cancer&amp;quot;] ProstateCancer     where ProstateCancer.prevalenceInterval ( ) overlaps &amp;quot;Measurement Period&amp;quot;       and ProstateCancer.clinicalStatus ~ QICoreCommon.&amp;quot;active&amp;quot;       and ProstateCancer.verificationStatus ~ QICoreCommon.&amp;quot;confirmed&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="First ADT in 3 Months Before to 9 Months After Start of Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;First ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot;:   First((&amp;quot;Androgen Deprivation Therapy for Urology Care Medication Active Start Dates&amp;quot;       union &amp;quot;Androgen Deprivation Therapy for Urology Care Medication Order Start Dates&amp;quot;) ADTDateTime       with &amp;quot;Prostate Cancer Diagnosis&amp;quot; ProstateCancer         such that ADTDateTime during day of ProstateCancer.prevalenceInterval()           and ADTDateTime during day of Interval[start of &amp;quot;Measurement Period&amp;quot; - 3 months, start of &amp;quot;Measurement Period&amp;quot; + 9 months]       sort ascending   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot;:   [ServiceRequest: &amp;quot;Injection of leuprolide acetate for twelve month period (regime/therapy)&amp;quot;] OrderTwelveMonthADT     with &amp;quot;First ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot; FirstADTMP       such that OrderTwelveMonthADT.authoredOn on or after day of FirstADTMP         and OrderTwelveMonthADT.authoredOn during day of Interval[start of &amp;quot;Measurement Period&amp;quot; - 3 months, start of &amp;quot;Measurement Period&amp;quot; + 9 months]         and OrderTwelveMonthADT.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }         and OrderTwelveMonthADT.intent = &amp;#39;order&amp;#39;         and OrderTwelveMonthADT.doNotPerform is not true"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT&amp;quot;:   exists ( ( [ServiceRequest: &amp;quot;DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care&amp;quot;] DEXAOrdered         with &amp;quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot; OrderTwelveMonthsADT           such that DEXAOrdered.authoredOn 3 months or less on or after day of OrderTwelveMonthsADT.authoredOn             or DEXAOrdered.authoredOn 2 years or less before day of OrderTwelveMonthsADT.authoredOn         where DEXAOrdered.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }           and DEXAOrdered.intent = &amp;#39;order&amp;#39;           and DEXAOrdered.doNotPerform is not true     )       union ( [Observation: &amp;quot;DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care&amp;quot;] DEXAPerformed           with &amp;quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot; OrderTwelveMonthsADT             such that DEXAPerformed.effective.toInterval ( ) 3 months or less on or after day of OrderTwelveMonthsADT.authoredOn               or DEXAPerformed.effective.toInterval ( ) 2 years or less before day of OrderTwelveMonthsADT.authoredOn           where DEXAPerformed.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }       )   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator&amp;quot;:   &amp;quot;Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator Exception"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @commentedOut: exists ( &amp;quot;No Bone Density Scan Ordered Due to Patient Refusal&amp;quot; )                   or exists ( &amp;quot;No Bone Density Scan Performed Due to Patient Refusal&amp;quot; ) @commmentedOutReason: Negation issue related to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455. Due to this being the only logic in population, created a &amp;#39;false&amp;#39; placeholder */   define &amp;quot;Denominator Exception&amp;quot;:     //placeholder      false"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="9"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Qualifying Encounter"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Qualifying Encounter&amp;quot;:   exists ( [&amp;quot;Encounter&amp;quot;: &amp;quot;Office Visit&amp;quot;] OfficeVisit       where OfficeVisit.period during &amp;quot;Measurement Period&amp;quot;         and OfficeVisit.status = &amp;#39;finished&amp;#39;   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="10"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   &amp;quot;Has Qualifying Encounter&amp;quot;     and exists &amp;quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="11"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="12"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="13"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="14"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="15"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="16"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="17"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="18"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="earliest"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&amp;lt;DateTime, Quantity, Interval&amp;lt;DateTime&amp;gt;, Interval&amp;lt;Quantity&amp;gt;&amp;gt; ):   (choice.toInterval()) period     return       if (period.&amp;quot;hasStart&amp;quot;()) then start of period       else end of period"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="19"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="NormalizeInterval"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function NormalizeInterval(pointInTime DateTime, dateTimeInterval Interval&amp;lt;DateTime&amp;gt;):   if pointInTime is not null then Interval[pointInTime, pointInTime]     else if dateTimeInterval is not null then dateTimeInterval      else null as Interval&amp;lt;DateTime&amp;gt;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="20"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="prevalenceInterval"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="21"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToString"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function ToString(value uri): value.value"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="22"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToCode"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="23"></valueString>
+            </extension>
+         </extension>
+         <status value="active"></status>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library SDE"></display>
+            <resource value="Library/SupplementalDataElements|3.5.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system AdministrativeGender"></display>
+            <resource value="http://hl7.org/fhir/administrative-gender"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system SNOMEDCT"></display>
+            <resource value="http://snomed.info/sct"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system ConditionClinicalStatusCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-clinical"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system ConditionVerificationStatusCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-ver-status"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Androgen deprivation therapy for Urology Care"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.48"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Prostate Cancer"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.319"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Office Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Payer Type"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></resource>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator Exception"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Sex"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Coding"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Payer"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Ethnicity"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Race"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <dataRequirement>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+            <mustSupport value="gender"></mustSupport>
+            <mustSupport value="gender.value"></mustSupport>
+            <mustSupport value="url"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="MedicationRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest"></profile>
+            <mustSupport value="medication"></mustSupport>
+            <mustSupport value="dosageInstruction"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <codeFilter>
+               <path value="medication"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.48"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="MedicationRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest"></profile>
+            <mustSupport value="medication.reference"></mustSupport>
+            <mustSupport value="dosageInstruction"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Medication"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication"></profile>
+            <mustSupport value="id"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="clinicalStatus"></mustSupport>
+            <mustSupport value="verificationStatus"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.319"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="ServiceRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="doNotPerform"></mustSupport>
+            <mustSupport value="doNotPerform.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://snomed.info/sct"></system>
+                  <code value="456381000124102"></code>
+                  <display value="Injection of leuprolide acetate for twelve month period (regime/therapy)"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="ServiceRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="doNotPerform"></mustSupport>
+            <mustSupport value="doNotPerform.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension id="supplementalDataGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="guidance">
+         <valueString value="For every patient evaluated by this measure also identify payer, race, ethnicity and sex"></valueString>
+      </extension>
+      <extension url="usage">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+               <code value="supplemental-data"></code>
+               <display value="Supplemental Data"></display>
+            </coding>
+            <text value="Supplemental Data Guidance"></text>
+         </valueCodeableConcept>
+      </extension>
+   </extension>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"></reference>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></url>
+   <identifier>
+      <use value="usual"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS645FHIR"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:299de9c4-755d-4f5a-ac9e-fa74fe34f759"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:aed79368-1b42-422a-b31b-c01a9de8501f"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="645FHIR"></value>
+      <assigner>
+         <display value="CMS"></display>
+      </assigner>
+   </identifier>
+   <version value="1.4.000"></version>
+   <name value="BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></name>
+   <title value="Bone Density Evaluation for Patients with Prostate Cancer and Receiving Androgen Deprivation TherapyFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-14T19:30:19+00:00"></date>
+   <publisher value="Oregon Urology"></publisher>
+   <contact>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.oregonurology.com"></value>
+      </telecom>
+   </contact>
+   <description value="Percentage of patients determined as having prostate cancer who are currently starting or undergoing androgen deprivation therapy (ADT), for an anticipated period of 12 months or greater and who receive an initial bone density evaluation. The bone density evaluation must be prior to the start of ADT or within 3 months of the start of ADT."></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="In order to capture the practitioner's intent of androgen deprivation therapy (ADT) for a period of 12 months or greater, SNOMEDCT 456381000124102 which is Injection of leuprolide acetate for twelve-month period (regime/therapy) is the correct code.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS645v8.   Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. Oregon Urology Institute (OUI) and Large Urology Group Practice Association (LUGPA) disclaim all liability for use or accuracy of third party codes contained in the specifications.  CPT(R) contained in the Measure specifications is copyright 2004-2023. American Medical Association. LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023. International Health Terminology Standards Development Organisation. ICD-10 copyright 2023 World Health Organization. All Rights Reserved."></copyright>
+   <effectivePeriod>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
+   </effectivePeriod>
+   <author>
+      <name value="Oregon Urology"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.oregonurology.com"></value>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"></library>
+   <disclaimer value="The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM]."></disclaimer>
+   <rationale value="Androgen suppression as a treatment for prostate cancer can cause osteoporosis (Qaseem, 2008). Men undergoing prolonged androgen deprivation therapy (ADT) incur bone loss at a rate higher than menopausal women (Guise, 2007). In preserving bone health, the goal is to prevent or treat osteopenia/osteoporosis for the patient on ADT and to prevent or delay skeletal related events. The National Osteoporosis Foundation recommendations including a baseline assessment of bone density with a dual energy X-ray absorptiometry (DEXA) scan and daily calcium and Vitamin D supplementation (Watts, 2012). The DEXA scan is the gold standard for bone density screening. Men at risk for adverse bone consequences from chronic ADT do not always receive care according to evidence-based guidelines. These findings call for improved processes that standardize evidence-based practice including baseline and follow up bone density assessment (Watts, 2012)."></rationale>
+   <clinicalRecommendationStatement value="Bone density screening should be performed at the start of Androgen Deprivation Therapy (ADT) for prostate cancer. It should also be performed every 2 years for the patient with continued ADT or for patients with known osteoporosis. Current insurance practice is to possibly cover the cost of bone density screening if osteoporosis is known or if there is a high-risk drug. Some patients choose to delay bone density screening until after ADT is started and they therefore have insurance authorization due to the administration of a high-risk drug."></clinicalRecommendationStatement>
+   <group id="6643b7c1a7a1805d3b7374f8">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="boolean"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="None"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="increase"></code>
+               <display value="Increased score indicates improvement"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="E8F25116-1779-4BA6-B606-34F12AE4F5BA">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Patients with a qualifying encounter in the measurement period AND with a diagnosis of prostate cancer AND with an order for ADT or an active medication of ADT with an intent for treatment greater than or equal to 12 months during the measurement period AND order for ADT in 3 months before to 9 months after the start of the measurement period"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="1C145A56-9250-4444-A497-86C44F55CFDB">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
+            </coding>
+         </code>
+         <description value="Equals Initial Population"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator"></expression>
+         </criteria>
+      </population>
+      <population id="B1E0E3D2-D44E-4BFF-92F8-077CF1AE234F">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
+            </coding>
+         </code>
+         <description value="Patients with a bone density evaluation within the two years prior to the start of or less than three months after the start of ADT treatment"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator"></expression>
+         </criteria>
+      </population>
+      <population id="A9552F46-139C-4270-835C-224132205362">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator-exception"></code>
+               <display value="Denominator Exception"></display>
+            </coding>
+         </code>
+         <description value="Patient refused the bone density evaluation at the time ordered or did not have it performed within 3 months after the start of ADT NOTE: Created a placeholder population due to issues around negation: refer to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator Exception"></expression>
+         </criteria>
+      </population>
+   </group>
+   <supplementalData id="sde-ethnicity">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Ethnicity"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Ethnicity"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-payer">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Payer"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Payer"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-race">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Race"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Race"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-sex">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Sex"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Sex"></expression>
+      </criteria>
+   </supplementalData>
+</Measure>

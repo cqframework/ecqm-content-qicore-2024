@@ -67,7 +67,7 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( ( [Encounter: &quot;Clinical Oral Evaluation&quot;] ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period during day of &quot;Measurement Period&quot;"
+        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( ( [Encounter: &quot;Clinical Oral Evaluation&quot;] ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "1"
@@ -112,7 +112,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "4"
@@ -142,7 +142,7 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueString": "6"
@@ -157,7 +157,7 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
       }, {
         "url": "displaySequence",
         "valueString": "7"
@@ -187,7 +187,7 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
       }, {
         "url": "displaySequence",
         "valueString": "9"
@@ -217,7 +217,7 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "11"
@@ -232,7 +232,7 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "12"
@@ -248,19 +248,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Code system SNOMEDCT",
@@ -439,7 +439,7 @@
       } ]
     },
     "system": "urn:ietf:rfc:3986",
-    "value": "urn:uuid:2c928084808a95890180ce8aefea1457"
+    "value": "urn:uuid:4364352a-fab1-45ea-8604-f30cf70f5a1c"
   }, {
     "use": "official",
     "type": {
@@ -459,7 +459,7 @@
   "title": "Children Who Have Dental Decay or CavitiesFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-20T19:58:24+00:00",
+  "date": "2024-05-16T13:44:32+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -467,12 +467,10 @@
       "value": "https://www.cms.gov/"
     } ]
   } ],
-  "description": "Percentage of children, 1 - 20 years of age at the start of the measurement period, who have had tooth decay or cavities during the measurement period as determined by a dentist",
+  "description": "Percentage of children, 1-20 years of age at the start of the measurement period, who have had dental decay or cavities during the measurement period as determined by a dentist",
   "purpose": "UNKNOWN",
-  "usage": "This eCQM is a patient-based measure.\n\nTelehealth encounters are not eligible for this measure because the measure does not contain telehealth-eligible codes and requires a clinical action that cannot be conducted via telehealth.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS75v12. \n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and stewarded by the Centers for Medicare & Medicaid Services (CMS). CMS contracted (Contract HHSP23320095627WC; HHSP23337008T) with the National Committee for Quality Assurance (NCQA) to develop this electronic measure. NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications.\n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.\n\nCPT(R) codes, descriptions and other data are copyright 2022. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. No fee schedules, basic units, relative values or related listings are included in CPT. The AMA assumes no liability for the data contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nLOINC(R) copyright 2004-2022 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation. \n\nICD-10 copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "This eCQM is a patient-based measure.\n\nTelehealth encounters are not eligible for this measure because the measure does not contain telehealth-eligible codes and requires a clinical action that cannot be conducted via telehealth.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS75v13. \n\nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Copyright\tThis Physician Performance Measure (Measure) and related data specifications are owned and stewarded by the Centers for Medicare & Medicaid Services (CMS). CMS contracted (Contract HHSP23320095627WC; HHSP23337008T) with the National Committee for Quality Assurance (NCQA) to develop this electronic measure. NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications.\n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.\n\nCPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nThe American Dental Association (“ADA”) holds a copyright to the Current Dental Terminology (“CDT”) codes contained in certain measure specifications. The CDT codes in the measure specifications are included with the permission of the ADA. All uses of the CDT codes require a license from the ADA. No alteration, amendments, or modifications of the CDT or any portion thereof is allowed. Resale, transmission, or distribution of copies of the CDT or other portions of the CDT is also not allowed. To inquire about licensing, contact CDT-SNODENT@ada.org.\n\nThe measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.\n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. \n\nICD-10 copyright 2024 World Health Organization. All Rights Reserved.\n\n“HL7” is the registered trademark of Health Level Seven International.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -486,8 +484,8 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/ChildrenWhoHaveDentalDecayOrCavitiesFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "rationale": "Dental caries is the most chronic disease among youth aged 6-19 years. Data from the National Health and Nutrition Examination Survey from 2015-2016 showed that approximately 45.8% of children and youth aged 2-19 years had total caries (untreated and treated). Prevalence of total dental caries (untreated and treated) in primary or permanent teeth increases with age, going from 21.4%, 50.5%, and 53.8% among ages 2-5, 6-11, and 12-19, respectively. Total dental caries was highest in Hispanic youths aged 2-19 at 57.1% compared to 48.1% for non-Hispanic black, 44.6% for non-Asian, and 40.4% for non-Hispanic white youth. Monitoring prevalence of untreated and total caries is vital to preventing and controlling oral disease (Fleming & Afful, 2018). \n\nChildren who have dental decay or cavities are less likely to be in very good or excellent overall health than children without decay or cavities (Edelstein & Chinn, 2009). Children with decay are also more likely to have other oral health problems such as toothaches, broken teeth, and bleeding gums (Data Resource Center for Child and Adolescent Health, 2007).",
-  "clinicalRecommendationStatement": "This is an outcome measure. As such, no clinical recommendations are included.",
+  "rationale": "Dental caries is the most chronic disease among youth aged 6-19 years. Data from the National Health and Nutrition Examination Survey from 2015-2016 showed that approximately 45.8 percent of children and youth aged 2-19 years had total caries (untreated and treated). Prevalence of total dental caries (untreated and treated) in primary or permanent teeth increases with age, going from 21.4 percent, 50.5 percent, and 53.8 percent among ages 2-5, 6-11, and 12-19, respectively. Total dental caries was highest in Hispanic youths aged 2-19 at 57.1 percent compared to 48.1 percent for non-Hispanic black, 44.6 percent for non-Asian, and 40.4 percent for non-Hispanic white youth. Monitoring prevalence of untreated and total caries is vital to preventing and controlling oral disease (Fleming & Afful, 2018). \n\nChildren who have dental decay or cavities are less likely to be in very good or excellent overall health than children without decay or cavities (Edelstein & Chinn, 2009). Children with decay are also more likely to have other oral health problems such as toothaches, broken teeth, and bleeding gums (Data Resource Center for Child and Adolescent Health, 2007).",
+  "clinicalRecommendationStatement": "The American Academy of Pediatric Dentistry (AAPD) provides clinical recommendations for pediatric oral health assessments and preventative services (AAPD, 2023). The recommendation states that the first clinical oral examination should occur around 12 months of age. The clinical oral exam should be repeated every 6 months or as indicated by the child’s risk status or susceptibility to disease. Further, caries risk assessment must be repeated regularly and frequently to maximize effectiveness.",
   "group": [ {
     "id": "64e5231d2ad653247b573acc",
     "extension": [ {
@@ -511,6 +509,18 @@
           "display": "Outcome"
         } ]
       }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
+        } ]
+      }
     } ],
     "population": [ {
       "id": "66F06DE9-C3BC-4453-89B1-400B819C0995",
@@ -521,7 +531,7 @@
           "display": "Initial Population"
         } ]
       },
-      "description": "Children, 6 months - 20 years of age at the start of the measurement period, with a clinical oral evaluation by a dentist during the measurement period",
+      "description": "Children, 1-20 years of age at the start of the measurement period, with a clinical oral evaluation by a dentist during the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Initial Population"
@@ -555,18 +565,6 @@
         "expression": "Denominator Exclusions"
       }
     }, {
-      "id": "878a9f73-034e-4ccf-a7a5-bc77f1d53518",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "EA2542BB-5E76-4518-A224-4EFFA2AA1F36",
       "code": {
         "coding": [ {
@@ -579,18 +577,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "9ccd6da3-d97d-417c-b159-80861eff407f",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ]

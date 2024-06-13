@@ -35,7 +35,8 @@ code "Discharge to home for hospice care (procedure)": '428361000124107' from "S
 code "AMB": 'AMB' from "ActCode" display 'Ambulatory'
 code "active": 'active' from "ConditionClinicalStatusCodes"
 
-parameter "Measurement Period" Interval<DateTime> default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

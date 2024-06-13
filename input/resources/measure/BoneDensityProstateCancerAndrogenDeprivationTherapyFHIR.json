@@ -1,0 +1,838 @@
+{
+  "resourceType": "Measure",
+  "id": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Library",
+    "id": "effective-data-requirements",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "456381000124102",
+        "display": "Injection of leuprolide acetate for twelve month period (regime/therapy)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "active",
+        "display": "Active"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+        "code": "confirmed",
+        "display": "Confirmed"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:   case     when Patient.gender = &#39;male&#39; then &quot;M&quot;     when Patient.gender = &#39;female&#39; then &quot;F&quot;     else null   end"
+      }, {
+        "url": "displaySequence",
+        "valueString": "0"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:   SDE.&quot;SDE Sex&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "1"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Androgen Deprivation Therapy for Urology Care Medication Active Start Dates"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Androgen Deprivation Therapy for Urology Care Medication Active Start Dates&quot;:   [MedicationRequest: &quot;Androgen deprivation therapy for Urology Care&quot;] ADTActive     let firstMedicationPeriod: First((collapse(ADTActive.dosageInstruction.timing.repeat.bounds DoseTime           return DoseTime.toInterval()       )) DrugPeriods         sort by start of $this     ),          //get the very first event          firstMedicationEvent: First((ADTActive.dosageInstruction.timing dosageTiming                                       //returns first event for the specific dosageTiming                  return First(dosageTiming.event dosageTimingEvents             sort ascending         )) firstEvents         sort ascending     ),     medicationDateTime: NormalizeInterval(firstMedicationEvent, firstMedicationPeriod).earliest ( )     where ADTActive.status in { &#39;active&#39;, &#39;completed&#39; }       and ADTActive.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }     return medicationDateTime"
+      }, {
+        "url": "displaySequence",
+        "valueString": "2"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Androgen Deprivation Therapy for Urology Care Medication Order Start Dates"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Androgen Deprivation Therapy for Urology Care Medication Order Start Dates&quot;:   [MedicationRequest: &quot;Androgen deprivation therapy for Urology Care&quot;] ADTOrder     let firstMedicationPeriod: First((collapse(ADTOrder.dosageInstruction.timing.repeat.bounds DoseTime           return DoseTime.toInterval()       )) DrugPeriods         sort by start of $this     ),     medicationDateTime: NormalizeInterval(ADTOrder.authoredOn, firstMedicationPeriod).earliest ( )     where ADTOrder.status in { &#39;active&#39;, &#39;completed&#39; }       and ADTOrder.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }     return medicationDateTime"
+      }, {
+        "url": "displaySequence",
+        "valueString": "3"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Prostate Cancer Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Prostate Cancer Diagnosis&quot;:   [Condition: &quot;Prostate Cancer&quot;] ProstateCancer     where ProstateCancer.prevalenceInterval ( ) overlaps &quot;Measurement Period&quot;       and ProstateCancer.clinicalStatus ~ QICoreCommon.&quot;active&quot;       and ProstateCancer.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "4"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "First ADT in 3 Months Before to 9 Months After Start of Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;First ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot;:   First((&quot;Androgen Deprivation Therapy for Urology Care Medication Active Start Dates&quot;       union &quot;Androgen Deprivation Therapy for Urology Care Medication Order Start Dates&quot;) ADTDateTime       with &quot;Prostate Cancer Diagnosis&quot; ProstateCancer         such that ADTDateTime during day of ProstateCancer.prevalenceInterval()           and ADTDateTime during day of Interval[start of &quot;Measurement Period&quot; - 3 months, start of &quot;Measurement Period&quot; + 9 months]       sort ascending   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "5"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot;:   [ServiceRequest: &quot;Injection of leuprolide acetate for twelve month period (regime/therapy)&quot;] OrderTwelveMonthADT     with &quot;First ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot; FirstADTMP       such that OrderTwelveMonthADT.authoredOn on or after day of FirstADTMP         and OrderTwelveMonthADT.authoredOn during day of Interval[start of &quot;Measurement Period&quot; - 3 months, start of &quot;Measurement Period&quot; + 9 months]         and OrderTwelveMonthADT.status in { &#39;active&#39;, &#39;completed&#39; }         and OrderTwelveMonthADT.intent = &#39;order&#39;         and OrderTwelveMonthADT.doNotPerform is not true"
+      }, {
+        "url": "displaySequence",
+        "valueString": "6"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT&quot;:   exists ( ( [ServiceRequest: &quot;DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care&quot;] DEXAOrdered         with &quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot; OrderTwelveMonthsADT           such that DEXAOrdered.authoredOn 3 months or less on or after day of OrderTwelveMonthsADT.authoredOn             or DEXAOrdered.authoredOn 2 years or less before day of OrderTwelveMonthsADT.authoredOn         where DEXAOrdered.status in { &#39;active&#39;, &#39;completed&#39; }           and DEXAOrdered.intent = &#39;order&#39;           and DEXAOrdered.doNotPerform is not true     )       union ( [Observation: &quot;DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care&quot;] DEXAPerformed           with &quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot; OrderTwelveMonthsADT             such that DEXAPerformed.effective.toInterval ( ) 3 months or less on or after day of OrderTwelveMonthsADT.authoredOn               or DEXAPerformed.effective.toInterval ( ) 2 years or less before day of OrderTwelveMonthsADT.authoredOn           where DEXAPerformed.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }       )   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "7"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Numerator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Numerator&quot;:   &quot;Has Baseline DEXA Scan Two Years Prior to the Start of or Less than Three Months After the Start of ADT&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "8"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator Exception"
+      }, {
+        "url": "statement",
+        "valueString": "/* @commentedOut: exists ( &quot;No Bone Density Scan Ordered Due to Patient Refusal&quot; )                   or exists ( &quot;No Bone Density Scan Performed Due to Patient Refusal&quot; ) @commmentedOutReason: Negation issue related to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455. Due to this being the only logic in population, created a &#39;false&#39; placeholder */   define &quot;Denominator Exception&quot;:     //placeholder      false"
+      }, {
+        "url": "displaySequence",
+        "valueString": "9"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Has Qualifying Encounter"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Has Qualifying Encounter&quot;:   exists ( [&quot;Encounter&quot;: &quot;Office Visit&quot;] OfficeVisit       where OfficeVisit.period during &quot;Measurement Period&quot;         and OfficeVisit.status = &#39;finished&#39;   )"
+      }, {
+        "url": "displaySequence",
+        "valueString": "10"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Initial Population"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Initial Population&quot;:   &quot;Has Qualifying Encounter&quot;     and exists &quot;Order for 12 Months of ADT in 3 Months Before to 9 Months After Start of Measurement Period&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "11"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator&quot;:   &quot;Initial Population&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "12"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:   [Coverage: type in &quot;Payer Type&quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "13"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:   SDE.&quot;SDE Payer&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "14"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "15"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:   SDE.&quot;SDE Ethnicity&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "16"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "17"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:   SDE.&quot;SDE Race&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "18"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "earliest"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):   (choice.toInterval()) period     return       if (period.&quot;hasStart&quot;()) then start of period       else end of period"
+      }, {
+        "url": "displaySequence",
+        "valueString": "19"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR"
+      }, {
+        "url": "name",
+        "valueString": "NormalizeInterval"
+      }, {
+        "url": "statement",
+        "valueString": "define function NormalizeInterval(pointInTime DateTime, dateTimeInterval Interval&lt;DateTime&gt;):   if pointInTime is not null then Interval[pointInTime, pointInTime]     else if dateTimeInterval is not null then dateTimeInterval      else null as Interval&lt;DateTime&gt;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "20"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "prevalenceInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &quot;active&quot;   or condition.clinicalStatus ~ &quot;recurrence&quot;   or condition.clinicalStatus ~ &quot;relapse&quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"
+      }, {
+        "url": "displaySequence",
+        "valueString": "21"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueString": "22"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToCode"
+      }, {
+        "url": "statement",
+        "valueString": "/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "23"
+      } ]
+    } ],
+    "status": "active",
+    "type": {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/library-type",
+        "code": "module-definition"
+      } ]
+    },
+    "relatedArtifact": [ {
+      "type": "depends-on",
+      "display": "Library SDE",
+      "resource": "Library/SupplementalDataElements|3.5.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library QICoreCommon",
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
+    }, {
+      "type": "depends-on",
+      "display": "Code system SNOMEDCT",
+      "resource": "http://snomed.info/sct"
+    }, {
+      "type": "depends-on",
+      "display": "Code system ConditionClinicalStatusCodes",
+      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+    }, {
+      "type": "depends-on",
+      "display": "Code system ConditionVerificationStatusCodes",
+      "resource": "http://terminology.hl7.org/CodeSystem/condition-ver-status"
+    }, {
+      "type": "depends-on",
+      "display": "Value set DEXA Dual Energy Xray Absorptiometry, Bone Density for Urology Care",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Androgen deprivation therapy for Urology Care",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.48"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Prostate Cancer",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.319"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Office Visit",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Payer Type",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+    } ],
+    "parameter": [ {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
+    }, {
+      "name": "Numerator",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "Denominator Exception",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    } ],
+    "dataRequirement": [ {
+      "type": "Patient",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
+      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication", "dosageInstruction", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "medication",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.48"
+      } ]
+    }, {
+      "type": "MedicationRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
+      "mustSupport": [ "medication.reference", "dosageInstruction", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ]
+    }, {
+      "type": "Medication",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
+      "mustSupport": [ "id" ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "code", "clinicalStatus", "verificationStatus" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.319"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value", "status", "status.value", "intent", "intent.value", "doNotPerform", "doNotPerform.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://snomed.info/sct",
+          "code": "456381000124102",
+          "display": "Injection of leuprolide acetate for twelve month period (regime/therapy)"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value", "status", "status.value", "intent", "intent.value", "doNotPerform", "doNotPerform.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1151.38"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
+      } ]
+    }, {
+      "type": "Coverage",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
+      "mustSupport": [ "type", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+      } ]
+    } ]
+  } ],
+  "extension": [ {
+    "id": "supplementalDataGuidance",
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
+    "extension": [ {
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex"
+    }, {
+      "url": "usage",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+          "code": "supplemental-data",
+          "display": "Supplemental Data"
+        } ],
+        "text": "Supplemental Data Guidance"
+      }
+    } ]
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
+    "valueReference": {
+      "reference": "#effective-data-requirements"
+    }
+  } ],
+  "url": "https://madie.cms.gov/Measure/BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR",
+  "identifier": [ {
+    "use": "usual",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "short-name"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/shortName",
+    "value": "CMS645FHIR"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-independent"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:299de9c4-755d-4f5a-ac9e-fa74fe34f759"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-specific"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:aed79368-1b42-422a-b31b-c01a9de8501f"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "publisher"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cmsId",
+    "value": "645FHIR",
+    "assigner": {
+      "display": "CMS"
+    }
+  } ],
+  "version": "1.4.000",
+  "name": "BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR",
+  "title": "Bone Density Evaluation for Patients with Prostate Cancer and Receiving Androgen Deprivation TherapyFHIR",
+  "status": "draft",
+  "experimental": false,
+  "date": "2024-05-14T19:30:19+00:00",
+  "publisher": "Oregon Urology",
+  "contact": [ {
+    "telecom": [ {
+      "system": "url",
+      "value": "www.oregonurology.com"
+    } ]
+  } ],
+  "description": "Percentage of patients determined as having prostate cancer who are currently starting or undergoing androgen deprivation therapy (ADT), for an anticipated period of 12 months or greater and who receive an initial bone density evaluation. The bone density evaluation must be prior to the start of ADT or within 3 months of the start of ADT.",
+  "purpose": "UNKNOWN",
+  "usage": "In order to capture the practitioner's intent of androgen deprivation therapy (ADT) for a period of 12 months or greater, SNOMEDCT 456381000124102 which is Injection of leuprolide acetate for twelve-month period (regime/therapy) is the correct code.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS645v8.   Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. Oregon Urology Institute (OUI) and Large Urology Group Practice Association (LUGPA) disclaim all liability for use or accuracy of third party codes contained in the specifications.  CPT(R) contained in the Measure specifications is copyright 2004-2023. American Medical Association. LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023. International Health Terminology Standards Development Organisation. ICD-10 copyright 2023 World Health Organization. All Rights Reserved.",
+  "effectivePeriod": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "author": [ {
+    "name": "Oregon Urology",
+    "telecom": [ {
+      "system": "url",
+      "value": "www.oregonurology.com"
+    } ]
+  } ],
+  "library": [ "https://madie.cms.gov/Library/BoneDensityProstateCancerAndrogenDeprivationTherapyFHIR" ],
+  "disclaimer": "The performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "rationale": "Androgen suppression as a treatment for prostate cancer can cause osteoporosis (Qaseem, 2008). Men undergoing prolonged androgen deprivation therapy (ADT) incur bone loss at a rate higher than menopausal women (Guise, 2007). In preserving bone health, the goal is to prevent or treat osteopenia/osteoporosis for the patient on ADT and to prevent or delay skeletal related events. The National Osteoporosis Foundation recommendations including a baseline assessment of bone density with a dual energy X-ray absorptiometry (DEXA) scan and daily calcium and Vitamin D supplementation (Watts, 2012). The DEXA scan is the gold standard for bone density screening. Men at risk for adverse bone consequences from chronic ADT do not always receive care according to evidence-based guidelines. These findings call for improved processes that standardize evidence-based practice including baseline and follow up bone density assessment (Watts, 2012).",
+  "clinicalRecommendationStatement": "Bone density screening should be performed at the start of Androgen Deprivation Therapy (ADT) for prostate cancer. It should also be performed every 2 years for the patient with continued ADT or for patients with known osteoporosis. Current insurance practice is to possibly cover the cost of bone density screening if osteoporosis is known or if there is a high-risk drug. Some patients choose to delay bone density screening until after ADT is started and they therefore have insurance authorization due to the administration of a high-risk drug.",
+  "group": [ {
+    "id": "6643b7c1a7a1805d3b7374f8",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+          "code": "proportion",
+          "display": "Proportion"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis",
+      "valueCode": "boolean"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-type",
+          "code": "process",
+          "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "increase",
+          "display": "Increased score indicates improvement"
+        } ]
+      }
+    } ],
+    "population": [ {
+      "id": "E8F25116-1779-4BA6-B606-34F12AE4F5BA",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "description": "Patients with a qualifying encounter in the measurement period AND with a diagnosis of prostate cancer AND with an order for ADT or an active medication of ADT with an intent for treatment greater than or equal to 12 months during the measurement period AND order for ADT in 3 months before to 9 months after the start of the measurement period",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Initial Population"
+      }
+    }, {
+      "id": "1C145A56-9250-4444-A497-86C44F55CFDB",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "description": "Equals Initial Population",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator"
+      }
+    }, {
+      "id": "B1E0E3D2-D44E-4BFF-92F8-077CF1AE234F",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "description": "Patients with a bone density evaluation within the two years prior to the start of or less than three months after the start of ADT treatment",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Numerator"
+      }
+    }, {
+      "id": "A9552F46-139C-4270-835C-224132205362",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exception",
+          "display": "Denominator Exception"
+        } ]
+      },
+      "description": "Patient refused the bone density evaluation at the time ordered or did not have it performed within 3 months after the start of ADT NOTE: Created a placeholder population due to issues around negation: refer to https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator Exception"
+      }
+    } ]
+  } ],
+  "supplementalData": [ {
+    "id": "sde-ethnicity",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Ethnicity",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Ethnicity"
+    }
+  }, {
+    "id": "sde-payer",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Payer",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Payer"
+    }
+  }, {
+    "id": "sde-race",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Race",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Race"
+    }
+  }, {
+    "id": "sde-sex",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Sex",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Sex"
+    }
+  } ]
+}

@@ -1,0 +1,1686 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="AppropriateDXAScansForWomenUnder65FHIR"></id>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"></id>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://www.ama-assn.org/go/cpt"></system>
+               <code value="99429"></code>
+               <display value="Unlisted preventive medicine service"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/observation-category"></system>
+               <code value="survey"></code>
+               <display value="survey"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://loinc.org"></system>
+               <code value="74013-4"></code>
+               <display value="Alcoholic drinks per day"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://snomed.info/sct"></system>
+               <code value="24028007"></code>
+               <display value="Right (qualifier value)"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://snomed.info/sct"></system>
+               <code value="7771000"></code>
+               <display value="Left (qualifier value)"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://loinc.org"></system>
+               <code value="90265-0"></code>
+               <display value="Major osteoporotic fracture 10-year probability [Likelihood] Fracture Risk Assessment"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://loinc.org"></system>
+               <code value="98139-9"></code>
+               <display value="Osteoporosis Risk Assessment Instrument"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://loinc.org"></system>
+               <code value="98133-2"></code>
+               <display value="Osteoporosis Index of Risk panel"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://loinc.org"></system>
+               <code value="98146-4"></code>
+               <display value="Osteoporosis Self-Assessment Tool"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="DXA Scan Order During Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;DXA Scan Order During Measurement Period&amp;quot;:   ( ( [ServiceRequest: &amp;quot;DXA (Dual energy Xray Absorptiometry) Scan&amp;quot;] ).isDiagnosticStudyOrder ( ) ) DXA     where DXA.authoredOn.toInterval ( ) during &amp;quot;Measurement Period&amp;quot;     // and DXA.doNotPerform is not true     // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447                sort by authoredOn asc"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator&amp;quot;:   exists &amp;quot;DXA Scan Order During Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Qualifying Encounter"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Qualifying Encounter&amp;quot;:   ( ( [Encounter: &amp;quot;Office Visit&amp;quot;]       union [Encounter: &amp;quot;Preventive Care Services Established Office Visit, 18 and Up&amp;quot;]       union ( [Encounter] E           where exists ( ( E.type ) T               where T ~ &amp;quot;Unlisted preventive medicine service&amp;quot;           )       )       union [Encounter: &amp;quot;Preventive Care Services Initial Office Visit, 18 and Up&amp;quot;]       union [Encounter: &amp;quot;Outpatient Consultation&amp;quot;]       union [Encounter: &amp;quot;Virtual Encounter&amp;quot;]       union [Encounter: &amp;quot;Telephone Visits&amp;quot;]   ).isEncounterPerformed ( ) ) ValidEncounters     where ValidEncounters.period.toInterval ( ) during day of &amp;quot;Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   AgeInYearsAt(date from start of &amp;quot;Measurement Period&amp;quot;) in Interval[50, 63]     and Patient.gender = &amp;#39;female&amp;#39;     and exists &amp;quot;Qualifying Encounter&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="First BMI in Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;First BMI in Measurement Period&amp;quot;:   First((([&amp;quot;observation-bmi&amp;quot;]).isObservationBMI()) BMIRatio       where BMIRatio.effective.toInterval() during &amp;quot;Measurement Period&amp;quot;         and BMIRatio.value as Quantity is not null       sort by start of effective.toInterval()   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="First BMI in Measurement Period Less Than or Equal to 20 kg m2"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;First BMI in Measurement Period Less Than or Equal to 20 kg m2&amp;quot;:   &amp;quot;First BMI in Measurement Period&amp;quot; FirstBMI     where FirstBMI.value as Quantity &amp;lt;= 20 &amp;#39;kg/m2&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="First Average Number of Drinks Assessments Indicating More Than Two Per Day"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;First Average Number of Drinks Assessments Indicating More Than Two Per Day&amp;quot;:   First((([Observation: &amp;quot;Alcoholic drinks per day&amp;quot;]).isAssessmentPerformed()) AverageDrinks       where start of AverageDrinks.effective.toInterval() during &amp;quot;Measurement Period&amp;quot;         and AverageDrinks.value as Quantity &amp;gt; 2 &amp;#39;{drinks}/d&amp;#39;       sort by start of effective.toInterval()   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Risk Factor Active During the Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Risk Factor Active During the Measurement Period&amp;quot;:   &amp;quot;First BMI in Measurement Period Less Than or Equal to 20 kg m2&amp;quot; is not null     or &amp;quot;First Average Number of Drinks Assessments Indicating More Than Two Per Day&amp;quot; is not null"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Risk Factor Any Time in History Prior to Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Risk Factor Any Time in History Prior to Measurement Period&amp;quot;:   exists ( ( [Condition: &amp;quot;Osteoporosis Without Current Fracture&amp;quot;] OsteoporosisDiagnosis         where OsteoporosisDiagnosis.prevalenceInterval ( ) starts before start of &amp;quot;Measurement Period&amp;quot;     )       union ( [Condition: &amp;quot;Osteopenia&amp;quot;] OsteopeniaDiagnosis           where OsteopeniaDiagnosis.prevalenceInterval ( ) starts before start of &amp;quot;Measurement Period&amp;quot;       )       union ( ( ( ( [Procedure: &amp;quot;Gastric Bypass Surgery&amp;quot;] ).isProcedurePerformed ( ) ) GastricBypass             where GastricBypass.performed.toInterval ( ) ends before start of &amp;quot;Measurement Period&amp;quot;         )           union ( ( ( [MedicationRequest: &amp;quot;Aromatase Inhibitors&amp;quot;] ).isMedicationActive ( ) ) AromataseInhibitorActive               where CMD.&amp;quot;MedicationRequestPeriod&amp;quot; ( AromataseInhibitorActive ) starts before start of &amp;quot;Measurement Period&amp;quot;           )           union ( ( ( [MedicationRequest: &amp;quot;Aromatase Inhibitors&amp;quot;] ).isMedicationOrder ( ) ) AromataseInhibitorOrder               where AromataseInhibitorOrder.authoredOn.toInterval ( ) before start of &amp;quot;Measurement Period&amp;quot;           )           union ( ( [Observation: &amp;quot;History of hip fracture in parent&amp;quot;] ).isAssessmentPerformed ( ) ) ParentFractureHistory             where start of ParentFractureHistory.effective.toInterval ( ) before start of &amp;quot;Measurement Period&amp;quot;       )   )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="9"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Glucocorticoid Active Medication Days"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Glucocorticoid Active Medication Days&amp;quot;:   ( ( ( ( [MedicationRequest: &amp;quot;Glucocorticoids (oral only)&amp;quot;] ).isMedicationActive ( ) ) OralGlucocorticoid       where ( OralGlucocorticoid ).medicationRequestPeriod ( ) starts before end of &amp;quot;Measurement Period&amp;quot; ) Glucocorticoid       return ( Glucocorticoid ).medicationRequestPeriod ( )         intersect Interval[Patient.birthDate, date from end of &amp;quot;Measurement Period&amp;quot;]   ).cumulativeDuration ( )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="10"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has 90 or More Active Glucocorticoid Medication Days"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has 90 or More Active Glucocorticoid Medication Days&amp;quot;:   &amp;quot;Glucocorticoid Active Medication Days&amp;quot; &amp;gt;= 90"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="11"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Double or Bilateral Oophorectomy"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Double or Bilateral Oophorectomy&amp;quot;:   exists ( ( [Procedure: &amp;quot;Bilateral Oophorectomy&amp;quot;] ).procedureInPatientHistory ( ) )     or exists ( ( [Procedure: &amp;quot;Evidence of Bilateral Oophorectomy&amp;quot;] ).procedureInPatientHistory ( ) )     or ( exists ( ( ( [Procedure: &amp;quot;Unilateral Oophorectomy, Unspecified Laterality&amp;quot;] UnilateralOophorectomy               where exists ( UnilateralOophorectomy.bodySite C                   where C ~ &amp;quot;Right (qualifier value)&amp;quot;               )           )             union [Procedure: &amp;quot;Unilateral Oophorectomy Right&amp;quot;]         ).procedureInPatientHistory ( )       )         and exists ( ( ( [Procedure: &amp;quot;Unilateral Oophorectomy, Unspecified Laterality&amp;quot;] UnilateralOophorectomy                 where exists ( UnilateralOophorectomy.bodySite D                     where D ~ &amp;quot;Left (qualifier value)&amp;quot;                 )             )               union [Procedure: &amp;quot;Unilateral Oophorectomy Left&amp;quot;]           ).procedureInPatientHistory ( )         )     )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="12"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Organ Transplants"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Organ Transplants&amp;quot;:   exists ( [Procedure: &amp;quot;Major Transplant&amp;quot;]       union [Procedure: &amp;quot;Kidney Transplant&amp;quot;]       union [Procedure: &amp;quot;Bone Marrow Transplant&amp;quot;]   ).procedureInPatientHistory ( )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="13"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Has Risk Factor Any Time in History or During Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Has Risk Factor Any Time in History or During Measurement Period&amp;quot;:   &amp;quot;Has 90 or More Active Glucocorticoid Medication Days&amp;quot;     or exists ( [Condition: &amp;quot;Osteoporosis With Current Fracture&amp;quot;]         union [Condition: &amp;quot;Malabsorption Syndromes&amp;quot;]         union [Condition: &amp;quot;Chronic Malnutrition&amp;quot;]         union [Condition: &amp;quot;Chronic Liver Disease&amp;quot;]         union [Condition: &amp;quot;Rheumatoid Arthritis&amp;quot;]         union [Condition: &amp;quot;Hyperthyroidism&amp;quot;]         union [Condition: &amp;quot;Type 1 Diabetes&amp;quot;]         union [Condition: &amp;quot;End Stage Renal Disease&amp;quot;]         union [Condition: &amp;quot;Osteogenesis Imperfecta&amp;quot;]         union [Condition: &amp;quot;Ankylosing Spondylitis&amp;quot;]         union [Condition: &amp;quot;Psoriatic Arthritis&amp;quot;]         union [Condition: &amp;quot;Ehlers Danlos Syndrome&amp;quot;]         union [Condition: &amp;quot;Cushings Syndrome&amp;quot;]         union [Condition: &amp;quot;Hyperparathyroidism&amp;quot;]         union [Condition: &amp;quot;Marfan&amp;#39;s Syndrome&amp;quot;]         union [Condition: &amp;quot;Lupus&amp;quot;]         union [Condition: &amp;quot;Multiple Myeloma&amp;quot;]         union [Condition: &amp;quot;Premature Menopause&amp;quot;]         union [Condition: &amp;quot;Eating Disorders&amp;quot;]         union [Condition: &amp;quot;Amenorrhea&amp;quot;]     ).diagnosisInPatientHistory ( )     or exists ( [Procedure: &amp;quot;Chemotherapy&amp;quot;] ).procedureInPatientHistory ( )     or &amp;quot;Has Double or Bilateral Oophorectomy&amp;quot;     or &amp;quot;Has Organ Transplants&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="14"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator Exclusions"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator Exclusions&amp;quot;:   &amp;quot;Has Risk Factor Active During the Measurement Period&amp;quot;     or &amp;quot;Has Risk Factor Any Time in History Prior to Measurement Period&amp;quot;     or &amp;quot;Has Risk Factor Any Time in History or During Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="15"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Osteoporosis Fracture Risk Assessment Prior to First DXA Scan"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Osteoporosis Fracture Risk Assessment Prior to First DXA Scan&amp;quot;:   ( ( ( ( [Observation: &amp;quot;Major osteoporotic fracture 10-year probability [Likelihood] Fracture Risk Assessment&amp;quot;] ).isAssessmentPerformed ( ) ) FRAX       where FRAX.value &amp;gt;= 8.4 &amp;#39;%&amp;#39;   )     union ( ( ( [Observation: &amp;quot;Osteoporosis Risk Assessment Instrument&amp;quot;] ).isAssessmentPerformed ( ) ) ORAI         where ORAI.value as Integer &amp;gt;= 9     )     union ( ( ( [Observation: &amp;quot;Osteoporosis Index of Risk panel&amp;quot;] ).isAssessmentPerformed ( ) ) OSIRIS         where OSIRIS.value as Quantity &amp;lt; 1.0     )     union ( ( ( [Observation: &amp;quot;Osteoporosis Self-Assessment Tool&amp;quot;] ).isAssessmentPerformed ( ) ) OST         where OST.value as Quantity &amp;lt; 2.0     ) ) RiskAssessment     where start of RiskAssessment.effective.toInterval ( ) before First(&amp;quot;DXA Scan Order During Measurement Period&amp;quot;).authoredOn"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="16"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator Exclusion"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator Exclusion&amp;quot;:   exists &amp;quot;Osteoporosis Fracture Risk Assessment Prior to First DXA Scan&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="17"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isDiagnosticStudyOrder"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//Diagnostic Study, Order: active and completed only define fluent function isDiagnosticStudyOrder(ServiceRequest List&amp;lt;ServiceRequest&amp;gt;):   ServiceRequest S     where S.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }       and S.intent = &amp;#39;order&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="18"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="toInterval"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Normalizes a value that is a choice of timing-valued types to an equivalent interval @comment: Normalizes a choice type of DateTime, Quanitty, Interval&amp;lt;DateTime&amp;gt;, or Interval&amp;lt;Quantity&amp;gt; types to an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible representations for timing-valued elements in QICore, allowing this function to be used across any resource. The input can be provided as a DateTime, Quantity, Interval&amp;lt;DateTime&amp;gt; or Interval&amp;lt;Quantity&amp;gt;. The intent of this function is to provide a clear and concise mechanism to treat single elements that have multiple possible representations as intervals so that logic doesn&amp;#39;t have to account for the variability. More complex calculations (such as medication request period or dispense period calculation) need specific guidance and consideration. That guidance may make use of this function, but the focus of this function is on single element calculations where the semantics are unambiguous. If the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime. If the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age, and the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later. If the input is a DateTime Interval, the result is the input. If the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result is a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending immediately before one year later than the date the patient turned the age given as the end of the quantity interval. If the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval */ define fluent function toInterval(choice Choice&amp;lt;DateTime, Quantity, Interval&amp;lt;DateTime&amp;gt;, Interval&amp;lt;Quantity&amp;gt;, Timing&amp;gt;):   case    when choice is DateTime then      Interval[choice as DateTime, choice as DateTime]   when choice is Interval&amp;lt;DateTime&amp;gt; then     choice as Interval&amp;lt;DateTime&amp;gt;   when choice is Quantity then     Interval[Patient.birthDate + (choice as Quantity),      Patient.birthDate + (choice as Quantity) + 1 year)   when choice is Interval&amp;lt;Quantity&amp;gt; then     Interval[Patient.birthDate + (choice.low as Quantity),      Patient.birthDate + (choice.high as Quantity) + 1 year)   when choice is Timing then       Message(null, true, &amp;#39;NOT_IMPLEMENTED&amp;#39;, &amp;#39;Error&amp;#39;, &amp;#39;Calculation of an interval from a Timing value is not supported&amp;#39;) as Interval&amp;lt;DateTime&amp;gt;   else    null as Interval&amp;lt;DateTime&amp;gt;  end"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="19"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isEncounterPerformed"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//Encounter, Performed //General usage unless required otherwise by measure intent (e.g., follow-up encounters) define fluent function isEncounterPerformed(Enc List&amp;lt;Encounter&amp;gt;):   Enc E     where E.status in {&amp;#39;finished&amp;#39;, &amp;#39;arrived&amp;#39;, &amp;#39;triaged&amp;#39;, &amp;#39;in-progress&amp;#39;, &amp;#39;onleave&amp;#39;}"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="20"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToConcept"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="21"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isObservationBMI"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define fluent function isObservationBMI(Obs List&amp;lt;&amp;quot;QICore.observation-bmi&amp;quot;&amp;gt;):   Obs O     where O.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="22"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isAssessmentPerformed"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.  //Assessment, Performed define fluent function isAssessmentPerformed(Obs List&amp;lt;Observation&amp;gt;):   Obs O     where O.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and exists ( O.category ObservationCategory           where ( ObservationCategory ) ~ &amp;quot;survey&amp;quot;       )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="23"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="prevalenceInterval"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="24"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isProcedurePerformed"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//Procedure, Performed define fluent function isProcedurePerformed(Proc List&amp;lt;Procedure&amp;gt;):   Proc P     where P.status ~ &amp;#39;completed&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="25"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isMedicationActive"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//Medication, Active define fluent function isMedicationActive(MedicationRequest List&amp;lt;MedicationRequest&amp;gt;):   MedicationRequest M     where M.status = &amp;#39;active&amp;#39;       and M.intent = &amp;#39;order&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="26"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CumulativeMedicationDuration"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="MedicationRequestPeriod"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* Now that we have a ToDaily function, we can approach calculation of the duration of medication for an order. First, consider the definitions for each element: * 1 and only 1 dosageInstruction * 1 and only 1 doseAndRate * 1 timing with 1 repeat * frequency, frequencyMax, defaulting to 1 * period, periodUnit, defaulting to 1 &amp;#39;d&amp;#39; * doseQuantity or doseRange * timeOfDay * authoredOn: The date the prescription was written * dispenseRequest.validityPeriod: Time period supply is authorized for * dispenseRequest.quantity: amount of medication supplied per dispense * dispenseRequest.numberOfRepeatsAllowed: number of refills authorized * dispenseRequest.expectedSupplyDuration: number of days supply per dispense * dosageInstruction.timing.repeat.boundsDuration: total duration of the repeat * dosageInstruction.timing.repeat.boundsRange: range of durations of the repeat * dosageInstruction.timing.repeat.boundsPeriod: period bounds of the repeat * dosageInstruction.timing.repeat.count: number of times to repeat * dosageInstruction.timing.repeat.countMax: maximum number of times to repeat * dosageInstruction.timing.repeat.frequency: event occurs frequency times per period * dosageInstruction.timing.repeat.frequencyMax: event occurs up to frequencyMax times per period * dosageInstruction.timing.repeat.period: event occurs frequency times per period * dosageInstruction.timing.repeat.periodMax: upper limit of period * dosageInstruction.timing.repeat.periodUnit: period duration (s | min | h | d | wk | mo | a) * dosageInstruction.timing.repeat.timeOfDay: time of day for the event (0..*) * dosageInstruction.timing.repeat.when: event timing (HS | WAKE | C | CM | CD | CV | AC | ACM...) * dosageInstruction.timing.code: BID | TID | QID | AM | PM | QD | QOD... * dosageInstruction.asNeeded * dosageInstruction.doseAndRate.doseQuantity * dosageInstruction.doseAndRate.doseRange If expectedSupplyDuration is present, then the duration is     expectedSupplyDuration * (1 + numberOfRepeatsAllowed) If expectedSupplyDuration is not present, then it must be calculated based on the quantity, dosage, and frequency:     (quantity / (dosage * frequency)) * (1 + numberOfRepeatsAllowed)     dosage: Coalesce(end of doseAndRate.doseRange, doseAndRate.doseQuantity)     frequency: Coalesce(frequencyMax, frequency)     period: Quantity(period, periodUnit) If expectedSupplyDuration is not present and cannot be calculated, and the boundsPeriod is present (and completely specified), we can use that directly     dosage.timing.repeat.boundsPeriod This calculation results in a number of days, which can then be turned into a period by anchoring that to the start of the validityPeriod or the authoredOn:     Interval[earliestDispensable, earliestDispensable + expectedSupplyDuration - 1]     earliestDispensable: Coalesce(start of validityPeriod, authoredOn) The following function illustrates this completely: */  /* Calculates the Medication Period for a single MedicationRequest. MedicationRequest instances provided to this function are expected to conform to the [MMEMedicationRequest](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationrequest.html) profile, which expects: * 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error * 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error * 1 timing with 1 repeat, missing timing or repeat elements will result in a null * frequency, frequencyMax, defaulting to 1 * period, periodUnit, defaulting to 1 &amp;#39;d&amp;#39; * timeOfDay * doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null Note that MedicationRequest status is not considered by this calculation, as the list of MedicationRequest instances provided to this function should already have considered appropriate statuses, depending on the use case, typically `completed`. */ define function MedicationRequestPeriod(Request &amp;quot;MedicationRequest&amp;quot;):   Request R     let       dosage: singleton from R.dosageInstruction,       doseAndRate: singleton from dosage.doseAndRate,       timing: dosage.timing,       frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),       period: Quantity(timing.repeat.period, timing.repeat.periodUnit),       doseRange: doseAndRate.dose,       doseQuantity: doseAndRate.dose,       dose: Coalesce(end of doseRange, doseQuantity),       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),       boundsPeriod: timing.repeat.bounds as Interval&amp;lt;DateTime&amp;gt;,       daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,       quantity: R.dispenseRequest.quantity,       refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),       startDate:         Coalesce(           date from start of boundsPeriod,           date from R.authoredOn,           date from start of R.dispenseRequest.validityPeriod         ),       totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)     return       if startDate is not null and totalDaysSupplied is not null then         Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &amp;#39;day&amp;#39;) ]       else if startDate is not null and boundsPeriod.&amp;quot;high&amp;quot; is not null then         Interval[startDate, date from end of boundsPeriod]       else         null"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="27"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CumulativeMedicationDuration"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Quantity"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/**********************************************************************/ /* Functions in this region are copied from opioid-mme-r4             */ /**********************************************************************/  define function Quantity(value Decimal, unit String):   if value is not null then     System.Quantity { value: value, unit: unit }   else     null"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="28"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CumulativeMedicationDuration"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToDaily"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/*  Goal is to get to number of days  Two broad approaches to the calculation:   1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered   2) Based on relevant period, determine a covered interval and calculate the length of that interval in days This topic covers several use cases and illustrates how to calculate Cumulative Medication Duration for each type of medication resource using the supply and frequency approach. */  /*   For the first approach, we need to get from frequency to a frequency/day   So we define ToDaily */  /*   Calculates daily frequency given frequency within a period */ define function ToDaily(frequency System.Integer, period System.Quantity):   case period.unit     when &amp;#39;h&amp;#39; then frequency * (24.0 / period.value)     when &amp;#39;min&amp;#39; then frequency * (24.0 / period.value) * 60     when &amp;#39;s&amp;#39; then frequency * (24.0 / period.value) * 60 * 60     when &amp;#39;d&amp;#39; then frequency * (24.0 / period.value) / 24     when &amp;#39;wk&amp;#39; then frequency * (24.0 / period.value) / (24 * 7)     when &amp;#39;mo&amp;#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &amp;#39;a&amp;#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &amp;#39;hour&amp;#39; then frequency * (24.0 / period.value)     when &amp;#39;minute&amp;#39; then frequency * (24.0 / period.value) * 60     when &amp;#39;second&amp;#39; then frequency * (24.0 / period.value) * 60 * 60     when &amp;#39;day&amp;#39; then frequency * (24.0 / period.value) / 24     when &amp;#39;week&amp;#39; then frequency * (24.0 / period.value) / (24 * 7)     when &amp;#39;month&amp;#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &amp;#39;year&amp;#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     when &amp;#39;hours&amp;#39; then frequency * (24.0 / period.value)     when &amp;#39;minutes&amp;#39; then frequency * (24.0 / period.value) * 60     when &amp;#39;seconds&amp;#39; then frequency * (24.0 / period.value) * 60 * 60     when &amp;#39;days&amp;#39; then frequency * (24.0 / period.value) / 24     when &amp;#39;weeks&amp;#39; then frequency * (24.0 / period.value) / (24 * 7)     when &amp;#39;months&amp;#39; then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */     when &amp;#39;years&amp;#39; then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */     else Message(null, true, &amp;#39;CMDLogic.ToDaily.UnknownUnit&amp;#39;, ErrorLevel, &amp;#39;Unknown unit &amp;#39; &amp;amp; period.unit)   end"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="29"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="Status"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isMedicationOrder"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="//Medication, Order: active and completed only define fluent function isMedicationOrder(MedicationRequest List&amp;lt;MedicationRequest&amp;gt;):   MedicationRequest M     where M.status in { &amp;#39;active&amp;#39;, &amp;#39;completed&amp;#39; }       and M.intent = &amp;#39;order&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="30"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CumulativeMedicationDuration"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="cumulativeDuration"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* Now that we have functions for determining the medication period for individual prescriptions, administrations, and dispenses, we can combine those using an overall cumulative medication duration calculation. There are two broad approaches to calculating cumulative duration, one that _collapses_ overlapping intervals so that calculations are not duplicated, and one that _rolls out_ overlapping intervals so that the durations are laid end-to-end. First, we define a function that simply calculates CumulativeDuration of a set of intervals: */ define fluent function cumulativeDuration(Intervals List&amp;lt;Interval&amp;lt;Date&amp;gt;&amp;gt;):    if Intervals is not null then ( Sum((collapse Intervals per day)X         return all(difference in days between start of X and            end of X         )+ 1     )   )      else null"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="31"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CumulativeMedicationDuration"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="medicationRequestPeriod"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define fluent function medicationRequestPeriod(Request &amp;quot;MedicationRequest&amp;quot;):   Request R     let       dosage: singleton from R.dosageInstruction,       doseAndRate: singleton from dosage.doseAndRate,       timing: dosage.timing,       frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),       period: Quantity(timing.repeat.period, timing.repeat.periodUnit),       doseRange: doseAndRate.dose,       doseQuantity: doseAndRate.dose,       dose: Coalesce(end of doseRange, doseQuantity),       dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),       boundsPeriod: timing.repeat.bounds as Interval&amp;lt;DateTime&amp;gt;,       daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,       quantity: R.dispenseRequest.quantity,       refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),       startDate:         Coalesce(           date from start of boundsPeriod,           date from R.authoredOn,           date from start of R.dispenseRequest.validityPeriod         ),       totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)     return       if startDate is not null and totalDaysSupplied is not null then         Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, &amp;#39;day&amp;#39;) ]       else if startDate is not null and boundsPeriod.&amp;quot;high&amp;quot; is not null then         Interval[startDate, date from end of boundsPeriod]       else         null"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="32"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="diagnosisInPatientHistory"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define fluent function &amp;quot;diagnosisInPatientHistory&amp;quot;(Condition List&amp;lt;&amp;quot;Condition&amp;quot;&amp;gt;):   ( Condition ) Dx     where Dx.prevalenceInterval ( ) starts on or before day of end of &amp;quot;Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="33"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="AppropriateDXAScansForWomenUnder65FHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="procedureInPatientHistory"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define fluent function &amp;quot;procedureInPatientHistory&amp;quot;(Procedure List&amp;lt;&amp;quot;Procedure&amp;quot;&amp;gt;):   ( ( Procedure ).isProcedurePerformed ( ) ) Proc     where Proc.performed.toInterval ( ) ends on or before day of end of &amp;quot;Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="34"></valueString>
+            </extension>
+         </extension>
+         <status value="active"></status>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library Status"></display>
+            <resource value="Library/Status|1.8.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library CMD"></display>
+            <resource value="Library/CumulativeMedicationDuration|4.1.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system CPT"></display>
+            <resource value="http://www.ama-assn.org/go/cpt"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system ObservationCategoryCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/observation-category"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system LOINC"></display>
+            <resource value="http://loinc.org"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system SNOMEDCT"></display>
+            <resource value="http://snomed.info/sct"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set DXA (Dual energy Xray Absorptiometry) Scan"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1051"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Office Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Preventive Care Services Established Office Visit, 18 and Up"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Preventive Care Services Initial Office Visit, 18 and Up"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Outpatient Consultation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Virtual Encounter"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Telephone Visits"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Osteoporosis Without Current Fracture"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1038"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Osteopenia"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1049"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Gastric Bypass Surgery"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1050"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Aromatase Inhibitors"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1265"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set History of hip fracture in parent"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1040"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Glucocorticoids (oral only)"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1266"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Osteoporosis With Current Fracture"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1050"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Malabsorption Syndromes"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1050"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Chronic Malnutrition"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1036"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Chronic Liver Disease"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1035"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Rheumatoid Arthritis"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1005"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Hyperthyroidism"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1015"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Type 1 Diabetes"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1020"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set End Stage Renal Disease"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.353"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Osteogenesis Imperfecta"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1044"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Ankylosing Spondylitis"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1045"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Psoriatic Arthritis"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1046"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Ehlers Danlos Syndrome"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1047"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Cushings Syndrome"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1009"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Hyperparathyroidism"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1016"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Marfan&amp;#39;s Syndrome"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1048"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Lupus"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1010"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Multiple Myeloma"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1011"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Premature Menopause"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1013"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Eating Disorders"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1039"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Amenorrhea"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1022"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Chemotherapy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.485"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Bilateral Oophorectomy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.471"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Evidence of Bilateral Oophorectomy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1048"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Unilateral Oophorectomy, Unspecified Laterality"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1035"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Unilateral Oophorectomy Right"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1032"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Unilateral Oophorectomy Left"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1028"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Major Transplant"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1075"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Kidney Transplant"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.109.12.1012"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Bone Marrow Transplant"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.336"></resource>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
+         </parameter>
+         <parameter>
+            <name value="ErrorLevel"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="string"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator Exclusions"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator Exclusion"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="boolean"></type>
+         </parameter>
+         <dataRequirement>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+            <mustSupport value="birthDate"></mustSupport>
+            <mustSupport value="birthDate.value"></mustSupport>
+            <mustSupport value="gender"></mustSupport>
+            <mustSupport value="gender.value"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="ServiceRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest"></profile>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="ServiceRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1051"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/StructureDefinition/bmi"></profile>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://loinc.org"></system>
+                  <code value="74013-4"></code>
+                  <display value="Alcoholic drinks per day"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1040"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://loinc.org"></system>
+                  <code value="90265-0"></code>
+                  <display value="Major osteoporotic fracture 10-year probability [Likelihood] Fracture Risk Assessment"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://loinc.org"></system>
+                  <code value="98139-9"></code>
+                  <display value="Osteoporosis Risk Assessment Instrument"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://loinc.org"></system>
+                  <code value="98133-2"></code>
+                  <display value="Osteoporosis Index of Risk panel"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="category"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://loinc.org"></system>
+                  <code value="98146-4"></code>
+                  <display value="Osteoporosis Self-Assessment Tool"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1038"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1049"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1050"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1050"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1036"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1035"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1005"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1015"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1020"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.353"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1044"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1045"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1046"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1047"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1009"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1016"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1048"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.117.12.1010"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1011"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1013"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1039"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1022"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1050"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.471"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1048"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1032"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="bodySite"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1035"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1028"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1075"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.109.12.1012"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.336"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.485"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="MedicationRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest"></profile>
+            <mustSupport value="medication"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="dosageInstruction"></mustSupport>
+            <mustSupport value="dispenseRequest"></mustSupport>
+            <mustSupport value="dispenseRequest.expectedSupplyDuration"></mustSupport>
+            <mustSupport value="dispenseRequest.quantity"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed.value"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="dispenseRequest.validityPeriod"></mustSupport>
+            <codeFilter>
+               <path value="medication"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1265"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="MedicationRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest"></profile>
+            <mustSupport value="medication"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="dosageInstruction"></mustSupport>
+            <mustSupport value="dispenseRequest"></mustSupport>
+            <mustSupport value="dispenseRequest.expectedSupplyDuration"></mustSupport>
+            <mustSupport value="dispenseRequest.quantity"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed.value"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="dispenseRequest.validityPeriod"></mustSupport>
+            <codeFilter>
+               <path value="medication"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1266"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="MedicationRequest"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest"></profile>
+            <mustSupport value="medication.reference"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="intent"></mustSupport>
+            <mustSupport value="intent.value"></mustSupport>
+            <mustSupport value="dosageInstruction"></mustSupport>
+            <mustSupport value="dispenseRequest"></mustSupport>
+            <mustSupport value="dispenseRequest.expectedSupplyDuration"></mustSupport>
+            <mustSupport value="dispenseRequest.quantity"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed"></mustSupport>
+            <mustSupport value="dispenseRequest.numberOfRepeatsAllowed.value"></mustSupport>
+            <mustSupport value="authoredOn"></mustSupport>
+            <mustSupport value="authoredOn.value"></mustSupport>
+            <mustSupport value="dispenseRequest.validityPeriod"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Medication"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication"></profile>
+            <mustSupport value="id"></mustSupport>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"></reference>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/AppropriateDXAScansForWomenUnder65FHIR"></url>
+   <identifier>
+      <use value="usual"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS249FHIR"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:bf28f544-b8f0-49fd-8a67-ceafe0f0250e"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:2d4f7526-6eff-4629-8d25-568b00177ed5"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="3475e"></value>
+      <assigner>
+         <display value="CMS Consensus Based Entity"></display>
+      </assigner>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="249FHIR"></value>
+      <assigner>
+         <display value="CMS"></display>
+      </assigner>
+   </identifier>
+   <version value="0.2.001"></version>
+   <name value="AppropriateDXAScansForWomenUnder65FHIR"></name>
+   <title value="Appropriate Use of DXA Scans in Women Under 65 Years Who Do Not Meet the Risk Factor Profile for Osteoporotic FractureFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-16T13:44:02+00:00"></date>
+   <publisher value="Centers for Medicare &amp; Medicaid Services (CMS)"></publisher>
+   <contact>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.cms.gov/"></value>
+      </telecom>
+   </contact>
+   <description value="Percentage of female patients 50 to 64 years of age without select risk factors for osteoporotic fracture who received an order for a dual-energy x-ray absorptiometry (DXA) scan during the measurement period"></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="Patients are excluded from the measure if they have one or more risk factors for osteoporosis, including a result indicating that the patient should be considered for bone density testing on one of the following risk assessment instruments: - 10-year probability of major osteoporotic fracture of 8.4 percent or higher as determined by the FRAX - ORAI score of &gt;=9 - OSIRIS score of &lt;1 - OST score of &lt;2  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure:  CMS249v7.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="This Physician Performance Measure (Measure) and related data specifications are owned and stewarded by the Centers for Medicare &amp; Medicaid Services (CMS). This measure was developed under CMS Contract No. HHSM-500-2013-13011I, Task Order HHSM-500-TO0001. Mathematica and the National Committee for Quality Assurance (NCQA) supported development of this electronic measure. NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications.  Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.    CPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein. Applicable FARS/DFARS restrictions apply to government use.  The measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.   ICD-10 copyright 2024 World Health Organization. All Rights Reserved.  The Measure uses RxNorm, a standardized nomenclature and coding for clinical drugs and drug delivery devices, which is made publicly available courtesy of the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services. NLM is not responsible for the Measure and does not endorse or recommend this or any other product.  “HL7” is the registered trademark of Health Level Seven International."></copyright>
+   <effectivePeriod>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
+   </effectivePeriod>
+   <author>
+      <name value="National Committee for Quality Assurance"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.ncqa.org/"></value>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/AppropriateDXAScansForWomenUnder65FHIR"></library>
+   <disclaimer value="The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.   Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM]."></disclaimer>
+   <rationale value="This measure is expected to increase recording of patient risk for fracture data and decrease the amount of inappropriate DXA scans. Current osteoporosis guidelines recommend using bone measurement testing to assess osteoporosis risk in women 65 years and older. In postmenopausal women younger than age 65, guidelines recommend using a formal clinical risk assessment tool to establish a patient's risk for osteoporosis, in order to determine whether to screen a patient for osteoporosis using bone measurement testing. Clinical information, such as age, body mass index (BMI), parental hip fracture history, and alcohol use, can be used to determine a woman's fracture risk (U.S. Preventive Services Task Force [USPSTF], 2018). Additionally, there are potentially avoidable harms associated with screening for osteoporosis in general, including exposure to radiation, false positive exams, and resulting side effects from unnecessary osteoporosis medications, which add costs to an already burdened health care system (Lim, Hoeksema, &amp; Sherin, 2009)."></rationale>
+   <clinicalRecommendationStatement value="USPSTF 2018: &quot;The USPSTF recommends screening for osteoporosis with bone measurement testing to prevent osteoporotic fractures in women 65 years and older.&quot; This is a B recommendation.   &quot;The USPSTF concludes that the current evidence is insufficient to assess the balance of benefits and harms of screening for osteoporosis to prevent osteoporotic fractures in men.&quot; This is an I statement.  &quot;The USPSTF recommends screening for osteoporosis with bone measurement testing to prevent osteoporotic fractures in postmenopausal women younger than 65 years who are at increased risk of osteoporosis, as determined by a formal clinical risk assessment tool.&quot; This is a B recommendation.  &quot;For postmenopausal women younger than 65 years who have at least 1 risk factor, a reasonable approach to determine who should be screened with bone measurement testing is to use a clinical risk assessment tool.&quot;   &quot;Several tools are available to assess osteoporosis risk: the Simple Calculated Osteoporosis Risk Estimate (SCORE; Merck), Osteoporosis Risk Assessment Instrument (ORAI), Osteoporosis Index of Risk (OSIRIS), and the Osteoporosis Self-Assessment Tool (OST). These tools seem to perform similarly and are moderately accurate at predicting osteoporosis. The Fracture Risk Assessment (FRAX) tool (University of Sheffield), which assesses a person's 10-year risk of fracture, is also a commonly used tool.&quot;  &quot;Because the benefits of treatment are greater in persons at higher risk of fracture, one approach is to perform bone measurement testing in postmenopausal women younger than 65 years who have a 10-year FRAX risk of major osteoporotic fracture (MOF) (without DXA) greater than that of a 65-year-old white woman without major risk factors. For example, in the United States, a 65-year-old white woman of mean height and weight without major risk factors has a 10-year FRAX risk of MOF of 8.4%.&quot;"></clinicalRecommendationStatement>
+   <group id="66460da2a7a1805d3b737654">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="boolean"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="None"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="decrease"></code>
+               <display value="increase"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="F95058C6-D799-413C-AC62-13C71E3381FC">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Female patients ages 50 to 63 years at the start of the measurement period with an encounter during the measurement period"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="372915BA-B090-4434-83AA-0308E0F3D687">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
+            </coding>
+         </code>
+         <description value="Equals Initial Population"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator"></expression>
+         </criteria>
+      </population>
+      <population id="6F9DCB48-B206-4E90-A57E-CACD85066D20">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator-exclusion"></code>
+               <display value="Denominator Exclusion"></display>
+            </coding>
+         </code>
+         <description value="Exclude patients with one of the following risk factors.  Risk factors are grouped by when they occur in relation to the measurement period.  The following risk factors must be active during the measurement period: BMI &lt;= 20 kg/m2 (must be the first BMI of the measurement period) Alcohol consumption (&gt; two units per day (one unit is 12 oz. of beer, 4 oz. of wine, or 1 oz. of liquor))  The following risk factors may occur at any time in the patient's history prior to the start of the measurement period: Osteoporosis Osteopenia Gastric bypass Aromatase inhibitors Documentation of history of hip fracture in parent  The following risk factors may occur at any time in the patient's history or during the measurement period: Glucocorticoids [cumulative medication duration &gt;= 90 days] Osteoporotic fracture Malabsorption Syndromes: celiac disease, inflammatory bowel disease, ulcerative colitis, Crohn's disease, cystic fibrosis, malabsorption Chronic malnutrition Chronic liver disease Rheumatoid arthritis Hyperthyroidism Type I Diabetes  End stage renal disease Osteogenesis imperfecta Ankylosing spondylitis Psoriatic arthritis Ehlers-Danlos syndrome Cushing's syndrome Hyperparathyroidism Marfan syndrome Lupus Chemotherapy Multiple myeloma Premature menopause Double or bilateral oophorectomy Eating disorder Amenorrhea Organ transplant"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator Exclusions"></expression>
+         </criteria>
+      </population>
+      <population id="40FD9383-3F9D-478E-932B-7F54498D843A">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
+            </coding>
+         </code>
+         <description value="Female patients who received an order for at least one DXA scan in the measurement period"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator"></expression>
+         </criteria>
+      </population>
+      <population id="657177FF-34D1-403B-B745-43C53E84E0CE">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator-exclusion"></code>
+               <display value="Numerator Exclusion"></display>
+            </coding>
+         </code>
+         <description value="Exclude patients with a result on one of the following tools, which indicates the patient should be considered for bone density testing, anytime in the patient’s history prior to the time of the first DXA scan during the measurement period: FRAX[R] ten-year probability of all major osteoporosis related fracture &gt;= 8.4 percent ORAI score of &gt;=9  OSIRIS score of &lt;1 OST score of &lt;2"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator Exclusion"></expression>
+         </criteria>
+      </population>
+   </group>
+</Measure>

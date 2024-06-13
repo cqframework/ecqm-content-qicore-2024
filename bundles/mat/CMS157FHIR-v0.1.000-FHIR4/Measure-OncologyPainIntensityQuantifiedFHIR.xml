@@ -1,0 +1,642 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="OncologyPainIntensityQuantifiedFHIR"></id>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"></id>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="active"></code>
+               <display value="Active"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="recurrence"></code>
+               <display value="Recurrence"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"></system>
+               <code value="relapse"></code>
+               <display value="Relapse"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://www.ama-assn.org/go/cpt"></system>
+               <code value="77427"></code>
+               <display value="Radiation treatment management, 5 treatments"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Radiation Treatment Management During Measurement Period with Cancer Diagnosis"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Radiation Treatment Management During Measurement Period with Cancer Diagnosis&amp;quot;:   ( [Encounter: &amp;quot;Radiation Treatment Management&amp;quot;] ) RadiationTreatmentManagement     with [Condition: &amp;quot;Cancer&amp;quot;] Cancer       such that Cancer.isActive ( )         and Cancer.prevalenceInterval ( ) overlaps RadiationTreatmentManagement.period     where RadiationTreatmentManagement.period during &amp;quot;Measurement Period&amp;quot;       and RadiationTreatmentManagement.status = &amp;#39;finished&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population 2"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population 2&amp;quot;:   &amp;quot;Radiation Treatment Management During Measurement Period with Cancer Diagnosis&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator 2"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator 2&amp;quot;:   &amp;quot;Initial Population 2&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Chemotherapy Within 31 Days Prior and During Measurement Period"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Chemotherapy Within 31 Days Prior and During Measurement Period&amp;quot;:   [Procedure: &amp;quot;Chemotherapy Administration&amp;quot;] ChemoAdministration     where ChemoAdministration.performed.toInterval ( ) during Interval[start of &amp;quot;Measurement Period&amp;quot; - 31 days, end of &amp;quot;Measurement Period&amp;quot;]       and ChemoAdministration.status = &amp;#39;completed&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Face to Face or Telehealth Encounter with Ongoing Chemotherapy"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Face to Face or Telehealth Encounter with Ongoing Chemotherapy&amp;quot;:   from     [Encounter: &amp;quot;Office Visit&amp;quot;] FaceToFaceOrTelehealthEncounter,     &amp;quot;Chemotherapy Within 31 Days Prior and During Measurement Period&amp;quot; ChemoBeforeEncounter,     &amp;quot;Chemotherapy Within 31 Days Prior and During Measurement Period&amp;quot; ChemoAfterEncounter,     [Condition: &amp;quot;Cancer&amp;quot;] Cancer     where Cancer.isActive ( )       and Cancer.prevalenceInterval ( ) overlaps FaceToFaceOrTelehealthEncounter.period       and ChemoBeforeEncounter.performed.toInterval ( ) starts 30 days or less on or before day of end of FaceToFaceOrTelehealthEncounter.period       and ChemoAfterEncounter.performed.toInterval ( ) starts 30 days or less on or after day of end of FaceToFaceOrTelehealthEncounter.period       and not ( ChemoAfterEncounter.performed.toInterval ( ) same day as ChemoBeforeEncounter.performed.toInterval ( ) )       and FaceToFaceOrTelehealthEncounter.period during &amp;quot;Measurement Period&amp;quot;       and FaceToFaceOrTelehealthEncounter.status = &amp;#39;finished&amp;#39;     return FaceToFaceOrTelehealthEncounter"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Standard Pain Assessment with Result"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Standard Pain Assessment with Result&amp;quot;:   [&amp;quot;Observation&amp;quot;: &amp;quot;Standardized Pain Assessment Tool&amp;quot;] AssessedPain     where AssessedPain.value is not null       and AssessedPain.status = &amp;#39;final&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator 1"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator 1&amp;quot;:   &amp;quot;Face to Face or Telehealth Encounter with Ongoing Chemotherapy&amp;quot; FaceToFaceOrTelehealthEncounterWithChemo     with &amp;quot;Standard Pain Assessment with Result&amp;quot; PainAssessed       such that PainAssessed.effective.toInterval ( ) during FaceToFaceOrTelehealthEncounterWithChemo.period"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator 2"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator 2&amp;quot;:   &amp;quot;Radiation Treatment Management During Measurement Period with Cancer Diagnosis&amp;quot; RadiationManagementEncounter     with &amp;quot;Standard Pain Assessment with Result&amp;quot; PainAssessed       such that case         when exists ( ( RadiationManagementEncounter.type ) RadiationManagement             where RadiationManagement ~ &amp;quot;Radiation treatment management, 5 treatments&amp;quot;         ) then PainAssessed.effective.toInterval ( ) 6 days or less on or before day of start of RadiationManagementEncounter.period          else PainAssessed.effective.toInterval ( ) during day of RadiationManagementEncounter.period end"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population 1"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population 1&amp;quot;:   &amp;quot;Face to Face or Telehealth Encounter with Ongoing Chemotherapy&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="OncologyPainIntensityQuantifiedFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator 1"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator 1&amp;quot;:   &amp;quot;Initial Population 1&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="9"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="isActive"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* Candidates for FHIRCommon */  /* @description: Returns true if the given condition has a clinical status of active, recurrence, or relapse */ define fluent function isActive(condition Condition):   condition.clinicalStatus ~ &amp;quot;active&amp;quot;     or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;     or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="10"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="prevalenceInterval"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns an interval representing the normalized prevalence period of a given Condition. @comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting  interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary. */ define fluent function prevalenceInterval(condition Condition): if condition.clinicalStatus ~ &amp;quot;active&amp;quot;   or condition.clinicalStatus ~ &amp;quot;recurrence&amp;quot;   or condition.clinicalStatus ~ &amp;quot;relapse&amp;quot; then   Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()] else     (end of condition.abatementInterval()) abatementDate     return if abatementDate is null then       Interval[start of condition.onset.toInterval(), abatementDate)     else       Interval[start of condition.onset.toInterval(), abatementDate]"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="11"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToConcept"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="12"></valueString>
+            </extension>
+         </extension>
+         <status value="active"></status>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system ConditionClinicalStatusCodes"></display>
+            <resource value="http://terminology.hl7.org/CodeSystem/condition-clinical"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system CPT"></display>
+            <resource value="http://www.ama-assn.org/go/cpt"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Radiation Treatment Management"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1026"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Cancer"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1010"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Office Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Chemotherapy Administration"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1027"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Standardized Pain Assessment Tool"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1028"></resource>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator 2"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator 1"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator 2"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population 1"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population 2"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator 1"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="clinicalStatus"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="code"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1010"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1026"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1027"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1028"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"></reference>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/OncologyPainIntensityQuantifiedFHIR"></url>
+   <identifier>
+      <use value="usual"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS157FHIR"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:b7b487bf-bc27-48c9-994f-6d095ff84500"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:b64a5fbf-607d-4b2f-bf67-6a80db552b48"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="0384e"></value>
+      <assigner>
+         <display value="CMS Consensus Based Entity"></display>
+      </assigner>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="157FHIR"></value>
+      <assigner>
+         <display value="CMS"></display>
+      </assigner>
+   </identifier>
+   <version value="0.1.000"></version>
+   <name value="OncologyPainIntensityQuantifiedFHIR"></name>
+   <title value="Oncology: Medical and Radiation Pain Intensity QuantifiedFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-14T13:15:51+00:00"></date>
+   <publisher value="American Society of Clinical Oncology"></publisher>
+   <contact>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.asco.org"></value>
+      </telecom>
+   </contact>
+   <description value="Percentage of patient visits, regardless of patient age, with a diagnosis of cancer currently receiving chemotherapy or radiation therapy in which pain intensity is quantified"></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="This eCQM is an episode-based measure. An episode is defined as each eligible encounter for patients with a diagnosis of cancer who are also currently receiving chemotherapy or radiation therapy during the measurement period.   For patients receiving radiation therapy, pain intensity should be quantified at each radiation treatment management encounter where the patient and physician have a face-to-face or telehealth interaction. Due to the nature of some applicable coding related to radiation therapy (e.g., delivered in multiple fractions), the billing date for certain codes may or may not be the same as the face-to-face or telehealth encounter date. In this instance, for the reporting purposes of this measure, the billing date should be used to pull the appropriate patients into the initial population. It is expected, though, that the numerator criteria would be performed at the time of the actual face-to-face or telehealth encounter during the series of treatments. A lookback (retrospective) period of 7 days, including the billing date, may be used to identify the actual face-to-face or telehealth encounter, which is required to assess the numerator. Therefore, pain intensity should be quantified during the face-to-face or telehealth encounter occurring on the actual billing date or within the 6 days prior to the billing date.  For patients receiving chemotherapy, pain intensity should be quantified at each face-to-face or telehealth encounter with the physician while the patient is currently receiving chemotherapy. For purposes of identifying eligible encounters, patients &quot;currently receiving chemotherapy&quot; refers to patients administered chemotherapy on the same day as the encounter or during the 30 days before the date of the encounter AND during the 30 days after the date of the encounter.   Pain intensity should be quantified using a standard instrument, such as a 0-10 numerical rating scale, visual analog scale, a categorical scale, or pictorial scale. Examples include the Faces Pain Rating Scale and the Brief Pain Inventory (BPI).  This FHIR-based measure has been derived from the QDM-based measure: CMS157v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="Copyright 2024 American Society of Clinical Oncology. All Rights Reserved."></copyright>
+   <effectivePeriod>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
+   </effectivePeriod>
+   <author>
+      <name value="American Society of Clinical Oncology"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.asco.org"></value>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/OncologyPainIntensityQuantifiedFHIR"></library>
+   <disclaimer value="The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   The Measure, while copyrighted, can be reproduced and distributed, without modification, for noncommercial purposes, e.g., use by health care providers in connection with their practices. Commercial use is defined as the sale, license, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain.   Commercial uses of the Measure require a license agreement between the user and American Society of Clinical Oncology (ASCO) and prior written approval of ASCO. Contact measurement@asco.org for licensing this measure. Neither ASCO nor its members shall be responsible for any use of the Measure.  The PCPI’s and American Medical Association’s significant past efforts and contributions to the development and updating of the Measures are acknowledged.   ASCO is solely responsible for the review and enhancement (&quot;Maintenance&quot;) of the Measure as of June 2020.   ASCO encourages the use of the Measure by other health care professionals, where appropriate.   THE MEASURE AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.  Limited proprietary coding may be contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measures. Any other use of CPT or other coding by the third party is strictly prohibited. ASCO and its members disclaim all liability for use or accuracy of any CPT or other coding contained in the specifications.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.  Due to technical limitations, registered trademarks are indicated by (R) or [R]."></disclaimer>
+   <rationale value="Pain is a commonly occurring symptom for cancer patients as 30% to 50% (510,000 to 850,000 each year based on current statistics) will experience moderate to severe pain (Wiffen, Wee, Derry, Bell, &amp; Moore, 2017). Initial and ongoing pain assessments are essential to determine the pathophysiology of pain and ensure proper pain management. According to the National Comprehensive Cancer Network (NCCN, 2023), undertreatment of pain remains a problem among a significant subset of cancer patients, survival is linked with symptom control and pain management, and pain management contributes to broad quality of life improvement. Furthermore, NCCN notes that formal pain reevaluation is required at each contact to ensure fulfilment of patient goals around comfort, function, and safety. Cancer patients have reported that pain interferes with their mood, work, relationships with other people, sleep and overall enjoyment of life (Moryl et al., 2018). To maximize patient outcomes, pain management is an essential part of oncologic management (NCCN, 2023).    A recent analysis of registry data for chronic pain cancer patients found average pain intensity reported as mild (24.6% of patients), moderate (41.5%), and severe (33.9%). The study also indicated that patient report of pain relief is inversely related to the average pain intensity reported (Moryl et al., 2018). These data suggest that assessing and managing a cancer patient’s pain is critical and there remains significant room for improvement in assessing and mitigating cancer-related pain. A prospective study of changes in pain severity of cancer patients found that, at initial assessment, 47% of patients reported pain. At follow-up, the patients with pain at initial assessment reported reduced pain (32.2%), stable pain (48.2%) and worse pain (19.6%). Of the 53% of patients reporting no pain at initial assessment, 82.6% reported stable pain and 17.4% reported worse pain at follow-up assessment (Zhao et al., 2014). This study highlights the importance of initial and ongoing assessments of pain to identify gaps and ensure proper pain management."></rationale>
+   <clinicalRecommendationStatement value="-Screen all patients for pain at each contact.   -Routinely quantify and document pain intensity and quality as characterized by the patient (whenever possible). Include patient reporting of breakthrough pain, treatments used and their impact on pain, satisfaction with pain relief, pain interference, provider assessment of impact on function, and any special issues for the patient relevant to pain treatment. If necessary, get additional information from caregiver regarding pain and impact on function.   -Perform comprehensive pain assessment if new or worsening pain is present and regularly for persisting pain.  Various methods and tools exist to assess pain severity. Intensity of pain should be quantified using a numerical rating scale (i.e., 0-10), visual analog scale, categorical scale, or pictorial scale (e.g., The Faces Pain Rating Scale) (Category 2A) (National Comprehensive Cancer Network, 2023)."></clinicalRecommendationStatement>
+   <group id="6511b159da013638e7b3ddda">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="This measure is intended to have one reporting rate, which aggregates the following populations into a single performance rate for reporting purposes:  - Population 1: Visits for patients with a diagnosis of cancer who are currently receiving chemotherapy  - Population 2: Visits for patients with a diagnosis of cancer who are currently receiving radiation therapy  For the purposes of this measure, a single performance rate can be calculated as follows: Performance Rate = (Numerator 1 + Numerator 2)/ (Denominator 1 + Denominator 2)"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="increase"></code>
+               <display value="Increased score indicates improvement"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <description value="Percentage of patient visits, regardless of patient age, with a diagnosis of cancer currently receiving chemotherapy in which pain intensity is quantified"></description>
+      <population id="8DE96B96-0B2D-472D-BF59-359A760B9B50">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="All patient visits, regardless of patient age, with a diagnosis of cancer currently receiving chemotherapy "></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population 1"></expression>
+         </criteria>
+      </population>
+      <population id="896F4DA6-69FF-4B26-94FA-60CA65B89710">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
+            </coding>
+         </code>
+         <description value="Equals Initial Population"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator 1"></expression>
+         </criteria>
+      </population>
+      <population id="67650E41-C6EE-41A9-A7B3-88FEFCC8A688">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
+            </coding>
+         </code>
+         <description value="Patient visits in which pain intensity is quantified"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator 1"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6511b159da013638e7b3dddb">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="This measure is intended to have one reporting rate, which aggregates the following populations into a single performance rate for reporting purposes:  - Population 1: Visits for patients with a diagnosis of cancer who are currently receiving chemotherapy  - Population 2: Visits for patients with a diagnosis of cancer who are currently receiving radiation therapy  For the purposes of this measure, a single performance rate can be calculated as follows: Performance Rate = (Numerator 1 + Numerator 2)/ (Denominator 1 + Denominator 2)"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="decrease"></code>
+               <display value="increase"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <description value="Percentage of patient visits, regardless of patient age, with a diagnosis of cancer currently radiation therapy in which pain intensity is quantified"></description>
+      <population id="C402E46A-9369-4161-A40A-63E08D2DF2E1">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="All patient visits, regardless of patient age, with a diagnosis of cancer currently receiving radiation therapy"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population 2"></expression>
+         </criteria>
+      </population>
+      <population id="457E9502-A230-4187-80AF-CDE5885EA8D2">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
+            </coding>
+         </code>
+         <description value="Equals Initial Population"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator 2"></expression>
+         </criteria>
+      </population>
+      <population id="9E2F9931-FA1F-40EC-9013-8F63BD8CB53C">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
+            </coding>
+         </code>
+         <description value="Patient visits in which pain intensity is quantified"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator 2"></expression>
+         </criteria>
+      </population>
+   </group>
+</Measure>

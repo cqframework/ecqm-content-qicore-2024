@@ -10,12 +10,6 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "active"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "471321000124106",
         "display": "Anaphylaxis caused by vaccine product containing human poliovirus antigen (disorder)"
@@ -32,7 +26,7 @@
       "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "433621000124101",
-        "display": "Anaphylaxis due to Haemophilus influenzae type b vaccine (disorder)"
+        "display": "Anaphylaxis caused by vaccine product containing only Haemophilus influenzae type b antigen (disorder)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -46,7 +40,7 @@
       "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "428321000124101",
-        "display": "Anaphylaxis due to Hepatitis B vaccine (disorder)"
+        "display": "Anaphylaxis caused by vaccine product containing Hepatitis B virus antigen (disorder)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -172,7 +166,7 @@
         "valueString": "DTaP Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;DTaP Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;DTaP Vaccine&quot;] ) ) DTaPVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( DTaPVaccination.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return all date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( DTaPVaccination.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;DTaP Vaccine Administered&quot;] ) ) DTaPProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( DTaPProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return all date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( DTaPProcedure.performed ) )\n      )\n  )"
+        "valueString": "define &quot;DTaP Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;DTaP Vaccine&quot;] ).isImmunizationAdministered ( ) ) DTaPVaccination\n      where date from DTaPVaccination.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from DTaPVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;DTaP Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) DTaPProcedure\n        where date from DTaPProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from DTaPProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "2"
@@ -187,7 +181,7 @@
         "valueString": "Four DTaP Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Four DTaP Vaccinations&quot;:\n  from\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination1,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination2,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination3,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination4\n    where DTaPVaccination2 1 day or more after day of DTaPVaccination1\n      and DTaPVaccination3 1 day or more after day of DTaPVaccination2\n      and DTaPVaccination4 1 day or more after day of DTaPVaccination3\n    return all DTaPVaccination1"
+        "valueString": "//DTaP\n\n\ndefine &quot;Four DTaP Vaccinations&quot;:\n  from\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination1,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination2,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination3,\n    &quot;DTaP Immunizations or Procedures&quot; DTaPVaccination4\n    where date from DTaPVaccination2.earliest ( ) 1 day or more after day of date from DTaPVaccination1.earliest ( )\n      and date from DTaPVaccination3.earliest ( ) 1 day or more after day of DTaPVaccination2.earliest ( )\n      and date from DTaPVaccination4.earliest ( ) 1 day or more after day of DTaPVaccination3.earliest ( )\n    return all DTaPVaccination1"
       }, {
         "url": "displaySequence",
         "valueString": "3"
@@ -217,7 +211,7 @@
         "valueString": "DTaP Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;DTaP Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylactic Reaction to DTaP Vaccine&quot;]\n    union [Condition: &quot;Encephalitis Due to Diphtheria, Tetanus or Pertussis Vaccine&quot;] ) ) DTaPConditions\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( DTaPConditions ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;DTaP Numerator Inclusion Conditions&quot;:\n  ( ( [Condition: &quot;Anaphylactic Reaction to DTaP Vaccine&quot;]\n      union [Condition: &quot;Encephalitis Due to Diphtheria, Tetanus or Pertussis Vaccine&quot;]\n  ) ) DTaPConditions\n    where date from start of DTaPConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "5"
@@ -232,7 +226,7 @@
         "valueString": "Polio Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Polio Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Inactivated Polio Vaccine (IPV)&quot;] ) ) PolioVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PolioVaccination.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PolioVaccination.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Inactivated Polio Vaccine (IPV) Administered&quot;] ) ) PolioProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PolioProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PolioProcedure.performed ) )\n      )\n  )"
+        "valueString": "//Polio\n\n\ndefine &quot;Polio Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Inactivated Polio Vaccine (IPV)&quot;] ).isImmunizationAdministered ( ) ) PolioVaccination\n      where date from PolioVaccination.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from QICoreCommon.&quot;Earliest&quot; ( PolioVaccination.occurrence.toInterval ( ) )\n  )\n    union ( ( ( [Procedure: &quot;Inactivated Polio Vaccine (IPV) Administered&quot;] ).isProcedurePerformed ( ) ) PolioProcedure\n        where date from PolioProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from PolioProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "6"
@@ -247,7 +241,7 @@
         "valueString": "Three Polio Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Three Polio Vaccinations&quot;:\n  from\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination1,\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination2,\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination3\n    where PolioVaccination2 1 day or more after day of PolioVaccination1\n      and PolioVaccination3 1 day or more after day of PolioVaccination2\n    return PolioVaccination1"
+        "valueString": "define &quot;Three Polio Vaccinations&quot;:\n  from\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination1,\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination2,\n    &quot;Polio Immunizations or Procedures&quot; PolioVaccination3\n    where date from PolioVaccination2.earliest ( ) 1 day or more after date from PolioVaccination1.earliest ( )\n      and date from PolioVaccination3.earliest ( ) 1 day or more after date from PolioVaccination2.earliest ( )\n    return date from PolioVaccination1.earliest ( )"
       }, {
         "url": "displaySequence",
         "valueString": "7"
@@ -262,7 +256,7 @@
         "valueString": "Polio Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Polio Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis caused by vaccine product containing human poliovirus antigen (disorder)&quot;] ) ) PolioConditions\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( PolioConditions ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Polio Numerator Inclusion Conditions&quot;:\n  [Condition: &quot;Anaphylaxis caused by vaccine product containing human poliovirus antigen (disorder)&quot;] PolioConditions\n    where date from start of PolioConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "8"
@@ -307,7 +301,7 @@
         "valueString": "One MMR Vaccination"
       }, {
         "url": "statement",
-        "valueString": "define &quot;One MMR Vaccination&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Measles, Mumps and Rubella (MMR) Vaccine&quot;] ) ) MMRVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( MMRVaccination.occurrence ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Measles, Mumps and Rubella (MMR) Vaccine Administered&quot;] ) ) MMRProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( MMRProcedure.performed ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      )\n  )"
+        "valueString": "//MMR\n\n\ndefine &quot;One MMR Vaccination&quot;:\n  ( ( ( [Immunization: &quot;Measles, Mumps and Rubella (MMR) Vaccine&quot;] ).isImmunizationAdministered ( ) ) MMRVaccination\n      where date from MMRVaccination.occurrence.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      return date from MMRVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Measles, Mumps and Rubella (MMR) Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) MMRProcedure\n        where date from MMRProcedure.performed.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n        return date from MMRProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "11"
@@ -322,7 +316,7 @@
         "valueString": "MMR Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;MMR Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis caused by vaccine product containing Measles morbillivirus and Mumps orthorubulavirus and Rubella virus antigens (disorder)&quot;] ) ) MMRConditions\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( MMRConditions ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;MMR Numerator Inclusion Conditions&quot;:\n  ( [Condition: &quot;Anaphylaxis caused by vaccine product containing Measles morbillivirus and Mumps orthorubulavirus and Rubella virus antigens (disorder)&quot;] ) MMRConditions\n    where date from start of MMRConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "12"
@@ -337,7 +331,7 @@
         "valueString": "Measles Indicators"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Measles Indicators&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Measles&quot;] ) ) MeaslesDiagnosis\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( MeaslesDiagnosis ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Measles Indicators&quot;:\n  [Condition: &quot;Measles&quot;] MeaslesDiagnosis\n    where date from start of MeaslesDiagnosis.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "13"
@@ -352,7 +346,7 @@
         "valueString": "Mumps Indicators"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Mumps Indicators&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Mumps&quot;] ) ) MumpsDiagnosis\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( MumpsDiagnosis ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Mumps Indicators&quot;:\n  [Condition: &quot;Mumps&quot;] MumpsDiagnosis\n    where date from start of MumpsDiagnosis.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "14"
@@ -367,7 +361,7 @@
         "valueString": "Rubella Indicators"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Rubella Indicators&quot;:\n  ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Rubella&quot;] ) ) RubellaDiagnosis\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( RubellaDiagnosis ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Rubella Indicators&quot;:\n  [Condition: &quot;Rubella&quot;] RubellaDiagnosis\n    where date from start of RubellaDiagnosis.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "15"
@@ -382,7 +376,7 @@
         "valueString": "Hib 3 Dose Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hib 3 Dose Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Hib Vaccine (3 dose schedule)&quot;] ) ) ThreeDoseHibVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseHibVaccine.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseHibVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Hib Vaccine (3 dose schedule) Administered&quot;] ) ) ThreeDoseHibProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseHibProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseHibProcedure.performed ) )\n      )\n  )"
+        "valueString": "define &quot;Hib 3 Dose Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Hib Vaccine (3 dose schedule)&quot;] ).isImmunizationAdministered ( ) ) ThreeDoseHibVaccine\n      where date from ThreeDoseHibVaccine.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from ThreeDoseHibVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Hib Vaccine (3 dose schedule) Administered&quot;] ).isProcedurePerformed ( ) ) ThreeDoseHibProcedure\n        where date from ThreeDoseHibProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from ThreeDoseHibProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "16"
@@ -397,7 +391,7 @@
         "valueString": "Hib 4 Dose Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hib 4 Dose Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Hib Vaccine (4 dose schedule)&quot;] ) ) HibVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HibVaccine.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HibVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Hib Vaccine (4 dose schedule) Administered&quot;] ) ) HibProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HibProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HibProcedure.performed ) )\n      )\n  )"
+        "valueString": "define &quot;Hib 4 Dose Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Hib Vaccine (4 dose schedule)&quot;] ).isImmunizationAdministered ( ) ) HibVaccine\n      where date from HibVaccine.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from HibVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Hib Vaccine (4 dose schedule) Administered&quot;] ).isProcedurePerformed ( ) ) HibProcedure\n        where date from HibProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from HibProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "17"
@@ -424,10 +418,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "All Hib Vaccinations"
+        "valueString": "Has Appropriate Number of Hib Immunizations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;All Hib Vaccinations&quot;:\n  &quot;Hib 3 or 4 Dose Immunizations&quot; AllHibDoses1\n    without &quot;Hib 3 or 4 Dose Immunizations&quot; AllHibDoses2\n      such that AllHibDoses1 less than 1 day before AllHibDoses2"
+        "valueString": "//HiB\n\n\ndefine &quot;Has Appropriate Number of Hib Immunizations&quot;:\n  exists ( &quot;Hib 3 or 4 Dose Immunizations&quot; HibImmunization //4 dose test\n      \n      let HasFourDose: Count(&quot;Hib 4 Dose Immunizations or Procedures&quot;) &gt; 0\n      where ( HasFourDose //if pt had at least one 4 dose code\n          \n          and Count(distinct(&quot;Hib 3 or 4 Dose Immunizations&quot; HibVaccinations\n                return date from HibVaccinations.earliest()\n            )\n          ) &gt;= 4 //pt must have 4 regimens (e.g., 3,3,4,4 or 4,3,4,4)\n      \n      )\n        or ( HasFourDose is false //if pt did not have at least one 4 dose code\n            \n            and Count(distinct(&quot;Hib 3 or 4 Dose Immunizations&quot; HibVaccinations\n                  return date from HibVaccinations.earliest()\n              )\n            ) &gt;= 3 //pt must have 3 regimens of 3 dose codes\n        \n        )\n  )"
       }, {
         "url": "displaySequence",
         "valueString": "19"
@@ -439,10 +433,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Has Appropriate Number of Hib Immunizations"
+        "valueString": "Hib Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Appropriate Number of Hib Immunizations&quot;:\n  exists ( &quot;All Hib Vaccinations&quot; HibImmunization //union of 3 and 4 dose immunizations\n//4 dose test\n      \n      \n      let HasFourDose: Count(&quot;Hib 4 Dose Immunizations or Procedures&quot;) &gt; 0\n      where ( HasFourDose //if pt had at least one 4 dose code\n          \n          and Count(distinct(&quot;All Hib Vaccinations&quot; HibVaccinations\n                return HibVaccinations\n            )\n          ) &gt;= 4 //pt must have 4 regimens (e.g., 3,3,4,4 or 4,3,4,4)\n      \n      )\n        or ( HasFourDose is false //if pt did not have at least one 4 dose code\n            \n            and Count(distinct(&quot;All Hib Vaccinations&quot; HibVaccinations\n                  return HibVaccinations\n              )\n            ) &gt;= 3 //pt must have 3 regimens of 3 dose codes\n        \n        )\n  )"
+        "valueString": "define &quot;Hib Numerator Inclusion Conditions&quot;:\n  ( [Condition: &quot;Anaphylaxis caused by vaccine product containing only Haemophilus influenzae type b antigen (disorder)&quot;] ) HibReaction\n    where date from start of HibReaction.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "20"
@@ -454,10 +448,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Hib Numerator Inclusion Conditions"
+        "valueString": "Hepatitis B Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hib Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis due to Haemophilus influenzae type b vaccine (disorder)&quot;] ) ) HibReaction\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( HibReaction ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Hepatitis B Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Hepatitis B Vaccine&quot;] ).isImmunizationAdministered ( ) ) HepatitisBVaccination\n      where date from HepatitisBVaccination.occurrence.earliest ( ) during day of &quot;First Two Years&quot;\n      return date from HepatitisBVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Hepatitis B Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) HepatitisBProcedure\n        where date from HepatitisBProcedure.performed.earliest ( ) during day of &quot;First Two Years&quot;\n        return date from HepatitisBProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "21"
@@ -469,10 +463,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Hepatitis B Immunizations or Procedures"
+        "valueString": "Three Hepatitis B Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hepatitis B Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Hepatitis B Vaccine&quot;] ) ) HepatitisBVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisBVaccination.occurrence ) ) during day of &quot;First Two Years&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisBVaccination.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Hepatitis B Vaccine Administered&quot;] ) ) HepatitisBProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisBProcedure.performed ) ) during day of &quot;First Two Years&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisBProcedure.performed ) )\n      )\n  )"
+        "valueString": "define &quot;Three Hepatitis B Vaccinations&quot;:\n  from\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination1,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination2,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination3\n    where date from HepatitisBVaccination2.earliest ( ) 1 day or more after date from HepatitisBVaccination1.earliest ( )\n      and date from HepatitisBVaccination3.earliest ( ) 1 day or more after date from HepatitisBVaccination2.earliest ( )\n    return date from HepatitisBVaccination1.earliest ( )"
       }, {
         "url": "displaySequence",
         "valueString": "22"
@@ -484,10 +478,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Three Hepatitis B Vaccinations"
+        "valueString": "NewBorn Vaccine Requirement"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Three Hepatitis B Vaccinations&quot;:\n  from\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination1,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination2,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination3\n    where HepatitisBVaccination2 1 day or more after day of HepatitisBVaccination1\n      and HepatitisBVaccination3 1 day or more after day of HepatitisBVaccination2\n    return HepatitisBVaccination1"
+        "valueString": "define &quot;NewBorn Vaccine Requirement&quot;:\n  ( ( [Procedure: &quot;Introduction of Serum, Toxoid and Vaccine into Muscle, Percutaneous Approach&quot;] ).isProcedurePerformed ( ) ) NewBornVaccine\n    where date from NewBornVaccine.performed.earliest ( ) during day of Interval[date from Patient.birthDate, date from Patient.birthDate + 7 days]\n    return date from NewBornVaccine.performed.earliest ( )"
       }, {
         "url": "displaySequence",
         "valueString": "23"
@@ -499,10 +493,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "NewBorn Vaccine Requirement"
+        "valueString": "Meets HepB Vaccination Requirement"
       }, {
         "url": "statement",
-        "valueString": "define &quot;NewBorn Vaccine Requirement&quot;:\n  ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Introduction of Serum, Toxoid and Vaccine into Muscle, Percutaneous Approach&quot;] ) ) NewBornVaccine\n    where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( NewBornVaccine.performed ) ) during day of Interval[date from Patient.birthDate, date from Patient.birthDate + 7 days]\n    return date from start of QICoreCommon.&quot;ToInterval&quot; ( NewBornVaccine.performed )"
+        "valueString": "define &quot;Meets HepB Vaccination Requirement&quot;:\n  from\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination1,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination2,\n    &quot;NewBorn Vaccine Requirement&quot; NewBornVaccine3\n    where date from HepatitisBVaccination2.earliest ( ) 1 day or more after date from HepatitisBVaccination1.earliest ( )\n      and date from HepatitisBVaccination1.earliest ( ) 1 day or more after date from NewBornVaccine3.earliest ( )\n      and date from HepatitisBVaccination2.earliest ( ) 1 day or more after date from NewBornVaccine3.earliest ( )\n    return date from HepatitisBVaccination1.earliest ( )"
       }, {
         "url": "displaySequence",
         "valueString": "24"
@@ -514,10 +508,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Meets HepB Vaccination Requirement"
+        "valueString": "Hepatitis B Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Meets HepB Vaccination Requirement&quot;:\n  from\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination1,\n    &quot;Hepatitis B Immunizations or Procedures&quot; HepatitisBVaccination2,\n    &quot;NewBorn Vaccine Requirement&quot; NewBornVaccine3\n    where HepatitisBVaccination2 1 day or more after day of HepatitisBVaccination1\n      and HepatitisBVaccination1 1 day or more after day of NewBornVaccine3\n      and HepatitisBVaccination2 1 day or more after day of NewBornVaccine3\n    return HepatitisBVaccination1"
+        "valueString": "//HepB\n\n\ndefine &quot;Hepatitis B Numerator Inclusion Conditions&quot;:\n  ( [Condition: &quot;Anaphylaxis caused by vaccine product containing Hepatitis B virus antigen (disorder)&quot;]\n    union [Condition: &quot;Hepatitis B&quot;] ) HepBConditions\n    where date from start of HepBConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "25"
@@ -529,10 +523,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Hepatitis B Numerator Inclusion Conditions"
+        "valueString": "One Chicken Pox Vaccination"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hepatitis B Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis due to Hepatitis B vaccine (disorder)&quot;]\n    union [Condition: &quot;Hepatitis B&quot;] ) ) HepBConditions\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( HepBConditions ) during day of &quot;First Two Years&quot;"
+        "valueString": "//VZV\n\n\ndefine &quot;One Chicken Pox Vaccination&quot;:\n  ( ( ( [Immunization: &quot;Varicella Zoster Vaccine (VZV)&quot;] ).isImmunizationAdministered ( ) ) ChickenPoxVaccination\n      where date from ChickenPoxVaccination.occurrence.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      return date from ChickenPoxVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Varicella Zoster Vaccine (VZV) Administered&quot;] ).isProcedurePerformed ( ) ) ChickenPoxProcedure\n        where date from ChickenPoxProcedure.performed.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n        return date from ChickenPoxProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "26"
@@ -544,10 +538,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "One Chicken Pox Vaccination"
+        "valueString": "Varicella Zoster Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;One Chicken Pox Vaccination&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Varicella Zoster Vaccine (VZV)&quot;] ) ) ChickenPoxVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ChickenPoxVaccination.occurrence ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Varicella Zoster Vaccine (VZV) Administered&quot;] ) ) ChickenPoxProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ChickenPoxProcedure.performed ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      )\n  )"
+        "valueString": "define &quot;Varicella Zoster Numerator Inclusion Conditions&quot;:\n  ( ( [Condition: &quot;Varicella Zoster&quot;]\n      union [Condition: &quot;Anaphylaxis caused by vaccine containing Human alphaherpesvirus 3 antigen (disorder)&quot;]\n  ) ) VaricellaZoster\n    where date from start of VaricellaZoster.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "27"
@@ -559,10 +553,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Varicella Zoster Numerator Inclusion Conditions"
+        "valueString": "Pneumococcal Conjugate Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Varicella Zoster Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Varicella Zoster&quot;]\n    union [Condition: &quot;Anaphylaxis caused by vaccine containing Human alphaherpesvirus 3 antigen (disorder)&quot;] ) ) VaricellaZoster\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( VaricellaZoster ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Pneumococcal Conjugate Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Pneumococcal Conjugate Vaccine&quot;] ).isImmunizationAdministered ( ) ) PneumococcalVaccination\n      where date from PneumococcalVaccination.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from PneumococcalVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Pneumococcal Conjugate Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) PneumococcalProcedure\n        where date from PneumococcalProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from PneumococcalProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "28"
@@ -574,10 +568,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Pneumococcal Conjugate Immunizations or Procedures"
+        "valueString": "Four Pneumococcal Conjugate Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pneumococcal Conjugate Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Pneumococcal Conjugate Vaccine&quot;] ) ) PneumococcalVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PneumococcalVaccination.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PneumococcalVaccination.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Pneumococcal Conjugate Vaccine Administered&quot;] ) ) PneumococcalProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PneumococcalProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( PneumococcalProcedure.performed ) )\n      )\n  )"
+        "valueString": "//PCV\n\n\ndefine &quot;Four Pneumococcal Conjugate Vaccinations&quot;:\n  from\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination1,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination2,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination3,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination4\n    where date from PneumococcalVaccination2.earliest ( ) 1 day or more after date from PneumococcalVaccination1.earliest ( )\n      and date from PneumococcalVaccination3.earliest ( ) 1 day or more after date from PneumococcalVaccination2.earliest ( )\n      and date from PneumococcalVaccination4.earliest ( ) 1 day or more after date from PneumococcalVaccination3.earliest ( )\n    return date from PneumococcalVaccination1.earliest ( )"
       }, {
         "url": "displaySequence",
         "valueString": "29"
@@ -589,10 +583,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Four Pneumococcal Conjugate Vaccinations"
+        "valueString": "Pneumococcal Conjugate Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Four Pneumococcal Conjugate Vaccinations&quot;:\n  from\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination1,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination2,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination3,\n    &quot;Pneumococcal Conjugate Immunizations or Procedures&quot; PneumococcalVaccination4\n    where PneumococcalVaccination2 1 day or more after day of PneumococcalVaccination1\n      and PneumococcalVaccination3 1 day or more after day of PneumococcalVaccination2\n      and PneumococcalVaccination4 1 day or more after day of PneumococcalVaccination3\n    return PneumococcalVaccination1"
+        "valueString": "define &quot;Pneumococcal Conjugate Numerator Inclusion Conditions&quot;:\n  [Condition: &quot;Anaphylaxis caused by vaccine product containing Streptococcus pneumoniae antigen (disorder)&quot;] PneumococcalReaction\n    where date from start of PneumococcalReaction.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "30"
@@ -604,10 +598,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Pneumococcal Conjugate Numerator Inclusion Conditions"
+        "valueString": "One Hepatitis A Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pneumococcal Conjugate Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis caused by vaccine product containing Streptococcus pneumoniae antigen (disorder)&quot;] ) ) PneumococcalReaction\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( PneumococcalReaction ) during day of &quot;First Two Years&quot;"
+        "valueString": "//HepA\n\n\ndefine &quot;One Hepatitis A Vaccinations&quot;:\n  ( ( ( [Immunization: &quot;Hepatitis A Vaccine&quot;] ).isImmunizationAdministered ( ) ) HepatitisAVaccination\n      where date from HepatitisAVaccination.occurrence.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      return date from HepatitisAVaccination.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Hepatitis A Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) HepatitisAProcedure\n        where date from HepatitisAProcedure.performed.earliest ( ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n        return date from HepatitisAProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "31"
@@ -619,10 +613,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "One Hepatitis A Vaccinations"
+        "valueString": "Hepatitis A Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;One Hepatitis A Vaccinations&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Hepatitis A Vaccine&quot;] ) ) HepatitisAVaccination\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisAVaccination.occurrence ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Hepatitis A Vaccine Administered&quot;] ) ) HepatitisAProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( HepatitisAProcedure.performed ) ) during &quot;Date of First Birthday to Date of Second Birthday&quot;\n      )\n  )"
+        "valueString": "define &quot;Hepatitis A Numerator Inclusion Conditions&quot;:\n  ( [Condition: &quot;Hepatitis A&quot;]\n    union [Condition: &quot;Anaphylaxis caused by vaccine product containing Hepatitis A virus antigen (disorder)&quot;] ) HepatitisADiagnosis\n    where date from start of HepatitisADiagnosis.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "32"
@@ -634,10 +628,10 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Hepatitis A Numerator Inclusion Conditions"
+        "valueString": "Rotavirus 2 Dose Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Hepatitis A Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Hepatitis A&quot;]\n    union [Condition: &quot;Anaphylaxis caused by vaccine product containing Hepatitis A virus antigen (disorder)&quot;] ) ) HepatitisADiagnosis\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( HepatitisADiagnosis ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Rotavirus 2 Dose Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;rotavirus, live, monovalent vaccine&quot;] ).isImmunizationAdministered ( ) ) TwoDoseRotavirusVaccine\n      where date from TwoDoseRotavirusVaccine.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from TwoDoseRotavirusVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Rotavirus Vaccine (2 dose schedule) Administered&quot;] ).isProcedurePerformed ( ) ) TwoDoseRotavirusProcedure\n        where date from TwoDoseRotavirusProcedure.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from TwoDoseRotavirusProcedure.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "33"
@@ -649,28 +643,13 @@
         "valueString": "ChildhoodImmunizationStatusFHIR"
       }, {
         "url": "name",
-        "valueString": "Rotavirus 2 Dose Immunizations or Procedures"
-      }, {
-        "url": "statement",
-        "valueString": "define &quot;Rotavirus 2 Dose Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;rotavirus, live, monovalent vaccine&quot;] ) ) TwoDoseRotavirusVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( TwoDoseRotavirusVaccine.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( TwoDoseRotavirusVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Rotavirus Vaccine (2 dose schedule) Administered&quot;] ) ) TwoDoseRotavirusProcedure\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( TwoDoseRotavirusProcedure.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( TwoDoseRotavirusProcedure.performed ) )\n      )\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueString": "34"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "ChildhoodImmunizationStatusFHIR"
-      }, {
-        "url": "name",
         "valueString": "Rotavirus 3 Dose Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Rotavirus 3 Dose Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Rotavirus Vaccine (3 dose schedule)&quot;] ) ) ThreeDoseRotavirusVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseRotavirusVaccine.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseRotavirusVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Rotavirus Vaccine (3 dose schedule) Administered&quot;] ) ) ThreeDoseRotavirusAdministered\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseRotavirusAdministered.performed ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( ThreeDoseRotavirusAdministered.performed ) )\n      )\n  )"
+        "valueString": "define &quot;Rotavirus 3 Dose Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Rotavirus Vaccine (3 dose schedule)&quot;] ).isImmunizationAdministered ( ) ) ThreeDoseRotavirusVaccine\n      where date from ThreeDoseRotavirusVaccine.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from ThreeDoseRotavirusVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Rotavirus Vaccine (3 dose schedule) Administered&quot;] ).isProcedurePerformed ( ) ) ThreeDoseRotavirusAdministered\n        where date from ThreeDoseRotavirusAdministered.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from ThreeDoseRotavirusAdministered.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "35"
+        "valueString": "34"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -685,22 +664,7 @@
         "valueString": "define &quot;Rotavirus 2 or 3 Dose Immunizations&quot;:\n  &quot;Rotavirus 2 Dose Immunizations or Procedures&quot;\n    union &quot;Rotavirus 3 Dose Immunizations or Procedures&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "36"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "ChildhoodImmunizationStatusFHIR"
-      }, {
-        "url": "name",
-        "valueString": "All Rotavirus Vaccinations"
-      }, {
-        "url": "statement",
-        "valueString": "define &quot;All Rotavirus Vaccinations&quot;:\n  &quot;Rotavirus 2 or 3 Dose Immunizations&quot; AllRotavirusDoses1\n    without &quot;Rotavirus 2 or 3 Dose Immunizations&quot; AllRotavirusDoses2\n      such that AllRotavirusDoses1 less than 1 day before AllRotavirusDoses2"
-      }, {
-        "url": "displaySequence",
-        "valueString": "37"
+        "valueString": "35"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -712,10 +676,10 @@
         "valueString": "Has Appropriate Number of Rotavirus Immunizations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Appropriate Number of Rotavirus Immunizations&quot;:\n  exists ( &quot;All Rotavirus Vaccinations&quot; RotavirusImmunization\n      let HasThreeDose: Count(&quot;Rotavirus 3 Dose Immunizations or Procedures&quot;) &gt; 0\n      where ( HasThreeDose\n          and Count(distinct(&quot;All Rotavirus Vaccinations&quot; RotavirusVaccinations\n                return RotavirusVaccinations\n            )\n          ) &gt;= 3\n      )\n        or ( HasThreeDose is false\n            and Count(distinct(&quot;All Rotavirus Vaccinations&quot; RotavirusVaccinations\n                  return RotavirusVaccinations\n              )\n            ) &gt;= 2\n        )\n  )"
+        "valueString": "//RV\n\n\ndefine &quot;Has Appropriate Number of Rotavirus Immunizations&quot;:\n  exists ( &quot;Rotavirus 2 or 3 Dose Immunizations&quot; RotavirusImmunization\n      let HasThreeDose: Count(&quot;Rotavirus 3 Dose Immunizations or Procedures&quot;) &gt; 0\n      where ( HasThreeDose\n          and Count(distinct(&quot;Rotavirus 2 or 3 Dose Immunizations&quot; RotavirusVaccinations\n                return date from RotavirusVaccinations.earliest()\n            )\n          ) &gt;= 3\n      )\n        or ( HasThreeDose is false\n            and Count(distinct(&quot;Rotavirus 2 or 3 Dose Immunizations&quot; RotavirusVaccinations\n                  return date from RotavirusVaccinations.earliest()\n              )\n            ) &gt;= 2\n        )\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "38"
+        "valueString": "36"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -727,10 +691,10 @@
         "valueString": "Rotavirus Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Rotavirus Numerator Inclusion Conditions&quot;:\n  ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis due to rotavirus vaccine (disorder)&quot;] ) ) RotavirusConditions\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( RotavirusConditions ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Rotavirus Numerator Inclusion Conditions&quot;:\n  [Condition: &quot;Anaphylaxis due to rotavirus vaccine (disorder)&quot;] RotavirusConditions\n    where date from start of RotavirusConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "39"
+        "valueString": "37"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -745,7 +709,7 @@
         "valueString": "define &quot;Vaccine Administration Interval - 180 Days up to 2 Years Old&quot;:\n  Interval[date from Patient.birthDate + 180 days, &quot;Date of Second Birthday&quot;]"
       }, {
         "url": "displaySequence",
-        "valueString": "40"
+        "valueString": "38"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -757,10 +721,10 @@
         "valueString": "Influenza Immunizations or Procedures"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Influenza Immunizations or Procedures&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Child Influenza Immunization Administered&quot;] ) ) InfluenzaVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( InfluenzaVaccine.occurrence ) ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( InfluenzaVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Child Influenza Vaccine Administered&quot;] ) ) InfluenzaAdministration\n          where QICoreCommon.&quot;ToInterval&quot; ( InfluenzaAdministration.performed ) during day of &quot;Vaccine Administration Interval - 180 Days up to 2 Years Old&quot;\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( InfluenzaAdministration.performed ) )\n      )\n  )"
+        "valueString": "//Flu\n\n\ndefine &quot;Influenza Immunizations or Procedures&quot;:\n  ( ( ( [Immunization: &quot;Child Influenza Vaccine&quot;] ).isImmunizationAdministered ( ) ) InfluenzaVaccine\n      where date from InfluenzaVaccine.occurrence.earliest ( ) during day of &quot;Vaccine Administration Interval - 42 Days up to 2 Years Old&quot;\n      return date from InfluenzaVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Child Influenza Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) InfluenzaAdministration\n        where date from InfluenzaAdministration.performed.earliest ( ) during day of &quot;Vaccine Administration Interval - 180 Days up to 2 Years Old&quot;\n        return date from InfluenzaAdministration.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "41"
+        "valueString": "39"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -772,10 +736,10 @@
         "valueString": "Two Influenza Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Two Influenza Vaccinations&quot;:\n  from\n    &quot;Influenza Immunizations or Procedures&quot; FluVaccination1,\n    &quot;Influenza Immunizations or Procedures&quot; FluVaccination2\n    where FluVaccination2 1 day or more after day of FluVaccination1\n    return FluVaccination1"
+        "valueString": "define &quot;Two Influenza Vaccinations&quot;:\n  from\n    &quot;Influenza Immunizations or Procedures&quot; FluVaccination1,\n    &quot;Influenza Immunizations or Procedures&quot; FluVaccination2\n    where date from FluVaccination2.earliest ( ) 1 day or more after date from FluVaccination1.earliest ( )\n    return date from FluVaccination1.earliest ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "42"
+        "valueString": "40"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -787,10 +751,10 @@
         "valueString": "LAIV Vaccinations"
       }, {
         "url": "statement",
-        "valueString": "define &quot;LAIV Vaccinations&quot;:\n  ( ( ( Status.&quot;Completed Immunization&quot; ( [Immunization: &quot;Influenza Virus LAIV Immunization&quot;] ) ) LAIVVaccine\n        where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( LAIVVaccine.occurrence ) ) during day of Interval[&quot;Date of Second Birthday&quot;, &quot;Date of Second Birthday&quot;]\n        return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( LAIVVaccine.occurrence ) )\n    )\n      union ( ( Status.&quot;Completed Procedure&quot; ( [Procedure: &quot;Influenza Virus LAIV Procedure&quot;] ) ) InfluenzaAdministration\n          where CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( InfluenzaAdministration.performed ) ) during day of Interval[&quot;Date of Second Birthday&quot;, &quot;Date of Second Birthday&quot;]\n          return date from start of CQMCommon.&quot;ToDateInterval&quot; ( QICoreCommon.&quot;ToInterval&quot; ( InfluenzaAdministration.performed ) )\n      )\n  )"
+        "valueString": "define &quot;LAIV Vaccinations&quot;:\n  ( ( ( [Immunization: &quot;Influenza Virus LAIV Vaccine&quot;] ).isImmunizationAdministered ( ) ) LAIVVaccine\n      where date from LAIVVaccine.occurrence.earliest ( ) during day of Interval[&quot;Date of Second Birthday&quot;, &quot;Date of Second Birthday&quot;]\n      return date from LAIVVaccine.occurrence.earliest ( )\n  )\n    union ( ( ( [Procedure: &quot;Influenza Virus LAIV Vaccine Administered&quot;] ).isProcedurePerformed ( ) ) InfluenzaAdministration\n        where date from InfluenzaAdministration.performed.earliest ( ) during day of Interval[&quot;Date of Second Birthday&quot;, &quot;Date of Second Birthday&quot;]\n        return date from InfluenzaAdministration.performed.earliest ( )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "43"
+        "valueString": "41"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -805,7 +769,7 @@
         "valueString": "define &quot;Two Influenza Vaccinations Including One LAIV Vaccination&quot;:\n  exists &quot;LAIV Vaccinations&quot;\n    and exists &quot;Influenza Immunizations or Procedures&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "44"
+        "valueString": "42"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -817,10 +781,10 @@
         "valueString": "Influenza Numerator Inclusion Conditions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Influenza Numerator Inclusion Conditions&quot;:\n  ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Anaphylaxis caused by vaccine product containing Influenza virus antigen (disorder)&quot;] ) ) InfluenzaConditions\n    where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( InfluenzaConditions ) during day of &quot;First Two Years&quot;"
+        "valueString": "define &quot;Influenza Numerator Inclusion Conditions&quot;:\n  [Condition: &quot;Anaphylaxis caused by vaccine product containing Influenza virus antigen (disorder)&quot;] InfluenzaConditions\n    where date from start of InfluenzaConditions.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "45"
+        "valueString": "43"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -835,7 +799,7 @@
         "valueString": "define &quot;Numerator&quot;:\n  ( exists ( &quot;Four DTaP Vaccinations&quot; )\n      or exists ( &quot;DTaP Numerator Inclusion Conditions&quot; )\n  )\n    and ( exists ( &quot;Three Polio Vaccinations&quot; )\n        or exists ( &quot;Polio Numerator Inclusion Conditions&quot; )\n    )\n    and ( exists ( &quot;One MMR Vaccination&quot; )\n        or exists ( &quot;MMR Numerator Inclusion Conditions&quot; )\n        or ( exists ( &quot;Measles Indicators&quot; )\n            and exists ( &quot;Mumps Indicators&quot; )\n            and exists ( &quot;Rubella Indicators&quot; )\n        )\n    )\n    and ( &quot;Has Appropriate Number of Hib Immunizations&quot;\n        or exists ( &quot;Hib Numerator Inclusion Conditions&quot; )\n    )\n    and ( exists ( &quot;Three Hepatitis B Vaccinations&quot; )\n        or ( exists ( &quot;Meets HepB Vaccination Requirement&quot; )\n            or exists ( &quot;Hepatitis B Numerator Inclusion Conditions&quot; )\n        )\n    )\n    and ( exists ( &quot;One Chicken Pox Vaccination&quot; )\n        or exists ( &quot;Varicella Zoster Numerator Inclusion Conditions&quot; )\n    )\n    and ( exists ( &quot;Four Pneumococcal Conjugate Vaccinations&quot; )\n        or exists ( &quot;Pneumococcal Conjugate Numerator Inclusion Conditions&quot; )\n    )\n    and ( exists ( &quot;One Hepatitis A Vaccinations&quot; )\n        or exists ( &quot;Hepatitis A Numerator Inclusion Conditions&quot; )\n    )\n    and ( &quot;Has Appropriate Number of Rotavirus Immunizations&quot;\n        or exists ( &quot;Rotavirus Numerator Inclusion Conditions&quot; )\n    )\n    and ( exists ( &quot;Two Influenza Vaccinations&quot; )\n        or ( &quot;Two Influenza Vaccinations Including One LAIV Vaccination&quot; )\n        or exists ( &quot;Influenza Numerator Inclusion Conditions&quot; )\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "46"
+        "valueString": "44"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -847,10 +811,10 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( Status.&quot;Finished Encounter&quot; ( [Encounter: &quot;Office Visit&quot;]\n    union [Encounter: &quot;Home Healthcare Services&quot;]\n    union [Encounter: &quot;Preventive Care, Established Office Visit, 0 to 17&quot;]\n    union [Encounter: &quot;Preventive Care Services, Initial Office Visit, 0 to 17&quot;]\n    union ( [Encounter] E\n        where exists ( ( E.type ) T\n            where T ~ &quot;Office or other outpatient visit for the evaluation and management of an established patient that may not require the presence of a physician or other qualified health care professional&quot;\n        )\n    )\n    union [Encounter: &quot;Online Assessments&quot;]\n    union [Encounter: &quot;Telephone Visits&quot;] ) ) ValidEncounters\n    where QICoreCommon.&quot;ToInterval&quot; ( ValidEncounters.period ) during day of &quot;Measurement Period&quot;"
+        "valueString": "define &quot;Qualifying Encounters&quot;:\n  ( ( [Encounter: &quot;Office Visit&quot;]\n      union [Encounter: &quot;Home Healthcare Services&quot;]\n      union [Encounter: &quot;Preventive Care, Established Office Visit, 0 to 17&quot;]\n      union [Encounter: &quot;Preventive Care Services, Initial Office Visit, 0 to 17&quot;]\n      union ( [Encounter] E\n          where exists ( ( E.type ) T\n              where T ~ &quot;Office or other outpatient visit for the evaluation and management of an established patient that may not require the presence of a physician or other qualified health care professional&quot;\n          )\n      )\n      union [Encounter: &quot;Virtual Encounter&quot;]\n      union [Encounter: &quot;Telephone Visits&quot;]\n  ).isEncounterPerformed ( ) ) ValidEncounters\n    where ValidEncounters.period.toInterval ( ) during day of &quot;Measurement Period&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "47"
+        "valueString": "45"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -865,7 +829,7 @@
         "valueString": "define &quot;Initial Population&quot;:\n  AgeInYearsAt(date from \n    end of &quot;Measurement Period&quot;\n  ) = 2\n    and exists ( &quot;Qualifying Encounters&quot; )"
       }, {
         "url": "displaySequence",
-        "valueString": "48"
+        "valueString": "46"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -880,7 +844,7 @@
         "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "49"
+        "valueString": "47"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -892,10 +856,10 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "50"
+        "valueString": "48"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -907,10 +871,10 @@
         "valueString": "Has Severe Combined Immunodeficiency"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Severe Combined Immunodeficiency&quot;:\n  exists ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Severe Combined Immunodeficiency&quot;] ) ) SevereImmuneDisorder\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( SevereImmuneDisorder ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Has Severe Combined Immunodeficiency&quot;:\n  exists [Condition: &quot;Severe Combined Immunodeficiency&quot;] SevereImmuneDisorder\n    where date from start of SevereImmuneDisorder.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "51"
+        "valueString": "49"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -922,10 +886,10 @@
         "valueString": "Has Immunodeficiency"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Immunodeficiency&quot;:\n  exists ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Disorders of the Immune System&quot;] ) ) ImmuneDisorder\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( ImmuneDisorder ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Has Immunodeficiency&quot;:\n  exists [Condition: &quot;Disorders of the Immune System&quot;] ImmuneDisorder\n    where date from start of ImmuneDisorder.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "52"
+        "valueString": "50"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -937,10 +901,10 @@
         "valueString": "Has HIV"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has HIV&quot;:\n  exists ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;HIV&quot;] ) ) HIV\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( HIV ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Has HIV&quot;:\n  exists [Condition: &quot;HIV&quot;] HIV\n    where date from start of HIV.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "53"
+        "valueString": "51"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -952,10 +916,10 @@
         "valueString": "Has Lymphoreticular Cancer, Multiple Myeloma or Leukemia"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Lymphoreticular Cancer, Multiple Myeloma or Leukemia&quot;:\n  exists ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Malignant Neoplasm of Lymphatic and Hematopoietic Tissue&quot;] ) ) LymphaticMalignantNeoplasm\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( LymphaticMalignantNeoplasm ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Has Lymphoreticular Cancer, Multiple Myeloma or Leukemia&quot;:\n  exists [Condition: &quot;Malignant Neoplasm of Lymphatic and Hematopoietic Tissue&quot;] LymphaticMalignantNeoplasm\n    where date from start of LymphaticMalignantNeoplasm.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "54"
+        "valueString": "52"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -967,10 +931,10 @@
         "valueString": "Has Intussusception"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Intussusception&quot;:\n  exists ( ( Status.&quot;Active Condition&quot; ( [Condition: &quot;Intussusception&quot;] ) ) IntussusceptionDisorder\n      where date from start of QICoreCommon.&quot;ToPrevalenceInterval&quot; ( IntussusceptionDisorder ) during day of &quot;First Two Years&quot;\n  )"
+        "valueString": "define &quot;Has Intussusception&quot;:\n  exists [Condition: &quot;Intussusception&quot;] IntussusceptionDisorder\n    where date from start of IntussusceptionDisorder.prevalenceInterval ( ) during day of &quot;First Two Years&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "55"
+        "valueString": "53"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -985,6 +949,36 @@
         "valueString": "define &quot;Denominator Exclusions&quot;:\n  Hospice.&quot;Has Hospice Services&quot;\n    or &quot;Has Severe Combined Immunodeficiency&quot;\n    or &quot;Has Immunodeficiency&quot;\n    or &quot;Has HIV&quot;\n    or &quot;Has Lymphoreticular Cancer, Multiple Myeloma or Leukemia&quot;\n    or &quot;Has Intussusception&quot;"
       }, {
         "url": "displaySequence",
+        "valueString": "54"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "Status"
+      }, {
+        "url": "name",
+        "valueString": "isImmunizationAdministered"
+      }, {
+        "url": "statement",
+        "valueString": "//Immunization, Administered: completed only\ndefine fluent function isImmunizationAdministered(Immunization List&lt;Immunization&gt;):\n  Immunization I\n    where I.status ~ &#39;completed&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueString": "55"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "earliest"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (period.&quot;hasStart&quot;()) then start of period\n      else end of period"
+      }, {
+        "url": "displaySequence",
         "valueString": "56"
       } ]
     }, {
@@ -994,10 +988,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Completed Immunization"
+        "valueString": "isProcedurePerformed"
       }, {
         "url": "statement",
-        "valueString": "// //Encounter, Performed: finished and in-progress only\n// define function &quot;Finished or Ongoing Encounter&quot;(Enc List&lt;Encounter&gt;):\n//   Enc E\n//     where E.status in { &#39;finished&#39;, &#39;in-progress&#39; }\n\n// define fluent function &quot;isEncounterPerformed&quot;(Enc Encounter):\n//   Enc.status in { &#39;finished&#39;, &#39;in-progress&#39; }\n\n//Immunization, Administered: completed only\ndefine function &quot;Completed Immunization&quot;(Immunization List&lt;Immunization&gt;):\n  Immunization I\n    where I.status ~ &#39;completed&#39;"
+        "valueString": "//Procedure, Performed\ndefine fluent function isProcedurePerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "57"
@@ -1006,13 +1000,13 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
-        "valueString": "CQMCommon"
+        "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "ToDateInterval"
+        "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval of date values extracted from the input interval of date-time values\n@comment: This function returns an interval constructed using the `date from` extractor on the start\nand end values of the input date-time interval. Note that using a precision specifier such as `day of`\nas part of a timing phrase is preferred to communicate intent to perform day-level comparison, as well\nas for general readability.\n*/\ndefine function &quot;ToDateInterval&quot;(period Interval&lt;DateTime&gt;):\n  Interval[date from start of period, date from end of period]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueString": "58"
@@ -1024,103 +1018,13 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "ToInterval"
+        "valueString": "Earliest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n@deprecated: This function is deprecated. Use the fluent function `toInterval()` instead\n*/\ndefine function ToInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+        "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n@deprecated: This function is deprecated. Use the fluent function `earliest()` instead\n*/\ndefine function &quot;Earliest&quot;(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (HasStart(period)) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
         "valueString": "59"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "Completed Procedure"
-      }, {
-        "url": "statement",
-        "valueString": "//Intervention, Performed\n//Procedure, Performed\ndefine function &quot;Completed Procedure&quot;(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
-      }, {
-        "url": "displaySequence",
-        "valueString": "60"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "Active Condition"
-      }, {
-        "url": "statement",
-        "valueString": "//Diagnosis\ndefine function &quot;Active Condition&quot;(Condition List&lt;Condition&gt;):\n  Condition C\n    where C.clinicalStatus ~ &quot;active&quot;"
-      }, {
-        "url": "displaySequence",
-        "valueString": "61"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "ToPrevalenceInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
-      }, {
-        "url": "displaySequence",
-        "valueString": "62"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "Finished Encounter"
-      }, {
-        "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by the measure&#39;s specific use case (e.g., follow-up encounters)\ndefine function &quot;Finished Encounter&quot;(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
-      }, {
-        "url": "displaySequence",
-        "valueString": "63"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "FHIRHelpers"
-      }, {
-        "url": "name",
-        "valueString": "ToConcept"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
-      }, {
-        "url": "displaySequence",
-        "valueString": "64"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "isEncounterPerformed"
-      }, {
-        "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
-      }, {
-        "url": "displaySequence",
-        "valueString": "65"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -1135,7 +1039,37 @@
         "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
       }, {
         "url": "displaySequence",
-        "valueString": "66"
+        "valueString": "60"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "Status"
+      }, {
+        "url": "name",
+        "valueString": "isEncounterPerformed"
+      }, {
+        "url": "statement",
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+      }, {
+        "url": "displaySequence",
+        "valueString": "61"
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToConcept"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueString": "62"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -1147,10 +1081,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "67"
+        "valueString": "63"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -1162,10 +1096,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
       }, {
         "url": "displaySequence",
-        "valueString": "68"
+        "valueString": "64"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -1177,25 +1111,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
       }, {
         "url": "displaySequence",
-        "valueString": "69"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "prevalenceInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
-      }, {
-        "url": "displaySequence",
-        "valueString": "70"
+        "valueString": "65"
       } ]
     } ],
     "status": "active",
@@ -1208,27 +1127,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
-    }, {
-      "type": "depends-on",
-      "display": "Library CQMCommon",
-      "resource": "Library/CQMCommon|2.0.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
-    }, {
-      "type": "depends-on",
-      "display": "Code system ConditionClinicalStatusCodes",
-      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Code system SNOMEDCT",
@@ -1371,7 +1282,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1047"
     }, {
       "type": "depends-on",
-      "display": "Value set Child Influenza Immunization Administered",
+      "display": "Value set Child Influenza Vaccine",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1218"
     }, {
       "type": "depends-on",
@@ -1379,11 +1290,11 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1044"
     }, {
       "type": "depends-on",
-      "display": "Value set Influenza Virus LAIV Immunization",
+      "display": "Value set Influenza Virus LAIV Vaccine",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1087"
     }, {
       "type": "depends-on",
-      "display": "Value set Influenza Virus LAIV Procedure",
+      "display": "Value set Influenza Virus LAIV Vaccine Administered",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1088"
     }, {
       "type": "depends-on",
@@ -1403,7 +1314,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1022"
     }, {
       "type": "depends-on",
-      "display": "Value set Online Assessments",
+      "display": "Value set Virtual Encounter",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"
     }, {
       "type": "depends-on",
@@ -1716,7 +1627,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1031"
@@ -1724,7 +1635,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1164"
@@ -1732,7 +1643,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1744,7 +1655,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1756,7 +1667,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1053"
@@ -1764,7 +1675,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1032"
@@ -1772,7 +1683,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1037"
@@ -1780,31 +1691,31 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
           "system": "http://snomed.info/sct",
           "code": "433621000124101",
-          "display": "Anaphylaxis due to Haemophilus influenzae type b vaccine (disorder)"
+          "display": "Anaphylaxis caused by vaccine product containing only Haemophilus influenzae type b antigen (disorder)"
         } ]
       } ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
           "system": "http://snomed.info/sct",
           "code": "428321000124101",
-          "display": "Anaphylaxis due to Hepatitis B vaccine (disorder)"
+          "display": "Anaphylaxis caused by vaccine product containing Hepatitis B virus antigen (disorder)"
         } ]
       } ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1025"
@@ -1812,7 +1723,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1039"
@@ -1820,7 +1731,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1832,7 +1743,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1844,7 +1755,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1024"
@@ -1852,7 +1763,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1864,7 +1775,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1876,7 +1787,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "code": [ {
@@ -1888,7 +1799,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1165"
@@ -1896,7 +1807,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.120.12.1007"
@@ -1904,7 +1815,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.120.12.1001"
@@ -1912,7 +1823,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.120.12.1003"
@@ -1920,7 +1831,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.108.12.1009"
@@ -1928,7 +1839,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.199.12.1056"
@@ -2079,7 +1990,7 @@
   "title": "Childhood Immunization StatusFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-29T16:01:07+00:00",
+  "date": "2024-05-15T14:20:52+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -2087,12 +1998,10 @@
       "value": "https://www.ncqa.org/"
     } ]
   } ],
-  "description": "Percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV), one measles, mumps and rubella (MMR); three or four H influenza type B (Hib); three hepatitis B (Hep B); one chicken pox (VZV); four pneumococcal conjugate (PCV); one hepatitis A (Hep A); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday",
+  "description": "Percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV), one measles, mumps and rubella (MMR); three or four H influenza type B (HiB); three hepatitis B (HepB); one chicken pox (VZV); four pneumococcal conjugate (PCV); one hepatitis A (HepA); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday",
   "purpose": "UNKNOWN",
-  "usage": "The measure allows a grace period by measuring compliance with these recommendations between birth and age two.\n\nThis eCQM is a patient-based measure.\n \nThis FHIR-based measure has been derived from the QDM-based measure: CMS117v12.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2022 National Committee for Quality Assurance. All Rights Reserved.\n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.\n\nCPT(R) codes, descriptions and other data are copyright 2022. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. No fee schedules, basic units, relative values or related listings are included in CPT. The AMA assumes no liability for the data contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nLOINC(R) copyright 2004-2022 Regenstrief Institute, Inc.\n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation.\n\nICD-10 copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "The measure allows a grace period by measuring compliance with these recommendations between birth and age two.\n\nThis eCQM is a patient-based measure.\n \nThis FHIR-based measure has been derived from the QDM-based measure: CMS117v13.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2024 National Committee for Quality Assurance. All Rights Reserved.\n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.\n\nCPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nSome measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.\n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.\n\nICD-10 copyright 2024 World Health Organization. All Rights Reserved.\n\nSome measures use RxNorm, a standardized nomenclature and coding for clinical drugs and drug delivery devices, which is made publicly available courtesy of the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services. NLM is not responsible for the measures and does not endorse or recommend this or any other product.\n\n“HL7” is the registered trademark of Health Level Seven International.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -2106,8 +2015,8 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/ChildhoodImmunizationStatusFHIR" ],
   "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "rationale": "Infants and toddlers are particularly vulnerable to infectious diseases because their immune systems have not built up the necessary defenses to fight infection (CDC, 2019). One study estimated that routine childhood vaccines administered in 2019 prevented 24 million diseases (Talbird et al., 2022). Another recent study estimated that routine childhood vaccinations prevented 17.8 million cases of disease and 31,000 deaths for children born in 2017, in addition to saving $13.7 billion in health care costs (Carrico et al., 2022).\n\nImmunizing a child not only protects that child's health but also the health of the community, especially for those who are not immunized or are unable to be immunized due to other health complications (CDC, 2019).",
-  "clinicalRecommendationStatement": "This measure looks for childhood vaccinations that should be completed by age 2, in accordance with the Centers for Disease Control and Prevention Advisory Committee on Immunization Practices (CDC ACIP) recommended child and adolescent immunization schedule (CDC ACIP, 2022). \n\n-- For the 2022–23 season, see the 2022–23 ACIP influenza vaccine recommendations (Grohskopf, 2022).",
+  "rationale": "Infants and toddlers are particularly vulnerable to infectious diseases because their immune systems have not built up the necessary defenses to fight infection (HHS-OIDP, 2022). One study estimated that routine childhood vaccines administered in 2019 prevented 24 million diseases (Talbird et al., 2022). Another recent study estimated that routine childhood vaccinations prevented 17.8 million cases of disease and 31,000 deaths for children born in 2017, in addition to saving $13.7 billion in health care costs (Carrico et al., 2022).\n\nImmunizing a child not only protects that child's health but also the health of the community, especially for those who are not immunized or are unable to be immunized due to other health complications (HHS-OIDP, 2022).",
+  "clinicalRecommendationStatement": "This measure looks for childhood vaccinations that should be completed by age 2, in accordance with the Centers for Disease Control and Prevention Advisory Committee on Immunization Practices (CDC ACIP) recommended child and adolescent immunization schedule (CDC, 2023). \n\n-- For the 2023–24 season, see the 2023–24 ACIP influenza vaccine recommendations (Grohskopf, 2023).",
   "group": [ {
     "id": "6528188d4f0107128cb3758f",
     "extension": [ {
@@ -2129,6 +2038,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -2169,7 +2090,7 @@
           "display": "Denominator Exclusion"
         } ]
       },
-      "description": "Exclude children with any of the following on or before the child’s second birthday:\n- Severe combined immunodeficiency\n- Immunodeficiency\n- HIV\n- Lymphoreticular cancer, multiple myeloma or leukemia\n- Intussusception\n\nExclude children who are in hospice care for any part of the measurement period.",
+      "description": "Exclude children who are in hospice care for any part of the measurement period.\n\nExclude children with any of the following on or before the child’s second birthday:\n- Severe combined immunodeficiency\n- Immunodeficiency\n- Human Immunodeficiency Virus (HIV)\n- Lymphoreticular cancer, multiple myeloma or leukemia\n- Intussusception",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Denominator Exclusions"
@@ -2183,34 +2104,10 @@
           "display": "Numerator"
         } ]
       },
-      "description": "DTaP\nChildren with any of the following on or before the child’s second birthday meet criteria:\n- At least four DTaP vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the diphtheria, tetanus or pertussis vaccine.\n- Encephalitis due to the diphtheria, tetanus or pertussis vaccine.\n\nIPV\nChildren with either of the following on or before the child’s second birthday meet criteria:\n- At least three IPV vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the IPV vaccine.\n\nMMR\nChildren with any of the following meet criteria:\n- At least one MMR vaccination on or between the child’s first and second birthdays.\n- Anaphylaxis due to the MMR vaccine on or before the child’s second birthday.\n- All of the following anytime on or before the child’s second birthday (on the same or different date of service):\n       - History of measles.\n       - History of mumps.\n       - History of rubella.\n\nHiB\nChildren with either of the following meet criteria on or before the child’s second birthday:\n- At least three HiB vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the HiB vaccine.\n\nHep B\nChildren with any of the following on or before the child’s second birthday meet criteria:\n- At least three hepatitis B vaccinations, with different dates of service.\n       - One of the three vaccinations can be a newborn hepatitis B vaccination during the eight-day period that begins on the date of birth and ends seven days after the date of birth. For example, if the member’s date of birth is December 1, the newborn hepatitis B vaccination must be on or between December 1 and December 8.\n- Anaphylaxis due to the hepatitis B vaccine.\n- History of hepatitis B illness.\n\nVZV\nChildren with any of the following meet criteria:\n- At least one VZV vaccination, with a date of service on or between the child’s first and second birthdays.\n- Anaphylaxis due to the VZV vaccine on or before the child’s second birthday.\n- History of varicella zoster (e.g., chicken pox) illness on or before the child’s second birthday.\n\nPCV\nChildren with either of the following on or before the child’s second birthday meet criteria:\n- At least four pneumococcal conjugate vaccinations, with different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the pneumococcal vaccine.\n\nHep A\nChildren with any of the following meet criteria:\n- At least one hepatitis A vaccination, with a date of service on or between the child’s first and second birthdays.\n- Anaphylaxis due to the hepatitis A vaccine on or before the child’s second birthday.\n- History of hepatitis A illness on or before the child’s second birthday.\n\nRV\nChildren with any of the following meet criteria:\n- At least two doses of the two-dose rotavirus vaccine on different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- At least three doses of the three-dose rotavirus vaccine on different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- At least one dose of the two-dose rotavirus vaccine and at least two doses of the three-dose rotavirus vaccine, all on different dates of service, on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the rotavirus vaccine on or before the child’s second birthday.\n\nFlu\nChildren with either of the following on or before their second birthday meet criteria:\n- At least two influenza vaccinations, with different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 6 months (180 days) after birth.\n       - One of the two vaccinations can be a Live Attenuated Influenza Vaccine (LAIV) vaccination administered on the child’s second birthday. Do not count a LAIV vaccination administered before the child’s second birthday.\n- Anaphylaxis due to the influenza vaccine.",
+      "description": "DTaP\nChildren with any of the following on or before the child’s second birthday meet criteria:\n- At least four DTaP vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the diphtheria, tetanus or pertussis vaccine.\n- Encephalitis due to the diphtheria, tetanus or pertussis vaccine.\n\nIPV\nChildren with either of the following on or before the child’s second birthday meet criteria:\n- At least three IPV vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the IPV vaccine.\n\nMMR\nChildren with any of the following meet criteria:\n- At least one MMR vaccination on or between the child’s first and second birthdays.\n- Anaphylaxis due to the MMR vaccine on or before the child’s second birthday.\n- All of the following anytime on or before the child’s second birthday (on the same or different date of service):\n       - History of measles.\n       - History of mumps.\n       - History of rubella.\n\nHiB\nChildren with either of the following meet criteria on or before the child’s second birthday:\n- At least three HiB vaccinations, with different dates of service. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the HiB vaccine.\n\nHepB\nChildren with any of the following on or before the child’s second birthday meet criteria:\n- At least three hepatitis B vaccinations, with different dates of service.\n       - One of the three vaccinations can be a newborn hepatitis B vaccination during the eight-day period that begins on the date of birth and ends seven days after the date of birth. For example, if the member’s date of birth is December 1, the newborn hepatitis B vaccination must be on or between December 1 and December 8.\n- Anaphylaxis due to the hepatitis B vaccine.\n- History of hepatitis B illness.\n\nVZV\nChildren with any of the following meet criteria:\n- At least one VZV vaccination, with a date of service on or between the child’s first and second birthdays.\n- Anaphylaxis due to the VZV vaccine on or before the child’s second birthday.\n- History of varicella zoster (e.g., chicken pox) illness on or before the child’s second birthday.\n\nPCV\nChildren with either of the following on or before the child’s second birthday meet criteria:\n- At least four pneumococcal conjugate vaccinations, with different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the pneumococcal vaccine.\n\nHepA\nChildren with any of the following meet criteria:\n- At least one hepatitis A vaccination, with a date of service on or between the child’s first and second birthdays.\n- Anaphylaxis due to the hepatitis A vaccine on or before the child’s second birthday.\n- History of hepatitis A illness on or before the child’s second birthday.\n\nRV\nChildren with any of the following meet criteria:\n- At least two doses of the two-dose rotavirus vaccine on different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- At least three doses of the three-dose rotavirus vaccine on different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- At least one dose of the two-dose rotavirus vaccine and at least two doses of the three-dose rotavirus vaccine, all on different dates of service, on or before the child’s second birthday. Do not count a vaccination administered prior to 42 days after birth.\n- Anaphylaxis due to the rotavirus vaccine on or before the child’s second birthday.\n\nFlu\nChildren with either of the following on or before their second birthday meet criteria:\n- At least two influenza vaccinations, with different dates of service on or before the child’s second birthday. Do not count a vaccination administered prior to 6 months (180 days) after birth.\n       - One of the two vaccinations can be a Live Attenuated Influenza Vaccine (LAIV) vaccination administered on the child’s second birthday. Do not count a LAIV vaccination administered before the child’s second birthday.\n- Anaphylaxis due to the influenza vaccine.",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "ccf0a203-05a3-4c63-ac31-e430acb5b919",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "e53701b2-9f44-4cdd-b63d-f24eb4946391",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ]

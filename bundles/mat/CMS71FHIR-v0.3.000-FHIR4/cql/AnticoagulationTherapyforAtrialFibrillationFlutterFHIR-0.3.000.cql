@@ -5,11 +5,11 @@ using QICore version '4.1.1'
 /* 2024 AU */
 
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include CQMCommon version '2.0.000' called CQMCommon
-include QICoreCommon version '2.0.000' called QICoreCommon
-include SupplementalDataElements version '3.4.000' called SDE
-include TJCOverall version '8.11.000' called TJC
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include CQMCommon version '2.2.000' called CQMCommon
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
+include TJCOverall version '8.14.000' called TJC
 
 valueset "Anticoagulant Therapy": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.200'
 valueset "Atrial Ablation": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.203'
@@ -28,7 +28,7 @@ parameter "Measurement Period" Interval<DateTime>
 context Patient
 
 define "Initial Population":
-  TJC."Encounter with Principal Diagnosis and Age"
+  TJC."Ischemic Stroke Encounter"
 
 define "Denominator":
   "Encounter with a History of Atrial Ablation"
@@ -90,9 +90,8 @@ define "Numerator":
       )
         and DischargeAnticoagulant.status in { 'active', 'completed' }
         and DischargeAnticoagulant.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }
-        and DischargeAnticoagulant.doNotPerform is not true
         and DischargeAnticoagulant.authoredOn during Encounter.period
-      //BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for both Medication.Request and Medication.Discharge which leaves two blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.
+      //BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for Medication.Discharge which leaves one blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.
 
 
 define "Denominator Exceptions":

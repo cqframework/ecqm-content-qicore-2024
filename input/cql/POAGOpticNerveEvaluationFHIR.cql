@@ -27,7 +27,8 @@ valueset "Primary Open-Angle Glaucoma": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.
 code "virtual": 'VR' from "ActCode" display 'virtual'
 code "AMB": 'AMB' from "ActCode" display 'Ambulatory'
 
-parameter "Measurement Period" Interval<DateTime> default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

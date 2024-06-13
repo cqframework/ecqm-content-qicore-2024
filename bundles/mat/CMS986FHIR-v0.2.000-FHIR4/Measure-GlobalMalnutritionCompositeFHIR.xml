@@ -1,0 +1,719 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="GlobalMalnutritionCompositeFHIR"></id>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"></id>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   [Encounter: &amp;quot;Encounter Inpatient&amp;quot;] EncounterInpatient     where EncounterInpatient.period during day of &amp;quot;Measurement Period&amp;quot;       and AgeInYearsAt(date from start of EncounterInpatient.period) &amp;gt;= 65       and ( duration in hours of EncounterInpatient.period &amp;gt;= 24 )       and EncounterInpatient.status = &amp;#39;finished&amp;#39;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Population"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Measure Population&amp;quot;:   &amp;quot;Initial Population&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation 1"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation 1&amp;quot;(MalnutritionRiskScreening Encounter):   if &amp;quot;Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral&amp;quot; contains MalnutritionRiskScreening then 1      else 0"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation Total Malnutrition Components Score"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation Total Malnutrition Components Score&amp;quot;(QualifyingEncounter Encounter):   Sum({ &amp;quot;Measure Observation 1&amp;quot;(QualifyingEncounter), &amp;quot;Measure Observation 2&amp;quot;(QualifyingEncounter), &amp;quot;Measure Observation 3&amp;quot;(QualifyingEncounter), &amp;quot;Measure Observation 4&amp;quot;(QualifyingEncounter) })"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation 2"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation 2&amp;quot;(NutritionAssessment Encounter):   if &amp;quot;Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral&amp;quot; contains NutritionAssessment then 0      else if &amp;quot;Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral&amp;quot; contains NutritionAssessment then if &amp;quot;Encounter with Nutrition Assessment and Identified Status&amp;quot; contains NutritionAssessment then 1      else 0      else 0"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation 3"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation 3&amp;quot;(MalnutritionDiagonsis Encounter):   if &amp;quot;Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral&amp;quot; contains MalnutritionDiagonsis then 0      else if &amp;quot;Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral&amp;quot; contains MalnutritionDiagonsis then if &amp;quot;Encounter with Malnutrition Diagnosis&amp;quot; contains MalnutritionDiagonsis then if &amp;quot;Encounter with Nutrition Assessment Not or Mildly Malnourished&amp;quot; contains MalnutritionDiagonsis then 0      else if &amp;quot;Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished&amp;quot; contains MalnutritionDiagonsis then 1      else 0      else 0      else 0"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation 4"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation 4&amp;quot;(NutritionCarePlan Encounter):   if &amp;quot;Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral&amp;quot; contains NutritionCarePlan then 0      else if &amp;quot;Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral&amp;quot; contains NutritionCarePlan then if &amp;quot;Encounter with Nutrition Care Plan&amp;quot; contains NutritionCarePlan then if &amp;quot;Encounter with Nutrition Assessment Not or Mildly Malnourished&amp;quot; contains NutritionCarePlan then 0      else if &amp;quot;Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished&amp;quot; contains NutritionCarePlan then 1      else 0      else 0      else 0"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Measure Observation Total Malnutrition Composite Score as Percentage"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Measure Observation Total Malnutrition Composite Score as Percentage&amp;quot;(QualifyingEncounter Encounter):   100 * ( &amp;quot;Measure Observation Total Malnutrition Components Score&amp;quot;(QualifyingEncounter) / &amp;quot;Total Malnutrition Composite Score Eligible Occurrences&amp;quot;(QualifyingEncounter) )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="GlobalMalnutritionCompositeFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Total Malnutrition Composite Score Eligible Occurrences"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function &amp;quot;Total Malnutrition Composite Score Eligible Occurrences&amp;quot;(QualifyingEncounter Encounter):   if ( ( &amp;quot;Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral&amp;quot; contains QualifyingEncounter )       and ( &amp;quot;Encounter with Malnutrition Risk Screening Not At Risk&amp;quot; contains QualifyingEncounter )   )     and not ( &amp;quot;Encounter with Hospital Dietitian Referral&amp;quot; contains QualifyingEncounter ) then 1      else if ( ( ( &amp;quot;Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral&amp;quot; contains QualifyingEncounter )         and ( &amp;quot;Encounter with Malnutrition Risk Screening At Risk&amp;quot; contains QualifyingEncounter )     )       or ( &amp;quot;Encounter with Hospital Dietitian Referral&amp;quot; contains QualifyingEncounter )   )     and ( &amp;quot;Encounter with Nutrition Assessment Not or Mildly Malnourished&amp;quot; contains QualifyingEncounter )     or not ( &amp;quot;Encounter with Nutrition Assessment and Identified Status&amp;quot; contains QualifyingEncounter ) then 2      else 4"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"></valueString>
+            </extension>
+         </extension>
+         <status value="active"></status>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Encounter Inpatient"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"></resource>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Measure Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <dataRequirement>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"></reference>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/GlobalMalnutritionCompositeFHIR"></url>
+   <identifier>
+      <use value="usual"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS986FHIR"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:eed68e80-b466-4369-be87-166ada45f7c5"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:f503ad03-b5e9-457a-8253-bc619775ef20"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="3592e"></value>
+      <assigner>
+         <display value="CMS Consensus Based Entity"></display>
+      </assigner>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="986FHIR"></value>
+      <assigner>
+         <display value="CMS"></display>
+      </assigner>
+   </identifier>
+   <version value="0.2.000"></version>
+   <name value="GlobalMalnutritionCompositeFHIR"></name>
+   <title value="Global Malnutrition Composite ScoreFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-20T14:14:18+00:00"></date>
+   <publisher value="Academy of Nutrition and Dietetics"></publisher>
+   <contact>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.eatrightpro.org"></value>
+      </telecom>
+   </contact>
+   <description value="This measure assesses the percentage of hospitalizations of adults aged 65 years and older at the start of the inpatient encounter during the measurement period, with a length of stay equal to or greater than 24 hours, who received optimal malnutrition care where care performed was appropriate to the patient's level of malnutrition risk and severity. Malnutrition care best practices recommend that for each hospitalization, adult inpatients are (1) screened for malnutrition risk or for a hospital dietitian referral order to be placed, (2) assessed by a registered dietitian (RD) or registered dietitian nutritionist (RDN) to confirm findings of malnutrition risk, and if identified with a &quot;moderate&quot; or &quot;severe&quot; malnutrition status in the current performed malnutrition assessment, (3) receive a current &quot;moderate&quot; or &quot;severe&quot; malnutrition diagnosis by a physician or eligible provider as defined by the Centers for Medicare &amp; Medicaid Services (CMS), and (4) have a current nutrition care plan performed by an RD/RDN."></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="This measure is constructed of four clinically eligible components that are aggregated as an arithmetic average of eligible hospitalizations and expressed as a percentage. The four populations used to calculate the four components may differ and the measure observations for the four components do not need to be performed sequentially.   This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter with a length of stay of greater than or equal to 24 hours among individuals 65 years of age and older at the start of the inpatient encounter.   This FHIR-based measure has been derived from the QDM-based measure: CMS986v4.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="Copyright (C) Academy of Nutrition and Dietetics 2024  Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets.  LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc.   ICD-10 copyright 2023 World Health Organisation.  This material contains SNOMED Clinical Terms (R) (SNOMED CT [R]) copyright 2004-2023. International Health Terminology Standards Development Organisation . All Rights Reserved."></copyright>
+   <effectivePeriod>
+      <start value="2026-01-01"></start>
+      <end value="2026-12-31"></end>
+   </effectivePeriod>
+   <author>
+      <name value="Academy of Nutrition and Dietetics"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="www.eatrightpro.org"></value>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/GlobalMalnutritionCompositeFHIR"></library>
+   <disclaimer value="This measure and the specifications are subject to further revisions.    This performance measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   THE MEASURE AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.    Due to technical limitations, copyright is indicated by (C) or [C], registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM]."></disclaimer>
+   <rationale value="The components of this measure are supported by clinical guidance that recommends the following: (1) malnutrition screening for patients admitted into the acute inpatient care setting; (2) nutrition assessment for patients identified at risk for malnutrition or with a hospital dietitian referral order to form the basis for appropriate nutrition interventions; (3) appropriate recognition, diagnosis, and documentation of the nutrition status of a patient in order to (4) address their condition with an appropriate plan of care and communicate patient needs to other care providers (Academy of Nutrition and Dietetics, 2017).  The process for risk identification, assessment, diagnosis, and treatment of malnutrition necessitates a multi-disciplinary care team that begins with the identification of an initial risk population for a more thorough assessment by the RD/RDN. The RD/RDN, in turn, provides the necessary treatment recommendations to address nutritional status utilizing a nutrition diagnosis and care plan, along with the clinical indicators that inform a medical diagnosis of malnutrition completed by a physician or eligible provider as defined by CMS. The four measure observations individually will only provide a fraction of the necessary information on quality of care for patients at risk for or with malnutrition. For example, knowing which patients have been assessed out of those who were initially identified as at risk, but not knowing if the appropriate proportion of patients were screened upon admission, would be an insufficient assessment of quality of care.  Implementation of this measure supports timely malnutrition risk screening and hand off to RDNs for appropriate nutrition assessment for identified patients during the current hospitalization. For patients identified with a moderate or severe malnutrition by the nutrition assessment, best practice also recommends a medical diagnosis by a physician or other eligible clinician and the execution of the nutrition care plan by an RD/RDN. Evidence demonstrates that implementing a standardized protocol for screening, assessment, diagnosis, and care planning results in better identification of malnourished patients and subsequent improvements in rates of associated nutrition interventions. Outcomes modeling, and those reported in other studies, also demonstrate the benefits to patient outcomes, including reduced risk of 30-day readmissions, length of hospital stays, and complications, as well as improved quality of life after hospitalization (Sriram, 2017)."></rationale>
+   <clinicalRecommendationStatement value="American Society for Parenteral and Enteral Nutrition (ASPEN) clinical guidelines on nutrition screening, assessment, and intervention in adults indicate that screening for nutrition risk is suggested for hospitalized patients (Mueller, et al., 2011).  This guideline places nutrition assessment and screening in the context of intervention as part of nutrition care. Screening those individuals at risk for malnutrition is the first step in nutrition care as risk for malnutrition, identified by nutrition screening, is associated with longer length of hospital stay, complications, and mortality. Malnutrition screening is also a predictor of mortality risk.   Malnourished patients, identified by nutrition assessment tools, have more complications and longer hospitalizations than do patients with optimal nutrition status. Such patients, identified by nutrition assessment tools, have more infectious and noninfectious complications, longer hospital length of stay, and greater mortality.   Nutrition intervention is recommended for patients identified by assessment as at risk for malnutrition or malnourished. Nutrition intervention with associated monitoring and evaluation plants in patients identified as at risk for malnutrition or malnourished improves clinical outcomes. Nutrition interventions and their associated monitoring and evaluation plans in malnourished patients are associated with improved nutrition status, nutrient intake, physical function, and quality of life. Hospital readmissions, inpatient length of stay, and complications were reduced with increased nutrition support interventions."></clinicalRecommendationStatement>
+   <group id="6644d75da7a1805d3b7375b4">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <description value="Population Criteria 1 "></description>
+      <population id="a05fc6fb-1644-441f-b616-de21576a1813">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="bc3d85e4-8f7d-4cc7-b260-9e8dc2d0848f">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="087da320-e1ff-48ff-9b16-3990ff169148">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Count"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="bc3d85e4-8f7d-4cc7-b260-9e8dc2d0848f"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="Screening"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation 1"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6644d75da7a1805d3b7375b5">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="1cad8fc2-f1f6-446c-9e7b-9d547a1b38fd">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="61fd8f89-4579-4d93-a27f-a2ef3daaa94d">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="a816b04b-5147-476c-9136-819b5734be37">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Count"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="61fd8f89-4579-4d93-a27f-a2ef3daaa94d"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="Assessment"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation 2"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6644d75da7a1805d3b7375b6">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="2ed7e4ba-50d2-4b51-bc06-c2bf9ee27bd1">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="67cef5f1-a6ec-4c0e-a077-b8b867431182">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="f936bb5d-3610-453b-abb1-d7358aca957a">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Count"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="67cef5f1-a6ec-4c0e-a077-b8b867431182"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="Diagnosis"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation 3"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6644d75da7a1805d3b7375b7">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="57378bbc-9b1d-40da-b945-603862bb6ba4">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="aaabf807-f476-4158-96dc-d6f9e2e360c4">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="e7adef10-7076-4e5a-8643-95ca17d02ecf">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Count"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="aaabf807-f476-4158-96dc-d6f9e2e360c4"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="Care Plan"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation 4"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6644d75da7a1805d3b7375b8">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="d3214243-5af2-4430-84a1-861477bee9e3">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="7137d595-07cf-4680-a21e-b5380d5e6f20">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="b6dc0a60-e3dc-4ef4-8f58-8728a69cba3c">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Sum"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="7137d595-07cf-4680-a21e-b5380d5e6f20"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="Total Score"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation Total Malnutrition Components Score"></expression>
+         </criteria>
+      </population>
+   </group>
+   <group id="6644d75da7a1805d3b7375b9">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="continuous-variable"></code>
+               <display value="Continuous Variable"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="bd53026c-9027-4fdb-b5e6-d818dfb017f4">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="Initial"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="5be2bfc9-e31c-4253-bc4c-395baa4b101b">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-population"></code>
+               <display value="Measure Population"></display>
+            </coding>
+         </code>
+         <description value="Measure"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Population"></expression>
+         </criteria>
+      </population>
+      <population id="dd53fd31-7801-4b1f-ad36-8e688706d0eb">
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-aggregateMethod">
+            <valueString value="Average"></valueString>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-criteriaReference">
+            <valueString value="5be2bfc9-e31c-4253-bc4c-395baa4b101b"></valueString>
+         </extension>
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="measure-observation"></code>
+               <display value="Measure Observation"></display>
+            </coding>
+         </code>
+         <description value="GMCS Percentage"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Measure Observation Total Malnutrition Composite Score as Percentage"></expression>
+         </criteria>
+      </population>
+   </group>
+</Measure>
