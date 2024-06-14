@@ -1,0 +1,327 @@
+{
+  "resourceType": "Bundle",
+  "id": "62f65a0f5efef5272905e705",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "e8d20dae-073e-47a4-b8e0-f8b8b6d14928",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "62f65a0f5efef5272905e705"
+      } ],
+      "name": [ {
+        "family": "DENEXCEPPass",
+        "given": [ "AdultPatientReasonForNoDepressionScreenAge17" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2008-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-d709",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "encounter-to-screen-for-depression-d709",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2021-09",
+          "code": "10197000",
+          "display": "Psychiatric interview and evaluation (procedure)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+      },
+      "period": {
+        "start": "2025-01-01T08:00:00.000+00:00",
+        "end": "2025-01-01T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/encounter-to-screen-for-depression-d709"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/adult-depression-screening-assessment-d70a",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "adult-depression-screening-assessment-d70a",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-notDoneReason",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "720834000",
+            "display": "Depression screening declined (situation)",
+            "userSelected": true
+          } ]
+        }
+      } ],
+      "status": "cancelled",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "procedure",
+          "display": "Procedure"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "73832-8",
+          "display": "Adult depression screening assessment",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+      },
+      "issued": "2025-01-01T08:00:00.000+00:00",
+      "valueBoolean": true
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/adult-depression-screening-assessment-d70a"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "status": "active",
+      "beneficiary": {
+        "reference": "Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Organization/123456",
+    "resource": {
+      "resourceType": "Organization",
+      "id": "123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
+      },
+      "identifier": [ {
+        "use": "temp",
+        "system": "urn:oid:2.16.840.1.113883.4.4",
+        "value": "21-3259825"
+      } ],
+      "active": true,
+      "type": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "pay",
+          "display": "Payer"
+        } ]
+      } ],
+      "name": "Blue Cross Blue Shield of Texas",
+      "telecom": [ {
+        "system": "phone",
+        "value": "(+1) 972-766-6900"
+      } ],
+      "address": [ {
+        "use": "billing",
+        "type": "postal",
+        "line": [ "P.O. Box 660044" ],
+        "city": "Dallas",
+        "state": "TX",
+        "postalCode": "75266-0044",
+        "country": "USA"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Organization/123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "practitioner-123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-practitioner" ]
+      },
+      "identifier": [ {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "value": "123456"
+      } ],
+      "name": [ {
+        "family": "Evil",
+        "prefix": [ "Dr" ]
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Practitioner/practitioner-123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/126a4800-14c1-4d6c-872f-b4e8816e7bc1",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "126a4800-14c1-4d6c-872f-b4e8816e7bc1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "aaa80f73-8372-40ee-ae71-07bcea3500a5-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#aaa80f73-8372-40ee-ae71-07bcea3500a5-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "17 yo male with patient reason for not screening for depression - 17 on first day MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/PCSDepressionScreenAndFollowUpFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exception",
+              "display": "Denominator Exception"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/e8d20dae-073e-47a4-b8e0-f8b8b6d14928"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-d709"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/adult-depression-screening-assessment-d70a"
+      }, {
+        "reference": "https://madie.cms.gov/Coverage/1"
+      }, {
+        "reference": "https://madie.cms.gov/Organization/123456"
+      }, {
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/126a4800-14c1-4d6c-872f-b4e8816e7bc1"
+    }
+  } ]
+}

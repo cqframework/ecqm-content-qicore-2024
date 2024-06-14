@@ -1,0 +1,213 @@
+{
+  "resourceType": "Bundle",
+  "id": "NUMPass-Age30HPVTestFourYearsPriorMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/4c40d1e6-3943-4a0e-a95c-6e6b845f0851",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "4c40d1e6-3943-4a0e-a95c-6e6b845f0851",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1990-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/4c40d1e6-3943-4a0e-a95c-6e6b845f0851"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-15",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-15",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/Patient-11"
+      },
+      "period": {
+        "start": "2025-01-01T01:00:00.000Z",
+        "end": "2025-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-15"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/Observation-19",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "Observation-19",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "laboratory",
+          "display": "laboratory"
+        } ],
+        "text": "laboratory"
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "21440-3",
+          "display": "Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA [Presence] in Cervix by Probe"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/Patient-11"
+      },
+      "effectivePeriod": {
+        "start": "2021-01-01T23:00:00.000Z",
+        "end": "2021-01-01T23:59:00.000Z"
+      },
+      "valueInteger": 1
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/Observation-19"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/d92c0273-a97e-4bae-a6a5-9429d549161d",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "d92c0273-a97e-4bae-a6a5-9429d549161d",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "155b2ed5-cc67-4fc1-b50c-f368fa9c52a3-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "4c40d1e6-3943-4a0e-a95c-6e6b845f0851"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#155b2ed5-cc67-4fc1-b50c-f368fa9c52a3-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Female 30 years old with HPV Test four years prior MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/CervicalCancerScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/4c40d1e6-3943-4a0e-a95c-6e6b845f0851"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-15"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/Observation-19"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/d92c0273-a97e-4bae-a6a5-9429d549161d"
+    }
+  } ]
+}

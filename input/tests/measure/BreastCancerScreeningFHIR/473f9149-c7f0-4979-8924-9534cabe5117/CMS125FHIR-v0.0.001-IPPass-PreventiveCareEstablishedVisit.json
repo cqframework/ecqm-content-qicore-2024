@@ -1,0 +1,182 @@
+{
+  "resourceType": "Bundle",
+  "id": "IPPass-PreventiveCareEstablishedVisit",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/473f9149-c7f0-4979-8924-9534cabe5117",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "473f9149-c7f0-4979-8924-9534cabe5117",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1951-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/473f9149-c7f0-4979-8924-9534cabe5117"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-3",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-3",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "code": "99395",
+          "display": "Periodic comprehensive preventive medicine reevaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, established patient; 18-39 years"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/473f9149-c7f0-4979-8924-9534cabe5117"
+      },
+      "period": {
+        "start": "2025-12-31T00:00:00.000Z",
+        "end": "2025-12-31T23:59:59.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-3"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/adc8eb2e-62ec-4efb-9fad-1c30b925c00a",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "adc8eb2e-62ec-4efb-9fad-1c30b925c00a",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "0f76e17b-a6ea-4f71-8dc7-aac306d0a397-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "473f9149-c7f0-4979-8924-9534cabe5117"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#0f76e17b-a6ea-4f71-8dc7-aac306d0a397-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Preventive care service established visit - for meeting 100% coverage"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/BreastCancerScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/473f9149-c7f0-4979-8924-9534cabe5117"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-3"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/adc8eb2e-62ec-4efb-9fad-1c30b925c00a"
+    }
+  } ]
+}

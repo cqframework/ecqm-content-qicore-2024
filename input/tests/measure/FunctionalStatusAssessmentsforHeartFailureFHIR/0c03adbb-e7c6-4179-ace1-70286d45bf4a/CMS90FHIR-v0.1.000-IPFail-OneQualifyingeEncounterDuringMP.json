@@ -1,0 +1,213 @@
+{
+  "resourceType": "Bundle",
+  "id": "IPPFail-OneQualifyingeEncounterDuringMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/0c03adbb-e7c6-4179-ace1-70286d45bf4a",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "0c03adbb-e7c6-4179-ace1-70286d45bf4a",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2007-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/0c03adbb-e7c6-4179-ace1-70286d45bf4a"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-55",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-55",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/0c03adbb-e7c6-4179-ace1-70286d45bf4a"
+      },
+      "period": {
+        "start": "2025-01-01T01:00:00.000Z",
+        "end": "2025-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-55"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-25",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-25",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "10091002",
+          "display": "High output heart failure (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/0c03adbb-e7c6-4179-ace1-70286d45bf4a"
+      },
+      "onsetDateTime": "2024-12-31T00:00:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-25"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/5282838a-db6d-48a4-a8e0-29898a9ac88f",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "5282838a-db6d-48a4-a8e0-29898a9ac88f",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "81895ebf-374d-4e2d-9fe8-3d686431ca9f-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "0c03adbb-e7c6-4179-ace1-70286d45bf4a"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#81895ebf-374d-4e2d-9fe8-3d686431ca9f-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient is correct age and has diagnosis of heart failure. Patient only has one qualifying encounter during the MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/FunctionalStatusAssessmentsforHeartFailureFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/0c03adbb-e7c6-4179-ace1-70286d45bf4a"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-55"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-25"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/5282838a-db6d-48a4-a8e0-29898a9ac88f"
+    }
+  } ]
+}

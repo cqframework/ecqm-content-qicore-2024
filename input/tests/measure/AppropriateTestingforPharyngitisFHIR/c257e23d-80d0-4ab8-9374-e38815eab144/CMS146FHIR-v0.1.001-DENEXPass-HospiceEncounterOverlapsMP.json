@@ -1,0 +1,314 @@
+{
+  "resourceType": "Bundle",
+  "id": "DENEXPass-HospiceEncounterOverlapsMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/c257e23d-80d0-4ab8-9374-e38815eab144",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "c257e23d-80d0-4ab8-9374-e38815eab144",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2020-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-1",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+      },
+      "period": {
+        "start": "2025-10-11T12:45:00.000Z",
+        "end": "2025-10-11T12:59:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-1",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "17741008",
+          "display": "Acute tonsillitis (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+      },
+      "onsetDateTime": "2025-10-11T12:48:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MedicationRequest/MedicationRequest-1",
+    "resource": {
+      "resourceType": "MedicationRequest",
+      "id": "MedicationRequest-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ]
+      },
+      "status": "completed",
+      "intent": "order",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+          "code": "discharge",
+          "display": "Discharge"
+        } ]
+      } ],
+      "medicationCodeableConcept": {
+        "coding": [ {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "141963",
+          "display": "azithromycin 40 MG/ML Oral Suspension",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+      },
+      "authoredOn": "2025-10-12T00:00:00.000Z",
+      "requester": {
+        "reference": "Practitioner/example"
+      },
+      "dosageInstruction": [ {
+        "timing": {
+          "repeat": {
+            "boundsPeriod": {
+              "start": "2025-10-12T00:00:00.000Z",
+              "end": "2025-10-20T00:00:00.000Z"
+            }
+          }
+        }
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MedicationRequest/MedicationRequest-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-2",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "32485007",
+          "display": "Hospital admission (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+      },
+      "period": {
+        "start": "2024-12-31T23:59:59.000Z",
+        "end": "2025-01-01T01:00:00.000Z"
+      },
+      "hospitalization": {
+        "dischargeDisposition": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "428361000124107",
+            "display": "Discharge to home for hospice care (procedure)"
+          } ]
+        }
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/06eb83ae-2f2e-480a-8c7c-2d3bcbfc420d",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "06eb83ae-2f2e-480a-8c7c-2d3bcbfc420d",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "188ee80c-d00f-4df8-8731-c31d4843932e-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "c257e23d-80d0-4ab8-9374-e38815eab144"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#188ee80c-d00f-4df8-8731-c31d4843932e-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Hospice encounter overlaps MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AppropriateTestingforPharyngitisFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/c257e23d-80d0-4ab8-9374-e38815eab144"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-1"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-1"
+      }, {
+        "reference": "https://madie.cms.gov/MedicationRequest/MedicationRequest-1"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-2"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/06eb83ae-2f2e-480a-8c7c-2d3bcbfc420d"
+    }
+  } ]
+}

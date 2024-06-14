@@ -1,0 +1,247 @@
+{
+  "resourceType": "Bundle",
+  "id": "Patient-25-NumPass-DXAOrderDurMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/d939cf15-5b62-4366-b21e-0d3abc3c0996",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "d939cf15-5b62-4366-b21e-0d3abc3c0996",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1975-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/d939cf15-5b62-4366-b21e-0d3abc3c0996"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-25",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-25",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/d939cf15-5b62-4366-b21e-0d3abc3c0996"
+      },
+      "period": {
+        "start": "2025-01-01T01:00:00.000Z",
+        "end": "2025-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-25"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/ServiceRequest/ServiceRequest-25",
+    "resource": {
+      "resourceType": "ServiceRequest",
+      "id": "ServiceRequest-25",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/StructureDefinition/request-statusReason",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "15635006",
+            "display": "Requested by Patient"
+          } ]
+        }
+      } ],
+      "status": "completed",
+      "intent": "order",
+      "category": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "387713003",
+          "display": "Surgical procedure"
+        } ]
+      } ],
+      "priority": "routine",
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "24701-5",
+          "display": "DXA Femur [Mass/Area] Bone density"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/d939cf15-5b62-4366-b21e-0d3abc3c0996"
+      },
+      "encounter": {
+        "reference": "Encounter/Encounter-25"
+      },
+      "occurrenceDateTime": "2025-01-02",
+      "authoredOn": "2025-01-02",
+      "performerType": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "405279007",
+          "display": "Attending physician (occupation)"
+        } ]
+      },
+      "reasonCode": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "123614006",
+          "display": "Partial Cataract (disorder)"
+        } ]
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "ServiceRequest/ServiceRequest-25"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/df2432dd-db36-45ff-b57c-042285c5ee85",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "df2432dd-db36-45ff-b57c-042285c5ee85",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "d3264b94-447e-4b77-9580-2edb3268aa6d-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "d939cf15-5b62-4366-b21e-0d3abc3c0996"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#d3264b94-447e-4b77-9580-2edb3268aa6d-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "DXA Order scan during the MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AppropriateDXAScansForWomenUnder65FHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator-exclusion",
+              "display": "Numerator Exclusion"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/d939cf15-5b62-4366-b21e-0d3abc3c0996"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-25"
+      }, {
+        "reference": "https://madie.cms.gov/ServiceRequest/ServiceRequest-25"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/df2432dd-db36-45ff-b57c-042285c5ee85"
+    }
+  } ]
+}

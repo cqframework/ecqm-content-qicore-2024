@@ -1,0 +1,174 @@
+{
+  "resourceType": "Bundle",
+  "id": "IPFail-46WithQualEncAfterMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/a49f6f2d-0c6b-46af-80b2-7829c2007365",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "a49f6f2d-0c6b-46af-80b2-7829c2007365",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1979-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/a49f6f2d-0c6b-46af-80b2-7829c2007365"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-9",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-9",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/a49f6f2d-0c6b-46af-80b2-7829c2007365"
+      },
+      "period": {
+        "start": "2026-01-01T01:00:00.000Z",
+        "end": "2026-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-9"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/b08f28a2-b4a6-4b1f-adaa-541f8995d168",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "b08f28a2-b4a6-4b1f-adaa-541f8995d168",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "d7416379-7121-4b5a-9d36-f6eb8fbc63a0-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "a49f6f2d-0c6b-46af-80b2-7829c2007365"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#d7416379-7121-4b5a-9d36-f6eb8fbc63a0-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient is exactly 46 years old with a qualifying encounter after the measurement period."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ColonCancerScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/a49f6f2d-0c6b-46af-80b2-7829c2007365"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-9"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/b08f28a2-b4a6-4b1f-adaa-541f8995d168"
+    }
+  } ]
+}

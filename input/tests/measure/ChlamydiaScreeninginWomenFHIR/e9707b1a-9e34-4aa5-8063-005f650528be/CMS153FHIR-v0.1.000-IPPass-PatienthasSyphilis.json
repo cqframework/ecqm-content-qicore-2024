@@ -1,0 +1,213 @@
+{
+  "resourceType": "Bundle",
+  "id": "Patient-2-IPPass-PatienthasSyphilis",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/e9707b1a-9e34-4aa5-8063-005f650528be",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "e9707b1a-9e34-4aa5-8063-005f650528be",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2001-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/e9707b1a-9e34-4aa5-8063-005f650528be"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-2",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185463005",
+          "display": "Visit out of hours (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/e9707b1a-9e34-4aa5-8063-005f650528be"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-01T00:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-2",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "10345003",
+          "display": "Primary syphilis of tonsils (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/e9707b1a-9e34-4aa5-8063-005f650528be"
+      },
+      "onsetDateTime": "2025-01-01T00:00:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/d3abc5b1-eb77-4b47-be68-985fafcfbdc3",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "d3abc5b1-eb77-4b47-be68-985fafcfbdc3",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "6ba438e0-8425-4d46-b892-591fa12864c6-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "e9707b1a-9e34-4aa5-8063-005f650528be"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#6ba438e0-8425-4d46-b892-591fa12864c6-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient is diagnosed with syphilis during measurement period"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ChlamydiaScreeninginWomenFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/e9707b1a-9e34-4aa5-8063-005f650528be"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-2"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-2"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/d3abc5b1-eb77-4b47-be68-985fafcfbdc3"
+    }
+  } ]
+}

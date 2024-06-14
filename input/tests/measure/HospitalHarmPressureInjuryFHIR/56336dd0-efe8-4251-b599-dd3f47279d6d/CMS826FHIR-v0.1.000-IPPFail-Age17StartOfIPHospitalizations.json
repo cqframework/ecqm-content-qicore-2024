@@ -1,0 +1,235 @@
+{
+  "resourceType": "Bundle",
+  "id": "64121dd40c4b751dfe4ccb64",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/56336dd0-efe8-4251-b599-dd3f47279d6d",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "56336dd0-efe8-4251-b599-dd3f47279d6d",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "64121dd40c4b751dfe4ccb64"
+      } ],
+      "name": [ {
+        "family": "IPPFail",
+        "given": [ "Age17StartOfIPHospitalizations" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2007-02-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/Coverage-1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "Coverage-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "identifier": [ {
+        "system": "http://benefitsinc.com/certificate",
+        "value": "12345"
+      } ],
+      "status": "active",
+      "type": {
+        "coding": [ {
+          "system": "https://nahdo.org/sopt",
+          "code": "59",
+          "display": "Other Private Insurance"
+        } ]
+      },
+      "policyHolder": {
+        "reference": "Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+      },
+      "subscriber": {
+        "reference": "Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+      },
+      "beneficiary": {
+        "reference": "Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+      },
+      "dependent": "0",
+      "relationship": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+          "code": "self"
+        } ]
+      },
+      "period": {
+        "start": "2025-01-01T06:00:00.000Z",
+        "end": "2025-12-31T11:06:01.000Z"
+      },
+      "payor": [ {
+        "reference": "Organization/Organization-2"
+      } ],
+      "order": 9
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/Coverage-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/encounter-inpatient-0629",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "encounter-inpatient-0629",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "IMP",
+        "display": "inpatient encounter"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-09",
+          "code": "183452005",
+          "display": "Emergency hospital admission (procedure)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+      },
+      "period": {
+        "start": "2025-01-31T08:00:00.000+00:00",
+        "end": "2025-02-03T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/encounter-inpatient-0629"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/477b5f50-648f-4859-a100-eba4995ff7af",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "477b5f50-648f-4859-a100-eba4995ff7af",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "92185c6b-bda8-428b-968f-e9525b6d06b1-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "56336dd0-efe8-4251-b599-dd3f47279d6d"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#92185c6b-bda8-428b-968f-e9525b6d06b1-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Inpatient encounter during MP.  Age is 17 on day of IP admit, turns 18 day after admit. IPP fails, must be 18 at start of IP stay. "
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/HospitalHarmPressureInjuryFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/56336dd0-efe8-4251-b599-dd3f47279d6d"
+      }, {
+        "reference": "https://madie.cms.gov/Coverage/Coverage-1"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/encounter-inpatient-0629"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/477b5f50-648f-4859-a100-eba4995ff7af"
+    }
+  } ]
+}

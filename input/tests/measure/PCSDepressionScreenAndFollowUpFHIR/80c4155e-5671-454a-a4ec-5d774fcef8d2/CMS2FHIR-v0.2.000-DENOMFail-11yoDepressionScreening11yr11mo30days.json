@@ -1,0 +1,193 @@
+{
+  "resourceType": "Bundle",
+  "id": "62f66a8b5efef5272905e715",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/80c4155e-5671-454a-a4ec-5d774fcef8d2",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "80c4155e-5671-454a-a4ec-5d774fcef8d2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "62f66a8b5efef5272905e715"
+      } ],
+      "name": [ {
+        "family": "IPFail",
+        "given": [ "11yoDepressionScreening" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2013-01-03"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/80c4155e-5671-454a-a4ec-5d774fcef8d2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-e716",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "encounter-to-screen-for-depression-e716",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2021-09",
+          "code": "10197000",
+          "display": "Psychiatric interview and evaluation (procedure)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/80c4155e-5671-454a-a4ec-5d774fcef8d2"
+      },
+      "period": {
+        "start": "2025-08-12T08:00:00.000+00:00",
+        "end": "2025-08-12T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/encounter-to-screen-for-depression-e716"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/01b1bfaa-a6a3-4425-af64-41850ba3c610",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "01b1bfaa-a6a3-4425-af64-41850ba3c610",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "3ac4ad1a-1521-4e7e-991d-19ce2a9dc930-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "80c4155e-5671-454a-a4ec-5d774fcef8d2"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#3ac4ad1a-1521-4e7e-991d-19ce2a9dc930-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "11yoDepressionScreening - 11yr, 11mo, 30days"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/PCSDepressionScreenAndFollowUpFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exception",
+              "display": "Denominator Exception"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/80c4155e-5671-454a-a4ec-5d774fcef8d2"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-e716"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/01b1bfaa-a6a3-4425-af64-41850ba3c610"
+    }
+  } ]
+}

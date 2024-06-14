@@ -1,0 +1,174 @@
+{
+  "resourceType": "Bundle",
+  "id": "IPFail-20yrsWithOralEvalEncJan1AfterMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/8ed53f97-fe74-47f6-bf94-d3e85e70e1dd",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "8ed53f97-fe74-47f6-bf94-d3e85e70e1dd",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2005-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/8ed53f97-fe74-47f6-bf94-d3e85e70e1dd"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-6",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-6",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ada.org/cdt",
+          "code": "D0120",
+          "display": "periodic oral evaluation - established patient"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/8ed53f97-fe74-47f6-bf94-d3e85e70e1dd"
+      },
+      "period": {
+        "start": "2026-01-01T00:00:00.000Z",
+        "end": "2026-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-6"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/31d5bf66-f60c-4887-bf41-2d95ab695931",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "31d5bf66-f60c-4887-bf41-2d95ab695931",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "b09e2bae-1834-4659-9bdc-5eb2e4b87a39-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "8ed53f97-fe74-47f6-bf94-d3e85e70e1dd"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#b09e2bae-1834-4659-9bdc-5eb2e4b87a39-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient 20yo w/ an Oral Evaluation Encounter 1/1 after the Measurement Period."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ChildrenWhoHaveDentalDecayOrCavitiesFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/8ed53f97-fe74-47f6-bf94-d3e85e70e1dd"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-6"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/31d5bf66-f60c-4887-bf41-2d95ab695931"
+    }
+  } ]
+}

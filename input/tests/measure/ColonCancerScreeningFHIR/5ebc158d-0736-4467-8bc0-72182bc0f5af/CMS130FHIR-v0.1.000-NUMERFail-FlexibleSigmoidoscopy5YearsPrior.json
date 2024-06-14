@@ -1,0 +1,208 @@
+{
+  "resourceType": "Bundle",
+  "id": "NUMERFail-FlexibleSigmoidoscopy5YearsPrior",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/5ebc158d-0736-4467-8bc0-72182bc0f5af",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "5ebc158d-0736-4467-8bc0-72182bc0f5af",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1979-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/5ebc158d-0736-4467-8bc0-72182bc0f5af"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-24",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-24",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/5ebc158d-0736-4467-8bc0-72182bc0f5af"
+      },
+      "period": {
+        "start": "2025-01-01T01:00:00.000Z",
+        "end": "2025-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-24"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Procedure/Procedure-3",
+    "resource": {
+      "resourceType": "Procedure",
+      "id": "Procedure-3",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-recorded",
+        "valueDateTime": "2020-12-31T23:00:00.000Z"
+      } ],
+      "status": "completed",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "841000119107",
+          "display": "History of flexible sigmoidoscopy (situation)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/5ebc158d-0736-4467-8bc0-72182bc0f5af"
+      },
+      "performedPeriod": {
+        "start": "2020-12-31T23:00:00.000Z",
+        "end": "2020-12-31T23:59:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Procedure/Procedure-3"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/695edd62-577e-4f11-8f85-695af086f241",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "695edd62-577e-4f11-8f85-695af086f241",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "494dcb8e-e6e4-48fe-adc9-926e27263c34-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "5ebc158d-0736-4467-8bc0-72182bc0f5af"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#494dcb8e-e6e4-48fe-adc9-926e27263c34-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient has a flexible sigmoidoscopy five years prior to the measurement period."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ColonCancerScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/5ebc158d-0736-4467-8bc0-72182bc0f5af"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-24"
+      }, {
+        "reference": "https://madie.cms.gov/Procedure/Procedure-3"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/695edd62-577e-4f11-8f85-695af086f241"
+    }
+  } ]
+}

@@ -1,0 +1,380 @@
+{
+  "resourceType": "Bundle",
+  "id": "63ec09a9ccb3770120feae02",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">GT24beforeAndGT24after_RelevantPeriod <b>RRFAIL </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>6b96c7322b6ea501cb069f5b5d0350be5b4be325a692598aba6b49af1cb369c3</td></tr><tr><td>Date of birth</td><td><span>15 June 1947</span></td></tr></tbody></table></div>"
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2054-5",
+            "display": "Black or African American",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Black or African American"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "63ec09a9ccb3770120feae02"
+      } ],
+      "active": true,
+      "name": [ {
+        "use": "usual",
+        "family": "RespiratoryRateFail",
+        "given": [ "RespRateX3AllOutsideOfParameters" ]
+      } ],
+      "gender": "male",
+      "birthDate": "1947-06-15"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/5dc2db40831f330000d741e6",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "5dc2db40831f330000d741e6",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "IMP",
+        "display": "inpatient encounter",
+        "userSelected": true
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "183452005"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      },
+      "period": {
+        "start": "2025-08-21T08:00:00.000+00:00",
+        "end": "2025-08-22T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/5dc2db40831f330000d741e6"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/5f98f56ca916680000fb6ed0",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "5f98f56ca916680000fb6ed0",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "status": "active",
+      "type": {
+        "coding": [ {
+          "system": "https://nahdo.org/sopt",
+          "version": "1.0.1",
+          "code": "1",
+          "display": "Medicare payer",
+          "userSelected": true
+        } ]
+      },
+      "beneficiary": {
+        "reference": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/5f98f56ca916680000fb6ed0"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb60",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "5b55f69ab84846558c53bb60",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/StructureDefinition/resprate" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs",
+          "userSelected": true
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "9279-1",
+          "display": "Respiratory rate"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      },
+      "effectiveDateTime": "2025-08-20T07:59:00.000+00:00",
+      "valueQuantity": {
+        "value": 16.0,
+        "unit": "/min",
+        "system": "http://unitsofmeasure.org",
+        "code": "/min"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/5b55f69ab84846558c53bb60"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb62",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "5b55f69ab84846558c53bb62",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/StructureDefinition/resprate" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs",
+          "userSelected": true
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "9279-1",
+          "display": "Respiratory rate"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      },
+      "effectiveDateTime": "2025-08-21T10:01:00.000+00:00",
+      "valueQuantity": {
+        "value": 16.0,
+        "unit": "/min",
+        "system": "http://unitsofmeasure.org",
+        "code": "/min"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/5b55f69ab84846558c53bb62"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb64",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "5b55f69ab84846558c53bb64",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/StructureDefinition/resprate" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs",
+          "userSelected": true
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "9279-1",
+          "display": "Respiratory rate"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      },
+      "effectiveDateTime": "2025-08-22T08:16:00.000+00:00",
+      "valueQuantity": {
+        "value": 16.0,
+        "unit": "/min",
+        "system": "http://unitsofmeasure.org",
+        "code": "/min"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/5b55f69ab84846558c53bb64"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Organization/123456",
+    "resource": {
+      "resourceType": "Organization",
+      "id": "123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
+      },
+      "identifier": [ {
+        "use": "temp",
+        "system": "urn:oid:2.16.840.1.113883.4.4",
+        "value": "21-3259825"
+      } ],
+      "active": true,
+      "type": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "pay",
+          "display": "Payer"
+        } ]
+      } ],
+      "name": "Blue Cross Blue Shield of Texas",
+      "telecom": [ {
+        "system": "phone",
+        "value": "(+1) 972-766-6900"
+      } ],
+      "address": [ {
+        "use": "billing",
+        "type": "postal",
+        "line": [ "P.O. Box 660044" ],
+        "city": "Dallas",
+        "state": "TX",
+        "postalCode": "75266-0044",
+        "country": "USA"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Organization/123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "practitioner-123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-practitioner" ]
+      },
+      "identifier": [ {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "value": "123456"
+      } ],
+      "name": [ {
+        "family": "Evil",
+        "prefix": [ "Dr" ]
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Practitioner/practitioner-123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/a624fdb9-65df-4d81-8257-77326a3e6894",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "a624fdb9-65df-4d81-8257-77326a3e6894",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "0b583555-3a15-412c-b182-4750a9d906ac-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#0b583555-3a15-412c-b182-4750a9d906ac-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient had 3 respiratory rate exams - 24 hours, 1 minute before start of encounter, 2 hours, 1 minute after start of encounter, and after end of encounter. \n"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/HybridHospitalWideReadmissionFHIR",
+      "period": {
+        "start": "2025-07-01",
+        "end": "2026-06-30"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/5c8fd823-e0f2-4cce-ab1f-9ed73e175fd6"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/5dc2db40831f330000d741e6"
+      }, {
+        "reference": "https://madie.cms.gov/Coverage/5f98f56ca916680000fb6ed0"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb60"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb62"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/5b55f69ab84846558c53bb64"
+      }, {
+        "reference": "https://madie.cms.gov/Organization/123456"
+      }, {
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/a624fdb9-65df-4d81-8257-77326a3e6894"
+    }
+  } ]
+}

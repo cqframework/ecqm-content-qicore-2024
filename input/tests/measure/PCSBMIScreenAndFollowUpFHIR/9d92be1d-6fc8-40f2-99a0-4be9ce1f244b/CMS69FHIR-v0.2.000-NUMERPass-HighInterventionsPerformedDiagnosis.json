@@ -1,0 +1,379 @@
+{
+  "resourceType": "Bundle",
+  "id": "62df0f195db91778f87ca907",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "9d92be1d-6fc8-40f2-99a0-4be9ce1f244b",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2106-3",
+            "display": "White",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "White"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "62df0f195db91778f87ca907"
+      } ],
+      "name": [ {
+        "family": "NUMERPass",
+        "given": [ "HighBMIAndInterventionPerformedCondition" ]
+      } ],
+      "gender": "unknown",
+      "birthDate": "1956-11-07"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/encounter-to-evaluate-bmi-533b",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "encounter-to-evaluate-bmi-533b",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-03",
+          "code": "10197000",
+          "display": "Psychiatric interview and evaluation (procedure)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000+00:00",
+        "end": "2025-01-01T00:30:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/encounter-to-evaluate-bmi-533b"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/body-mass-index-bmi-ratio-534c",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "body-mass-index-bmi-ratio-534c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/StructureDefinition/bmi" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "39156-5",
+          "display": "Body mass index (BMI) [Ratio]",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      },
+      "effectiveDateTime": "2025-01-01T00:01:00.000+00:00",
+      "valueQuantity": {
+        "value": 25.0,
+        "unit": "kg/m2",
+        "system": "http://unitsofmeasure.org",
+        "code": "kg/m2"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/body-mass-index-bmi-ratio-534c"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Procedure/follow-up-for-above-normal-bmi-5350",
+    "resource": {
+      "resourceType": "Procedure",
+      "id": "follow-up-for-above-normal-bmi-5350",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-recorded",
+        "valueDateTime": "2025-01-01T00:30:00.000+00:00"
+      } ],
+      "status": "completed",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-03",
+          "code": "182922004",
+          "display": "Dietary regime (regime/therapy)",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      },
+      "performedDateTime": "2025-01-01T00:30:00.000+00:00"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Procedure/follow-up-for-above-normal-bmi-5350"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/overweight-or-obese-a908",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "overweight-or-obese-a908",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active",
+          "display": "active",
+          "userSelected": true
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/condition-category",
+          "code": "health-concern",
+          "display": "Health Concern"
+        }, {
+          "system": "http://snomed.info/sct",
+          "code": "439401001",
+          "display": "Diagnosis"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-03",
+          "code": "162863004",
+          "display": "Body mass index 25-29 - overweight (finding)",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      },
+      "onsetDateTime": "2025-01-01T00:30:00.000+00:00",
+      "recordedDate": "2025-01-01T00:30:00.000+00:00"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/overweight-or-obese-a908"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "status": "active",
+      "beneficiary": {
+        "reference": "Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Organization/123456",
+    "resource": {
+      "resourceType": "Organization",
+      "id": "123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
+      },
+      "identifier": [ {
+        "use": "temp",
+        "system": "urn:oid:2.16.840.1.113883.4.4",
+        "value": "21-3259825"
+      } ],
+      "active": true,
+      "type": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "pay",
+          "display": "Payer"
+        } ]
+      } ],
+      "name": "Blue Cross Blue Shield of Texas",
+      "telecom": [ {
+        "system": "phone",
+        "value": "(+1) 972-766-6900"
+      } ],
+      "address": [ {
+        "use": "billing",
+        "type": "postal",
+        "line": [ "P.O. Box 660044" ],
+        "city": "Dallas",
+        "state": "TX",
+        "postalCode": "75266-0044",
+        "country": "USA"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Organization/123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/ba695660-f17e-4dce-a9b2-afdf41e63fe4",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "ba695660-f17e-4dce-a9b2-afdf41e63fe4",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "a75799ce-63d2-4c1a-b593-abe8deec44b1-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#a75799ce-63d2-4c1a-b593-abe8deec44b1-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": " Enc. midnight 01/01 to 0030 during MP, BMI 25 kg/m2 dateTime, dietary recommendations datetime, dx overweight/obese"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/PCSBMIScreenAndFollowUpFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exception",
+              "display": "Denominator Exception"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/9d92be1d-6fc8-40f2-99a0-4be9ce1f244b"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-evaluate-bmi-533b"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/body-mass-index-bmi-ratio-534c"
+      }, {
+        "reference": "https://madie.cms.gov/Procedure/follow-up-for-above-normal-bmi-5350"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/overweight-or-obese-a908"
+      }, {
+        "reference": "https://madie.cms.gov/Coverage/1"
+      }, {
+        "reference": "https://madie.cms.gov/Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/ba695660-f17e-4dce-a9b2-afdf41e63fe4"
+    }
+  } ]
+}

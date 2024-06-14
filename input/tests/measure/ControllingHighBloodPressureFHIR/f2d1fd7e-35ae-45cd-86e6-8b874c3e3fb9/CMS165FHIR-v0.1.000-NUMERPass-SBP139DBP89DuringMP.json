@@ -1,0 +1,315 @@
+{
+  "resourceType": "Bundle",
+  "id": "NUMERPass-SBP139DBP89DuringMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "NUMERPass",
+        "given": [ "SBP139DBP89DuringMP" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2006-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-5",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-5",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "3391000175108",
+          "display": "Office visit for pediatric care and assessment (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-01T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-5"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-5",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-5",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "371125006",
+          "display": "Labile essential hypertension (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+      },
+      "onsetDateTime": "2025-06-30T23:59:59.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-5"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/Observation-5",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "Observation-5",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/StructureDefinition/bp" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs"
+        } ],
+        "text": "Vital Signs"
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "85354-9",
+          "display": "Blood pressure panel with all children optional"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+      },
+      "encounter": {
+        "reference": "Encounter/Encounter-5-1"
+      },
+      "effectiveDateTime": "2025-01-02T00:00:00.000Z",
+      "component": [ {
+        "code": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "8480-6",
+            "display": "Systolic blood pressure"
+          } ]
+        },
+        "valueQuantity": {
+          "value": 139,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        }
+      }, {
+        "code": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "8462-4",
+            "display": "Diastolic blood pressure"
+          } ]
+        },
+        "valueQuantity": {
+          "value": 89,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        }
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/Observation-5"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-5-1",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-5-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "3391000175108",
+          "display": "Office visit for pediatric care and assessment (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-01T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-5-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/4d27aad3-c9ca-49a8-821f-c17a4cdcee0b",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "4d27aad3-c9ca-49a8-821f-c17a4cdcee0b",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "1a2ad2bc-3e3a-4f4d-ab75-4116c761e6b7-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#1a2ad2bc-3e3a-4f4d-ab75-4116c761e6b7-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "BP 139/89 during MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ControllingHighBloodPressureFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/f2d1fd7e-35ae-45cd-86e6-8b874c3e3fb9"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-5"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-5"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/Observation-5"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-5-1"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/4d27aad3-c9ca-49a8-821f-c17a4cdcee0b"
+    }
+  } ]
+}

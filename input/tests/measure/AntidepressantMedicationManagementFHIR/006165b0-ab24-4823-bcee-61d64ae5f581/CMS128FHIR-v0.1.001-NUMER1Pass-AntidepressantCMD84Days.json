@@ -1,0 +1,283 @@
+{
+  "resourceType": "Bundle",
+  "id": "Patient-7-NUMER1Pass-AntidepressantCMD84Days",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/006165b0-ab24-4823-bcee-61d64ae5f581",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "006165b0-ab24-4823-bcee-61d64ae5f581",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2007-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/006165b0-ab24-4823-bcee-61d64ae5f581"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-7",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-7",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "3391000175108",
+          "display": "Office visit for pediatric care and assessment (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/006165b0-ab24-4823-bcee-61d64ae5f581"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-01T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-7"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MedicationDispense/MedicationDispense-7",
+    "resource": {
+      "resourceType": "MedicationDispense",
+      "id": "MedicationDispense-7",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationdispense" ]
+      },
+      "status": "completed",
+      "medicationCodeableConcept": {
+        "coding": [ {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "1099316",
+          "display": "desipramine hydrochloride 75 MG Oral Tablet"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/006165b0-ab24-4823-bcee-61d64ae5f581"
+      },
+      "daysSupply": {
+        "value": 84,
+        "system": "http://unitsofmeasure.org",
+        "code": "days"
+      },
+      "whenHandedOver": "2025-01-01T01:00:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "MedicationDispense/MedicationDispense-7"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-7",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-7",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "15193003",
+          "display": "Severe recurrent major depression with psychotic features, mood-incongruent (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/006165b0-ab24-4823-bcee-61d64ae5f581"
+      },
+      "onsetDateTime": "2025-01-01T01:00:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-7"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/49d98038-fd51-4a42-9b6c-709ce890535c",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "49d98038-fd51-4a42-9b6c-709ce890535c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "4c31ecb6-d8b4-4c99-91f2-68f8a64b5a0e-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "006165b0-ab24-4823-bcee-61d64ae5f581"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#4c31ecb6-d8b4-4c99-91f2-68f8a64b5a0e-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Antidepressant continuous treatment 84 days"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AntidepressantMedicationManagementFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        } ]
+      }, {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/006165b0-ab24-4823-bcee-61d64ae5f581"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-7"
+      }, {
+        "reference": "https://madie.cms.gov/MedicationDispense/MedicationDispense-7"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-7"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/49d98038-fd51-4a42-9b6c-709ce890535c"
+    }
+  } ]
+}

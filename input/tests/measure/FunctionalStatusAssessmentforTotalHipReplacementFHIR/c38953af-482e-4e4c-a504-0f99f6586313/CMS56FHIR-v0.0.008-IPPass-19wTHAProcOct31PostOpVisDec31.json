@@ -1,0 +1,208 @@
+{
+  "resourceType": "Bundle",
+  "id": "IPPass-19wTHAProcOct31PostOpVisDec31",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/c38953af-482e-4e4c-a504-0f99f6586313",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "c38953af-482e-4e4c-a504-0f99f6586313",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2006-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/c38953af-482e-4e4c-a504-0f99f6586313"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Procedure/Procedure-2",
+    "resource": {
+      "resourceType": "Procedure",
+      "id": "Procedure-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-recorded",
+        "valueDateTime": "2024-10-31T00:00:00.000Z"
+      } ],
+      "status": "completed",
+      "code": {
+        "coding": [ {
+          "system": "http://www.cms.gov/Medicare/Coding/ICD10",
+          "code": "0SR9019",
+          "display": "Replacement of Right Hip Joint with Metal Synthetic Substitute, Cemented, Open Approach"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/c38953af-482e-4e4c-a504-0f99f6586313"
+      },
+      "performedPeriod": {
+        "start": "2024-10-31T00:00:00.000Z",
+        "end": "2024-10-31T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Procedure/Procedure-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-2",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "code": "99024",
+          "display": "Postoperative follow-up visit, normally included in the surgical package, to indicate that an evaluation and management service was performed during a postoperative period for a reason(s) related to the original procedure"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/c38953af-482e-4e4c-a504-0f99f6586313"
+      },
+      "period": {
+        "start": "2025-12-31T00:00:00.000Z",
+        "end": "2025-12-31T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/12a8c55c-5f28-484e-b06c-7946b4c8f754",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "12a8c55c-5f28-484e-b06c-7946b4c8f754",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "0cc487c8-ace7-4bd0-82ff-4032bc86401d-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "c38953af-482e-4e4c-a504-0f99f6586313"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#0cc487c8-ace7-4bd0-82ff-4032bc86401d-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient 19yo w/ a THA Procedure 10/31 during THAProcedure Interval and Post Op Visit Outpatient Encounter 12/31 during Qualifying Encounter Interval."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/FunctionalStatusAssessmentforTotalHipReplacementFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/c38953af-482e-4e4c-a504-0f99f6586313"
+      }, {
+        "reference": "https://madie.cms.gov/Procedure/Procedure-2"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-2"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/12a8c55c-5f28-484e-b06c-7946b4c8f754"
+    }
+  } ]
+}

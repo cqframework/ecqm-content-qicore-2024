@@ -1,0 +1,240 @@
+{
+  "resourceType": "Bundle",
+  "id": "62f660475efef5272905e70d",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/23a074ad-77f3-4e29-93db-5bbbaff9178a",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "23a074ad-77f3-4e29-93db-5bbbaff9178a",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "62f660475efef5272905e70d"
+      } ],
+      "name": [ {
+        "family": "DENEXCEPPass",
+        "given": [ "AdolescentPatientReasonForNoDepressionScreenAge12" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2012-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/23a074ad-77f3-4e29-93db-5bbbaff9178a"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-d709",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "encounter-to-screen-for-depression-d709",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2021-09",
+          "code": "10197000",
+          "display": "Psychiatric interview and evaluation (procedure)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/23a074ad-77f3-4e29-93db-5bbbaff9178a"
+      },
+      "period": {
+        "start": "2025-01-01T08:00:00.000+00:00",
+        "end": "2025-01-01T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/encounter-to-screen-for-depression-d709"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/adolescent-depression-screening-assessment-e70c",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "adolescent-depression-screening-assessment-e70c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observationnotdone" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-notDoneReason",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "720834000",
+            "display": "Depression screening declined (situation)",
+            "userSelected": true
+          } ]
+        }
+      } ],
+      "status": "cancelled",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "procedure",
+          "display": "Procedure"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "73831-0",
+          "display": "Adolescent depression screening assessment",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/23a074ad-77f3-4e29-93db-5bbbaff9178a"
+      },
+      "issued": "2025-01-01T08:01:00.000+00:00",
+      "valueBoolean": true
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/adolescent-depression-screening-assessment-e70c"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/fa70e7a7-c531-42d9-b052-6358b990eb20",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "fa70e7a7-c531-42d9-b052-6358b990eb20",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "33b1346d-7328-49dc-9f81-557e791ea50b-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "23a074ad-77f3-4e29-93db-5bbbaff9178a"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#33b1346d-7328-49dc-9f81-557e791ea50b-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "12 yo male with patient reason for not screening for depression - 12 on first day MP."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/PCSDepressionScreenAndFollowUpFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exception",
+              "display": "Denominator Exception"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/23a074ad-77f3-4e29-93db-5bbbaff9178a"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-screen-for-depression-d709"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/adolescent-depression-screening-assessment-e70c"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/fa70e7a7-c531-42d9-b052-6358b990eb20"
+    }
+  } ]
+}
