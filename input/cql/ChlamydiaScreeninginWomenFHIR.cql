@@ -57,19 +57,25 @@ define "SDE Race":
 define "SDE Sex":
   SDE."SDE Sex"
 
-define "Initial Population":
+define "Age In Measurement Period":
   AgeInYearsAt(date from 
     end of "Measurement Period"
-  ) in Interval[16, 24]
-    and Patient.gender = 'female'
+  )
+
+define "Patient Gender":
+  Patient.gender
+
+define "Initial Population":
+  "Age In Measurement Period" in Interval[16, 24]
+    and "Patient Gender" = 'female'
     and exists ( "Qualifying Encounters" )
-    and ( ( "Has Assessments Identifying Sexual Activity" )
-        or ( "Has Diagnoses Identifying Sexual Activity" )
-        or ( "Has Active Contraceptive Medications" )
-        or ( "Has Ordered Contraceptive Medications" )
-        or ( "Has Laboratory Tests Identifying Sexual Activity" )
-        or ( "Has Diagnostic Studies Identifying Sexual Activity" )
-        or ( "Has Procedures Identifying Sexual Activity" )
+    and ( exists ( "Assessments Identifying Sexual Activity" )
+        or exists ( "Diagnoses Identifying Sexual Activity" )
+        or exists ( "Active Contraceptive Medications" )
+        or exists ( "Ordered Contraceptive Medications" )
+        or exists ( "Laboratory Tests Identifying Sexual Activity" )
+        or exists ( "Diagnostic Studies Identifying Sexual Activity" )
+        or exists ( "Procedures Identifying Sexual Activity" )
     )
 
 define "Qualifying Encounters":
@@ -84,79 +90,74 @@ define "Qualifying Encounters":
       where QICoreCommon."ToInterval" ( ValidEncounters.period ) during day of "Measurement Period"
   )
 
-define "Has Diagnoses Identifying Sexual Activity":
-  exists ( ( [Condition: "Diagnoses Used to Indicate Sexual Activity"]
+define "Diagnoses Identifying Sexual Activity":
+  ( [Condition: "Diagnoses Used to Indicate Sexual Activity"]
       union [Condition: "HIV"]
       union [Condition: "Complications of Pregnancy, Childbirth and the Puerperium"] ) SexualActivityDiagnosis
       where QICoreCommon."ToPrevalenceInterval" ( SexualActivityDiagnosis ) overlaps "Measurement Period"
-  )
 
-define "Has Active Contraceptive Medications":
-  exists ( ( Status."Active Medication" ( ["MedicationRequest": "Contraceptive Medications"] ) ) ActiveContraceptives
+define "Active Contraceptive Medications":
+  ( Status."Active Medication" ( ["MedicationRequest": "Contraceptive Medications"] ) ) ActiveContraceptives
       where CMD."MedicationRequestPeriod" ( ActiveContraceptives ) overlaps "Measurement Period"
-  )
 
-define "Has Ordered Contraceptive Medications":
-  exists ( ( Status."Active or Completed Medication Request" ( [MedicationRequest: "Contraceptive Medications"] ) ) OrderedContraceptives
+define "Ordered Contraceptive Medications":
+  ( Status."Active or Completed Medication Request" ( [MedicationRequest: "Contraceptive Medications"] ) ) OrderedContraceptives
       where QICoreCommon."ToInterval" ( OrderedContraceptives.authoredOn ) during day of "Measurement Period"
-  )
 
-define "Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy":
-  exists ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pap Test"]
+define "Laboratory Tests Identifying Sexual Activity But Not Pregnancy":
+  ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pap Test"]
       union [ServiceRequest: "Lab Tests During Pregnancy"]
       union [ServiceRequest: "Lab Tests for Sexually Transmitted Infections"] ) ) LabOrders
       where QICoreCommon."ToInterval" ( LabOrders.authoredOn ) during day of "Measurement Period"
-  )
 
-define "Has Laboratory Tests Identifying Sexual Activity":
-  exists ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTest
+define "Laboratory Tests Identifying Sexual Activity":
+  (( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTest
       where QICoreCommon."ToInterval" ( PregnancyTest.authoredOn ) during day of "Measurement Period"
   )
-    or "Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy"
+  union "Laboratory Tests Identifying Sexual Activity But Not Pregnancy"
 
-define "Has Diagnostic Studies Identifying Sexual Activity":
-  exists ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Diagnostic Studies During Pregnancy"] ) ) SexualActivityDiagnostics
+define "Diagnostic Studies Identifying Sexual Activity":
+  ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Diagnostic Studies During Pregnancy"] ) ) SexualActivityDiagnostics
       where QICoreCommon."ToInterval" ( SexualActivityDiagnostics.authoredOn ) during day of "Measurement Period"
-  )
 
-define "Has Procedures Identifying Sexual Activity":
-  exists ( ( Status."Completed Procedure" ( [Procedure: "Procedures Used to Indicate Sexual Activity"] ) ) ProceduresForSexualActivity
+define "Procedures Identifying Sexual Activity":
+  ( Status."Completed Procedure" ( [Procedure: "Procedures Used to Indicate Sexual Activity"] ) ) ProceduresForSexualActivity
       where QICoreCommon."ToInterval" ( ProceduresForSexualActivity.performed ) during day of "Measurement Period"
-  )
 
 define "Denominator":
   "Initial Population"
 
 define "Denominator Exclusions":
   Hospice."Has Hospice Services"
-    or ( ( "Has Pregnancy Test Exclusion" )
-        and not ( "Has Assessments Identifying Sexual Activity" )
-        and not ( "Has Diagnoses Identifying Sexual Activity" )
-        and not ( "Has Active Contraceptive Medications" )
-        and not ( "Has Ordered Contraceptive Medications" )
-        and not ( "Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy" )
-        and not ( "Has Diagnostic Studies Identifying Sexual Activity" )
-        and not ( "Has Procedures Identifying Sexual Activity" )
+    or ( exists ( "Pregnancy Test Exclusion" )
+        and not exists ( "Assessments Identifying Sexual Activity" )
+        and not exists ( "Diagnoses Identifying Sexual Activity" )
+        and not exists ( "Active Contraceptive Medications" )
+        and not exists ( "Ordered Contraceptive Medications" )
+        and not exists ( "Laboratory Tests Identifying Sexual Activity But Not Pregnancy" )
+        and not exists ( "Diagnostic Studies Identifying Sexual Activity" )
+        and not exists ( "Procedures Identifying Sexual Activity" )
     )
 
-define "Has Pregnancy Test Exclusion":
-  exists ( ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTest
-        with ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "XRay Study"] ) ) XrayOrder
-          such that QICoreCommon."ToInterval" ( XrayOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon."ToInterval" ( PregnancyTest.authoredOn )
-            and QICoreCommon."ToInterval" ( PregnancyTest.authoredOn ) during "Measurement Period"
-    )
-      union ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTestOrder
-          with ( Status."Active or Completed Medication Request" ( [MedicationRequest: "Isotretinoin"] ) ) AccutaneOrder
-            such that QICoreCommon."ToInterval" ( AccutaneOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon."ToInterval" ( PregnancyTestOrder.authoredOn )
-              and QICoreCommon."ToInterval" ( PregnancyTestOrder.authoredOn ) during "Measurement Period"
-      )
+define "Pregnancy Test Exclusion":
+  ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTest
+      with ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "XRay Study"] ) ) XrayOrder
+        such that QICoreCommon."ToInterval" ( XrayOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon."ToInterval" ( PregnancyTest.authoredOn )
+          and QICoreCommon."ToInterval" ( PregnancyTest.authoredOn ) during "Measurement Period"
+  )
+  union ( ( Status."Completed or Ongoing Service Request" ( [ServiceRequest: "Pregnancy Test"] ) ) PregnancyTestOrder
+      with ( Status."Active or Completed Medication Request" ( [MedicationRequest: "Isotretinoin"] ) ) AccutaneOrder
+        such that QICoreCommon."ToInterval" ( AccutaneOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon."ToInterval" ( PregnancyTestOrder.authoredOn )
+          and QICoreCommon."ToInterval" ( PregnancyTestOrder.authoredOn ) during "Measurement Period"
   )
 
-define "Numerator":
-  exists ( ( Status."Final Lab Observation" ( [Observation: "Chlamydia Screening"] ) ) ChlamydiaTest
+define "Chlamydia Screening Performed":
+  ( Status."Final Lab Observation" ( [Observation: "Chlamydia Screening"] ) ) ChlamydiaTest
       where QICoreCommon."Latest" ( ChlamydiaTest.effective ) during day of "Measurement Period"
         and ChlamydiaTest.value is not null
-  )
+
+define "Numerator":
+  exists ("Chlamydia Screening Performed")
 
 define "Stratification 1":
   AgeInYearsAt(date from 
@@ -168,8 +169,8 @@ define "Stratification 2":
     end of "Measurement Period"
   ) in Interval[21, 24]
 
-define "Has Assessments Identifying Sexual Activity":
-  exists ( ( Status."Final Survey Observation" ( [Observation: "Have you ever had vaginal intercourse [PhenX]"] ) ) SexualActivityAssessment
+define "Assessments Identifying Sexual Activity":
+  ( Status."Final Survey Observation" ( [Observation: "Have you ever had vaginal intercourse [PhenX]"] ) ) SexualActivityAssessment
       where SexualActivityAssessment.value ~ "Yes (qualifier value)"
         and QICoreCommon."ToInterval" ( SexualActivityAssessment.effective ) on or before end of "Measurement Period"
-  )
+  
