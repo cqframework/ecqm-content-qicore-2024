@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "428191000124101",
         "display": "Documentation of current medications (procedure)"
@@ -24,7 +38,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -266,15 +280,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system SNOMEDCT",
@@ -352,7 +370,7 @@
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
       "mustSupport": [ "ethnicity", "race" ]
     }, {
-      "id": "28",
+      "id": "265",
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
       "mustSupport": [ "type", "status", "status.value", "period" ],
@@ -426,7 +444,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -439,15 +458,15 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
     "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
-    }
-  }, {
-    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
-    "valueReference": {
-      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/DocumentationofCurrentMedicationsFHIR",
@@ -500,7 +519,7 @@
   "title": "Documentation of Current Medications in the Medical RecordFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-01-16T04:42:43+00:00",
+  "date": "2024-07-01T20:13:04+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -510,10 +529,8 @@
   } ],
   "description": "Percentage of visits for which the eligible clinician attests to documenting a list of current medications using all immediate resources available on the date of the encounter.",
   "purpose": "UNKNOWN",
-  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter during the measurement period. This measure is to be reported for every eligible encounter during the measurement period.\n\nEligible clinicians reporting this measure may document medication information received from the patient, authorized representative(s), caregiver(s) or other available healthcare resources.\n \nBy reporting the action described in this measure, the provider attests to having documented a list of current medications utilizing all immediate resources available on the day of the encounter.\n\nThis list must include all known prescriptions, over-the-counter products, herbals, vitamins, minerals, dietary (nutritional) supplements, cannabis/cannabidiol (CBD) products AND must contain the medications' name, dosage, frequency and route of administration.\n\nThis measure should also be reported if the eligible clinician documented the patient is not currently taking any medications.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS68v13. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.",
-  "approvalDate": "2023-11-27",
-  "lastReviewDate": "2023-11-27",
+  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter during the measurement period. This measure is to be reported for every eligible encounter during the measurement period.  Eligible clinicians reporting this measure may document medication information received from the patient, authorized representative(s), caregiver(s) or other available healthcare resources.   By reporting the action described in this measure, the provider attests to having documented a list of current medications utilizing all immediate resources available on the day of the encounter.  This list must include all known prescriptions, over-the-counter products, herbals, vitamins, minerals, dietary (nutritional) supplements, cannabis/cannabidiol (CBD) products AND must contain the medications' name, dosage, frequency and route of administration.  This measure should also be reported if the eligible clinician documented the patient is not currently taking any medications.  This FHIR-based measure has been derived from the QDM-based measure: CMS68v14. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -526,6 +543,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/DocumentationofCurrentMedicationsFHIR" ],
+  "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -533,9 +551,8 @@
       "display": "Proportion"
     } ]
   },
-  "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "rationale": "According to the National Center for Health Statistics, during the years of 2013-2016, 48.4% of patients (both male and female) were prescribed at least one prescription medication with 12.6% taking 5 or more medications. Additionally, 89.8% of patients (both male and female) aged 65 years and older were prescribed at least one medication with 40.9% taking 5 or more medications (2018). In this context, maintaining an accurate and complete medication list has proven to be a challenging documentation endeavor for various health care provider settings. While most of outpatient encounters (two-thirds) result in providers prescribing at least one medication, hospitals have been the focus of medication safety efforts (Stock, Scott, & Gurtel, 2009). Nassaralla, Naessens, Chaudhry, Hansen, and Scheitel (2007) caution that this is at odds with the current trend, where patients with chronic illnesses are increasingly being treated in the outpatient setting and require careful monitoring of multiple medications. Additionally, Nassaralla et al. (2007) reveal that it is in fact in outpatient settings where more fatal adverse drug events (ADE) occur when these are compared to those occurring in hospitals (1 of 131 outpatient deaths compared to 1 in 854 inpatient deaths). In the outpatient setting, ADEs occur 25% of the time and over one-third of these are considered preventable (Tache, Sonnichsen, & Ashcroft, 2011). Particularly vulnerable are patients over 65 years, with evidence suggesting that the rate of ADEs per 10,000 person per year increases with age; 25-44 years old at 1.3; 45-64 at 2.2, and 65 + at 3.8 (Sarkar, Lopez, Maselli, & Gonzales, 2011). Other vulnerable groups include individuals who are chronically ill or disabled (Nabhanizadeh, Oppewal, Boot, & Maes-Festen, 2019). These population groups are more likely to experience ADEs and subsequent hospitalization. \n\nA multiplicity of providers and inadequate care coordination among them has been identified as barriers to collecting complete and reliable medication records. A study conducted by Poornima et al. (2015) indicates that reconciliation and documentation continue to be poorly executed with discrepancies occurring in 92% of patients (74 of 80) admitted to the emergency room. Of 80 patients included in the study, the home medications were reordered for 65% of patients on their admission. Of the 65%, 29% had a change in their dosing interval, while 23% had a change in their route of administration, and 13% had a change in dose. A total of 361 medication discrepancies, or the difference between the medications patients were taking before admission and those listed in their admission orders, were identified in at least 74 patients. The study found that \"Through an appropriate reconciliation programme, around 80% of errors relating to medication and the potential harm caused by these errors could be reduced\" (Poornima et al., 2015). Presley et al. (2020) also recognized specific barriers to sufficient medication documentation and reconciliation in rural and resource-limited care settings.\n\nDocumentation of current medications in the medical record facilitates the process of medication review and reconciliation by the provider, which is necessary for reducing ADEs and promoting medication safety. The need for provider to provider coordination regarding medication records, and the existing gap in implementation, is highlighted in the American Medical Association's Physician's Role in Medication Reconciliation, which states that \"critical patient information, including medical and medication histories, current medications the patient is receiving and taking, and sources of medications, is essential to the delivery of safe medical care. However, interruptions in the continuity of care and information gaps in patient health records are common and significantly affect patient outcomes\" (2007). This is because clinical decisions based on information that is incomplete and/or inaccurate are likely to lead to medication error and ADEs. Weeks, Corbette, and Stream (2010) noted similar barriers and identified the utilization of health information technology as an opportunity for facilitating the creation of universal medication lists. One 2015 meta-analysis showed an association between electronic health record (EHR) documentation with an overall risk ratio (RR) of 0.46 (95% CI = 0.38 to 0.55; P < 0.001) and ADEs with an overall RR of 0.66 (95% CI = 0.44 to 0.99; P = 0.045). This meta-analysis provides evidence that the use of the EHR can improve the quality of healthcare delivered to patients by reducing medication errors and ADEs (Campanella et al., 2016).",
-  "clinicalRecommendationStatement": "The Joint Commission's 2023 Ambulatory Health Care National Patient Safety Goals guide clinicians to maintain and communicate accurate patient medication information. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient medication information\" states the following: \"Obtain and/or update information on the medications the patient is currently taking. This information is documented in a list or other format that is useful to those who manage medication. Compare the medication information the patient brought to the organization with the medications ordered for the patient by the organization in order to identify and resolve discrepancies.”\n\nThe Joint Commission's 2023 Hospital National Patient Safety Goals also addressed documenting current medications. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient information\" states the following: \"Obtain information on the medications the patient is currently taking when they are admitted to the hospital or is seen in an outpatient setting. This information is documented in a list or other format that is useful to those who manage medications.\"\n\nThe National Quality Forum's Safe Practices for Better Healthcare (2010), states the following: \"The healthcare organization must develop, reconcile, and communicate an accurate patient medication list throughout the continuum of care.\"",
+  "rationale": "According to the National Center for Health Statistics, during the years of 2013-2016, 48.4% of patients (both male and female) were prescribed at least one prescription medication with 12.6% taking 5 or more medications. Additionally, 89.8% of patients (both male and female) aged 65 years and older were prescribed at least one medication with 40.9% taking 5 or more medications (2018). In this context, maintaining an accurate and complete medication list has proven to be a challenging documentation endeavor for various health care provider settings. While most of outpatient encounters (two-thirds) result in providers prescribing at least one medication, hospitals have been the focus of medication safety efforts (Stock, Scott, & Gurtel, 2009). Nassaralla, Naessens, Chaudhry, Hansen, and Scheitel (2007) caution that this is at odds with the current trend, where patients with chronic illnesses are increasingly being treated in the outpatient setting and require careful monitoring of multiple medications. Additionally, Nassaralla et al. (2007) reveal that it is in fact in outpatient settings where more fatal adverse drug events (ADE) occur when these are compared to those occurring in hospitals (1 of 131 outpatient deaths compared to 1 in 854 inpatient deaths). In the outpatient setting, ADEs occur 25% of the time and over one-third of these are considered preventable (Tache, Sonnichsen, & Ashcroft, 2011). Particularly vulnerable are patients over 65 years, with evidence suggesting that the rate of ADEs per 10,000 person per year increases with age; 25-44 years old at 1.3; 45-64 at 2.2, and 65 + at 3.8 (Sarkar, Lopez, Maselli, & Gonzales, 2011). Other vulnerable groups include individuals who are chronically ill or disabled (Nabhanizadeh, Oppewal, Boot, & Maes-Festen, 2019). These population groups are more likely to experience ADEs and subsequent hospitalization.   A multiplicity of providers and inadequate care coordination among them has been identified as barriers to collecting complete and reliable medication records. A study conducted by Poornima et al. (2015) indicates that reconciliation and documentation continue to be poorly executed with discrepancies occurring in 92% of patients (74 of 80) admitted to the emergency room. Of 80 patients included in the study, the home medications were reordered for 65% of patients on their admission. Of the 65%, 29% had a change in their dosing interval, while 23% had a change in their route of administration, and 13% had a change in dose. A total of 361 medication discrepancies, or the difference between the medications patients were taking before admission and those listed in their admission orders, were identified in at least 74 patients. The study found that \"Through an appropriate reconciliation programme, around 80% of errors relating to medication and the potential harm caused by these errors could be reduced\" (Poornima et al., 2015). Presley et al. (2020) also recognized specific barriers to sufficient medication documentation and reconciliation in rural and resource-limited care settings.  Documentation of current medications in the medical record facilitates the process of medication review and reconciliation by the provider, which is necessary for reducing ADEs and promoting medication safety. The need for provider to provider coordination regarding medication records, and the existing gap in implementation, is highlighted in the American Medical Association's Physician's Role in Medication Reconciliation, which states that \"critical patient information, including medical and medication histories, current medications the patient is receiving and taking, and sources of medications, is essential to the delivery of safe medical care. However, interruptions in the continuity of care and information gaps in patient health records are common and significantly affect patient outcomes\" (2007). This is because clinical decisions based on information that is incomplete and/or inaccurate are likely to lead to medication error and ADEs. Weeks, Corbette, and Stream (2010) noted similar barriers and identified the utilization of health information technology as an opportunity for facilitating the creation of universal medication lists. One 2015 meta-analysis showed an association between electronic health record (EHR) documentation with an overall risk ratio (RR) of 0.46 (95% CI = 0.38 to 0.55; P < 0.001) and ADEs with an overall RR of 0.66 (95% CI = 0.44 to 0.99; P = 0.045). This meta-analysis provides evidence that the use of the EHR can improve the quality of healthcare delivered to patients by reducing medication errors and ADEs (Campanella et al., 2016).",
+  "clinicalRecommendationStatement": "The Joint Commission's 2023 Ambulatory Health Care National Patient Safety Goals guide clinicians to maintain and communicate accurate patient medication information. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient medication information\" states the following: \"Obtain and/or update information on the medications the patient is currently taking. This information is documented in a list or other format that is useful to those who manage medication. Compare the medication information the patient brought to the organization with the medications ordered for the patient by the organization in order to identify and resolve discrepancies.”  The Joint Commission's 2023 Hospital National Patient Safety Goals also addressed documenting current medications. Specifically, the section NPSG.03.06.01 \"Maintain and communicate accurate patient information\" states the following: \"Obtain information on the medications the patient is currently taking when they are admitted to the hospital or is seen in an outpatient setting. This information is documented in a list or other format that is useful to those who manage medications.\"  The National Quality Forum's Safe Practices for Better Healthcare (2010), states the following: \"The healthcare organization must develop, reconcile, and communicate an accurate patient medication list throughout the continuum of care.\"",
   "group": [ {
     "id": "64f0d84a56d636294b157d7f",
     "extension": [ {
@@ -557,6 +574,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -590,18 +619,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "f614d3a9-1494-4ea9-950c-3e19a5e66207",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "2E802727-9C5D-4A4C-A72E-52A534635142",
       "code": {
         "coding": [ {
@@ -614,18 +631,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "d8ed7abf-f5fb-4acc-904a-0c3dd4b6916b",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "D8A53585-9109-4ACE-9665-18974DA1AE7D",

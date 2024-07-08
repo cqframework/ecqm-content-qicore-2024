@@ -2,10 +2,10 @@ library HospitalHarmOpioidRelatedAdverseEventsFHIR version '0.1.000'
 
 using QICore version '4.1.1'
 
-include SupplementalDataElements version '3.4.000' called SDE
-include CQMCommon version '2.0.000' called CQMCommon
-include QICoreCommon version '2.0.000' called QICoreCommon
-include FHIRHelpers version '4.3.000' called FHIRHelpers
+include SupplementalDataElements version '3.5.000' called SDE
+include CQMCommon version '2.2.000' called CQMCommon
+include QICoreCommon version '2.1.000' called QICoreCommon
+include FHIRHelpers version '4.4.000' called FHIRHelpers
 
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
 codesystem "HSLOC": 'http://cts.nlm.nih.gov/fhir/cs/hsloc'

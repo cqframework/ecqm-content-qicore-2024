@@ -1,13 +1,10 @@
-library DepressionRemissionatTwelveMonthsFHIR version '0.1.000'
+library DepressionRemissionatTwelveMonthsFHIR version '0.2.000'
 
 using QICore version '4.1.1'
 
-/*This spec aligns with AU2024/PY2025 QDM version*/
-
-
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include SupplementalDataElements version '3.4.000' called SDE
-include QICoreCommon version '2.0.000' called QICoreCommon
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include SupplementalDataElements version '3.5.000' called SDE
+include QICoreCommon version '2.1.000' called QICoreCommon
 
 codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
@@ -24,6 +21,7 @@ valueset "Major Depression Including Remission": 'http://cts.nlm.nih.gov/fhir/Va
 valueset "Palliative Care Diagnosis": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1167'
 valueset "Palliative Care Encounter": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1090'
 valueset "Palliative Care Intervention": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.12.1135'
+valueset "Palliative or Hospice Care": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1579'
 valueset "Personality Disorder Emotionally Labile": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.67.1.101.1.246'
 valueset "Pervasive Developmental Disorder": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.105.12.1152'
 valueset "PHQ 9 and PHQ 9M Tools": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.67.1.101.1.263'
@@ -34,11 +32,10 @@ code "Discharge to home for hospice care (procedure)": '428361000124107' from "S
 code "Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)": '71007-9' from "LOINC" display 'Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)'
 code "Hospice care [Minimum Data Set]": '45755-6' from "LOINC" display 'Hospice care [Minimum Data Set]'
 code "Yes (qualifier value)": '373066001' from "SNOMEDCT" display 'Yes (qualifier value)'
-code "confirmed": 'confirmed' from ConditionVerificationStatusCodes display 'Confirmed'
 
 parameter "Measurement Period" Interval<DateTime>
   default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
-  
+
 context Patient
 
 define "Initial Population":
@@ -59,14 +56,6 @@ define "Numerator":
         and DepressionAssessment.status in { 'final', 'amended', 'corrected' }
       sort by start of effective.toInterval()
   ).value < 5
-
-define "Stratification 1":
-  "Index Depression Assessment" IndexAssessment
-    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) in Interval[12, 17]
-
-define "Stratification 2":
-  "Index Depression Assessment" IndexAssessment
-    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) >= 18
 
 define "SDE Ethnicity":
   SDE."SDE Ethnicity"
@@ -91,8 +80,7 @@ define "Depression Assessments Greater than 9":
 define "Depression Diagnoses":
   ( [Condition: "Major Depression Including Remission"]
     union [Condition: "Dysthymia"] ) Depression
-    where Depression.isActive ( )
-      and Depression.verificationStatus ~ "confirmed"
+    where Depression.isConfirmedActiveDiagnosis ( )
 
 define "Depression Encounter":
   [Encounter: "Contact or Office Visit"] ValidEncounter
@@ -100,6 +88,23 @@ define "Depression Encounter":
       such that ValidEncounter.period overlaps Depression.prevalenceInterval ( )
         and ValidEncounter.period ends during "Denominator Identification Period"
         and ValidEncounter.status = 'finished'
+
+define "Has Mental Health Disorder Diagnoses":
+  exists ( ( [Condition: "Bipolar Disorder"]
+      union [Condition: "Personality Disorder Emotionally Labile"]
+      union [Condition: "Schizophrenia or Psychotic Disorder"]
+      union [Condition: "Pervasive Developmental Disorder"] ) MentalHealthDisorderDiagnoses
+      where ToDate(start of MentalHealthDisorderDiagnoses.prevalenceInterval()) on or before end of "Measure Assessment Period"
+        and MentalHealthDisorderDiagnoses.isConfirmedActiveDiagnosis ( )
+  )
+
+define "Measure Assessment Period":
+  "Index Depression Assessment" FirstIndexAssessment
+    let YearAfterIndexAssessment: date from start of FirstIndexAssessment.effective.toInterval ( ) + 12 months
+    return Interval[YearAfterIndexAssessment - 60 days, YearAfterIndexAssessment + 60 days]
+
+define "Patient Expired":
+  Patient.deceased occurs on or before end of "Measure Assessment Period"
 
 define "Has Hospice Services in the Measure Assessment Period":
   exists ( [Encounter: "Encounter Inpatient"] InpatientEncounter
@@ -118,10 +123,11 @@ define "Has Hospice Services in the Measure Assessment Period":
           and HospiceAssessment.effective.toInterval ( ) overlaps day of Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
           and HospiceAssessment.status in { 'final', 'amended', 'corrected' }
     )
-    or exists ( [ServiceRequest: code in "Hospice Care Ambulatory"] HospiceOrder
+    or exists ( [ServiceRequest: "Hospice Care Ambulatory"] HospiceOrder
         where HospiceOrder.authoredOn during day of Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
           and HospiceOrder.status in { 'active', 'completed' }
           and HospiceOrder.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }
+          and HospiceOrder.doNotPerform is not true
     )
     or exists ( [Procedure: "Hospice Care Ambulatory"] HospicePerformed
         where HospicePerformed.performed.toInterval ( ) overlaps day of Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
@@ -129,37 +135,7 @@ define "Has Hospice Services in the Measure Assessment Period":
     )
     or exists ( [Condition: "Hospice Diagnosis"] HospiceCareDiagnosis
         where HospiceCareDiagnosis.prevalenceInterval ( ) overlaps day of Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
-          and HospiceCareDiagnosis.isActive ( )
-          and HospiceCareDiagnosis.verificationStatus ~ "confirmed"
-    )
-
-define "Has Mental Health Disorder Diagnoses":
-  exists ( ( [Condition: "Bipolar Disorder"]
-      union [Condition: "Personality Disorder Emotionally Labile"]
-      union [Condition: "Schizophrenia or Psychotic Disorder"]
-      union [Condition: "Pervasive Developmental Disorder"] ) MentalHealthDisorderDiagnoses
-      where ToDate(start of MentalHealthDisorderDiagnoses.prevalenceInterval()) on or before end of "Measure Assessment Period"
-        and MentalHealthDisorderDiagnoses.isActive ( )
-        and MentalHealthDisorderDiagnoses.verificationStatus ~ "confirmed"
-  )
-
-define "Has Palliative Care in the Measure Assessment Period":
-  exists ( [Observation: "Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)"] PalliativeAssessment
-      where PalliativeAssessment.effective.toInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
-        and PalliativeAssessment.status in { 'final', 'amended', 'corrected' }
-  )
-    or exists ( [Condition: "Palliative Care Diagnosis"] PalliativeDiagnosis
-        where PalliativeDiagnosis.prevalenceInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
-          and PalliativeDiagnosis.isActive ( )
-          and PalliativeDiagnosis.verificationStatus ~ "confirmed"
-    )
-    or exists ( [Encounter: "Palliative Care Encounter"] PalliativeEncounter
-        where PalliativeEncounter.period overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
-          and PalliativeEncounter.status = 'finished'
-    )
-    or exists ( [Procedure: "Palliative Care Intervention"] PalliativeIntervention
-        where PalliativeIntervention.performed.toInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
-          and not ( PalliativeIntervention.status in { 'not-done', 'entered-in-error', 'unknown' } )
+          and HospiceCareDiagnosis.isConfirmedActiveDiagnosis ( )
     )
 
 define "Index Depression Assessment":
@@ -170,10 +146,35 @@ define "Index Depression Assessment":
       sort by start of effective.toInterval()
   )
 
-define "Measure Assessment Period":
-  "Index Depression Assessment" FirstIndexAssessment
-    let YearAfterIndexAssessment: date from start of FirstIndexAssessment.effective.toInterval ( ) + 12 months
-    return Interval[YearAfterIndexAssessment - 60 days, YearAfterIndexAssessment + 60 days]
+define "Has Palliative Care in the Measure Assessment Period":
+  exists ( [Observation: "Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)"] PalliativeAssessment
+      where PalliativeAssessment.effective.toInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
+        and PalliativeAssessment.status in { 'final', 'amended', 'corrected' }
+  )
+    or exists ( [Condition: "Palliative Care Diagnosis"] PalliativeDiagnosis
+        where PalliativeDiagnosis.prevalenceInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
+          and PalliativeDiagnosis.isConfirmedActiveDiagnosis ( )
+    )
+    or exists ( [Encounter: "Palliative Care Encounter"] PalliativeEncounter
+        where PalliativeEncounter.period overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
+          and PalliativeEncounter.status = 'finished'
+    )
+    or exists ( [Procedure: "Palliative Care Intervention"] PalliativeIntervention
+        where PalliativeIntervention.performed.toInterval ( ) overlaps Interval[start of "Denominator Identification Period", end of "Measure Assessment Period"]
+          and not ( PalliativeIntervention.status in { 'not-done', 'entered-in-error', 'unknown' } )
+    )
 
-define "Patient Expired":
-  Patient.deceased on or before end of "Measure Assessment Period"
+define fluent function isConfirmedActiveDiagnosis(condition Condition):
+  condition.isActive ( )
+    and condition.verificationStatus ~ QICoreCommon."confirmed"
+        
+/* Commented out due to issues noted in https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1489.
+Also, refer to https://github.com/cqframework/sample-content-ig/issues/70.
+define "Stratification 1":
+  "Index Depression Assessment" IndexAssessment
+    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) in Interval[12, 17]
+         
+define "Stratification 2":
+  "Index Depression Assessment" IndexAssessment
+    return AgeInYearsAt(date from start of IndexAssessment.effective.toInterval()) >= 18
+*/

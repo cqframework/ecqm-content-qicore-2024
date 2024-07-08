@@ -31,16 +31,16 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
+        "system": "http://snomed.info/sct",
+        "code": "373066001",
+        "display": "Yes (qualifier value)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "373066001",
-        "display": "Yes (qualifier value)"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -52,7 +52,7 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define \"Numerator\":\n  exists ( ( [\"Observation\": \"Falls Screening\"] ).isAssessmentPerformed ( ) ) FallsScreening\n    where QICoreCommon.\"ToInterval\" ( FallsScreening.effective ) during day of \"Measurement Period\""
+        "valueString": "define \"Numerator\":\n  exists ( ( [\"Observation\": \"Falls Screening\"] ).isAssessmentPerformed ( ) ) FallsScreening\n    where FallsScreening.effective.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -67,7 +67,7 @@
         "valueString": "Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define \"Qualifying Encounter\":\n  ( Status.\"Finished Encounter\" ( [\"Encounter\": \"Office Visit\"]\n    union [\"Encounter\": \"Annual Wellness Visit\"]\n    union [\"Encounter\": \"Preventive Care Services Established Office Visit, 18 and Up\"]\n    union [\"Encounter\": \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n    union [\"Encounter\": \"Home Healthcare Services\"]\n    union [\"Encounter\": \"Ophthalmological Services\"]\n    union [\"Encounter\": \"Preventive Care Services Individual Counseling\"]\n    union [\"Encounter\": \"Discharge Services Nursing Facility\"]\n    union [\"Encounter\": \"Nursing Facility Visit\"]\n    union [\"Encounter\": \"Care Services in Long Term Residential Facility\"]\n    union [\"Encounter\": \"Audiology Visit\"]\n    union [\"Encounter\": \"Telephone Visits\"]\n    union [\"Encounter\": \"Online Assessments\"]\n    union [\"Encounter\": \"Physical Therapy Evaluation\"]\n    union [\"Encounter\": \"Occupational Therapy Evaluation\"] ) ) ValidEncounter\n    where QICoreCommon.\"ToInterval\" ( ValidEncounter.period ) during day of \"Measurement Period\""
+        "valueString": "define \"Qualifying Encounter\":\n  ( ( [\"Encounter\": \"Office Visit\"]\n      union [\"Encounter\": \"Annual Wellness Visit\"]\n      union [\"Encounter\": \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [\"Encounter\": \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [\"Encounter\": \"Home Healthcare Services\"]\n      union [\"Encounter\": \"Ophthalmological Services\"]\n      union [\"Encounter\": \"Preventive Care Services Individual Counseling\"]\n      union [\"Encounter\": \"Discharge Services Nursing Facility\"]\n      union [\"Encounter\": \"Nursing Facility Visit\"]\n      union [\"Encounter\": \"Care Services in Long Term Residential Facility\"]\n      union [\"Encounter\": \"Audiology Visit\"]\n      union [\"Encounter\": \"Telephone Visits\"]\n      union [\"Encounter\": \"Virtual Encounter\"]\n      union [\"Encounter\": \"Physical Therapy Evaluation\"]\n      union [\"Encounter\": \"Occupational Therapy Evaluation\"]\n  ).isEncounterPerformed ( ) ) ValidEncounter\n    where ValidEncounter.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 1
@@ -112,7 +112,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
         "valueInteger": 4
@@ -142,7 +142,7 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
         "valueInteger": 6
@@ -169,43 +169,13 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Finished Encounter"
-      }, {
-        "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by the measure's specific use case (e.g., follow-up encounters)\ndefine function \"Finished Encounter\"(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 8
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "ToInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n@deprecated: This function is deprecated. Use the fluent function `toInterval()` instead\n*/\ndefine function ToInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 9
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueInteger": 10
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -220,7 +190,7 @@
         "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueInteger": 11
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -232,10 +202,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 12
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -247,10 +217,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 13
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -262,12 +232,13 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 14
+        "valueInteger": 12
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -278,19 +249,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Code system ObservationCategoryCodes",
@@ -357,7 +328,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"
     }, {
       "type": "depends-on",
-      "display": "Value set Online Assessments",
+      "display": "Value set Virtual Encounter",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"
     }, {
       "type": "depends-on",
@@ -644,7 +615,7 @@
       } ]
     },
     "system": "urn:ietf:rfc:3986",
-    "value": "urn:uuid:2ad72815-b20e-498d-8d1f-56a6476ab2dc"
+    "value": "urn:uuid:5528e33f-80af-4bf3-9652-6e5fb34b7bc3"
   }, {
     "use": "official",
     "type": {
@@ -659,12 +630,12 @@
       "display": "CMS"
     }
   } ],
-  "version": "0.1.000",
+  "version": "0.2.001",
   "name": "FallsScreeningForFutureFallRiskFHIR",
   "title": "Falls: Screening for Future Fall RiskFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:16+00:00",
+  "date": "2024-07-01T20:13:04+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -674,29 +645,33 @@
   } ],
   "description": "Percentage of patients 65 years of age and older who were screened for future fall risk during the measurement period",
   "purpose": "UNKNOWN",
-  "usage": "This eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS139v12.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. The Physician Consortium for Performance Improvement’s (PCPI) and American Medical Association’s (AMA) significant past efforts and contributions to the development and updating of the measure are acknowledged. (C) 2012-2022 National Committee for Quality Assurance. All Rights Reserved. \n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications. \n\nCPT(R) codes, descriptions and other data are copyright 2022. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. No fee schedules, basic units, relative values or related listings are included in CPT. The AMA assumes no liability for the data contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nLOINC(R) copyright 2004-2022 Regenstrief Institute, Inc. \n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation. \n\nICD-10 copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS139v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. The Physician Consortium for Performance Improvement’s (PCPI) and American Medical Association’s (AMA) significant past efforts and contributions to the development and updating of the measure are acknowledged. (C) 2012-2024 National Committee for Quality Assurance. All Rights Reserved.   Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.   CPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein.  Some measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.   ICD-10 copyright 2024 World Health Organization. All Rights Reserved.  Some measures use RxNorm, a standardized nomenclature and coding for clinical drugs and drug delivery devices, which is made publicly available courtesy of the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services. NLM is not responsible for the measures and does not endorse or recommend this or any other product.  “HL7” is the registered trademark of Health Level Seven International.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
   },
   "author": [ {
-    "name": "National Committee for Quality Assurance",
-    "telecom": [ {
-      "system": "url",
-      "value": "https://www.ncqa.org/"
-    } ]
-  }, {
     "name": "American Medical Association (AMA)",
     "telecom": [ {
       "system": "url",
       "value": "https://www.ama-assn.org/"
     } ]
+  }, {
+    "name": "American Medical Association-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI)",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.ama-assn.org/"
+    } ]
+  }, {
+    "name": "National Committee for Quality Assurance",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.ncqa.org/"
+    } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/FallsScreeningForFutureFallRiskFHIR" ],
-  "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.   Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -704,10 +679,10 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "As the leading cause of both fatal and nonfatal injuries for older adults, falls are one of the most common and significant health issues facing people aged 65 years or older (Schneider, Shubert and Harmon, 2010). Moreover, the rate of falls increases with age (Dykes et al., 2010). Older adults are five times more likely to be hospitalized for fall-related injuries than any other cause-related injury. It is estimated that one in every three adults over 65 will fall each year (Centers for Disease Control and Prevention, 2015). In those over age 80, the rate of falls increases to fifty percent (Doherty et al., 2009). Falls are also associated with substantial cost and resource use, approaching $30,000 per fall hospitalization (Woolcott et al., 2011). Identifying at-risk patients is the most important part of management, as applying preventive measures in this vulnerable population can have a profound effect on public health (al-Aama, 2011). Family physicians have a pivotal role in screening older patients for risk of falls, and applying preventive strategies for patients at risk (al-Aama, 2011).",
-  "clinicalRecommendationStatement": "All older persons who are under the care of a heath professional (or their caregivers) should be asked at least once a year about falls. (American Geriatrics Society/British Geriatric Society/American Academy of Orthopaedic Surgeons, 2010)\n\nOlder persons who present for medical attention because of a fall, report recurrent falls in the past year, or demonstrate abnormalities of gait and/or balance should have a fall evaluation performed. This evaluation should be performed by a clinician with appropriate skills and experience, which may necessitate referral to a specialist (e.g., geriatrician). (AGS/BGS/AAOS, 2010)",
+  "rationale": "As the leading cause of both fatal and nonfatal injuries for older adults, falls are one of the most common and significant health issues facing people aged 65 years or older (Schneider, Shubert, & Harmon, 2010). Moreover, the rate of falls increases with age (Dykes et al., 2010). Older adults are five times more likely to be hospitalized for fall-related injuries than any other cause-related injury. It is estimated that one in every four adults over 65 will fall each year (Centers for Disease Control and Prevention, 2023). In those over age 80, the rate of falls increases to fifty percent (Doherty et al., 2009). Falls are also associated with substantial cost and resource use, approaching $30,000 per fall hospitalization (Woolcott et al., 2011). Identifying at-risk patients is the most important part of management, as applying preventive measures in this vulnerable population can have a profound effect on public health (al-Aama, 2011). Family physicians have a pivotal role in screening older patients for risk of falls, and applying preventive strategies for patients at risk (al-Aama, 2011).",
+  "clinicalRecommendationStatement": "All older persons who are under the care of a heath professional (or their caregivers) should be asked at least once a year about falls. (American Geriatrics Society/British Geriatric Society/American Academy of Orthopaedic Surgeons (AGS/BGS/AAOS), 2010)  Older persons who present for medical attention because of a fall, report recurrent falls in the past year, or demonstrate abnormalities of gait and/or balance should have a fall evaluation performed. This evaluation should be performed by a clinician with appropriate skills and experience, which may necessitate referral to a specialist (e.g., geriatrician). (AGS/BGS/AAOS, 2010)",
   "group": [ {
-    "id": "652992704f0107128cb375b7",
+    "id": "66460d21a7a1805d3b737638",
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
       "valueCodeableConcept": {
@@ -727,6 +702,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -785,30 +772,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "14b68b3e-45ea-4058-a785-029ae1b89a28",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "f6ef7cfa-e699-49ce-b43d-296d67462f0d",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ]

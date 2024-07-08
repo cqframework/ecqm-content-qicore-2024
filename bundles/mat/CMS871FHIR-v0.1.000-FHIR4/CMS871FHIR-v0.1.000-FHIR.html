@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+      body {
+        background-color: #ffffff;;
+        margin: 0px;
+        padding: 10px;
+        height: 100%;
+        font-size: 1em;
+      }
+
+      p, li {
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        margin: 0 0 20px 0;
+        font-weight: normal;
+      }
+
+      td {
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+        vertical-align: top;
+      }
+
+      tr {
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+        vertical-align: top;
+        text-align: left;
+      }
+
+      table.colstu td {
+        border: 1px grey solid;
+        border-spacing: 0;
+        padding: 5px;
+        border-collapse: collapse;
+        background-color: #fff5e6;
+      }
+
+      table.colsd td {
+        border: 1px grey solid;
+        border-spacing: 0;
+        padding: 5px;
+        border-collapse: collapse;
+        background-color: #efefef;
+      }
+
+      table.colsn td {
+        border: 1px grey solid;
+        border-spacing: 0;
+        padding: 5px;
+        border-collapse: collapse;
+        background-color: #e6ffe6;
+      }
+
+      table.colse td {
+        border: 1px grey solid;
+        border-spacing: 0;
+        padding: 5px;
+        border-collapse: collapse;
+        background-color: #e6e6e6;
+      }
+
+      table.colsi td {
+        border: 1px grey solid;
+        border-spacing: 0;
+        padding: 5px;
+        border-collapse: collapse;
+        background-color: #ffffe6;
+      }
+
+      table.list td {
+        border-top: 1px silver solid;
+        border-spacing: 0;
+      }
+
+      table.bare td {
+        border-spacing: 0;
+      }
+
+      ul.dict li {
+        font-size: 11px;
+        line-height: 1.2em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+      }
+
+      table.dict td {
+        padding: 3px 7px 2px 7px;
+        font-size: 11px;
+        line-height: 1.2em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+        vertical-align: top;
+      }
+
+      table.dict p {
+        font-size: 11px;
+      }
+
+      table {
+        margin-bottom: 10px;
+        border-collapse: collapse;
+      }
+
+      table.codes td {
+        border: 1px solid silver;
+        padding: 3px 7px 2px 7px;
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+        vertical-align: top;
+      }
+
+      table.grid {
+        margin-bottom: 10px;
+        border: 1px black solid;
+        margin-right: auto;
+
+      }
+
+      table.grid th {
+        border: 1px solid silver;
+        padding: 3px 7px 2px 7px;
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        font-weight: bold;
+        padding: 3px;
+        vertical-align: top;
+      }
+
+      table.grid td {
+        border: 1px solid silver;
+        padding: 3px 7px 2px 7px;
+        font-size: 12px;
+        line-height: 1.4em;
+        font-family: verdana;
+        font-weight: normal;
+        padding: 3px;
+        vertical-align: top;
+      }
+
+      ul {
+        margin: 10px 0;
+        padding: 0 0 0 25px;
+      }
+
+      .dense li {
+        margin: 0 0 0 0;
+      }
+
+      li {
+        margin: 0 0 5px 0;
+      }
+
+      h1 {
+        font-size: 16px;
+        margin: 0 0 4px 0;
+        font-family: verdana;
+        border-bottom: 1px solid #7e7e7e;
+        padding-bottom: 2px;
+      }
+
+      h2 {
+        font-family: verdana;
+        line-height: 1.2em;
+        font-size: 14px;
+        margin: 0 0 3px 0;
+        margin-top: 15px;
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 2px;
+      }
+
+      h3 {
+        font-family: verdana;
+        line-height: 1.2em;
+        font-size: 12px;
+        margin: 0 0 3px 0;
+        margin-top: 10px;
+      }
+
+      h4 {
+        font-family: verdana;
+        line-height: 1.2em;
+        font-size: 11px;
+        margin: 0 0 3px 0;
+        margin-top: 10px;
+      }
+
+      div.sidebar h2 {
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 2px;
+        padding-top: 0px;
+        margin-top: 0px;
+        font-weight: normal;
+        margin-left: 8px;
+        margin-bottom: 0px;
+        font-size: 12px;
+      }
+
+      div.sidebar p {
+        padding-bottom: 0px;
+        padding-top: 10px;
+        font-weight: normal;
+        margin-left: 8px;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      div.sidebar ul {
+        list-style: none;
+        padding: 0px;
+        margin-left: 6px;
+        font-size: 11px;
+        line-height: 2.125em;
+      }
+
+      div.sidebar li {
+        margin: 0px 0px 0px 6px;
+        padding: 0px;
+        font-size: 11px;
+        line-height: 2.125em;
+      }
+
+      a {
+        color: #428bca;
+        text-decoration: none;
+      }
+
+      a.xmltag :visited {
+        color: Navy;
+      }
+
+      a.xmltag :hover {
+        color: Blue;
+      }
+
+      pre {
+        display: block;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+      }
+
+      pre a {
+        color: darkgreen;
+        text-decoration: none;
+        border: 0;
+
+      }
+
+      /* PrismJS 1.21.0
+      https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+abap+abnf+actionscript+ada+agda+al+antlr4+apacheconf+apl+applescript+aql+arduino+arff+asciidoc+aspnet+asm6502+autohotkey+autoit+bash+basic+batch+bbcode+birb+bison+bnf+brainfuck+brightscript+bro+bsl+c+csharp+cpp+cil+clojure+cmake+coffeescript+concurnas+csp+crystal+css-extras+cypher+d+dart+dax+dhall+diff+django+dns-zone-file+docker+ebnf+editorconfig+eiffel+ejs+elixir+elm+etlua+erb+erlang+excel-formula+fsharp+factor+firestore-security-rules+flow+fortran+ftl+gml+gcode+gdscript+gedcom+gherkin+git+glsl+go+graphql+groovy+haml+handlebars+haskell+haxe+hcl+hlsl+http+hpkp+hsts+ichigojam+icon+ignore+inform7+ini+io+j+java+javadoc+javadoclike+javastacktrace+jolie+jq+jsdoc+js-extras+json+json5+jsonp+jsstacktrace+js-templates+julia+keyman+kotlin+latex+latte+less+lilypond+liquid+lisp+livescript+llvm+lolcode+lua+makefile+markdown+markup-templating+matlab+mel+mizar+mongodb+monkey+moonscript+n1ql+n4js+nand2tetris-hdl+naniscript+nasm+neon+nginx+nim+nix+nsis+objectivec+ocaml+opencl+oz+parigp+parser+pascal+pascaligo+pcaxis+peoplecode+perl+php+phpdoc+php-extras+plsql+powerquery+powershell+processing+prolog+properties+protobuf+pug+puppet+pure+purebasic+purescript+python+q+qml+qore+r+racket+jsx+tsx+reason+regex+renpy+rest+rip+roboconf+robotframework+ruby+rust+sas+sass+scss+scala+scheme+shell-session+smali+smalltalk+smarty+sml+solidity+solution-file+soy+sparql+splunk-spl+sqf+sql+stan+iecst+stylus+swift+t4-templating+t4-cs+t4-vb+tap+tcl+tt2+textile+toml+turtle+twig+typescript+typoscript+unrealscript+vala+vbnet+velocity+verilog+vhdl+vim+visual-basic+warpscript+wasm+wiki+xeora+xml-doc+xojo+xquery+yaml+yang+zig&plugins=keep-markup */
+      /**
+       * prism.js default theme for JavaScript, CSS and HTML
+       * Based on dabblet (http://dabblet.com)
+       * @author Lea Verou
+       */
+
+      code[class*="language-"],
+      pre[class*="language-"] {
+        color: black;
+        background: none;
+        text-shadow: 0 1px white;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 0.95em;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+      code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+        text-shadow: none;
+        background: #b3d4fc;
+      }
+
+      pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+      code[class*="language-"]::selection, code[class*="language-"] ::selection {
+        text-shadow: none;
+        background: #b3d4fc;
+      }
+
+      @media print {
+        code[class*="language-"],
+        pre[class*="language-"] {
+          text-shadow: none;
+        }
+      }
+
+      /* Code blocks */
+      pre[class*="language-"] {
+        padding: 1em;
+        margin: .5em 0;
+        overflow: auto;
+      }
+
+      :not(pre) > code[class*="language-"],
+      pre[class*="language-"] {
+        background: #f5f2f0;
+      }
+
+      /* Inline code */
+      :not(pre) > code[class*="language-"] {
+        padding: .1em;
+        border-radius: .3em;
+        white-space: normal;
+      }
+    </style>
+</head>
+<body>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+    <table class="grid dict">
+        
+            <tr>
+                <th scope="row"><b>Title: </b></th>
+                <td style="padding-left: 4px;">Hospital Harm - Severe HyperglycemiaFHIR</td>
+            </tr>
+        
+
+        
+
+        
+            <tr>
+                <th scope="row"><b>Id: </b></th>
+                <td style="padding-left: 4px;">HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Version: </b></th>
+                <td style="padding-left: 4px;">0.1.000</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Url: </b></th>
+                <td style="padding-left: 4px;">https://madie.cms.gov/Measure/HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row">
+                    <b>
+                        
+                            
+                                short-name identifier:
+                            
+                        
+                    </b>
+                </th>
+
+                <td style="padding-left: 4px;">
+                    
+                        <p style="margin-bottom: 5px;">
+                            <span>CMS871FHIR</span>
+                        </p>
+                    
+                </td>
+            </tr>
+        
+            <tr>
+                <th scope="row">
+                    <b>
+                        
+                            
+                                version-independent identifier:
+                            
+                        
+                    </b>
+                </th>
+
+                <td style="padding-left: 4px;">
+                    
+                        <p style="margin-bottom: 5px;">
+                            <span>urn:uuid:c44ca609-d795-4715-a8fc-1b0b30e46048</span>
+                        </p>
+                    
+                </td>
+            </tr>
+        
+            <tr>
+                <th scope="row">
+                    <b>
+                        
+                            
+                                version-specific identifier:
+                            
+                        
+                    </b>
+                </th>
+
+                <td style="padding-left: 4px;">
+                    
+                        <p style="margin-bottom: 5px;">
+                            <span>urn:uuid:c7dbf77f-5869-42a0-b5e6-12e18004d2f4</span>
+                        </p>
+                    
+                </td>
+            </tr>
+        
+            <tr>
+                <th scope="row">
+                    <b>
+                        
+                            
+                                endorser (CMS Consensus Based Entity) identifier:
+                            
+                        
+                    </b>
+                </th>
+
+                <td style="padding-left: 4px;">
+                    
+                        <p style="margin-bottom: 5px;">
+                            <span>3533e</span>
+                        </p>
+                    
+                </td>
+            </tr>
+        
+            <tr>
+                <th scope="row">
+                    <b>
+                        
+                            
+                                publisher (CMS) identifier:
+                            
+                        
+                    </b>
+                </th>
+
+                <td style="padding-left: 4px;">
+                    
+                        <p style="margin-bottom: 5px;">
+                            <span>871FHIR</span>
+                        </p>
+                    
+                </td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Effective Period: </b></th>
+                <td style="padding-left: 4px;">2025-01-01
+                    ..2025-12-31</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Status: </b></th>
+                <td style="padding-left: 4px;">draft</td>
+            </tr>
+        
+
+        
+
+        
+            <tr>
+                <th scope="row"><b>Date: </b></th>
+                <td style="padding-left: 4px;">2024-05-15T18:44:38+00:00</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Publisher: </b></th>
+                <td style="padding-left: 4px;">Centers for Medicare &amp; Medicaid Services (CMS)</td>
+            </tr>
+        
+
+        
+        <tr>
+            <th scope="row"><b>Author: </b></th>
+            <td style="padding-left: 4px;">American Institutes for Research (AIR)</td>
+        </tr>
+        
+
+        
+
+        
+            <tr>
+                <th scope="row"><b>Description: </b></th>
+                <td style="padding-left: 4px;">This measure assesses the number of inpatient hospital days for patients age 18 and older with a hyperglycemic event (harm) per the total qualifying inpatient hospital days for that encounter</td>
+            </tr>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            <tr>
+                <th scope="row"><b>Purpose: </b></th>
+                <td style="padding-left: 4px;">UNKNOWN</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Copyright: </b></th>
+                <td style="padding-left: 4px;">Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. American Institutes for Research(R), formerly IMPAQ International, disclaims all liability for use or accuracy of any third party codes contained in the specifications.
+
+LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 copyright 2023 World Health Organization. All Rights Reserved.</td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Disclaimer: </b></th>
+                <td style="padding-left: 4px;">This performance measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications.
+
+THE MEASURES AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.
+
+Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].</td>
+            </tr>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        <tr>
+            <th scope="row"><b>Rationale: </b></th>
+            <td style="padding-left: 4px;">Hyperglycemia, i.e., elevated glucose level, is common among hospitalized patients, especially those with preexisting diabetes (Umpierrez et al., 2012) and account for over 30% of noncritically ill hospitalized patients (Korytkowski, 2022). Hyperglycemia can also affect individuals with no prior history of diabetes and may be induced by medications such as steroids, or parenteral (intravenous) or enteral (tube) feeding.
+
+Severe hyperglycemia, i.e., extremely elevated glucose level, is significantly associated with a range of harms, including increased in-hospital mortality, infection rates, and hospital length of stay (Pasquel, et al., 2021; Umpierrez et al., 2012, 2015). Lower rates of inpatient severe hyperglycemia may not only improve care for patients, but also reduce costs for healthcare payers (Krinsley et al., 2016). The rate of hyperglycemia varies across hospitals, suggesting opportunities for improvement in inpatient glycemic management (Seisa et al., 2022; Bersoux et al., 2013). The rate of inpatient hyperglycemia can be considered a marker for quality of hospital care, since inpatient hyperglycemia is largely avoidable with proper glycemic management. The use of evidence-based standardized protocols and insulin management protocols have been shown to improve glycemic control and safety (Leroy et al., 2020; Maynard et al., 2015).
+
+From the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting, 2022:
+Recommendation 1.1
+In adults with insulin-treated diabetes hospitalized for noncritical illness who are at high risk of hypoglycemia, we suggest the use of real-time continuous glucose monitoring (CGM) with confirmatory bedside point-of-care blood glucose (POC-BG) monitoring for adjustments in insulin dosing rather than point-of-care blood glucose (POC-BG) testing alone in hospital settings where resources and training are available.</td>
+        </tr>
+        
+
+        
+        <tr>
+            <th scope="row"><b>Clinical recommendation statement: </b></th>
+            <td style="padding-left: 4px;">Multiple guidelines address recommended levels of glycemic control, though these do not define severe hyperglycemia: 
+
+From Section 16, Diabetes Care in the Hospital, in the Standards of Medical Care in Diabetes by the American Diabetes Association, (American Diabetes Association, 2023): 
+
+16.4 Insulin therapy should be initiated for the treatment of persistent hyperglycemia starting at a threshold ≥180 mg/dL (10.0 mmol/L) (checked on two occasions). Once insulin therapy is started, a target glucose range of 140–180 mg/dL (7.8–10.0 mmol/L) is recommended for most critically ill and noncritically ill patients.
+
+16.5 More stringent goals, such as 110–140 mg/dL (6.1–7.8 mmol/L) or 100–180 mg/dL (5.6–10.0 mmol/L), may be appropriate for selected patients and are acceptable if they can be achieved without significant hypoglycemia.
+
+From the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting (2022): 
+
+Recommendation 10.1
+In adults with no prior history of diabetes hospitalized for noncritical illness with hyperglycemia [defined as blood glucose (BG) &gt; 140 mg/dL (7.8 mmol/L)] during hospitalization, we suggest initial therapy with correctional insulin over scheduled insulin therapy (defined as basal or basal/bolus insulin) to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L). For patients with persistent hyperglycemia [≥2 point-of-care blood glucose (POC-BG) measurements ≥ 180 mg/dL (≥10.0 mmol/L) in a 24-hour period on correctional insulin alone], we suggest the addition of scheduled insulin therapy. 
+
+Recommendation 10.2
+In adults with diabetes treated with diet or noninsulin diabetes medications prior to admission, we suggest initial therapy with correctional insulin or scheduled insulin therapy to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L). For hospitalized adults started on correctional insulin alone and with persistent hyperglycemia [≥2 point-of-care blood glucose (POC-BG) measurements ≥ 180 mg/dL in a 24-hour period (≥10.0 mmol/L)], we suggest addition of scheduled insulin therapy. We suggest initiation of scheduled insulin therapy for patients with confirmed admission blood glucose (BG) ≥ 180 mg/dL (≥10.0 mmol/L). 
+
+Recommendation 10.3
+In adults with insulin-treated diabetes prior to admission who are hospitalized for noncritical illness, we recommend continuation of the scheduled insulin regimen modified for nutritional status and severity of illness to maintain glucose targets in the range of 100 to 180 mg/dL (5.6 to 10.0 mmol/L).
+
+Remarks
+Reductions in the dose of basal insulin (by 10% to 20%) at time of hospitalization may be required for patients on basal heavy insulin regimens (defined as doses of basal insulin ≥ 0.6 to 1.0 units/kg/day), in which basal insulin is being used inappropriately to cover meal-related excursions in BG.
+
+There is no clinically accepted cutoff for severe hyperglycemia. Studies have used thresholds of &gt;140, &gt;180 , &gt;300, &gt;350 and &gt;400 mg/dL, among other values (American Diabetes Association, 2023; Umpierrez et al, 2012, 2015; Jamesen et al., 2015; Donihi et al., 2011; Mendez et al, 2015; Seisa et al., 2022). BGL &lt;180 mg/dL is associated with lower rates of mortality and stroke compared with a target glucose &lt;200 mg/dL (Sathya et al., 2013). Glycemic goals may also differ among hospitalized patients. For inpatient management of hyperglycemia in noncritical care, the expert consensus recommends a target range of 100–180 mg/dL (5.6–10.0 mmol/L) for noncritically ill patients with “new” hyperglycemia as well as people with known diabetes prior to admission. Glycemic levels &gt;250 mg/dL (13.9 mmol/L) may be acceptable in terminally ill patients with short life expectancy. In these individuals, less aggressive insulin regimens to minimize glucosuria, dehydration, and electrolyte disturbances are often more appropriate. (ElSayed et al., 2023). In an older patient with a prior history of severe hypoglycemia, some degree of hyperglycemia may be tolerated to maximize safety. Intensive insulin therapy to target glucose of 100 and 140mg/dLin the ICU didn’t significantly reduce perioperative complications compared with target glucose of 141and180mg/dL after coronary artery bypass surgery (Umpierrez et al., 2015). The current recommendation is to maintain a blood glucose level between 140-180 mg/dL (7.8-10.0 mmol/L) in both cardiac and non-cardiac ICU patients (Sreedharan et al., 2022). 
+
+For patients who present with hyperglycemic crises, neurologic status must be monitored closely, with frequent re-examination. Care should be taken to prevent over-correction of hyperglycemia and hyperosmolarity following initial ﬂuid resuscitation of these patients to prevent cerebral edema, which carries a high mortality rate. (Gosmanov et al., 2021).
+
+From the Endocrine Society clinical practice guideline on the Management of Hyperglycemia in Hospitalized Patients in Non-critical Care Setting, 2022:
+Recommendation 1.1
+In adults with insulin-treated diabetes hospitalized for noncritical illness who are at high risk of hypoglycemia, we suggest the use of real-time continuous glucose monitoring (CGM) with confirmatory bedside point-of-care blood glucose (POC-BG) monitoring for adjustments in insulin dosing rather than point-of-care blood glucose (POC-BG) testing alone in hospital settings where resources and training are available.</td>
+        </tr>
+        
+
+        
+
+        
+            <tr>
+                <th scope="row"><b>Guidance (Usage): </b></th>
+                <td style="padding-left: 4px;">The measure is using mg/dL as the unit of measurement for glucose results.
+
+When evaluating for days with a glucose level &gt;300 mg/dL, the first 24-hour period after admission to the hospital is not evaluated to account for potentially poor glucose control outside of the hospital setting or that preceded the start of hospital care. The admission starts in the emergency department (ED) or observation when the transition between the ED encounter, observation encounter, and the inpatient encounter are within an hour or less of each other.
+
+This measure evaluates the first 10 days of an eligible inpatient hospitalization in determining eligible days for the denominator and numerator (i.e., the length of stay is truncated to &lt;=10 days when the length exceeds 10 days). Patients admitted for longer length of stays are more likely to have more complex medical conditions.  
+
+The “Days in Hospitalization” logic within Measure Observation 1 (associated with the denominator), in conjunction with other logic, returns the day number (e.g., day 1 to day 10) for each day within the hospitalization period to determine the eligible hospital days (e.g., from day 2 to day 10). 
+
+The “Days in Hospitalization” logic within Measure Observation 2 (associated with the numerator), in conjunction with other logic, returns the day number (e.g., day 1 to day 10) for each day within the hospitalization period to determine the eligible hyperglycemic event days (e.g., from day 2 to day 10).
+
+Since the measure does not count any hyperglycemic events that occur in the first 24 hours, day 1 is not considered an eligible hospital day for the Measure Observations. Eligible days range from day 2 up to day 10.
+
+Although the measure does not count any hyperglycemic events that occur in the first 24 hours as a hyperglycemic event day in Measure Observation 2, the first 24 hours of the encounter is considered day 1. This is because if there was a day during the encounter where a glucose result is not found, the measure evaluates the two days preceding to see if each had a glucose value &gt;=200 mg/dL. The measure allows the first 24 hours of the encounter, i.e., day 1, to be one of the preceding days.
+
+Multiple hyperglycemic events can occur during a ‘day’, but this is still considered one hyperglycemic event day.
+
+The numerator returns the first eligible encounter that meets the qualifying criteria: an inpatient hospitalization with a hyperglycemic event. Only one numerator is counted per encounter. Note that the Numerator returns the encounters, not days, that meet the criteria.
+
+The specimen source for the glucose test is blood, serum, plasma, or interstitial fluid, and can be obtained by a laboratory test, a Point of Care (POC) test, or a continuous glucose monitor (CGM). Glucose test results from urine specimens are not considered.
+
+This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.
+
+This FHIR-based measure has been derived from the QDM-based measure: CMS871v4.
+
+Please refer to the HL7 QI-Core Implementation Guide(https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).</td>
+            </tr>
+        
+
+        
+            
+                <tr>
+                    <th scope="row"><b>Population Criteria: </b></th>
+                    <td style="padding-left: 4px;">
+                        
+                            <table class="grid-dict">
+                                
+                                    <tr>
+                                        <th><b>6501fe8dda013638e7b3dc0d</b></th>
+                                    </tr>
+                                
+                                
+                                    <tr>
+                                        <td>Initial Population:</td>
+                                        
+                                            <td>Inpatient hospitalizations for patients age 18 and older that end during the measurement period, as well as either: 
+
+ - A diagnosis of diabetes that starts before or during the encounter; or 
+ - Administration of at least one dose of insulin or any hypoglycemic medication during the encounter; or 
+ - Presence of at least one glucose value &gt;=200 mg/dL at any time during the encounter</td>
+                                        
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Denominator:</td>
+                                        
+                                            <td>Equals Initial Population</td>
+                                        
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Denominator Exclusion:</td>
+                                        
+                                            <td>-Inpatient hospitalizations for patients with a glucose result of &gt;=1000 mg/dL anytime between 1 hour prior to the start of the encounter to 6 hours after the start of the encounter
+-Inpatient hospitalizations for patients who have comfort care measures ordered or provided during the encounter
+-Inpatient hospitalizations for patients who have a discharge disposition to home or to a health care facility for hospice care
+</td>
+                                        
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Numerator:</td>
+                                        
+                                            <td>Inpatient hospitalizations with a hyperglycemic event within the first 10 days of the encounter minus the first 24 hours, and minus the last period before discharge from the hospital if less than 24 hours
+
+A hyperglycemic event is defined as: 
+
+ - A day with at least one glucose value &gt;300 mg/dL; 
+OR
+ - A day where a glucose test and result was not found, and it was preceded by two consecutive days where at least one glucose value during each of the two days was &gt;=200 mg/dL</td>
+                                        
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Measure Observation:</td>
+                                        
+                                            <td>None</td>
+                                        
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Measure Observation:</td>
+                                        
+                                            <td>None</td>
+                                        
+                                    </tr>
+                                
+                                
+                            </table>
+                        
+                    </td>
+                </tr>
+            
+        
+
+        
+            <tr>
+                <th scope="row"><b> Supplemental Data Elements: </b></th>
+                <td style="padding-left: 4px;">
+                    
+                        
+                            
+                                <p>SDE Ethnicity</p>
+                            
+                        
+                    
+                        
+                            
+                                <p>SDE Payer</p>
+                            
+                        
+                    
+                        
+                            
+                                <p>SDE Race</p>
+                            
+                        
+                    
+                        
+                            
+                                <p>SDE Sex</p>
+                            
+                        
+                    
+                </td>
+            </tr>
+        
+
+        
+
+        
+            <tr>
+                <th scope="row">
+                    <b> Supplemental Data Guidance
+                        : </b></th>
+                <td style="padding-left: 4px;"> For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity 
+ SDE Payer 
+ SDE Race 
+ SDE Sex 
+  </td>
+            </tr>
+        
+
+        
+            <tr>
+                <th scope="row"><b>Libraries: </b></th>
+                <td style="padding-left: 4px;">
+                    <table class="grid-dict">
+                        
+                            <tr>
+                                <td>https://madie.cms.gov/Library/HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            </tr>
+                        
+                    </table>
+                </td>
+            </tr>
+        
+
+        
+
+        
+            
+                <tr>
+                    <th scope="row"><b>Related Artifact Dependencies: </b></th>
+                    <td style="padding-left: 4px;">
+                        
+                            <li>Library/SupplementalDataElements|3.5.000</li>
+                        
+                            <li>Library/FHIRHelpers|4.4.000</li>
+                        
+                            <li>Library/CQMCommon|2.2.000</li>
+                        
+                            <li>Library/QICoreCommon|2.1.000</li>
+                        
+                            <li>http://hl7.org/fhir/administrative-gender</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1196.394</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.34</li>
+                        
+                            <li>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591</li>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><b>Parameters:</b></th>
+                    <td style="padding-left: 4px;">
+                        <table class="grid-dict">
+                            <tr>
+                                <th><b>name</b></th>
+                                <th><b>use</b></th>
+                                <th><b>min</b></th>
+                                <th><b>max</b></th>
+                                <th><b>type</b></th>
+                            </tr>
+                            
+                                <tr>
+                                    <td>Measurement Period</td>
+                                    <td>in</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>Period</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Numerator</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>*</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Denominator</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>*</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Initial Population</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>*</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Denominator Exclusions</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>*</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>SDE Sex</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>Coding</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>SDE Payer</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>*</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>SDE Ethnicity</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>SDE Race</td>
+                                    <td>out</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>Resource</td>
+                                </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><b>DataRequirements:</b></th>
+                    <td style="padding-left: 4px;">
+                        <table class="grid-dict">
+                            <tr>
+                                <th><b>Type</b></th>
+                                <th><b>Elements</b></th>
+                                <th><b>Valueset Name</b></th>
+                                <th><b>Valueset</b></th>
+                            </tr>
+                            
+                                <tr>
+                                    <td>Patient(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient)</td>
+                                    <td>
+                                        
+                                            gender
+                                        
+                                            gender.value
+                                        
+                                            url
+                                        
+                                            extension
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Encounter(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter)</td>
+                                    <td>
+                                        
+                                            type
+                                        
+                                            status
+                                        
+                                            status.value
+                                        
+                                            period
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Observation Services
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Encounter(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter)</td>
+                                    <td>
+                                        
+                                            type
+                                        
+                                            status
+                                        
+                                            status.value
+                                        
+                                            period
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Emergency Department Visit
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Encounter(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter)</td>
+                                    <td>
+                                        
+                                            type
+                                        
+                                            period
+                                        
+                                            status
+                                        
+                                            status.value
+                                        
+                                            hospitalizationPeriod
+                                        
+                                            encounter
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Encounter Inpatient
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Condition(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition)</td>
+                                    <td>
+                                        
+                                            code
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Diabetes
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>MedicationAdministration(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationadministration)</td>
+                                    <td>
+                                        
+                                            medication
+                                        
+                                            status
+                                        
+                                            status.value
+                                        
+                                            effective
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Hypoglycemics Treatment Medications
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1196.394</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Observation(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation)</td>
+                                    <td>
+                                        
+                                            code
+                                        
+                                            effective
+                                        
+                                            status
+                                        
+                                            status.value
+                                        
+                                            value
+                                        
+                                            id
+                                        
+                                            id.value
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Glucose Lab Test Mass Per Volume
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.34</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Coverage(http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage)</td>
+                                    <td>
+                                        
+                                            type
+                                        
+                                            period
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            
+                                                 Payer Type
+                                            
+                                        
+                                    </td>
+                                    <td>http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591</td>
+                                </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+
+                
+                    <tr>
+                        <th scope="row"><b>Direct Reference Codes:</b></th>
+                        <td style="padding-left: 4px;">
+                            <table class="grid-dict">
+                                <tr>
+                                    <th><b>display</b></th>
+                                    <th><b>code</b></th>
+                                    <th><b>system</b></th>
+                                </tr>
+                                
+                                    <tr>
+                                        <td>Male</td>
+                                        <td>M</td>
+                                        <td>http://hl7.org/fhir/administrative-gender</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>Female</td>
+                                        <td>F</td>
+                                        <td>http://hl7.org/fhir/administrative-gender</td>
+                                    </tr>
+                                
+                            </table>
+                        </td>
+                    </tr>
+                
+
+                
+                <tr>
+                    <th scope="row"><b>Logic Definitions:</b></th>
+                    <td style="padding-left: 4px;">
+                        
+                        <table class="grid-dict">
+                            <tr>
+                                <th><b>Group</b></th>
+                                <th><b>Scoring</b></th>
+                                <th><b>Population Criteria</b></th>
+                                <th><b>Expression</b></th>
+                            </tr>
+                            <tr>
+                                
+                                <td> 6501fe8dda013638e7b3dc0d </td>
+                                <td>
+                                    
+                                        <b>Group scoring:</b>
+                                        
+                                            <span>  ratio </span>
+                                        
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                                    <tr>
+                                        <th scope="row"><b>Rate Aggregation: </b></th>
+                                        <td colspan="3" style="padding-left: 4px;">None</td>
+                                    </tr>
+                                    
+
+                                    
+                                        <tr>
+                                            <th scope="row"><b>Improvement Notation: </b></th>
+                                            <td style="padding-left: 4px;">
+                                            
+                                                
+                                                
+                                            
+                                            </td>
+                                        </tr>
+                                    
+
+                                </td>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Initial Population</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">define &quot;Initial Population&quot;:
+  &quot;Encounter with Existing Diabetes Diagnosis&quot;
+    union &quot;Encounter with Hypoglycemic Medication&quot;
+    union &quot;Encounter with Elevated Glucose Greater Than or Equal to 200&quot;</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Denominator</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">define &quot;Denominator&quot;:
+  &quot;Initial Population&quot;</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Denominator Exclusion</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">define &quot;Denominator Exclusions&quot;:
+  &quot;Encounter with First Glucose Greater Than or Equal to 1000&quot;</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Numerator</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">define &quot;Numerator&quot;:
+  &quot;Encounter with Hyperglycemic Events&quot;</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Measure Observation</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">/**
+ * Counts the number of eligible days in an encounter. This simply filters and counts the data built in
+ * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/
+
+
+define function &quot;Denominator Observations&quot;(QualifyingEncounter Encounter):
+  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return 0
+  ) 
+    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return Count(EncounterWithEventDays.eligibleEventDays)
+  )</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td>Measure Observation</td>
+                                    <td>
+                                        
+                                            <pre><code class="language-cql">/**
+ * Counts the number of eligible days with a hyperglycemic event in an encounter. This simply filters and counts the data built in
+ * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/
+
+
+define function &quot;Numerator Observations&quot;(QualifyingEncounter Encounter):
+  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return 0
+  ) 
+    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return Count(EncounterWithEventDays.eligibleEventDays EligibleEventDay
+          where EligibleEventDay.hasHyperglycemicEvent
+      )
+  )</code></pre>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                
+                            
+                            </tr>
+                        </table>
+                
+
+                <table class="grid-dict">
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>SupplementalDataElements</td>
+                            
+                            
+                                <td>SDE Sex</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Sex&quot;:
+  case
+    when Patient.gender = 'male' then &quot;M&quot;
+    when Patient.gender = 'female' then &quot;F&quot;
+    else null
+  end</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>SDE Sex</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Sex&quot;:
+  SDE.&quot;SDE Sex&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Qualifying Encounter</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Qualifying Encounter&quot;:
+  [&quot;Encounter&quot;: &quot;Encounter Inpatient&quot;] InpatientEncounter
+    where AgeInYearsAt(date from start of InpatientEncounter.period) &gt;= 18
+      and InpatientEncounter.period ends during day of &quot;Measurement Period&quot;
+      and InpatientEncounter.status = 'finished'</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with Hospitalization Period</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Create paring of encounters to hospitalization period so this calculation can be inspected and the result 
+ * can be reused, making the logic faster.*/
+
+
+define &quot;Encounter with Hospitalization Period&quot;:
+  &quot;Qualifying Encounter&quot; QualifyingHospitalization
+    return Tuple {
+      encounter: QualifyingHospitalization,
+      hospitalizationPeriod: CQMCommon.&quot;HospitalizationWithObservation&quot; ( QualifyingHospitalization )
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with Existing Diabetes Diagnosis</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with 
+ * diabetes and return the encounter.*/
+
+
+define &quot;Encounter with Existing Diabetes Diagnosis&quot;:
+  &quot;Encounter with Hospitalization Period&quot; Hospitalization
+    with [&quot;Condition&quot;: &quot;Diabetes&quot;] Diabetes
+      such that ( QICoreCommon.&quot;ToPrevalenceInterval&quot; ( Diabetes ) starts before end of Hospitalization.hospitalizationPeriod )
+    return Hospitalization.encounter</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with Hypoglycemic Medication</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with 
+ * hypoglycemic medicatons and return the encounter.*/
+
+
+define &quot;Encounter with Hypoglycemic Medication&quot;:
+  from
+    &quot;Encounter with Hospitalization Period&quot; Hospitalization,
+    [&quot;MedicationAdministration&quot;: &quot;Hypoglycemics Treatment Medications&quot;] HypoglycemicMed
+    where HypoglycemicMed.status = 'completed'
+      and HypoglycemicMed.status != 'not-done'
+      and QICoreCommon.&quot;ToInterval&quot; ( HypoglycemicMed.effective ) during Hospitalization.hospitalizationPeriod
+    return Hospitalization.encounter</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with Elevated Glucose Greater Than or Equal to 200</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Using the already calculated pairing of hospitalization periods with encounters, filter on ones with 
+ * any elevated (&gt;= 200) blood glucose reading during the hospitalization*/
+
+
+define &quot;Encounter with Elevated Glucose Greater Than or Equal to 200&quot;:
+  &quot;Encounter with Hospitalization Period&quot; Hospitalization
+    with [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest
+      such that QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during Hospitalization.hospitalizationPeriod
+        and GlucoseTest.status in { 'final', 'amended', 'corrected' }
+        and GlucoseTest.status != 'cancelled'
+        and GlucoseTest.value &gt;= 200 'mg/dL'
+    return Hospitalization.encounter</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Initial Population</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Initial Population&quot;:
+  &quot;Encounter with Existing Diabetes Diagnosis&quot;
+    union &quot;Encounter with Hypoglycemic Medication&quot;
+    union &quot;Encounter with Elevated Glucose Greater Than or Equal to 200&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Denominator</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Denominator&quot;:
+  &quot;Initial Population&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Measurement Population</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Measurement Population&quot;:
+  &quot;Denominator&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Days in Hospitalization</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/***/
+
+
+define &quot;Days in Hospitalization&quot;:
+  &quot;Measurement Population&quot; EligibleInpatientHospitalization
+    let period: CQMCommon.&quot;HospitalizationWithObservation&quot; ( EligibleInpatientHospitalization ),
+    relevantPeriod: &quot;Hospital Days Max 10&quot;(period)
+    return Tuple {
+      encounter: EligibleInpatientHospitalization,
+      hospitalizationPeriod: period,
+      relevantPeriod: relevantPeriod,
+      relevantDays: &quot;Days In Period&quot;(relevantPeriod)
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Days with Glucose Results</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Days with Glucose Results&quot;:
+  &quot;Days in Hospitalization&quot; InpatientHospitalDays
+    return Tuple {
+      encounter: InpatientHospitalDays.encounter,
+      relevantPeriod: InpatientHospitalDays.relevantPeriod,
+      relevantDays: ( InpatientHospitalDays.relevantDays EncounterDay
+          return Tuple {
+            dayNumber: EncounterDay.dayNumber,
+            dayPeriod: EncounterDay.dayPeriod,
+            hasSevereResult: exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest
+                where GlucoseTest.status in { 'final', 'amended', 'corrected' }
+                  and GlucoseTest.status != 'cancelled'
+                  and GlucoseTest.value &gt; 300 'mg/dL'
+                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod
+            ),
+            hasElevatedResult: exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest
+                where GlucoseTest.status in { 'final', 'amended', 'corrected' }
+                  and GlucoseTest.status != 'cancelled'
+                  and GlucoseTest.value &gt;= 200 'mg/dL'
+                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod
+            ),
+            hasNoGlucoseTest: not exists ( [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest
+                where GlucoseTest.status in { 'final', 'amended', 'corrected' }
+                  and GlucoseTest.status != 'cancelled'
+                  and QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective ) during EncounterDay.dayPeriod
+            )
+          }
+      )
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Days with Hyperglycemic Events</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/*# hyper days uses &quot;Relevant Encounters With Glucose Result Days&quot; to find if hyper event on each day. Skips 1st day in 'RelevantDays`. Returns boolean based on: Today high result OR Today no result AND Yesterday high result AND 2 days ago high result*/
+
+
+define &quot;Days with Hyperglycemic Events&quot;:
+  &quot;Days with Glucose Results&quot; EncounterWithResultDays
+    let eligibleEventDays: EncounterWithResultDays.relevantDays EncounterDay
+      where EncounterDay.dayNumber &gt; 1
+      return Tuple {
+        dayIndex: EncounterDay.dayNumber,
+        dayPeriod: EncounterDay.dayPeriod,
+        hasHyperglycemicEvent: ( EncounterDay.hasSevereResult
+            or ( EncounterDay.hasNoGlucoseTest
+                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 2].hasElevatedResult
+                and EncounterWithResultDays.relevantDays[EncounterDay.dayNumber - 3].hasElevatedResult
+            )
+        )
+      }
+    return Tuple {
+      encounter: EncounterWithResultDays.encounter,
+      relevantPeriod: EncounterWithResultDays.relevantPeriod,
+      eligibleEventDays: eligibleEventDays
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with Hyperglycemic Events</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/***/
+
+
+define &quot;Encounter with Hyperglycemic Events&quot;:
+  &quot;Days with Hyperglycemic Events&quot; HyperglycemicEventDays
+    where exists ( HyperglycemicEventDays.eligibleEventDays EligibleEventDay
+        where EligibleEventDay.hasHyperglycemicEvent
+    )
+    return HyperglycemicEventDays.encounter</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Numerator</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Numerator&quot;:
+  &quot;Encounter with Hyperglycemic Events&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>SupplementalDataElements</td>
+                            
+                            
+                                <td>SDE Payer</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Payer&quot;:
+  [Coverage: type in &quot;Payer Type&quot;] Payer
+    return {
+      code: Payer.type,
+      period: Payer.period
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>SDE Payer</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Payer&quot;:
+  SDE.&quot;SDE Payer&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>SupplementalDataElements</td>
+                            
+                            
+                                <td>SDE Ethnicity</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Ethnicity&quot;:
+  Patient.ethnicity E
+    return Tuple {
+      codes: { E.ombCategory } union E.detailed,
+      display: E.text
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>SDE Ethnicity</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Ethnicity&quot;:
+  SDE.&quot;SDE Ethnicity&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:
+  from
+    &quot;Initial Population&quot; InpatientHospitalization,
+    [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] GlucoseTest
+    let HospitalizationInterval: CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ),
+    GlucoseTestTime: QICoreCommon.&quot;Earliest&quot; ( GlucoseTest.effective )
+    where GlucoseTest.value as Quantity &gt;= 1000 'mg/dL'
+      and GlucoseTest.status in { 'final', 'amended', 'corrected' }
+      and GlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hours )]
+    return GlucoseTest</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:
+  from
+    &quot;Initial Population&quot; InpatientHospitalization,
+    &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; GlucoseResult1000,
+    [&quot;Observation&quot;: &quot;Glucose Lab Test Mass Per Volume&quot;] EarlierGlucoseTest
+    let HospitalizationInterval: CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ),
+    GlucoseTest1000Time: QICoreCommon.&quot;Earliest&quot; ( GlucoseResult1000.effective ),
+    EarlierGlucoseTestTime: QICoreCommon.&quot;Earliest&quot; ( EarlierGlucoseTest.effective )
+    where GlucoseTest1000Time during Interval[( start of HospitalizationInterval - 1 hour ), ( start of HospitalizationInterval + 6 hour )]
+      and EarlierGlucoseTestTime during Interval[( start of HospitalizationInterval - 1 hour ), GlucoseTest1000Time )
+      and EarlierGlucoseTest.id !~ GlucoseResult1000.id
+    return GlucoseResult1000</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;:
+  &quot;Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; GlucoseResult1000
+    where not ( GlucoseResult1000.id in &quot;Glucose Tests Earlier Than Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot;.id )</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Encounter with First Glucose Greater Than or Equal to 1000</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Encounter with First Glucose Greater Than or Equal to 1000&quot;:
+  &quot;Initial Population&quot; InpatientHospitalization
+    with &quot;Initial Glucose Greater Than or Equal to 1000 within 1 Hour Prior To and 6 Hours After Encounter Start&quot; FirstGlucoseResult
+      such that FirstGlucoseResult.value as Quantity &gt;= 1000 'mg/dL'
+        and QICoreCommon.&quot;Earliest&quot; ( FirstGlucoseResult.effective ) during Interval[( start of CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ) - 1 hour ), ( start of CQMCommon.&quot;HospitalizationWithObservation&quot; ( InpatientHospitalization ) + 6 hours )]</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Denominator Exclusions</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;Denominator Exclusions&quot;:
+  &quot;Encounter with First Glucose Greater Than or Equal to 1000&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>SupplementalDataElements</td>
+                            
+                            
+                                <td>SDE Race</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Race&quot;:
+  Patient.race R
+    return Tuple {
+      codes: R.ombCategory union R.detailed,
+      display: R.text
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>SDE Race</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define &quot;SDE Race&quot;:
+  SDE.&quot;SDE Race&quot;</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>CQMCommon</td>
+                            
+                            
+                                <td>HospitalizationWithObservation</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/*
+@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter
+@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservation()` instead.
+*/
+define function &quot;HospitalizationWithObservation&quot;(TheEncounter Encounter ):
+  TheEncounter Visit
+  		let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs
+  				where LastObs.status = 'finished'
+            and LastObs.period ends 1 hour or less on or before start of Visit.period
+  				sort by end of period
+  			),
+  			VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),
+  			EDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED
+  				where LastED.status = 'finished'
+            and LastED.period ends 1 hour or less on or before VisitStart
+  				sort by end of period
+  			)
+  		return Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>QICoreCommon</td>
+                            
+                            
+                                <td>ToPrevalenceInterval</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/*
+@description: Returns an interval representing the normalized prevalence period of a given Condition.
+@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from
+onset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting 
+interval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.
+@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead
+*/
+define function ToPrevalenceInterval(condition Condition):
+if condition.clinicalStatus ~ &quot;active&quot;
+  or condition.clinicalStatus ~ &quot;recurrence&quot;
+  or condition.clinicalStatus ~ &quot;relapse&quot; then
+  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]
+else
+   (end of ToAbatementInterval(condition)) abatementDate
+    return if abatementDate is null then
+      Interval[start of ToInterval(condition.onset), abatementDate)
+    else
+      Interval[start of ToInterval(condition.onset), abatementDate]</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>QICoreCommon</td>
+                            
+                            
+                                <td>Earliest</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/*
+@description: Given an interval, return the starting point if the interval has a starting boundary specified,
+otherwise, return the ending point
+@deprecated: This function is deprecated. Use the fluent function `earliest()` instead
+*/
+define function &quot;Earliest&quot;(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):
+  (choice.toInterval()) period
+    return
+      if (HasStart(period)) then start of period
+      else end of period</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Hospital Days Max 10</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Crops an interval to a maximum length of 10 days.*/
+
+
+define function &quot;Hospital Days Max 10&quot;(Period Interval&lt;DateTime&gt;):
+  Interval[start of Period, Min({ 
+    end of Period, start of Period + 10 days }
+  )]</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Days In Period</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Creates a list of 24 hour long intervals in an interval paired with the index (1 indexed) to which 24 hour interval it is.*/
+
+
+define function &quot;Days In Period&quot;(Period Interval&lt;DateTime&gt;):
+  ( &quot;Interval To Day Numbers&quot;(Period) ) DayNumber
+    let startPeriod: start of Period + ( 24 hours * ( DayNumber - 1 ) ),
+    endPeriod: if ( hours between startPeriod and end of Period &lt; 24 ) then startPeriod 
+      else start of Period + ( 24 hours * DayNumber )
+    return Tuple {
+      dayNumber: DayNumber,
+      dayPeriod: Interval[startPeriod, endPeriod )
+    }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Interval To Day Numbers</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Creates a list of integers from 1 to how many days are in the interval. Note, this wont create an index for
+ * the final day if it is less than 24 hours. This also includes the first 24 hour period.*/
+
+
+define function &quot;Interval To Day Numbers&quot;(Period Interval&lt;DateTime&gt;):
+  ( expand { Interval[1, duration in days between start of Period and end of Period]} ) DayExpand
+    return end of DayExpand</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Denominator Observations</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Counts the number of eligible days in an encounter. This simply filters and counts the data built in
+ * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/
+
+
+define function &quot;Denominator Observations&quot;(QualifyingEncounter Encounter):
+  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return 0
+  ) 
+    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return Count(EncounterWithEventDays.eligibleEventDays)
+  )</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>FHIRHelpers</td>
+                            
+                            
+                                <td>ToString</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">define function ToString(value uri): value.value</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>FHIRHelpers</td>
+                            
+                            
+                                <td>ToCode</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/*
+@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.
+*/
+define function ToCode(coding FHIR.Coding):
+    if coding is null then
+        null
+    else
+        System.Code {
+          code: coding.code.value,
+          system: coding.system.value,
+          version: coding.version.value,
+          display: coding.display.value
+        }</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                        <tr>
+                            <th><b>Library Name</b></th>
+                            <th><b>Name</b></th>
+                        </tr>
+                        <tr>
+                            
+                                <td>HospitalHarmHyperglycemiainHospitalizedPatientsFHIR</td>
+                            
+                            
+                                <td>Numerator Observations</td>
+                            
+                        </tr>
+                        <tr>
+                            
+                                <td></td>
+                                <td>
+                                    <pre class="highlight language-cql"><code class="language-cql">/**
+ * Counts the number of eligible days with a hyperglycemic event in an encounter. This simply filters and counts the data built in
+ * &quot;Relevant Encounters With Hyperglycemic Event Days&quot;.*/
+
+
+define function &quot;Numerator Observations&quot;(QualifyingEncounter Encounter):
+  if QualifyingEncounter.id in &quot;Denominator Exclusions&quot;.id then singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return 0
+  ) 
+    else singleton from ( &quot;Days with Hyperglycemic Events&quot; EncounterWithEventDays
+      where EncounterWithEventDays.encounter = QualifyingEncounter
+      return Count(EncounterWithEventDays.eligibleEventDays EligibleEventDay
+          where EligibleEventDay.hasHyperglycemicEvent
+      )
+  )</code></pre>
+                                </td>
+                            
+                        </tr>
+                    
+                    </table>
+                </td>
+            </tr>
+            
+        
+    
+
+    </table>
+</div>
+</body>
+</html>

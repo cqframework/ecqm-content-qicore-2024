@@ -1,0 +1,188 @@
+{
+  "resourceType": "Bundle",
+  "id": "610965b898086b538055c144",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/5516ccc0-3773-4fdc-bb70-97733373e040",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "5516ccc0-3773-4fdc-bb70-97733373e040",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">InvalidEncounter <b>IPPFAIL </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>0e398bdf5fcf08275dc64ef8442ca6da4a80d2fb9d19a256f444dcf9f785ba41</td></tr><tr><td>Date of birth</td><td><span>31 July 1992</span></td></tr></tbody></table></div>"
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "610965b898086b538055c144"
+      } ],
+      "active": true,
+      "name": [ {
+        "use": "usual",
+        "family": "IPPFail",
+        "given": [ "InvalidEncounter" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1993-07-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/5516ccc0-3773-4fdc-bb70-97733373e040"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/5e595fa69ec84a00005db61e",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "5e595fa69ec84a00005db61e",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory",
+        "userSelected": true
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "code": "99835"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/5516ccc0-3773-4fdc-bb70-97733373e040"
+      },
+      "period": {
+        "start": "2025-10-24T08:00:00.000+00:00",
+        "end": "2025-10-24T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/5e595fa69ec84a00005db61e"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/9ff79ed8-e5d7-4f83-b297-ff33f8982cb0",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "9ff79ed8-e5d7-4f83-b297-ff33f8982cb0",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "d07091dc-6529-4a3e-9067-fde490d94364-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "5516ccc0-3773-4fdc-bb70-97733373e040"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#d07091dc-6529-4a3e-9067-fde490d94364-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient qualifies by age but does not have qualifying encounter in measurement period."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/HIVScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "Patient/5516ccc0-3773-4fdc-bb70-97733373e040"
+      }, {
+        "reference": "Encounter/5e595fa69ec84a00005db61e"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/9ff79ed8-e5d7-4f83-b297-ff33f8982cb0"
+    }
+  } ]
+}

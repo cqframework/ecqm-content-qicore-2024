@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/condition-category",
         "code": "problem-list-item",
         "display": "Problem List Item"
@@ -20,27 +34,6 @@
         "system": "http://hl7.org/fhir/us/core/CodeSystem/condition-category",
         "code": "health-concern",
         "display": "Health Concern"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "active",
-        "display": "Active"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "recurrence",
-        "display": "Recurrence"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "relapse",
-        "display": "Relapse"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -101,7 +94,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -131,7 +124,7 @@
         "valueString": "Prostate Cancer Diagnosis"
       }, {
         "url": "statement",
-        "valueString": "define \"Prostate Cancer Diagnosis\":\n  [Condition: \"Prostate Cancer\"] ProstateCancer\n    where ProstateCancer.prevalenceInterval ( ) overlaps day of \"Measurement Period\"\n      and ( ProstateCancer.isProblemListItem ( )\n          or ProstateCancer.isHealthConcern ( )\n      )\n      and ProstateCancer.isActive ( )"
+        "valueString": "define \"Prostate Cancer Diagnosis\":\n  [Condition: \"Prostate Cancer\"] ProstateCancer\n    where ProstateCancer.prevalenceInterval ( ) overlaps day of \"Measurement Period\"\n      and ( ProstateCancer.isProblemListItem ( )\n          or ProstateCancer.isHealthConcern ( )\n      )"
       }, {
         "url": "displaySequence",
         "valueInteger": 2
@@ -146,7 +139,7 @@
         "valueString": "Bone Scan Study Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Bone Scan Study Performed\":\n  [Observation: \"Bone Scan\"] BoneScan\n    with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n      such that BoneScan.effective.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )"
+        "valueString": "define \"Bone Scan Study Performed\":\n  [Observation: \"Bone Scan\"] BoneScan\n    with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n      such that BoneScan.effective.toInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n    where BoneScan.effective.toInterval ( ) ends during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 3
@@ -356,7 +349,7 @@
         "valueString": "Has Diagnosis of Pain related to Prostate Cancer"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Diagnosis of Pain related to Prostate Cancer\":\n  exists ( [Condition: \"Pain Warranting Further Investigation for Prostate Cancer\"] ProstateCancerPain\n      with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n        such that ProstateCancerPain.prevalenceInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n          and ( ProstateCancerPain.isProblemListItem ( )\n              or ProstateCancerPain.isHealthConcern ( )\n          )\n          and ProstateCancerPain.isActive ( )\n  )"
+        "valueString": "define \"Has Diagnosis of Pain related to Prostate Cancer\":\n  exists ( [Condition: \"Pain Warranting Further Investigation for Prostate Cancer\"] ProstateCancerPain\n      with \"Prostate Cancer Diagnosis\" ActiveProstateCancer\n        such that ProstateCancerPain.prevalenceInterval ( ) starts after start of ActiveProstateCancer.prevalenceInterval ( )\n          and ( ProstateCancerPain.isProblemListItem ( )\n              or ProstateCancerPain.isHealthConcern ( )\n          )\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 17
@@ -416,7 +409,7 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueInteger": 21
@@ -470,21 +463,6 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "isActive"
-      }, {
-        "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 25
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
         "valueString": "FHIRHelpers"
       }, {
         "url": "name",
@@ -494,7 +472,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 26
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -509,9 +487,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 27
+        "valueInteger": 26
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -522,15 +501,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system ConditionCategory",
@@ -539,10 +522,6 @@
       "type": "depends-on",
       "display": "Code system USCoreConditionCategoryExtensionCodes",
       "resource": "http://hl7.org/fhir/us/core/CodeSystem/condition-category"
-    }, {
-      "type": "depends-on",
-      "display": "Code system ConditionClinicalStatusCodes",
-      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
     }, {
       "type": "depends-on",
       "display": "Code system SNOMEDCT",
@@ -662,9 +641,21 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.320"
+      } ],
+      "dateFilter": [ {
+        "path": "effective",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
-      "id": "195",
+      "id": "344",
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
@@ -685,7 +676,7 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.401"
       } ]
     }, {
-      "id": "157",
+      "id": "489",
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "status", "status.value", "value" ],
@@ -727,7 +718,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "195"
+          "valueString": "344"
         }, {
           "url": "targetProperty",
           "valueString": "effective"
@@ -762,7 +753,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "157"
+          "valueString": "489"
         }, {
           "url": "targetProperty",
           "valueString": "effective"
@@ -819,7 +810,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -873,7 +865,7 @@
       } ]
     },
     "system": "urn:ietf:rfc:3986",
-    "value": "urn:uuid:8755880e-94ba-49ff-8c9a-4a138db01c82"
+    "value": "urn:uuid:571966b9-0a41-46ee-9e75-b9a8d3b4f3b4"
   }, {
     "use": "official",
     "type": {
@@ -888,12 +880,12 @@
       "display": "CMS"
     }
   } ],
-  "version": "0.2.000",
+  "version": "0.3.000",
   "name": "ProstateCaAvoidanceBoneScanOveruseFHIR",
-  "title": "Prostate Cancer: Avoidance of Overuse of Bone Scan for Staging Low Risk Prostate Cancer PatientsFHIR",
+  "title": "Prostate Cancer Avoidance of Overuse of Bone Scan for Staging Low Risk Prostate Cancer PatientsFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:18+00:00",
+  "date": "2024-07-01T20:13:06+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -903,10 +895,8 @@
   } ],
   "description": "Percentage of patients, regardless of age, with a diagnosis of prostate cancer at low (or very low) risk of recurrence receiving interstitial prostate brachytherapy, OR external beam radiotherapy to the prostate, OR radical prostatectomy who did not have a bone scan performed at any time since diagnosis of prostate cancer",
   "purpose": "UNKNOWN",
-  "usage": "A higher score indicates appropriate treatment of patients with prostate cancer at low (or very low) risk of recurrence. Only patients with prostate cancer with low (or very low) risk of recurrence will be counted in the performance denominator of this measure.\n\nIn 2022, the American Urological Association published guidance recommending that clinicians not perform bone scan in asymptomatic patients with low- or intermediate-risk prostate cancer. However, this quality measure remains focused on patients with low (or very low) risk of recurrence. \n\nThis eCQM is a patient-based measure.\n\nTelehealth encounters are not eligible for this measure because the measure does not contain telehealth-eligible codes. \n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS129v13.  \nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. \n\nThe PCPI’s and American Medical Association's (AMA) significant past efforts and contributions to the development and updating of the Measure is acknowledged.\n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "A higher score indicates appropriate treatment of patients with prostate cancer at low (or very low) risk of recurrence. Only patients with prostate cancer with low (or very low) risk of recurrence will be counted in the performance denominator of this measure.  In 2022, the American Urological Association published guidance recommending that clinicians not perform bone scan in asymptomatic patients with low or favorable intermediate risk prostate cancer. However, this quality measure remains focused on patients with low (or very low) risk of recurrence.   This eCQM is a patient-based measure.  Telehealth encounters are not eligible for this measure because the measure does not contain telehealth-eligible codes.   This FHIR-based measure has been derived from the QDM-based measure: CMS 129v14.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.   The PCPI’s and American Medical Association's (AMA) significant past efforts and contributions to the development and updating of the Measure is acknowledged.  CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -925,7 +915,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/ProstateCaAvoidanceBoneScanOveruseFHIR" ],
-  "disclaimer": "The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications. \n\nTHE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R].",
+  "disclaimer": "The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -933,10 +923,10 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "Multiple studies have indicated that a bone scan is not clinically necessary for staging prostate cancer in men with a low (or very low) risk of recurrence and receiving primary therapy. For patients who are categorized as low risk, bone scans are unlikely to identify their disease. Furthermore, bone scans are not necessary for low risk patients who have no history of bony involvement or if the clinical examination suggests no bony involvement. Less than 1% of low risk patients are at risk of metastatic disease.\n\nWhile clinical practice guidelines do not recommend bone scans in low risk prostate cancer patients, overuse is still common. An analysis of prostate cancer patients in the Surveillance, Epidemiology and End Results Medicare database diagnosed from 2004-2007 found that 43% of patients for whom a bone scan was not recommended received it (Falchook, Hendrix, & Chen, 2015). The analysis also found that the use of bone scans in low risk patients leads to an annual cost of $4 million dollars to Medicare. The overuse of bone scan imaging for low risk prostate cancer patients is a concept included on the American Urological Association's (AUA) list in the Choosing Wisely Initiative as a means to promote adherence to evidence-based imaging practices and to reduce health care dollars wasted (AUA, 2019). This measure is intended to promote adherence to evidence-based imaging practices, lessen the financial burden of unnecessary imaging, and ultimately to improve the quality of care for prostate cancer patients in the United States.",
-  "clinicalRecommendationStatement": "For symptomatic patients and/or those with a life expectancy of greater than 5 years, bone imaging is appropriate for patients with unfavorable intermediate-risk prostate cancer, high-risk and very-high-risk prostate cancer (National Comprehensive Cancer Network, 2022) (Evidence Level: Category 2A).\n\nClinicians should not perform routine bone scans in the staging of asymptomatic very low- or low-risk localized prostate cancer patients (AUA, American Society for Radiation Oncology, & Society of Urologic Oncology, 2017) (Strong Recommendation; Evidence Level: Grade C).\n\nVery low-risk or low-risk patients are unlikely to have disease identified by bone scan. Accordingly, bone scans are generally unnecessary in patients with newly diagnosed prostate cancer who have a PSA <10.0 ng/mL and a Gleason score less than 7 unless the patient’s history or clinical examination suggests bony involvement. Progression to the bone is much more common in advanced local disease or in high-grade disease that is characterized by fast and aggressive growth into surrounding areas such as bones or lymph nodes (AUA, 2019).",
+  "rationale": "Multiple studies have indicated that a bone scan is not clinically necessary for staging prostate cancer in men with a low (or very low) risk of recurrence and receiving primary therapy. For patients who are categorized as low risk, bone scans are unlikely to identify their disease. Furthermore, bone scans are not necessary for low risk patients who have no history of bony involvement or if the clinical examination suggests no bony involvement. Less than 1% of low risk patients are at risk of metastatic disease.  While clinical practice guidelines do not recommend bone scans in low risk prostate cancer patients, overuse is still common. An analysis of prostate cancer patients in the Surveillance, Epidemiology and End Results Medicare database diagnosed from 2004-2007 found that 43% of patients for whom a bone scan was not recommended received it (Falchook, Hendrix, & Chen, 2015). The analysis also found that the use of bone scans in low risk patients leads to an annual cost of $4 million dollars to Medicare. The overuse of bone scan imaging for low risk prostate cancer patients is a concept included on the American Urological Association's (AUA) list in the Choosing Wisely Initiative as a means to promote adherence to evidence-based imaging practices and to reduce health care dollars wasted (AUA, 2019). This measure is intended to promote adherence to evidence-based imaging practices, lessen the financial burden of unnecessary imaging, and ultimately to improve the quality of care for prostate cancer patients in the United States.",
+  "clinicalRecommendationStatement": "For symptomatic patients and/or those with a life expectancy of greater than 5 years, bone imaging is appropriate for patients with unfavorable intermediate-risk prostate cancer, high-risk and very-high-risk prostate cancer (National Comprehensive Cancer Network, 2022) (Evidence Level: Category 2A).  Clinicians should not perform routine bone scans in the staging of asymptomatic very low- or low-risk localized prostate cancer patients (AUA, American Society for Radiation Oncology, & Society of Urologic Oncology, 2017) (Strong Recommendation; Evidence Level: Grade C).  Very low-risk or low-risk patients are unlikely to have disease identified by bone scan. Accordingly, bone scans are generally unnecessary in patients with newly diagnosed prostate cancer who have a PSA <10.0 ng/mL and a Gleason score less than 7 unless the patient’s history or clinical examination suggests bony involvement. Progression to the bone is much more common in advanced local disease or in high-grade disease that is characterized by fast and aggressive growth into surrounding areas such as bones or lymph nodes (AUA, 2019).",
   "group": [ {
-    "id": "64ef74a856d636294b157b07",
+    "id": "65674cb70f81f93fca7d75f2",
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
       "valueCodeableConcept": {
@@ -956,6 +946,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -989,18 +991,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "0f706cd7-2e9a-4926-9d19-f11774714201",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "E712FB6E-F76B-46C1-BB4E-5E0FEF5C2390",
       "code": {
         "coding": [ {
@@ -1009,22 +999,10 @@
           "display": "Numerator"
         } ]
       },
-      "description": "Patients who did not have a bone scan performed at any time since diagnosis of prostate cancer",
+      "description": "Patients who did not have a bone scan performed after diagnosis of prostate cancer and before the end of the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "0cc86ae7-e1db-48a6-8f4c-eaddd0d754c8",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "F352B1F3-5574-4F4D-8E53-6181E6BBC0A5",

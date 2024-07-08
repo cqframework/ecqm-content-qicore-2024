@@ -1,0 +1,304 @@
+{
+  "resourceType": "Bundle",
+  "id": "363b28a9-e77d-4fee-aaaf-73ebb35bc57c",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "4c12355d-2548-471a-a98f-b9a58c2cbfe0",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2106-3",
+            "display": "White"
+          }
+        }, {
+          "url": "text",
+          "valueString": "White"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999999"
+      } ],
+      "name": [ {
+        "family": "Example",
+        "given": [ "Patient" ]
+      } ],
+      "gender": "other",
+      "birthDate": "1955-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/5e8cccc8931f9c0000abd5b9",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "5e8cccc8931f9c0000abd5b9",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "IMP",
+        "display": "inpatient encounter"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "183452005"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+      },
+      "period": {
+        "start": "2025-04-07T08:00:00.000Z",
+        "end": "2025-04-12T08:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/5e8cccc8931f9c0000abd5b9"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/33e3e44c-9ace-11ed-9919-f340a01f594c",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "33e3e44c-9ace-11ed-9919-f340a01f594c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "encounter-diagnosis",
+          "display": "Encounter Diagnosis"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://hl7.org/fhir/sid/icd-10-cm",
+          "code": "E10.21",
+          "display": "Type 1 diabetes mellitus with diabetic nephropathy"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+      },
+      "onsetDateTime": "2010-01-02"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/33e3e44c-9ace-11ed-9919-f340a01f594c"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/glucose-lab-test-mass-per-volume-22f7",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "glucose-lab-test-mass-per-volume-22f7",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "laboratory",
+          "display": "Laboratory"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "version": "2.72",
+          "code": "1556-0",
+          "display": "Fasting glucose [Mass/volume] in Capillary blood",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+      },
+      "effectiveDateTime": "2025-04-09T07:00:00.000+00:00",
+      "valueQuantity": {
+        "value": 201,
+        "unit": "mg/dL"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/glucose-lab-test-mass-per-volume-22f7"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/glucose-lab-test-mass-per-volume-22f8",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "glucose-lab-test-mass-per-volume-22f8",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "laboratory",
+          "display": "Laboratory"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "version": "2.72",
+          "code": "1556-0",
+          "display": "Fasting glucose [Mass/volume] in Capillary blood",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+      },
+      "effectiveDateTime": "2025-04-10T07:00:00.000+00:00",
+      "valueQuantity": {
+        "value": 200,
+        "unit": "mg/dL"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Observation/glucose-lab-test-mass-per-volume-22f8"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/234a11e2-2afd-4846-8380-7d0c945dafc7",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "234a11e2-2afd-4846-8380-7d0c945dafc7",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "cb7a5509-d1be-41c8-b811-5c0d7d955ea2-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#cb7a5509-d1be-41c8-b811-5c0d7d955ea2-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "IP encounter for patient w/diabetes. Had 2 consecutive days of glucose >200mg/dL, then followed by a day with no glucose level result. Meets Numerator. "
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/HospitalHarmHyperglycemiainHospitalizedPatientsFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-observation",
+              "display": "DenominatorObservation"
+            } ]
+          },
+          "count": 4
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator-observation",
+              "display": "Numerator Observation"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/4c12355d-2548-471a-a98f-b9a58c2cbfe0"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/5e8cccc8931f9c0000abd5b9"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/33e3e44c-9ace-11ed-9919-f340a01f594c"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/glucose-lab-test-mass-per-volume-22f7"
+      }, {
+        "reference": "https://madie.cms.gov/Observation/glucose-lab-test-mass-per-volume-22f8"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/234a11e2-2afd-4846-8380-7d0c945dafc7"
+    }
+  } ]
+}

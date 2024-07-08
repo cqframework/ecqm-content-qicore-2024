@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
         "code": "active"
       }
@@ -65,7 +79,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueString": "0"
@@ -95,7 +109,7 @@
         "valueString": "Has Kidney Panel Performed During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Kidney Panel Performed During Measurement Period&quot;:\n  exists ( [&quot;Observation&quot;: &quot;Estimated Glomerular Filtration Rate&quot;] eGFRTest\n      where QICoreCommon.&quot;ToInterval&quot; ( eGFRTest.effective ) during &quot;Measurement Period&quot;\n        and eGFRTest.value is not null\n        and eGFRTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n  )\n    and exists ( [&quot;Observation&quot;: &quot;Urine Albumin Creatinine Ratio&quot;] uACRTest\n        where QICoreCommon.&quot;ToInterval&quot; ( uACRTest.effective ) during &quot;Measurement Period&quot;\n          and uACRTest.value is not null\n          and uACRTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n    )"
+        "valueString": "define &quot;Has Kidney Panel Performed During Measurement Period&quot;:\n  exists ( [&quot;Observation&quot;: &quot;Estimated Glomerular Filtration Rate&quot;] eGFRTest\n      where eGFRTest.effective.toInterval ( ) during day of &quot;Measurement Period&quot;\n        and eGFRTest.value is not null\n        and eGFRTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n  )\n    and exists ( [&quot;Observation&quot;: &quot;Urine Albumin Creatinine Ratio&quot;] uACRTest\n        where uACRTest.effective.toInterval ( ) during day of &quot;Measurement Period&quot;\n          and uACRTest.value is not null\n          and uACRTest.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "2"
@@ -125,7 +139,7 @@
         "valueString": "Has Active Diabetes Overlaps Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Active Diabetes Overlaps Measurement Period&quot;:\n  exists ( [&quot;Condition&quot;: &quot;Diabetes&quot;] Diabetes\n      where QICoreCommon.&quot;ToPrevalenceInterval&quot; ( Diabetes ) overlaps &quot;Measurement Period&quot;\n        and Diabetes.clinicalStatus ~ &quot;active&quot;\n  )"
+        "valueString": "define &quot;Has Active Diabetes Overlaps Measurement Period&quot;:\n  exists ( [&quot;Condition&quot;: &quot;Diabetes&quot;] Diabetes\n      where Diabetes.prevalenceInterval ( ) overlaps day of &quot;Measurement Period&quot;\n        and Diabetes.clinicalStatus ~ &quot;active&quot;\n  )"
       }, {
         "url": "displaySequence",
         "valueString": "4"
@@ -245,7 +259,7 @@
         "valueString": "Has CKD Stage 5 or ESRD Diagnosis Overlaps Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has CKD Stage 5 or ESRD Diagnosis Overlaps Measurement Period&quot;:\n  ( [&quot;Condition&quot;: &quot;Chronic Kidney Disease, Stage 5&quot;]\n    union [&quot;Condition&quot;: &quot;End Stage Renal Disease&quot;] ) CKDOrESRD\n    where QICoreCommon.&quot;ToPrevalenceInterval&quot; ( CKDOrESRD ) overlaps &quot;Measurement Period&quot;\n      and CKDOrESRD.clinicalStatus ~ &quot;active&quot;"
+        "valueString": "define &quot;Has CKD Stage 5 or ESRD Diagnosis Overlaps Measurement Period&quot;:\n  ( [&quot;Condition&quot;: &quot;Chronic Kidney Disease, Stage 5&quot;]\n    union [&quot;Condition&quot;: &quot;End Stage Renal Disease&quot;] ) CKDOrESRD\n    where CKDOrESRD.prevalenceInterval ( ) overlaps day of &quot;Measurement Period&quot;\n      and CKDOrESRD.clinicalStatus ~ &quot;active&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "12"
@@ -260,7 +274,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "13"
@@ -332,10 +346,10 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "ToPrevalenceInterval"
+        "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueString": "18"
@@ -380,7 +394,7 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
       }, {
         "url": "displaySequence",
         "valueString": "21"
@@ -410,7 +424,7 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
       }, {
         "url": "displaySequence",
         "valueString": "23"
@@ -440,7 +454,7 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "25"
@@ -455,25 +469,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "26"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "prevalenceInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
-      }, {
-        "url": "displaySequence",
-        "valueString": "27"
       } ]
     } ],
     "status": "active",
@@ -486,27 +485,31 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library PalliativeCare",
-      "resource": "Library/PalliativeCare|1.9.000"
+      "resource": "Library/PalliativeCare|1.11.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system ConditionClinicalStatusCodes",
@@ -861,7 +864,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex\n "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -929,7 +933,7 @@
   "title": "Kidney Health EvaluationFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-17T15:26:06+00:00",
+  "date": "2024-05-06T14:11:45+00:00",
   "publisher": "National Kidney Foundation",
   "contact": [ {
     "telecom": [ {
@@ -939,15 +943,19 @@
   } ],
   "description": "Percentage of patients aged 18-85 years with a diagnosis of diabetes who received a kidney health evaluation defined by an Estimated Glomerular Filtration Rate (eGFR) AND Urine Albumin-Creatinine Ratio (uACR) within the measurement period",
   "purpose": "UNKNOWN",
-  "usage": "This measure assesses performance of a comprehensive kidney evaluation in adults aged 18-85. This measure does not preclude or discourage the use of regular laboratory testing for CKD in patients outside of the age range (patients under 18 years and those over 85 years of age).  \n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS951v2.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "usage": "This measure assesses performance of a comprehensive kidney evaluation in adults aged 18-85. This measure does not preclude or discourage the use of regular laboratory testing for CKD in patients outside of the age range (patients under 18 years and those over 85 years of age).  \n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS951v3.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
   "copyright": "Copyright 2024 National Kidney Foundation. All Rights Reserved.",
-  "approvalDate": "2023-11-17",
-  "lastReviewDate": "2023-11-17",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
   },
   "author": [ {
+    "name": "American Medical Association-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI)",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.ama-assn.org/"
+    } ]
+  }, {
     "name": "National Kidney Foundation",
     "telecom": [ {
       "system": "url",
@@ -956,8 +964,8 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/KidneyHealthEvaluationFHIR" ],
   "disclaimer": "Physician Performance Measures (Measures) and related data specifications developed by the National Kidney Foundation (NKF) are intended to facilitate quality improvement activities by health care professionals.\n\nThese Measures are intended to assist health care professionals in enhancing quality of care. These Measures are not clinical guidelines and do not establish a standard of medical care and have not been tested for all potential applications. NKF encourages testing and evaluation of its Measures.\n\nMeasures are subject to review and may be revised or rescinded at any time by NKF. The measures may not be altered without prior written approval from NKF. The measures, while copyrighted, can be reproduced and distributed, without modification, for noncommercial purposes. Commercial use is defined as the sale, license, or distribution of the measures for commercial gain, or incorporation of the measures into a product or service that is sold, licensed, or distributed for commercial gain. Commercial uses of the measures require a license agreement between the user and NKF. Neither NKF nor its members shall be responsible for any use of the measures.\n\nTHESE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nLimited proprietary coding is contained in the Measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.\n\nThe PCPI’s and AMA’s significant past efforts and contributions to the development and updating of the measure are acknowledged.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R].",
-  "rationale": "Chronic Kidney Disease (CKD) is a major driver of morbidity, mortality and high healthcare costs in the United States. Currently, 37 million American adults have CKD and millions of others are at increased risk (NKF, 2019), with an estimated population prevalence growing to nearly 17% among Americans aged 30 years and older by the year 2030 (Saran, 2019; Hoerger, 2015). Total Medicare spending in 2016 on both CKD and ESRD was over $114 billion, comprising 23% of total Medicare fee-for-service spending overall with costs increasing exponentially with advancing CKD (Saran, 2019; Nichols, 2020). In the US from 2002-2016, the burden of CKD, defined as years of life lost, years living with disability, disability-adjusted life years, and deaths, outpaced changes in the burden of disease for other conditions (Bowe, 2018). Patients with CKD are readmitted to the hospital more frequently than those without diagnosed CKD (Saran, 2019). CKD is the 9th leading cause of death in the US and is the fastest growing non-communicable disease in terms of in burden largely due to death (Hoerger, 2015; Bowe, 2018). This public health issue is driven largely by the impact of diabetes—the most common comorbid risk factor for CKD (Saran, 2019; Bowe, 2018).  \n\nThe intent of this process measure is to improve rates of guideline-concordant kidney health evaluation in patients with diabetes to more consistently identify and potentially treat or delay progression of CKD in this high-risk population. Annual kidney health evaluation in patients with diabetes to determine risk of CKD using estimated glomerular filtration rate (eGFR) and urine albumin creatinine ratio (uACR) is recommended by clinical practice guidelines (ADA, 2022; NKF, 2007; NKF, 2012) and has been a focus of various local and national health care quality improvement initiatives, including Healthy People 2020 (United States Renal Data System, 2018). However, performance of these tests in patients with diabetes remains low, with rates that vary across Medicare (41.8%) and private insurers (49.0%) (Saran, 2019; Alfego, 2021; Stempneiwicz, 2021). Low rates of detection of CKD in a population of patients with diabetes have been demonstrated to be associated with low patient awareness of their own kidney health status (Szczech, 2014). Indeed, 90% of individuals with CKD are unaware of their condition due to under-recognition and under-diagnosis (Saran, 2019; Centers for Disease Control and Prevention, 2019). Currently, an individual’s lifetime probability of developing CKD is relatively high, reaching 54% for someone currently aged 30-49 years (Hoerger, 2015). Regular kidney health evaluations, utilizing both eGFR and uACR, provide an opportunity to improve identification and potential reversal of worsening kidney function, particularly in high risk populations, such as those with diabetes.",
-  "clinicalRecommendationStatement": "The following evidence statements are quoted verbatim from the referenced clinical guidelines and other sources, where applicable:\n\nAt least once a year, assess urinary albumin (e.g., spot urinary albumin-to-creatinine ratio) and estimated glomerular filtration rate in patients with type 1 diabetes with duration of >= 5 years, in all patients with type 2 diabetes, and in all patients with comorbid hypertension. B (American Diabetes Association Professional Practice Committee, 2019)\n\nPatients with diabetes should be screened annually for Diabetic Kidney Disease (DKD). Initial screening should commence:\n  - 5 years after the diagnosis of type 1 diabetes; (A) or\n  - From diagnosis of type 2 diabetes. (B)\n\nScreening should include:\n  - Measurements of urinary albumin-creatinine ratio (ACR) in a spot urine sample; (B)\n  - Measurement of serum creatinine and estimation of GFR. (B) \n(National Kidney Foundation [NKF], 2007; NKF, 2012)",
+  "rationale": "Chronic Kidney Disease (CKD) is a major driver of morbidity, mortality and high healthcare costs in the United States. Currently, 37 million American adults have CKD and millions of others are at increased risk (National Kidney Foundation [NKF], 2022), with an estimated population prevalence growing to nearly 17% among Americans aged 30 years and older by the year 2030 (Saran et al., 2019; Hoerger et al., 2015). Total Medicare spending in 2016 on both CKD and End Stage Renal Disease (ESRD) was over $114 billion, comprising 23% of total Medicare fee-for-service spending overall with costs increasing exponentially with advancing CKD (Saran et al., 2019; Nichols et al., 2020). In the US from 2002-2016, the burden of CKD, defined as years of life lost, years living with disability, disability-adjusted life years, and deaths, outpaced changes in the burden of disease for other conditions (Bowe et al., 2018). Patients with CKD are readmitted to the hospital more frequently than those without diagnosed CKD (Saran et al., 2019). CKD is the 9th leading cause of death in the US and is the fastest growing non-communicable disease in terms of in burden largely due to death (Hoerger et al., 2015; Bowe et al., 2018). This public health issue is driven largely by the impact of diabetes—the most common comorbid risk factor for CKD (Saran et al., 2019; Bowe et al., 2018).  \n\nThe intent of this process measure is to improve rates of guideline-concordant kidney health evaluation in patients with diabetes to more consistently identify and potentially treat or delay progression of CKD in this high-risk population. Annual kidney health evaluation in patients with diabetes to determine risk of CKD using eGFR and uACR is recommended by clinical practice guidelines (American Disability Association, 2022; de Boer, 2022; NKF, 2007; NKF, 2012) and has been a focus of various local and national health care quality improvement initiatives, including Healthy People 2030 (Healthy People 2030, 2023). However, performance of these tests in patients with diabetes remains low, with rates that vary across Medicare (41.8%) and private insurers (49.0%) (Saran et al., 2019; Alfego et al., 2021; Stempneiwicz et al., 2021). Low rates of detection of CKD in a population of patients with diabetes have been demonstrated to be associated with low patient awareness of their own kidney health status (Szczech et al., 2014). Indeed, 90% of individuals with CKD are unaware of their condition due to under-recognition and under-diagnosis (Saran et al., 2019; Centers for Disease Control and Prevention, 2023). Currently, an individual’s lifetime probability of developing CKD is relatively high, reaching 54% for someone currently aged 30-49 years (Hoerger et al., 2015). Regular kidney health evaluations, utilizing both eGFR and uACR, provide an opportunity to improve identification and potential reversal of worsening kidney function, particularly in high risk populations, such as those with diabetes.",
+  "clinicalRecommendationStatement": "The following evidence statements are quoted verbatim from the referenced clinical guidelines and other sources, where applicable:\n\nAt annually, urinary albumin (e.g., spot urinary albumin-to-creatinine ratio) and estimated glomerular filtration rate should be assessed in people with type 1 diabetes with duration of >= 5 years and in all people with type 2 diabetes regardless of treatment. B (American Diabetes Association Professional Practice Committee, 2023)\n\nPatients with diabetes should be screened annually for Diabetic Kidney Disease (DKD). Initial screening should commence:\n  - 5 years after the diagnosis of type 1 diabetes; (A) or\n  - From diagnosis of type 2 diabetes. (B)\n\nScreening should include:\n  - Measurements of urinary albumin-creatinine ratio (ACR) in a spot urine sample; (B)\n  - Measurement of serum creatinine and estimation of GFR. (B) \n(National Kidney Foundation [NKF], 2007; NKF, 2012)",
   "group": [ {
     "id": "64f0dfe956d636294b157faf",
     "extension": [ {
@@ -981,6 +989,18 @@
           "display": "Process"
         } ]
       }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
+        } ]
+      }
     } ],
     "population": [ {
       "id": "FE55F147-F09C-404F-9E91-478BFE225678",
@@ -991,7 +1011,7 @@
           "display": "Initial Population"
         } ]
       },
-      "description": "All patients aged 18-75 years with a diagnosis of diabetes at the start of the measurement period with a visit during the measurement period",
+      "description": "All patients aged 18-85 years with a diagnosis of diabetes at the start of the measurement period with a visit during the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Initial Population"
@@ -1019,7 +1039,7 @@
           "display": "Denominator Exclusion"
         } ]
       },
-      "description": "Patients with a diagnosis of End Stage Renal Disease (ESRD); Patients with a diagnosis of Chronic Kidney Disease (CKD) Stage 5; Patients who have an order for or are receiving hospice or palliative care",
+      "description": "Patients with a diagnosis of ESRD active during the measurement period; Patients with a diagnosis of (CKD) Stage 5 active during the measurement period; Patients who have an order for or are receiving hospice or palliative care",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Denominator Exclusions"
@@ -1033,34 +1053,10 @@
           "display": "Numerator"
         } ]
       },
-      "description": "Patients who received a kidney health evaluation defined by an Estimated Glomerular Filtration Rate (eGFR) AND Urine Albumin-Creatinine Ratio (uACR) within the measurement period",
+      "description": "Patients who received a kidney health evaluation defined by an eGFR AND uACR within the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "8d0cecc5-456b-47f1-a801-aa62647d433d",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "3ebee955-614f-40c1-8164-476f97ca55ec",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ],

@@ -2,24 +2,30 @@ library SafeUseofOpioidsConcurrentPrescribingFHIR version '0.2.000'
 
 using QICore version '4.1.1'
 
-include CQMCommon version '2.0.000' called CQMCommon
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include Hospice version '6.9.000' called Hospice
-include QICoreCommon version '2.0.000' called QICoreCommon
-include SupplementalDataElements version '3.4.000' called SDE
+include CQMCommon version '2.2.000' called CQMCommon
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include Hospice version '6.12.000' called Hospice
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
 
 codesystem "LOINC": 'http://loinc.org'
 
-valueset "All Primary and Secondary Cancer": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.161'
+valueset "Cancer Related Pain": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.180'
 valueset "Discharge To Acute Care Facility": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.87'
-valueset "Encounter Inpatient": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307'
+valueset "Ethnicity": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.837'
 valueset "Hospice Care Referral or Admission": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1116.365'
+valueset "Left Against Medical Advice": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.308'
+valueset "Medications for Opioid Use Disorder (MOUD)": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.269'
+valueset "ONC Administrative Sex": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1'
+valueset "Opioid Medication Assisted Treatment (MAT)": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.177'
+valueset "Opioid Use Disorder": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.171'
 valueset "Palliative or Hospice Care": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1579'
 valueset "Patient Expired": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.309'
-valueset "Schedule II & III Opioid Medications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.165'
+valueset "Payer Type": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591'
+valueset "Race": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.836'
+valueset "Schedule II, III and IV Opioid Medications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.241'
 valueset "Schedule IV Benzodiazepines": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1125.1'
-
-code "Birth date": '21112-8' from "LOINC" display 'Birth date'
+valueset "Sickle Cell Disease with and without Crisis": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.175'
 
 parameter "Measurement Period" Interval<DateTime>
 
@@ -34,40 +40,51 @@ define "Denominator":
 define "Denominator Exclusion":
   /*Excludes encounters of patients with cancer or who are receiving palliative or hospice care at the time of the encounter or who are discharged to another inpatient care facility or expire during the inpatient stay*/
   
-  "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge" InpatientEncounter
-    where exists ( [Condition: "All Primary and Secondary Cancer"] Cancer
-        where ( Cancer.isProblemListItem ( )
-            or Cancer.isHealthConcern ( )
+  ( "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge" InpatientEncounter
+      where exists ( [Condition: "Cancer Related Pain"] CancerPain
+          where ( CancerPain.isProblemListItem ( )
+              or CancerPain.isHealthConcern ( )
+          )
+            and CancerPain.prevalenceInterval ( ) overlaps day of InpatientEncounter.period
+      )
+        or exists ( ( InpatientEncounter.encounterDiagnosis ( ) ) InpatientEncounterDiagnosis
+            where InpatientEncounterDiagnosis.code in "Cancer Related Pain"
         )
-          and Cancer.isActive ( )
-          and Cancer.prevalenceInterval ( ) overlaps InpatientEncounter.period
-    )
-      or exists ( ( InpatientEncounter.encounterDiagnosis ( ) ) InpatientEncounterDiagnosis
-          where InpatientEncounterDiagnosis.code in "All Primary and Secondary Cancer"
-      )
-      or exists ( "Intervention Palliative or Hospice Care" PalliativeOrHospiceCare
-          where Coalesce(start of PalliativeOrHospiceCare.performed.toInterval(), PalliativeOrHospiceCare.authoredOn) during day of CQMCommon."HospitalizationWithObservation" ( InpatientEncounter )
-      )
-      or ( InpatientEncounter.hospitalization.dischargeDisposition in "Discharge To Acute Care Facility"
-          or InpatientEncounter.hospitalization.dischargeDisposition in "Hospice Care Referral or Admission"
-          or InpatientEncounter.hospitalization.dischargeDisposition in "Patient Expired"
-      )
+        or exists ( [Condition: "Sickle Cell Disease with and without Crisis"] SickleCellDisease
+            where SickleCellDisease.prevalenceInterval ( ) overlaps day of InpatientEncounter.period
+        )
+        or exists ( [Condition: "Opioid Use Disorder"] OUD
+            where start of OUD.prevalenceInterval ( ) before day of end of InpatientEncounter.period
+        )
+        or exists ( "Treatment for Opioid Use Disorders" OUDTreatment
+            where OUDTreatment.authoredOn during day of InpatientEncounter.period
+        )
+        or exists ( "Intervention Palliative or Hospice Care" PalliativeOrHospiceCare
+            where Coalesce(start of PalliativeOrHospiceCare.performed.toInterval(), PalliativeOrHospiceCare.authoredOn) during day of InpatientEncounter."hospitalizationWithObservation" ( )
+        )
+        or ( InpatientEncounter.hospitalization.dischargeDisposition in "Discharge To Acute Care Facility"
+            or InpatientEncounter.hospitalization.dischargeDisposition in "Hospice Care Referral or Admission"
+            or InpatientEncounter.hospitalization.dischargeDisposition in "Patient Expired"
+            or InpatientEncounter.hospitalization.dischargeDisposition in "Left Against Medical Advice"
+        )
+  )
 
 define "Numerator":
   /*Encounters of patients prescribed two or more opioids or an opioid and benzodiazepine at discharge.*/
   
-  ( "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge" InpatientEncounter
-      where ( Count("Opioid at Discharge" Opioids
-            return distinct Opioids.medication
-        ) >= 2
-      )
-  )
-    union ( "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge" InpatientEncounter
-        with "Opioid at Discharge" OpioidsDischarge
-          such that OpioidsDischarge.authoredOn during day of InpatientEncounter.period
-        with "Benzodiazepine at Discharge" BenzodiazepinesDischarge
-          such that BenzodiazepinesDischarge.authoredOn during day of InpatientEncounter.period
+  ( ( "Inpatient Encounters with an Opioid or Benzodiazepine at Discharge" InpatientEncounter
+        where ( Count("Opioid at Discharge" OpioidMedications
+              where OpioidMedications.authoredOn during day of InpatientEncounter.period
+              return distinct OpioidMedications.medication
+          ) >= 2
+        )
+          or exists ( "Opioid at Discharge" OpioidDischargeMedications
+              where OpioidDischargeMedications.authoredOn during day of InpatientEncounter.period
+                and exists "Benzodiazepine at Discharge" BenzodiazepineDischargeMedication
+                  where BenzodiazepineDischargeMedication.authoredOn during day of InpatientEncounter.period
+          )
     )
+  )
 
 define "Benzodiazepine at Discharge":
   ( [MedicationRequest: medication in "Schedule IV Benzodiazepines"] BenzoMedications
@@ -92,12 +109,18 @@ define "Intervention Palliative or Hospice Care":
     union [Procedure: "Palliative or Hospice Care"]
 
 define "Opioid at Discharge":
-  ( [MedicationRequest: "Schedule II & III Opioid Medications"] OpioidMedications
+  ( [MedicationRequest: "Schedule II, III and IV Opioid Medications"] OpioidMedications
     where ( OpioidMedications.isCommunity ( )
         or OpioidMedications.isDischarge ( )
     ) ) OpioidDischargeMedication
     where OpioidDischargeMedication.status in { 'active', 'completed' }
       and OpioidDischargeMedication.intent = 'order'
+
+define "Treatment for Opioid Use Disorders":
+  [MedicationRequest: "Medications for Opioid Use Disorder (MOUD)"] MedicationTreatment
+    with [Procedure: "Opioid Medication Assisted Treatment (MAT)"] MAT
+      such that MedicationTreatment.authoredOn during day of MAT.performed.toInterval ( )
+        and MedicationTreatment.authoredOn during day of "Measurement Period"
 
 define "SDE Ethnicity":
   SDE."SDE Ethnicity"

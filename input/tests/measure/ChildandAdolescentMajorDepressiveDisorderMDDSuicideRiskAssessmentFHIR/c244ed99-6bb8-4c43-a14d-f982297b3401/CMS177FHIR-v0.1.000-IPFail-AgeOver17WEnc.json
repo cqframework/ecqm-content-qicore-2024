@@ -1,0 +1,311 @@
+{
+  "resourceType": "Bundle",
+  "id": "64d123121252352a0771c3c9",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/c244ed99-6bb8-4c43-a14d-f982297b3401",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "c244ed99-6bb8-4c43-a14d-f982297b3401",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "64d123121252352a0771c3c9"
+      } ],
+      "name": [ {
+        "family": "IPFail",
+        "given": [ "AgeOver17WEnc" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2006-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/c244ed99-6bb8-4c43-a14d-f982297b3401"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/office-visit-c3ca",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "office-visit-c3ca",
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory",
+        "userSelected": true
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "code": "99203",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/c244ed99-6bb8-4c43-a14d-f982297b3401"
+      },
+      "period": {
+        "start": "2026-10-25T10:30:00.000+00:00",
+        "end": "2026-10-25T11:07:00.000+00:00"
+      },
+      "diagnosis": [ {
+        "condition": {
+          "reference": "Condition/major-depressive-disorder-active-c3cb"
+        },
+        "use": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "version": "2022-09",
+            "code": "10811161000119107",
+            "display": "Major depressive disorder in mother complicating pregnancy (disorder)",
+            "userSelected": true
+          } ]
+        }
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/office-visit-c3ca"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/major-depressive-disorder-active-c3cb",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "major-depressive-disorder-active-c3cb",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "encounter-diagnosis",
+          "display": "Encounter Diagnosis"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-09",
+          "code": "10811121000119102",
+          "display": "Major depressive disorder in mother complicating childbirth (disorder)",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/c244ed99-6bb8-4c43-a14d-f982297b3401"
+      },
+      "recordedDate": "2026-10-25T10:30:00.000+00:00"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/major-depressive-disorder-active-c3cb"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/payer-6187",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "payer-6187",
+      "status": "active",
+      "type": {
+        "coding": [ {
+          "system": "http://www.nlm.nih.gov/research/umls/sop",
+          "version": "9.2",
+          "code": "1",
+          "display": "MEDICARE",
+          "userSelected": true
+        } ]
+      },
+      "beneficiary": {
+        "reference": "Patient/c244ed99-6bb8-4c43-a14d-f982297b3401"
+      },
+      "period": {
+        "start": "2026-01-29T08:00:00.000+00:00",
+        "end": "2026-12-29T08:15:00.000+00:00"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/payer-6187"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Organization/123456",
+    "resource": {
+      "resourceType": "Organization",
+      "id": "123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
+      },
+      "identifier": [ {
+        "use": "temp",
+        "system": "urn:oid:2.16.840.1.113883.4.4",
+        "value": "21-3259825"
+      } ],
+      "active": true,
+      "type": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "pay",
+          "display": "Payer"
+        } ]
+      } ],
+      "name": "Blue Cross Blue Shield of Texas",
+      "telecom": [ {
+        "system": "phone",
+        "value": "(+1) 972-766-6900"
+      } ],
+      "address": [ {
+        "use": "billing",
+        "type": "postal",
+        "line": [ "P.O. Box 660044" ],
+        "city": "Dallas",
+        "state": "TX",
+        "postalCode": "75266-0044",
+        "country": "USA"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Organization/123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "practitioner-123456",
+      "identifier": [ {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "value": "123456"
+      } ],
+      "name": [ {
+        "family": "Evil",
+        "prefix": [ "Dr" ]
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Practitioner/practitioner-123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/4b27a788-248a-448c-84ac-d386d8d5c2f0",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "4b27a788-248a-448c-84ac-d386d8d5c2f0",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "4961ad64-d496-4e51-98ac-d2c8e7884214-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "c244ed99-6bb8-4c43-a14d-f982297b3401"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#4961ad64-d496-4e51-98ac-d2c8e7884214-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient is over 17 years during Office Visit encounter with Depression diagnosis.  Since the patient turns 17 day before start of MP, the case exceeds upper age limit so fails the IPP criteria"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "Patient/c244ed99-6bb8-4c43-a14d-f982297b3401"
+      }, {
+        "reference": "Encounter/office-visit-c3ca"
+      }, {
+        "reference": "Condition/major-depressive-disorder-active-c3cb"
+      }, {
+        "reference": "Coverage/payer-6187"
+      }, {
+        "reference": "Organization/123456"
+      }, {
+        "reference": "Practitioner/practitioner-123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/4b27a788-248a-448c-84ac-d386d8d5c2f0"
+    }
+  } ]
+}

@@ -8,6 +8,20 @@
     "resourceType": "Library",
     "id": "effective-data-requirements",
     "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
@@ -17,7 +31,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -338,6 +352,7 @@
         "valueInteger": 21
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -348,19 +363,23 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library CQMCommon",
-      "resource": "Library/CQMCommon|2.0.000"
+      "resource": "Library/CQMCommon|2.2.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Value set Encounter Inpatient",
@@ -529,6 +548,9 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
+    }, {
       "url": "usage",
       "valueCodeableConcept": {
         "coding": [ {
@@ -590,10 +612,10 @@
         "code": "endorser"
       } ]
     },
-    "system": "https://madie.cms.gov/measure/nqfId",
+    "system": "https://madie.cms.gov/measure/cbeId",
     "value": "3503e",
     "assigner": {
-      "display": "NQF"
+      "display": "CMS Consensus Based Entity"
     }
   }, {
     "use": "official",
@@ -614,7 +636,7 @@
   "title": "Hospital Harm - Severe HypoglycemiaFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:16+00:00",
+  "date": "2024-07-01T20:13:04+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -624,10 +646,8 @@
   } ],
   "description": "The measure assesses the number of inpatient hospitalizations for patients age 18 and older who were administered at least one hypoglycemic medication during the encounter, who suffer the harm of a severe hypoglycemic event during the encounter",
   "purpose": "UNKNOWN",
-  "usage": "Note the measure is currently confined to using mg/dL as the unit of measurement for glucose results.  Glucose levels are determined by laboratory or point-of-care (POC) tests, including capillary/glucometer blood glucose tests, and by interstitial fluid specimens from continuous glucose monitors.  To calculate the hospital-level measure result, divide the total numerator events by the total number of qualifying inpatient hospitalizations (denominator).   This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.  This FHIR-based measure has been derived from the QDM-based measure: CMS816v3. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "usage": "Note the measure is currently confined to using mg/dL as the unit of measurement for glucose results.  Glucose levels are determined by laboratory or point-of-care (POC) tests, including capillary/glucometer blood glucose tests, and by interstitial fluid specimens from continuous glucose monitors. Glucose test results from urine specimens are not considered.  This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.  This FHIR-based measure has been derived from the QDM-based measure: CMS816v3.  Please refer to the HL7 QI-Core Implementation Guide(https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
   "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. American Institutes for Research(R), formerly IMPAQ International, disclaims all liability for use or accuracy of any third party codes contained in the specifications.  LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 copyright 2023 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-22",
-  "lastReviewDate": "2023-11-22",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -673,6 +693,18 @@
           "display": "Outcome"
         } ]
       }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "decrease"
+        } ]
+      }
     } ],
     "population": [ {
       "id": "0E0AE97C-40D0-4661-8AC2-1F823DBB2E16",
@@ -703,30 +735,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "67d90a06-dc8d-4ea7-aac6-2ed2d5955e72",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "3acca650-6902-4e42-a658-f3c1cab42d1b",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "C50A6779-99A8-42AA-8A0D-125CCBE4F052",
       "code": {
         "coding": [ {
@@ -739,18 +747,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "c4f4abab-bafd-4d26-8597-cf23384e486b",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ],

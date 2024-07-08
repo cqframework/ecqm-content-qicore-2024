@@ -1,0 +1,262 @@
+{
+  "resourceType": "Bundle",
+  "id": "Patient-12-DENEXFail-AbxMeds31DaySB4EDate",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/4387db45-49eb-430a-a0c9-165db556261e",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "4387db45-49eb-430a-a0c9-165db556261e",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2024-10-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/4387db45-49eb-430a-a0c9-165db556261e"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-17",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-17",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "185317003",
+          "display": "Telephone encounter (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/4387db45-49eb-430a-a0c9-165db556261e"
+      },
+      "period": {
+        "start": "2025-01-02T00:00:00.000Z",
+        "end": "2025-01-02T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-17"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-17",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-17",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "54398005",
+          "display": "Acute upper respiratory infection (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/4387db45-49eb-430a-a0c9-165db556261e"
+      },
+      "onsetDateTime": "2025-01-02T01:00:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-17"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MedicationRequest/MedicationRequest-2",
+    "resource": {
+      "resourceType": "MedicationRequest",
+      "id": "MedicationRequest-2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ]
+      },
+      "status": "active",
+      "intent": "order",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+          "code": "discharge",
+          "display": "Discharge"
+        } ]
+      } ],
+      "medicationCodeableConcept": {
+        "coding": [ {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "1043022",
+          "display": "cefixime 100 MG Chewable Tablet",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/4387db45-49eb-430a-a0c9-165db556261e"
+      },
+      "authoredOn": "2024-12-02T00:00:00.000Z",
+      "requester": {
+        "reference": "Practitioner/example"
+      },
+      "dosageInstruction": [ {
+        "timing": {
+          "repeat": {
+            "boundsPeriod": {
+              "start": "2024-12-02T00:00:00.000Z",
+              "end": "2024-12-02T00:00:00.000Z"
+            }
+          }
+        }
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MedicationRequest/MedicationRequest-2"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/0f989d04-a7ed-4d9e-b8a1-de80994b00a5",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "0f989d04-a7ed-4d9e-b8a1-de80994b00a5",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "e2d7ebde-9cb3-48ee-aee7-4c726b26f24b-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "4387db45-49eb-430a-a0c9-165db556261e"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#e2d7ebde-9cb3-48ee-aee7-4c726b26f24b-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Antibiotic medications 2 days before episode date"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AppropriateTreatmentforUpperRespiratoryInfectionURIFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/4387db45-49eb-430a-a0c9-165db556261e"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-17"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-17"
+      }, {
+        "reference": "https://madie.cms.gov/MedicationRequest/MedicationRequest-2"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/0f989d04-a7ed-4d9e-b8a1-de80994b00a5"
+    }
+  } ]
+}

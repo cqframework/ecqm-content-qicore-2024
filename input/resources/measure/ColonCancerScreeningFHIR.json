@@ -38,13 +38,6 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://loinc.org",
-        "code": "45755-6",
-        "display": "Hospice care [Minimum Data Set]"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "373066001",
         "display": "Yes (qualifier value)"
@@ -52,8 +45,9 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "active"
+        "system": "http://loinc.org",
+        "code": "45755-6",
+        "display": "Hospice care [Minimum Data Set]"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -93,7 +87,7 @@
         "valueString": "Fecal Occult Blood Test Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Fecal Occult Blood Test Performed\":\n  ( Status.\"Final Lab Observation\" ( [\"Observation\": \"Fecal Occult Blood Test (FOBT)\"] ) ) FecalOccultResult\n    where FecalOccultResult.value is not null\n      and QICoreCommon.\"Latest\" ( FecalOccultResult.effective ) during day of \"Measurement Period\""
+        "valueString": "define \"Fecal Occult Blood Test Performed\":\n  ( ( [Observation: \"Fecal Occult Blood Test (FOBT)\"] ).isLaboratoryTestPerformed ( ) ) FecalOccultResult\n    where FecalOccultResult.value is not null\n      and FecalOccultResult.effective.latest ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -108,7 +102,7 @@
         "valueString": "Stool DNA with FIT Test Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Stool DNA with FIT Test Performed\":\n  ( Status.\"Final Lab Observation\" ( [\"Observation\": \"sDNA FIT Test\"] ) ) sDNATest\n    where sDNATest.value is not null\n      and QICoreCommon.\"Latest\" ( sDNATest.effective ) during day of Interval[start of \"Measurement Period\" - 2 years, end of \"Measurement Period\"]"
+        "valueString": "define \"Stool DNA with FIT Test Performed\":\n  ( ( [Observation: \"sDNA FIT Test\"] ).isLaboratoryTestPerformed ( ) ) sDNATest\n    where sDNATest.value is not null\n      and sDNATest.effective.latest ( ) during day of Interval[start of \"Measurement Period\" - 2 years, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
         "valueInteger": 1
@@ -123,7 +117,7 @@
         "valueString": "Flexible Sigmoidoscopy Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Flexible Sigmoidoscopy Performed\":\n  ( Status.\"Completed Procedure\" ( [\"Procedure\": \"Flexible Sigmoidoscopy\"] ) ) FlexibleSigmoidoscopy\n    where QICoreCommon.\"ToInterval\" ( FlexibleSigmoidoscopy.performed ) ends during day of Interval[start of \"Measurement Period\" - 4 years, end of \"Measurement Period\"]"
+        "valueString": "define \"Flexible Sigmoidoscopy Performed\":\n  ( ( [Procedure: \"Flexible Sigmoidoscopy\"] ).isProcedurePerformed ( ) ) FlexibleSigmoidoscopy\n    where FlexibleSigmoidoscopy.performed.toInterval ( ) ends during day of Interval[start of \"Measurement Period\" - 4 years, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
         "valueInteger": 2
@@ -138,7 +132,7 @@
         "valueString": "CT Colonography Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"CT Colonography Performed\":\n  ( Status.\"Final Observation\" ( [\"Observation\": \"CT Colonography\"] ) ) Colonography\n    where QICoreCommon.\"ToInterval\" ( Colonography.effective ) ends during day of Interval[start of \"Measurement Period\" - 4 years, end of \"Measurement Period\"]"
+        "valueString": "define \"CT Colonography Performed\":\n  ( ( [Observation: \"CT Colonography\"] ).isDiagnosticStudyPerformed ( ) ) Colonography\n    where Colonography.effective.toInterval ( ) ends during day of Interval[start of \"Measurement Period\" - 4 years, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
         "valueInteger": 3
@@ -153,7 +147,7 @@
         "valueString": "Colonoscopy Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Colonoscopy Performed\":\n  ( Status.\"Completed Procedure\" ( [\"Procedure\": \"Colonoscopy\"] ) ) Colonoscopy\n    where QICoreCommon.\"ToInterval\" ( Colonoscopy.performed ) ends during day of Interval[start of \"Measurement Period\" - 9 years, end of \"Measurement Period\"]"
+        "valueString": "define \"Colonoscopy Performed\":\n  ( ( [Procedure: \"Colonoscopy\"] ).isProcedurePerformed ( ) ) Colonoscopy\n    where Colonoscopy.performed.toInterval ( ) ends during day of Interval[start of \"Measurement Period\" - 9 years, end of \"Measurement Period\"]"
       }, {
         "url": "displaySequence",
         "valueInteger": 4
@@ -213,7 +207,7 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Office Visit\"]\n    union [Encounter: \"Annual Wellness Visit\"]\n    union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n    union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n    union [Encounter: \"Home Healthcare Services\"]\n    union [Encounter: \"Online Assessments\"]\n    union [Encounter: \"Telephone Visits\"] ).isEncounterPerformed() ) ValidEncounter\n    where ValidEncounter.period.toInterval() during day of \"Measurement Period\""
+        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Office Visit\"]\n    union [Encounter: \"Annual Wellness Visit\"]\n    union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n    union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n    union [Encounter: \"Home Healthcare Services\"]\n    union [Encounter: \"Virtual Encounter\"]\n    union [Encounter: \"Telephone Visits\"] ).isEncounterPerformed() ) ValidEncounter\n    where ValidEncounter.period.toInterval() during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 8
@@ -258,7 +252,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
         "valueInteger": 11
@@ -273,7 +267,7 @@
         "valueString": "Malignant Neoplasm"
       }, {
         "url": "statement",
-        "valueString": "define \"Malignant Neoplasm\":\n  ( Status.\"Active Condition\" ( [\"Condition\": \"Malignant Neoplasm of Colon\"] ) ) ColorectalCancer\n    where QICoreCommon.\"ToPrevalenceInterval\" ( ColorectalCancer ) starts on or before day of end of \"Measurement Period\""
+        "valueString": "define \"Malignant Neoplasm\":\n  ( [Condition: \"Malignant Neoplasm of Colon\"] ) ColorectalCancer\n    where ColorectalCancer.prevalenceInterval ( ) starts on or before day of end of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 12
@@ -288,7 +282,7 @@
         "valueString": "Total Colectomy Performed"
       }, {
         "url": "statement",
-        "valueString": "define \"Total Colectomy Performed\":\n  ( Status.\"Completed Procedure\" ( [\"Procedure\": \"Total Colectomy\"] ) ) Colectomy\n    where QICoreCommon.\"ToInterval\" ( Colectomy.performed ) ends on or before day of end of \"Measurement Period\""
+        "valueString": "define \"Total Colectomy Performed\":\n  ( ( [Procedure: \"Total Colectomy\"] ).isProcedurePerformed ( ) ) Colectomy\n    where Colectomy.performed.toInterval ( ) ends on or before day of end of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 13
@@ -315,10 +309,10 @@
         "valueString": "AdvancedIllnessandFrailty"
       }, {
         "url": "name",
-        "valueString": "Outpatient Encounters with Advanced Illness"
+        "valueString": "Has Advanced Illness in Year Before or During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define \"Outpatient Encounters with Advanced Illness\":\n   (( [Encounter: \"Outpatient\"]\n    union [Encounter: \"Observation\"]\n    union [Encounter: \"Emergency Department Evaluation and Management Visit\"]\n    union [Encounter: \"Nonacute Inpatient\"] ).isEncounterPerformed()) OutpatientEncounter\n      where exists ((OutpatientEncounter.encounterDiagnosis()) Diagnosis where Diagnosis.code in \"Advanced Illness\")\n        and OutpatientEncounter.period.toInterval() starts during day of Interval[start of \"Measurement Period\" - 1 year, \n        end of \"Measurement Period\"]"
+        "valueString": "define \"Has Advanced Illness in Year Before or During Measurement Period\":\nexists ([Condition: \"Advanced Illness\"] AdvancedIllnessDiagnosis\nwhere AdvancedIllnessDiagnosis.prevalenceInterval() starts during day of Interval[start of \"Measurement Period\" - 1 year, end of \"Measurement Period\"])"
       }, {
         "url": "displaySequence",
         "valueInteger": 15
@@ -330,10 +324,10 @@
         "valueString": "AdvancedIllnessandFrailty"
       }, {
         "url": "name",
-        "valueString": "Has Two Outpatient Encounters with Advanced Illness on Different Dates of Service"
+        "valueString": "Has Dementia Medications in Year Before or During Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Two Outpatient Encounters with Advanced Illness on Different Dates of Service\":\n  exists ( from\n      \"Outpatient Encounters with Advanced Illness\" OutpatientEncounter1,\n      \"Outpatient Encounters with Advanced Illness\" OutpatientEncounter2\n      where OutpatientEncounter2.period ends 1 day or more after day of \n      end of OutpatientEncounter1.period\n      return OutpatientEncounter1\n  )"
+        "valueString": "define \"Has Dementia Medications in Year Before or During Measurement Period\":\n  exists (( ([MedicationRequest: medication in \"Dementia Medications\"]).isMedicationActive()) DementiaMedication\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-449\n      where DementiaMedication.medicationRequestPeriod() overlaps day of Interval[start of \"Measurement Period\" - 1 year, \n        end of \"Measurement Period\"]\n        // and DementiaMedication.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 16
@@ -345,43 +339,13 @@
         "valueString": "AdvancedIllnessandFrailty"
       }, {
         "url": "name",
-        "valueString": "Has Inpatient Encounter with Advanced Illness"
-      }, {
-        "url": "statement",
-        "valueString": "define \"Has Inpatient Encounter with Advanced Illness\":\n  exists ( ( ([Encounter: \"Acute Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where exists ((InpatientEncounter.encounterDiagnosis()) Diagnosis where Diagnosis.code in \"Advanced Illness\")\n        and InpatientEncounter.period.toInterval() starts during day of Interval[start of \"Measurement Period\" - 1 year, \n          end of \"Measurement Period\"]\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 17
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "AdvancedIllnessandFrailty"
-      }, {
-        "url": "name",
-        "valueString": "Has Dementia Medications in Year Before or During Measurement Period"
-      }, {
-        "url": "statement",
-        "valueString": "define \"Has Dementia Medications in Year Before or During Measurement Period\":\n  exists (( ([MedicationRequest: \"Dementia Medications\"]).isMedicationActive()) DementiaMedication\n      where DementiaMedication.doNotPerform is not true and\n      CMD.\"MedicationRequestPeriod\" ( DementiaMedication ) overlaps day of Interval[start of \"Measurement Period\" - 1 year, \n        end of \"Measurement Period\"]\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 18
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "AdvancedIllnessandFrailty"
-      }, {
-        "url": "name",
         "valueString": "Is Age 66 or Older with Advanced Illness and Frailty"
       }, {
         "url": "statement",
-        "valueString": "define \"Is Age 66 or Older with Advanced Illness and Frailty\":\n   AgeInYearsAt(date from end of \"Measurement Period\")>= 66\n    and \"Has Criteria Indicating Frailty\"\n    and ( \"Has Two Outpatient Encounters with Advanced Illness on Different Dates of Service\"\n        or \"Has Inpatient Encounter with Advanced Illness\"\n        or \"Has Dementia Medications in Year Before or During Measurement Period\"\n    )"
+        "valueString": "define \"Is Age 66 or Older with Advanced Illness and Frailty\":\n   AgeInYearsAt(date from end of \"Measurement Period\")>= 66\n    and \"Has Criteria Indicating Frailty\"\n    and ( \"Has Advanced Illness in Year Before or During Measurement Period\"\n        or \"Has Dementia Medications in Year Before or During Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 19
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -396,7 +360,7 @@
         "valueString": "define \"Is Age 66 or Older Living Long Term in a Nursing Home\":\n  AgeInYearsAt(date from \n     end of \"Measurement Period\"\n  )>= 66\n    and ( ( Last( (([Observation: \"Housing status\"]).isAssessmentPerformed()) HousingStatus    \n          where HousingStatus.effective.toInterval() ends on or before \n          day of end of \"Measurement Period\"\n          sort by \n          end of effective.toInterval() asc\n      )) LastHousingStatus\n        where LastHousingStatus.value ~ \"Lives in a nursing home (finding)\"\n    ) is not null"
       }, {
         "url": "displaySequence",
-        "valueInteger": 20
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -411,7 +375,7 @@
         "valueString": "define \"Has Palliative Care in the Measurement Period\":\n  exists ((([Observation: \"Functional Assessment of Chronic Illness Therapy - Palliative Care Questionnaire (FACIT-Pal)\"]).isAssessmentPerformed()) PalliativeAssessment\n      where PalliativeAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n  )\n    or exists ([Condition: \"Palliative Care Diagnosis\"] PalliativeDiagnosis\n        where PalliativeDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Encounter: \"Palliative Care Encounter\"]).isEncounterPerformed()) PalliativeEncounter\n        where PalliativeEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Procedure: \"Palliative Care Intervention\"]).isInterventionPerformed()) PalliativeIntervention\n        where PalliativeIntervention.performed.toInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 21
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -426,7 +390,7 @@
         "valueString": "define \"Denominator Exclusion\":\n  Hospice.\"Has Hospice Services\"\n    or exists \"Malignant Neoplasm\"\n    or exists \"Total Colectomy Performed\"\n    or AIFrailLTCF.\"Is Age 66 or Older with Advanced Illness and Frailty\"\n    or AIFrailLTCF.\"Is Age 66 or Older Living Long Term in a Nursing Home\"\n    or PalliativeCare.\"Has Palliative Care in the Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 22
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -435,13 +399,13 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Final Lab Observation"
+        "valueString": "isLaboratoryTestPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Laboratory Test, Performed\ndefine function \"Final Lab Observation\"(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"laboratory\"\n      )"
+        "valueString": "//Laboratory Test, Performed\ndefine fluent function isLaboratoryTestPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"laboratory\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 23
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -456,7 +420,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 24
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -465,10 +429,40 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "Latest"
+        "valueString": "latest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Given an interval, returns the ending point if the interval has an ending boundary specified,\notherwise, returns the starting point\n@deprecated: This function is deprecated. Use the fluent function `latest()` instead\n*/\ndefine function \"Latest\"(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (HasEnd(period)) then end of period\n      else start of period"
+        "valueString": "/*\n@description: Given an interval, returns the ending point if the interval has an ending boundary specified,\notherwise, returns the starting point\n*/\ndefine fluent function latest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasEnd\"()) then end of period\n      else start of period"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 23
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "Status"
+      }, {
+        "url": "name",
+        "valueString": "isProcedurePerformed"
+      }, {
+        "url": "statement",
+        "valueString": "//Procedure, Performed\ndefine fluent function isProcedurePerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 24
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "Status"
+      }, {
+        "url": "name",
+        "valueString": "isDiagnosticStudyPerformed"
+      }, {
+        "url": "statement",
+        "valueString": "//Diagnostic Study, Performed\ndefine fluent function isDiagnosticStudyPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in {'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
         "valueInteger": 25
@@ -480,43 +474,13 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Completed Procedure"
-      }, {
-        "url": "statement",
-        "valueString": "//Intervention, Performed\n//Procedure, Performed\ndefine function \"Completed Procedure\"(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 26
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "Final Observation"
-      }, {
-        "url": "statement",
-        "valueString": "//Diagnostic Study, Performed\ndefine function \"Final Observation\"(Obs List<Observation>):\n  Obs O\n    where O.status in {'final', 'amended', 'corrected' }"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 27
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
-        "valueInteger": 28
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -531,7 +495,7 @@
         "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -543,10 +507,10 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -558,10 +522,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -573,10 +537,10 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 32
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -588,40 +552,10 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 33
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "Active Condition"
-      }, {
-        "url": "statement",
-        "valueString": "//Diagnosis\ndefine function \"Active Condition\"(Condition List<Condition>):\n  Condition C\n    where C.clinicalStatus ~ \"active\""
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 34
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "ToPrevalenceInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 35
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -633,10 +567,10 @@
         "valueString": "isDeviceOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isDeviceOrder(DeviceRequest List<DeviceRequest>):\n  DeviceRequest D\n    where D.status in { 'active', 'completed' }\n      and D.intent = 'order'"
+        "valueString": "//Device, Order - Personal Use Devices: active and completed only\ndefine fluent function isDeviceOrder(DeviceRequest List<DeviceRequest>):\n  DeviceRequest D\n    where D.status in { 'active', 'completed' }\n      and D.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -651,7 +585,7 @@
         "valueString": "/*\n@description: Returns true if the given DeviceRequest is a negation (i.e. do not perform this order)\n*/\ndefine fluent function doNotPerform(deviceRequest DeviceRequest):\n  singleton from (\n    deviceRequest.modifierExtension E\n      where E.url = 'http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-doNotPerform'\n      return E.value as Boolean\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -663,40 +597,10 @@
         "valueString": "isSymptom"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isSymptom(Obs List<Observation>):\n  Obs O\n    where O.status in { 'preliminary', 'final', 'amended', 'corrected' }"
+        "valueString": "//Symptom\ndefine fluent function isSymptom(Obs List<Observation>):\n  Obs O\n    where O.status in { 'preliminary', 'final', 'amended', 'corrected' }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CQMCommon"
-      }, {
-        "url": "name",
-        "valueString": "encounterDiagnosis"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 39
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "getId"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 40
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -708,10 +612,10 @@
         "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 41
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -720,13 +624,13 @@
         "valueString": "CumulativeMedicationDuration"
       }, {
         "url": "name",
-        "valueString": "MedicationRequestPeriod"
+        "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "/*\nNow that we have a ToDaily function, we can approach calculation of the\nduration of medication for an order. First, consider the definitions\nfor each element:\n* 1 and only 1 dosageInstruction\n* 1 and only 1 doseAndRate\n* 1 timing with 1 repeat\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* doseQuantity or doseRange\n* timeOfDay\n* authoredOn: The date the prescription was written\n* dispenseRequest.validityPeriod: Time period supply is authorized for\n* dispenseRequest.quantity: amount of medication supplied per dispense\n* dispenseRequest.numberOfRepeatsAllowed: number of refills authorized\n* dispenseRequest.expectedSupplyDuration: number of days supply per dispense\n* dosageInstruction.timing.repeat.boundsDuration: total duration of the repeat\n* dosageInstruction.timing.repeat.boundsRange: range of durations of the repeat\n* dosageInstruction.timing.repeat.boundsPeriod: period bounds of the repeat\n* dosageInstruction.timing.repeat.count: number of times to repeat\n* dosageInstruction.timing.repeat.countMax: maximum number of times to repeat\n* dosageInstruction.timing.repeat.frequency: event occurs frequency times per period\n* dosageInstruction.timing.repeat.frequencyMax: event occurs up to frequencyMax times per period\n* dosageInstruction.timing.repeat.period: event occurs frequency times per period\n* dosageInstruction.timing.repeat.periodMax: upper limit of period\n* dosageInstruction.timing.repeat.periodUnit: period duration (s | min | h | d | wk | mo | a)\n* dosageInstruction.timing.repeat.timeOfDay: time of day for the event (0..*)\n* dosageInstruction.timing.repeat.when: event timing (HS | WAKE | C | CM | CD | CV | AC | ACM...)\n* dosageInstruction.timing.code: BID | TID | QID | AM | PM | QD | QOD...\n* dosageInstruction.asNeeded\n* dosageInstruction.doseAndRate.doseQuantity\n* dosageInstruction.doseAndRate.doseRange\nIf expectedSupplyDuration is present, then the duration is\n    expectedSupplyDuration * (1 + numberOfRepeatsAllowed)\nIf expectedSupplyDuration is not present, then it must be calculated based on the quantity, dosage, and frequency:\n    (quantity / (dosage * frequency)) * (1 + numberOfRepeatsAllowed)\n    dosage: Coalesce(end of doseAndRate.doseRange, doseAndRate.doseQuantity)\n    frequency: Coalesce(frequencyMax, frequency)\n    period: Quantity(period, periodUnit)\nIf expectedSupplyDuration is not present and cannot be calculated, and the boundsPeriod is present (and completely specified), we can use that directly\n    dosage.timing.repeat.boundsPeriod\nThis calculation results in a number of days, which can then be turned into a period by anchoring that to the\nstart of the validityPeriod or the authoredOn:\n    Interval[earliestDispensable, earliestDispensable + expectedSupplyDuration - 1]\n    earliestDispensable: Coalesce(start of validityPeriod, authoredOn)\nThe following function illustrates this completely:\n*/\n\n/*\nCalculates the Medication Period for a single MedicationRequest.\nMedicationRequest instances provided to this function are expected\nto conform to the [MMEMedicationRequest](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationrequest.html)\nprofile, which expects:\n* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error\n* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error\n* 1 timing with 1 repeat, missing timing or repeat elements will result in a null\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* timeOfDay\n* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null\nNote that MedicationRequest status is not considered by this calculation, as the\nlist of MedicationRequest instances provided to this function should already have\nconsidered appropriate statuses, depending on the use case, typically `completed`.\n*/\ndefine function MedicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
-        "valueInteger": 42
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -741,7 +645,7 @@
         "valueString": "/**********************************************************************/\n/* Functions in this region are copied from opioid-mme-r4             */\n/**********************************************************************/\n\ndefine function Quantity(value Decimal, unit String):\n  if value is not null then\n    System.Quantity { value: value, unit: unit }\n  else\n    null"
       }, {
         "url": "displaySequence",
-        "valueInteger": 43
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -756,9 +660,10 @@
         "valueString": "/*\n Goal is to get to number of days\n Two broad approaches to the calculation:\n  1) Based on supply and frequency, calculate the number of expected days the medication will cover/has covered\n  2) Based on relevant period, determine a covered interval and calculate the length of that interval in days\nThis topic covers several use cases and illustrates how to calculate Cumulative\nMedication Duration for each type of medication resource using the supply and\nfrequency approach.\n*/\n\n/*\n  For the first approach, we need to get from frequency to a frequency/day\n  So we define ToDaily\n*/\n\n/*\n  Calculates daily frequency given frequency within a period\n*/\ndefine function ToDaily(frequency System.Integer, period System.Quantity):\n  case period.unit\n    when 'h' then frequency * (24.0 / period.value)\n    when 'min' then frequency * (24.0 / period.value) * 60\n    when 's' then frequency * (24.0 / period.value) * 60 * 60\n    when 'd' then frequency * (24.0 / period.value) / 24\n    when 'wk' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'mo' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'a' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hour' then frequency * (24.0 / period.value)\n    when 'minute' then frequency * (24.0 / period.value) * 60\n    when 'second' then frequency * (24.0 / period.value) * 60 * 60\n    when 'day' then frequency * (24.0 / period.value) / 24\n    when 'week' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'month' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'year' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    when 'hours' then frequency * (24.0 / period.value)\n    when 'minutes' then frequency * (24.0 / period.value) * 60\n    when 'seconds' then frequency * (24.0 / period.value) * 60 * 60\n    when 'days' then frequency * (24.0 / period.value) / 24\n    when 'weeks' then frequency * (24.0 / period.value) / (24 * 7)\n    when 'months' then frequency * (24.0 / period.value) / (24 * 30) /* assuming 30 days in month */\n    when 'years' then frequency * (24.0 / period.value) / (24 * 365) /* assuming 365 days in year */\n    else Message(null, true, 'CMDLogic.ToDaily.UnknownUnit', ErrorLevel, 'Unknown unit ' & period.unit)\n  end"
       }, {
         "url": "displaySequence",
-        "valueInteger": 44
+        "valueInteger": 38
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -769,39 +674,35 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library AdultOutpatientEncounters",
-      "resource": "Library/AdultOutpatientEncounters|4.8.000"
+      "resource": "Library/AdultOutpatientEncounters|4.11.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Library AIFrailLTCF",
-      "resource": "Library/AdvancedIllnessandFrailty|1.8.000"
-    }, {
-      "type": "depends-on",
-      "display": "Library CQMCommon",
-      "resource": "Library/CQMCommon|2.0.000"
+      "resource": "Library/AdvancedIllnessandFrailty|1.16.000"
     }, {
       "type": "depends-on",
       "display": "Library CMD",
-      "resource": "Library/CumulativeMedicationDuration|4.0.000"
+      "resource": "Library/CumulativeMedicationDuration|4.1.000"
     }, {
       "type": "depends-on",
       "display": "Library PalliativeCare",
-      "resource": "Library/PalliativeCare|1.9.000"
+      "resource": "Library/PalliativeCare|1.11.000"
     }, {
       "type": "depends-on",
       "display": "Code system ObservationCategoryCodes",
@@ -814,10 +715,6 @@
       "type": "depends-on",
       "display": "Code system LOINC",
       "resource": "http://loinc.org"
-    }, {
-      "type": "depends-on",
-      "display": "Code system ConditionClinicalStatusCodes",
-      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
     }, {
       "type": "depends-on",
       "display": "Value set Fecal Occult Blood Test (FOBT)",
@@ -860,7 +757,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"
     }, {
       "type": "depends-on",
-      "display": "Value set Online Assessments",
+      "display": "Value set Virtual Encounter",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"
     }, {
       "type": "depends-on",
@@ -908,28 +805,8 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1075"
     }, {
       "type": "depends-on",
-      "display": "Value set Outpatient",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1087"
-    }, {
-      "type": "depends-on",
-      "display": "Value set Observation",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1086"
-    }, {
-      "type": "depends-on",
-      "display": "Value set Emergency Department Evaluation and Management Visit",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1010"
-    }, {
-      "type": "depends-on",
-      "display": "Value set Nonacute Inpatient",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1084"
-    }, {
-      "type": "depends-on",
       "display": "Value set Advanced Illness",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1082"
-    }, {
-      "type": "depends-on",
-      "display": "Value set Acute Inpatient",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1083"
     }, {
       "type": "depends-on",
       "display": "Value set Dementia Medications",
@@ -1162,7 +1039,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
@@ -1170,7 +1047,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1240"
@@ -1178,7 +1055,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025"
@@ -1186,7 +1063,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023"
@@ -1194,7 +1071,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016"
@@ -1202,7 +1079,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"
@@ -1210,7 +1087,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"
@@ -1218,7 +1095,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "hospitalization", "hospitalization.dischargeDisposition", "period", "status", "status.value", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "hospitalization", "hospitalization.dischargeDisposition", "period", "status", "status.value" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
@@ -1226,7 +1103,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "period", "status", "status.value" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1003"
@@ -1234,7 +1111,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "period", "status", "status.value" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1088"
@@ -1242,47 +1119,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1087"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1086"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1010"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "condition", "condition.reference", "condition.reference.value" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1084"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value", "condition", "condition.reference", "condition.reference.value" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1083"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value", "condition", "condition.reference", "condition.reference.value" ],
+      "mustSupport": [ "type", "period", "status", "status.value" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1090"
@@ -1298,7 +1135,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1165"
@@ -1306,7 +1143,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.108.12.1001"
@@ -1314,7 +1151,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.113.12.1074"
@@ -1322,11 +1159,15 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "id", "id.value", "clinicalStatus", "code" ]
+      "mustSupport": [ "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1082"
+      } ]
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.1167"
@@ -1340,28 +1181,9 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.118.12.1300"
       } ]
     }, {
-      "extension": [ {
-        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
-        "extension": [ {
-          "url": "targetId",
-          "valueString": "G10002"
-        }, {
-          "url": "targetProperty",
-          "valueString": "medication"
-        } ]
-      } ],
-      "type": "Medication",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
-    }, {
-      "id": "G10002",
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod", "doNotPerform", "doNotPerform.value" ]
-    }, {
-      "type": "MedicationRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod", "doNotPerform", "doNotPerform.value" ],
+      "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "dosageInstruction", "dispenseRequest", "dispenseRequest.expectedSupplyDuration", "dispenseRequest.quantity", "dispenseRequest.numberOfRepeatsAllowed", "dispenseRequest.numberOfRepeatsAllowed.value", "authoredOn", "authoredOn.value", "dispenseRequest.validityPeriod" ],
       "codeFilter": [ {
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.196.12.1510"
@@ -1430,7 +1252,7 @@
   "title": "Colorectal Cancer ScreeningFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:17+00:00",
+  "date": "2024-07-01T20:13:05+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -1440,10 +1262,8 @@
   } ],
   "description": "Percentage of adults 45-75 years of age who had appropriate screening for colorectal cancer",
   "purpose": "UNKNOWN",
-  "usage": "Do not count digital rectal exams (DRE), fecal occult blood tests (FOBTs) performed in an office setting or performed on a sample collected via DRE.\n\nPlease note the measure may include screenings performed outside the age range of patients referenced in the initial population. Screenings that occur prior to the measurement period are valid to meet measure criteria.\n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS130v12.\n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2022 National Committee for Quality Assurance. All Rights Reserved.\n\nLimited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.\n\nCPT(R) codes, descriptions and other data are copyright 2022. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. No fee schedules, basic units, relative values or related listings are included in CPT. The AMA assumes no liability for the data contained herein. Applicable FARS/DFARS restrictions apply to government use.\n\nLOINC(R) copyright 2004-2022 Regenstrief Institute, Inc. \n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation. \n\nICD-10 copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "Do not count digital rectal exams (DRE), fecal occult blood tests (FOBTs) performed in an office setting or performed on a sample collected via DRE.  Please note the measure may include screenings performed outside the age range of patients referenced in the initial population. Screenings that occur prior to the measurement period are valid to meet measure criteria.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS130v13.  Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2024 National Committee for Quality Assurance. All Rights Reserved.  Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.  CPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein. Applicable FARS/DFARS restrictions apply to government use.  Some measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.  ICD-10 copyright 2024 World Health Organization. All Rights Reserved.  Some measures use RxNorm, a standardized nomenclature and coding for clinical drugs and drug delivery devices, which is made publicly available courtesy of the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services. NLM is not responsible for the measures and does not endorse or recommend this or any other product.  “HL7” is the registered trademark of Health Level Seven International.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -1456,7 +1276,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/ColonCancerScreeningFHIR" ],
-  "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n \nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "disclaimer": "The performance Measure is not a clinical guideline and does not establish a standard of medical care, and has not been tested for all potential applications. THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.   Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -1464,8 +1284,8 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "Colorectal cancer represents eight percent of all new cancer cases in the United States. In 2020, there were an estimated 147,950 new cases of colorectal cancer and an estimated 53,200 deaths attributed to it. According to the National Cancer Institute, about 4.2 percent of men and women will be diagnosed with colorectal cancer at some point during their lifetimes. For most adults, older age is the most important risk factor for colorectal cancer, although being male and black are also associated with higher incidence and mortality. Colorectal cancer is most frequently diagnosed among people 65 to 74 years old (National Cancer Institute, 2020).\n\nScreening can be effective for finding precancerous lesions (polyps) that could later become malignant, and for detecting early cancers that can be more easily and effectively treated. Precancerous polyps usually take about 10 to 15 years to develop into colorectal cancer, and most can be found and removed before turning into cancer. The five-year relative survival rate for people whose colorectal cancer is found in the early stage before it has spread is about 90 percent (SEERS, 2022).",
-  "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (2021) recommends screening for colorectal cancer in adults aged 45 to 49 years. This is a Grade B recommendation (U.S. Preventive Services Task Force, 2021). \n\nThe U.S. Preventive Services Task Force (2021) recommends screening for colorectal cancer in adults aged 50 to 75 years. This is a Grade A recommendation (U.S. Preventive Services Task Force, 2021).\n\nAppropriate screenings are defined by any one of the following:\n- Fecal occult blood test (annually)\n- Stool DNA (sDNA) with FIT test (every 3 years)\n- Flexible sigmoidoscopy (every 5 years)\n- Computed tomographic (CT) colonography (every 5 years)\n- Colonoscopy (every 10 years)",
+  "rationale": "Colorectal cancer represents eight percent of all new cancer cases in the United States. In 2020, there were an estimated 147,950 new cases of colorectal cancer and an estimated 53,200 deaths attributed to it. According to the National Cancer Institute, about 4.2 percent of men and women will be diagnosed with colorectal cancer at some point during their lifetimes. For most adults, older age is the most important risk factor for colorectal cancer, although being male and black are also associated with higher incidence and mortality. Colorectal cancer is most frequently diagnosed among people 65 to 74 years old (Howlader et al., 2020).  Screening can be effective for finding precancerous lesions (polyps) that could later become malignant, and for detecting early cancers that can be more easily and effectively treated. Precancerous polyps usually take about 10 to 15 years to develop into colorectal cancer, and most can be found and removed before turning into cancer. The five-year relative survival rate for people whose colorectal cancer is found in the early stage before it has spread is about 90 percent (SEER, 2022).",
+  "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (2021) recommends screening for colorectal cancer in adults aged 45 to 49 years. This is a Grade B recommendation (U.S. Preventive Services Task Force, 2021).   The U.S. Preventive Services Task Force (2021) recommends screening for colorectal cancer in adults aged 50 to 75 years. This is a Grade A recommendation (U.S. Preventive Services Task Force, 2021).  Appropriate screenings are defined by any one of the following: - Fecal occult blood test (annually) - Stool DNA (sDNA) with FIT test (every 3 years) - Flexible sigmoidoscopy (every 5 years) - Computed tomographic (CT) colonography (every 5 years) - Colonoscopy (every 10 years)",
   "group": [ {
     "id": "654a405f78418140875e351c",
     "extension": [ {
@@ -1487,6 +1307,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -1527,7 +1359,7 @@
           "display": "Denominator Exclusion"
         } ]
       },
-      "description": "Exclude patients who are in hospice care for any part of the measurement period.\n\nExclude patients with a diagnosis or past history of total colectomy or colorectal cancer.\n\nExclude patients 66 and older by the end of the measurement period who are living long term in a nursing home any time on or before the end of the measurement period. \n\nExclude patients 66 and older by the end of the measurement period with an indication of frailty for any part of the measurement period who also meet any of the following advanced illness criteria:\n- Advanced illness with two outpatient encounters during the measurement period or the year prior\n- OR advanced illness with one inpatient encounter during the measurement period or the year prior\n- OR taking dementia medications during the measurement period or the year prior\n\nExclude patients receiving palliative care for any part of the measurement period.",
+      "description": "Exclude patients who are in hospice care for any part of the measurement period.  Exclude patients with a diagnosis or past history of total colectomy or colorectal cancer.  Exclude patients 66 and older by the end of the measurement period with an indication of frailty for any part of the measurement period who also meet any of the following advanced illness criteria: - Advanced illness diagnosis during the measurement period or the year prior - OR taking dementia medications during the measurement period or the year prior  Exclude patients 66 and older by the end of the measurement period who are living long term in a nursing home any time on or before the end of the measurement period.  Exclude patients receiving palliative care for any part of the measurement period.",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Denominator Exclusion"
@@ -1541,34 +1373,10 @@
           "display": "Numerator"
         } ]
       },
-      "description": "Patients with one or more screenings for colorectal cancer. Appropriate screenings are defined by any one of the following criteria: \n- Fecal occult blood test (FOBT) during the measurement period\n- Stool DNA (sDNA) with FIT test during the measurement period or the two years prior to the measurement period\n- Flexible sigmoidoscopy during the measurement period or the four years prior to the measurement period\n- CT Colonography during the measurement period or the four years prior to the measurement period\n- Colonoscopy during the measurement period or the nine years prior to the measurement period",
+      "description": "Patients with one or more screenings for colorectal cancer. Appropriate screenings are defined by any one of the following criteria:  - Fecal occult blood test (FOBT) during the measurement period - Stool DNA (sDNA) with FIT test during the measurement period or the two years prior to the measurement period - Flexible sigmoidoscopy during the measurement period or the four years prior to the measurement period - CT Colonography during the measurement period or the four years prior to the measurement period - Colonoscopy during the measurement period or the nine years prior to the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "ed317e64-9bc2-40a1-be89-3bde82d1fdb3",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "f270b10e-6605-496c-8418-3f203e0b6728",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ],
     "stratifier": [ {

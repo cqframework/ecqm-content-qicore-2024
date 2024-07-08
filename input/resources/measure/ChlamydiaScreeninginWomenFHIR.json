@@ -66,7 +66,7 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define \"Numerator\":\n  exists ( ( Status.\"Final Lab Observation\" ( [Observation: \"Chlamydia Screening\"] ) ) ChlamydiaTest\n      where QICoreCommon.\"Latest\" ( ChlamydiaTest.effective ) during day of \"Measurement Period\"\n        and ChlamydiaTest.value is not null\n  )"
+        "valueString": "define \"Numerator\":\n  exists ( ( ( [Observation: \"Chlamydia Screening\"] ).isLaboratoryTestPerformed ( ) ) ChlamydiaTest\n      where ChlamydiaTest.effective.latest ( ) during day of \"Measurement Period\"\n        and ChlamydiaTest.value is not null\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -111,7 +111,7 @@
         "valueString": "Qualifying Encounters"
       }, {
         "url": "statement",
-        "valueString": "define \"Qualifying Encounters\":\n  ( ( Status.\"Finished Encounter\" ( [Encounter: \"Office Visit\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services, Initial Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care, Established Office Visit, 0 to 17\"]\n      union [Encounter: \"Home Healthcare Services\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Online Assessments\"] ) ) ValidEncounters\n      where QICoreCommon.\"ToInterval\" ( ValidEncounters.period ) during day of \"Measurement Period\"\n  )"
+        "valueString": "define \"Qualifying Encounters\":\n  ( ( [Encounter: \"Office Visit\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services, Initial Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care, Established Office Visit, 0 to 17\"]\n      union [Encounter: \"Home Healthcare Services\"]\n      union [Encounter: \"Telephone Visits\"]\n      union [Encounter: \"Virtual Encounter\"]\n  ).isEncounterPerformed ( ) ) ValidEncounters\n    where ValidEncounters.period.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 3
@@ -126,7 +126,7 @@
         "valueString": "Has Assessments Identifying Sexual Activity"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Assessments Identifying Sexual Activity\":\n  exists ( ( Status.\"Final Survey Observation\" ( [Observation: \"Have you ever had vaginal intercourse [PhenX]\"] ) ) SexualActivityAssessment\n      where SexualActivityAssessment.value ~ \"Yes (qualifier value)\"\n        and QICoreCommon.\"ToInterval\" ( SexualActivityAssessment.effective ) on or before end of \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Assessments Identifying Sexual Activity\":\n  exists ( ( ( [Observation: \"Have you ever had vaginal intercourse [PhenX]\"] ).isAssessmentPerformed ( ) ) SexualActivityAssessment\n      where SexualActivityAssessment.value ~ \"Yes (qualifier value)\"\n        and SexualActivityAssessment.effective.toInterval ( ) on or before end of \"Measurement Period\"\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 4
@@ -141,7 +141,7 @@
         "valueString": "Has Diagnoses Identifying Sexual Activity"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Diagnoses Identifying Sexual Activity\":\n  exists ( ( [Condition: \"Diagnoses Used to Indicate Sexual Activity\"]\n      union [Condition: \"HIV\"]\n      union [Condition: \"Complications of Pregnancy, Childbirth and the Puerperium\"] ) SexualActivityDiagnosis\n      where QICoreCommon.\"ToPrevalenceInterval\" ( SexualActivityDiagnosis ) overlaps \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Diagnoses Identifying Sexual Activity\":\n  exists ( ( [Condition: \"Diagnoses Used to Indicate Sexual Activity\"]\n      union [Condition: \"HIV\"]\n      union [Condition: \"Complications of Pregnancy, Childbirth and the Puerperium\"] ) SexualActivityDiagnosis\n      where SexualActivityDiagnosis.prevalenceInterval ( ) overlaps \"Measurement Period\"\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 5
@@ -156,7 +156,7 @@
         "valueString": "Has Active Contraceptive Medications"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Active Contraceptive Medications\":\n  exists ( ( Status.\"Active Medication\" ( [\"MedicationRequest\": \"Contraceptive Medications\"] ) ) ActiveContraceptives\n      where CMD.\"MedicationRequestPeriod\" ( ActiveContraceptives ) overlaps \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Active Contraceptive Medications\":\n  exists ( ( [MedicationRequest: \"Contraceptive Medications\"] ).isMedicationActive ( ) ) ActiveContraceptives\n    where ActiveContraceptives.medicationRequestPeriod ( ) overlaps \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 6
@@ -171,7 +171,7 @@
         "valueString": "Has Ordered Contraceptive Medications"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Ordered Contraceptive Medications\":\n  exists ( ( Status.\"Active or Completed Medication Request\" ( [MedicationRequest: \"Contraceptive Medications\"] ) ) OrderedContraceptives\n      where QICoreCommon.\"ToInterval\" ( OrderedContraceptives.authoredOn ) during day of \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Ordered Contraceptive Medications\":\n  exists ( ( [MedicationRequest: \"Contraceptive Medications\"] ).isMedicationOrder ( ) ) OrderedContraceptives\n    where OrderedContraceptives.authoredOn.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 7
@@ -186,7 +186,7 @@
         "valueString": "Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy\":\n  exists ( ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"Pap Test\"]\n      union [ServiceRequest: \"Lab Tests During Pregnancy\"]\n      union [ServiceRequest: \"Lab Tests for Sexually Transmitted Infections\"] ) ) LabOrders\n      where QICoreCommon.\"ToInterval\" ( LabOrders.authoredOn ) during day of \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy\":\n  exists ( ( [ServiceRequest: \"Pap Test\"]\n      union [ServiceRequest: \"Lab Tests During Pregnancy\"]\n      union [ServiceRequest: \"Lab Tests for Sexually Transmitted Infections\"]\n  ).isLaboratoryTestOrder ( ) ) LabOrders\n    where LabOrders.authoredOn.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 8
@@ -201,7 +201,7 @@
         "valueString": "Has Laboratory Tests Identifying Sexual Activity"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Laboratory Tests Identifying Sexual Activity\":\n  exists ( ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"Pregnancy Test\"] ) ) PregnancyTest\n      where QICoreCommon.\"ToInterval\" ( PregnancyTest.authoredOn ) during day of \"Measurement Period\"\n  )\n    or \"Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy\""
+        "valueString": "//   and LabOrders.doNotPerform is not true\n            //   https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n\n\n\ndefine \"Has Laboratory Tests Identifying Sexual Activity\":\n  exists ( ( ( [ServiceRequest: \"Pregnancy Test\"] ).isLaboratoryTestOrder ( ) ) PregnancyTest\n      where PregnancyTest.authoredOn.toInterval ( ) during day of \"Measurement Period\"\n    //   and PregnancyTest.doNotPerform is not true\n    //   https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n  \n  \n  )\n    or \"Has Laboratory Tests Identifying Sexual Activity But Not Pregnancy\""
       }, {
         "url": "displaySequence",
         "valueInteger": 9
@@ -216,7 +216,7 @@
         "valueString": "Has Diagnostic Studies Identifying Sexual Activity"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Diagnostic Studies Identifying Sexual Activity\":\n  exists ( ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"Diagnostic Studies During Pregnancy\"] ) ) SexualActivityDiagnostics\n      where QICoreCommon.\"ToInterval\" ( SexualActivityDiagnostics.authoredOn ) during day of \"Measurement Period\"\n  )"
+        "valueString": "define \"Has Diagnostic Studies Identifying Sexual Activity\":\n  exists ( ( [ServiceRequest: \"Diagnostic Studies During Pregnancy\"] ).isDiagnosticStudyOrder ( ) ) SexualActivityDiagnostics\n    where SexualActivityDiagnostics.authoredOn.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 10
@@ -231,7 +231,7 @@
         "valueString": "Has Procedures Identifying Sexual Activity"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Procedures Identifying Sexual Activity\":\n  exists ( ( Status.\"Completed Procedure\" ( [Procedure: \"Procedures Used to Indicate Sexual Activity\"] ) ) ProceduresForSexualActivity\n      where QICoreCommon.\"ToInterval\" ( ProceduresForSexualActivity.performed ) during day of \"Measurement Period\"\n  )"
+        "valueString": "//   and SexualActivityDiagnostics.doNotPerform is not true\n            //   https://oncprojectracking.healthit.gov/support/browse/CQLIT-447   \n\n\n\ndefine \"Has Procedures Identifying Sexual Activity\":\n  exists ( ( [Procedure: \"Procedures Used to Indicate Sexual Activity\"] ).isProcedurePerformed ( ) ) ProceduresForSexualActivity\n    where ProceduresForSexualActivity.performed.toInterval ( ) during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 11
@@ -276,7 +276,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
+        "valueString": "define \"Has Hospice Services\":\n  exists ((([Encounter: \"Encounter Inpatient\"]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to home for hospice care (procedure)\"\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ \"Discharge to healthcare facility for hospice care (procedure)\"\n      )\n        and InpatientEncounter.period.toInterval() ends during day of \"Measurement Period\"\n  )\n    or exists ((([Encounter: \"Hospice Encounter\"]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([Observation: \"Hospice care [Minimum Data Set]\"]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ \"Yes (qualifier value)\"\n          and HospiceAssessment.effective.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists ((([ServiceRequest: \"Hospice Care Ambulatory\"]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of \"Measurement Period\"\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: \"Hospice Care Ambulatory\"]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of \"Measurement Period\"\n    )\n    or exists (([Condition: \"Hospice Diagnosis\"]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of \"Measurement Period\"\n    )"
       }, {
         "url": "displaySequence",
         "valueInteger": 14
@@ -291,7 +291,7 @@
         "valueString": "Has Pregnancy Test Exclusion"
       }, {
         "url": "statement",
-        "valueString": "define \"Has Pregnancy Test Exclusion\":\n  exists ( ( ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"Pregnancy Test\"] ) ) PregnancyTest\n        with ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"XRay Study\"] ) ) XrayOrder\n          such that QICoreCommon.\"ToInterval\" ( XrayOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon.\"ToInterval\" ( PregnancyTest.authoredOn )\n            and QICoreCommon.\"ToInterval\" ( PregnancyTest.authoredOn ) during \"Measurement Period\"\n    )\n      union ( ( Status.\"Completed or Ongoing Service Request\" ( [ServiceRequest: \"Pregnancy Test\"] ) ) PregnancyTestOrder\n          with ( Status.\"Active or Completed Medication Request\" ( [MedicationRequest: \"Isotretinoin\"] ) ) AccutaneOrder\n            such that QICoreCommon.\"ToInterval\" ( AccutaneOrder.authoredOn ) occurs 6 days or less on or after day of QICoreCommon.\"ToInterval\" ( PregnancyTestOrder.authoredOn )\n              and QICoreCommon.\"ToInterval\" ( PregnancyTestOrder.authoredOn ) during \"Measurement Period\"\n      )\n  )"
+        "valueString": "define \"Has Pregnancy Test Exclusion\":\n  exists ( ( ( ( [ServiceRequest: \"Pregnancy Test\"] ).isLaboratoryTestOrder ( ) ) PregnancyTest\n        with ( ( [ServiceRequest: \"XRay Study\"] ).isDiagnosticStudyOrder ( ) ) XrayOrder\n          such that XrayOrder.authoredOn.toInterval ( ) occurs 6 days or less on or after day of PregnancyTest.authoredOn.toInterval ( )\n        where PregnancyTest.authoredOn.toInterval ( ) during \"Measurement Period\"\n        //   and PregnancyTest.doNotPerform is not true\n        //   https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    \n    \n    )\n      union ( ( ( [ServiceRequest: \"Pregnancy Test\"] ).isLaboratoryTestOrder ( ) ) PregnancyTestOrder\n          with ( ( [MedicationRequest: \"Isotretinoin\"] ).isMedicationOrder ( ) ) AccutaneOrder\n            such that AccutaneOrder.authoredOn.toInterval ( ) occurs 6 days or less on or after day of PregnancyTestOrder.authoredOn.toInterval ( )\n          where PregnancyTestOrder.authoredOn.toInterval ( ) during \"Measurement Period\"\n            //   and PregnancyTestOrder.doNotPerform is not true\n            //   https://oncprojectracking.healthit.gov/support/browse/CQLIT-447 \n      \n      \n      )\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 15
@@ -318,10 +318,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Final Lab Observation"
+        "valueString": "isLaboratoryTestPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Laboratory Test, Performed\ndefine function \"Final Lab Observation\"(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"laboratory\"\n      )"
+        "valueString": "//Laboratory Test, Performed\ndefine fluent function isLaboratoryTestPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"laboratory\"\n      )"
       }, {
         "url": "displaySequence",
         "valueInteger": 17
@@ -348,10 +348,10 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "Latest"
+        "valueString": "latest"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Given an interval, returns the ending point if the interval has an ending boundary specified,\notherwise, returns the starting point\n@deprecated: This function is deprecated. Use the fluent function `latest()` instead\n*/\ndefine function \"Latest\"(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (HasEnd(period)) then end of period\n      else start of period"
+        "valueString": "/*\n@description: Given an interval, returns the ending point if the interval has an ending boundary specified,\notherwise, returns the starting point\n*/\ndefine fluent function latest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasEnd\"()) then end of period\n      else start of period"
       }, {
         "url": "displaySequence",
         "valueInteger": 19
@@ -363,10 +363,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Finished Encounter"
+        "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by the measure's specific use case (e.g., follow-up encounters)\ndefine function \"Finished Encounter\"(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
       }, {
         "url": "displaySequence",
         "valueInteger": 20
@@ -378,10 +378,10 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "ToInterval"
+        "valueString": "toInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n@deprecated: This function is deprecated. Use the fluent function `toInterval()` instead\n*/\ndefine function ToInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
         "valueInteger": 21
@@ -393,10 +393,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Final Survey Observation"
+        "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023, used for measures authored by NCQA, with notes on intentional differences. The functions in this library have similarities to QICoreCommon (i.e., category constraints) but different in that there are additional constraints such as status or clinical status for each resource.\n\n//Assessment, Performed\ndefine function \"Final Survey Observation\"(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n      and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
       }, {
         "url": "displaySequence",
         "valueInteger": 22
@@ -408,10 +408,10 @@
         "valueString": "QICoreCommon"
       }, {
         "url": "name",
-        "valueString": "ToPrevalenceInterval"
+        "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n@deprecated: This function is deprecated. Use the `prevalenceInterval()` fluent function instead\n*/\ndefine function ToPrevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of ToInterval(condition.onset), end of ToAbatementInterval(condition)]\nelse\n   (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueInteger": 23
@@ -423,10 +423,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Active Medication"
+        "valueString": "isMedicationActive"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Active\ndefine function \"Active Medication\"(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
+        "valueString": "//Medication, Active\ndefine fluent function isMedicationActive(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status = 'active'\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
         "valueInteger": 24
@@ -438,10 +438,10 @@
         "valueString": "CumulativeMedicationDuration"
       }, {
         "url": "name",
-        "valueString": "MedicationRequestPeriod"
+        "valueString": "medicationRequestPeriod"
       }, {
         "url": "statement",
-        "valueString": "/*\nNow that we have a ToDaily function, we can approach calculation of the\nduration of medication for an order. First, consider the definitions\nfor each element:\n* 1 and only 1 dosageInstruction\n* 1 and only 1 doseAndRate\n* 1 timing with 1 repeat\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* doseQuantity or doseRange\n* timeOfDay\n* authoredOn: The date the prescription was written\n* dispenseRequest.validityPeriod: Time period supply is authorized for\n* dispenseRequest.quantity: amount of medication supplied per dispense\n* dispenseRequest.numberOfRepeatsAllowed: number of refills authorized\n* dispenseRequest.expectedSupplyDuration: number of days supply per dispense\n* dosageInstruction.timing.repeat.boundsDuration: total duration of the repeat\n* dosageInstruction.timing.repeat.boundsRange: range of durations of the repeat\n* dosageInstruction.timing.repeat.boundsPeriod: period bounds of the repeat\n* dosageInstruction.timing.repeat.count: number of times to repeat\n* dosageInstruction.timing.repeat.countMax: maximum number of times to repeat\n* dosageInstruction.timing.repeat.frequency: event occurs frequency times per period\n* dosageInstruction.timing.repeat.frequencyMax: event occurs up to frequencyMax times per period\n* dosageInstruction.timing.repeat.period: event occurs frequency times per period\n* dosageInstruction.timing.repeat.periodMax: upper limit of period\n* dosageInstruction.timing.repeat.periodUnit: period duration (s | min | h | d | wk | mo | a)\n* dosageInstruction.timing.repeat.timeOfDay: time of day for the event (0..*)\n* dosageInstruction.timing.repeat.when: event timing (HS | WAKE | C | CM | CD | CV | AC | ACM...)\n* dosageInstruction.timing.code: BID | TID | QID | AM | PM | QD | QOD...\n* dosageInstruction.asNeeded\n* dosageInstruction.doseAndRate.doseQuantity\n* dosageInstruction.doseAndRate.doseRange\nIf expectedSupplyDuration is present, then the duration is\n    expectedSupplyDuration * (1 + numberOfRepeatsAllowed)\nIf expectedSupplyDuration is not present, then it must be calculated based on the quantity, dosage, and frequency:\n    (quantity / (dosage * frequency)) * (1 + numberOfRepeatsAllowed)\n    dosage: Coalesce(end of doseAndRate.doseRange, doseAndRate.doseQuantity)\n    frequency: Coalesce(frequencyMax, frequency)\n    period: Quantity(period, periodUnit)\nIf expectedSupplyDuration is not present and cannot be calculated, and the boundsPeriod is present (and completely specified), we can use that directly\n    dosage.timing.repeat.boundsPeriod\nThis calculation results in a number of days, which can then be turned into a period by anchoring that to the\nstart of the validityPeriod or the authoredOn:\n    Interval[earliestDispensable, earliestDispensable + expectedSupplyDuration - 1]\n    earliestDispensable: Coalesce(start of validityPeriod, authoredOn)\nThe following function illustrates this completely:\n*/\n\n/*\nCalculates the Medication Period for a single MedicationRequest.\nMedicationRequest instances provided to this function are expected\nto conform to the [MMEMedicationRequest](http://build.fhir.org/ig/cqframework/opioid-mme-r4/StructureDefinition-mmemedicationrequest.html)\nprofile, which expects:\n* 1 and only 1 dosageInstruction, multiple dosageInstruction elements will result in an error\n* 1 and only 1 doseAndRate, multiple doseAndRate elements will result in an error\n* 1 timing with 1 repeat, missing timing or repeat elements will result in a null\n* frequency, frequencyMax, defaulting to 1\n* period, periodUnit, defaulting to 1 'd'\n* timeOfDay\n* doseQuantity or doseRange, missing doseQuantity and doseRange will result in a null\nNote that MedicationRequest status is not considered by this calculation, as the\nlist of MedicationRequest instances provided to this function should already have\nconsidered appropriate statuses, depending on the use case, typically `completed`.\n*/\ndefine function MedicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
+        "valueString": "define fluent function medicationRequestPeriod(Request \"MedicationRequest\"):\n  Request R\n    let\n      dosage: singleton from R.dosageInstruction,\n      doseAndRate: singleton from dosage.doseAndRate,\n      timing: dosage.timing,\n      frequency: Coalesce(timing.repeat.frequencyMax, timing.repeat.frequency),\n      period: Quantity(timing.repeat.period, timing.repeat.periodUnit),\n      doseRange: doseAndRate.dose,\n      doseQuantity: doseAndRate.dose,\n      dose: Coalesce(end of doseRange, doseQuantity),\n      dosesPerDay: Coalesce(ToDaily(frequency, period), Count(timing.repeat.timeOfDay), 1.0),\n      boundsPeriod: timing.repeat.bounds as Interval<DateTime>,\n      daysSupply: (convert R.dispenseRequest.expectedSupplyDuration to days).value,\n      quantity: R.dispenseRequest.quantity,\n      refills: Coalesce(R.dispenseRequest.numberOfRepeatsAllowed, 0),\n      startDate:\n        Coalesce(\n          date from start of boundsPeriod,\n          date from R.authoredOn,\n          date from start of R.dispenseRequest.validityPeriod\n        ),\n      totalDaysSupplied: Coalesce(daysSupply, quantity.value / (dose.value * dosesPerDay)) * (1 + refills)\n    return\n      if startDate is not null and totalDaysSupplied is not null then\n        Interval[startDate, startDate + Quantity(totalDaysSupplied - 1, 'day') ]\n      else if startDate is not null and boundsPeriod.\"high\" is not null then\n        Interval[startDate, date from end of boundsPeriod]\n      else\n        null"
       }, {
         "url": "displaySequence",
         "valueInteger": 25
@@ -483,10 +483,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Active or Completed Medication Request"
+        "valueString": "isMedicationOrder"
       }, {
         "url": "statement",
-        "valueString": "//Medication, Order: active and completed only\ndefine function \"Active or Completed Medication Request\"(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status in { 'active', 'completed' }\n      and M.intent = 'order'"
+        "valueString": "//Medication, Order: active and completed only\ndefine fluent function isMedicationOrder(MedicationRequest List<MedicationRequest>):\n  MedicationRequest M\n    where M.status in { 'active', 'completed' }\n      and M.intent = 'order'"
       }, {
         "url": "displaySequence",
         "valueInteger": 28
@@ -498,10 +498,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Completed or Ongoing Service Request"
+        "valueString": "isLaboratoryTestOrder"
       }, {
         "url": "statement",
-        "valueString": "//Diagnostic Study, Order: active and completed only\n//Intervention, Order: active and completed only\n//Laboratory Test, Order: active and completed only\ndefine function \"Completed or Ongoing Service Request\"(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
+        "valueString": "//Laboratory Test, Order: active and completed only\ndefine fluent function isLaboratoryTestOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
         "valueInteger": 29
@@ -513,10 +513,10 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "Completed Procedure"
+        "valueString": "isDiagnosticStudyOrder"
       }, {
         "url": "statement",
-        "valueString": "//Intervention, Performed\n//Procedure, Performed\ndefine function \"Completed Procedure\"(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
+        "valueString": "//Diagnostic Study, Order: active and completed only\ndefine fluent function isDiagnosticStudyOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
         "valueInteger": 30
@@ -528,43 +528,13 @@
         "valueString": "Status"
       }, {
         "url": "name",
-        "valueString": "isEncounterPerformed"
+        "valueString": "isProcedurePerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List<Encounter>):\n  Enc E\n    where E.status in {'finished', 'arrived', 'triaged', 'in-progress', 'onleave'}"
+        "valueString": "//Procedure, Performed\ndefine fluent function isProcedurePerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
         "valueInteger": 31
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "toInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n*/\ndefine fluent function toInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 32
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "Status"
-      }, {
-        "url": "name",
-        "valueString": "isAssessmentPerformed"
-      }, {
-        "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List<Observation>):\n  Obs O\n    where O.status in { 'final', 'amended', 'corrected' }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ \"survey\"\n      )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -576,10 +546,10 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List<ServiceRequest>):\n  ServiceRequest S\n    where S.status in { 'active', 'completed' }\n      and S.intent = 'order'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 34
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -591,27 +561,13 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List<Procedure>):\n  Proc P\n    where P.status ~ 'completed'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 35
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "prevalenceInterval"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 33
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -622,23 +578,23 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library CMD",
-      "resource": "Library/CumulativeMedicationDuration|4.0.000"
+      "resource": "Library/CumulativeMedicationDuration|4.1.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Code system ObservationCategoryCodes",
@@ -685,7 +641,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"
     }, {
       "type": "depends-on",
-      "display": "Value set Online Assessments",
+      "display": "Value set Virtual Encounter",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1089"
     }, {
       "type": "depends-on",
@@ -1120,7 +1076,7 @@
   "title": "Chlamydia Screening in WomenFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:15+00:00",
+  "date": "2024-07-01T20:13:03+00:00",
   "publisher": "National Committee for Quality Assurance",
   "contact": [ {
     "telecom": [ {
@@ -1130,10 +1086,8 @@
   } ],
   "description": "Percentage of women 16-24 years of age who were identified as sexually active at any time during the measurement period and who had at least one test for chlamydia during the measurement period",
   "purpose": "UNKNOWN",
-  "usage": "Codes to identify sexually active women include codes for: pregnancy, sexually transmitted infections, contraceptives or contraceptive devices, and infertility treatments.  The denominator exclusion does not apply to patients who qualify for the initial population (IP) based on services other than the pregnancy test alone. These other services include services for sexually transmitted infections, contraceptives or contraceptive devices and infertility treatments. For example, a patient who has both a pregnancy test and a chlamydia diagnosis, either of which would qualify them for the IP, would not be eligible for this denominator exclusion.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure:  CMS153v12.  Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2022 National Committee for Quality Assurance. All Rights Reserved.   Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.   CPT(R) codes, descriptions and other data are copyright 2022. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. No fee schedules, basic units, relative values or related listings are included in CPT. The AMA assumes no liability for the data contained herein. Applicable FARS/DFARS restrictions apply to government use.   LOINC(R) copyright 2004-2022 Regenstrief Institute, Inc.   This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation.   ICD-10 copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
+  "usage": "Codes to identify sexually active women include codes for: pregnancy, sexually transmitted infections, contraceptives or contraceptive devices, and infertility treatments.  The denominator exclusion does not apply to patients who qualify for the initial population (IP) based on services other than the pregnancy test alone. These other services include services for sexually transmitted infections, contraceptives or contraceptive devices and infertility treatments. For example, a patient who has both a pregnancy test and a chlamydia diagnosis, either of which would qualify them for the IP, would not be eligible for this denominator exclusion.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure:  CMS153v13.  Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "This Physician Performance Measure (Measure) and related data specifications are owned and were developed by the National Committee for Quality Assurance (NCQA). NCQA is not responsible for any use of the Measure. NCQA makes no representations, warranties, or endorsement about the quality of any organization or physician that uses or reports performance measures and NCQA has no liability to anyone who relies on such measures or specifications. NCQA holds a copyright in the Measure. The Measure can be reproduced and distributed, without modification, for noncommercial purposes (e.g., use by healthcare providers in connection with their practices) without obtaining approval from NCQA. Commercial use is defined as the sale, licensing, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain. All commercial uses or requests for modification must be approved by NCQA and are subject to a license at the discretion of NCQA. (C) 2012-2024 National Committee for Quality Assurance. All Rights Reserved.  Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. NCQA disclaims all liability for use or accuracy of any third-party codes contained in the specifications.  CPT(R) codes, descriptions and other data are copyright 2024. American Medical Association. All rights reserved. CPT is a trademark of the American Medical Association. Fee schedules, relative value units, conversion factors and/or related components are not assigned by the AMA, are not part of CPT, and the AMA is not recommending their use. The AMA does not directly or indirectly practice medicine or dispense medical services. The AMA assumes no liability for data contained or not contained herein. Applicable FARS/DFARS restrictions apply to government use.  Some measure specifications contain coding from LOINC(R) (http://loinc.org). The LOINC table, LOINC codes, LOINC panels and form file, LOINC linguistic variants file, LOINC/RSNA Radiology Playbook, and LOINC/IEEE Medical Device Code Mapping Table are copyright 2004-2024 Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee, and are available at no cost under the license at http://loinc.org/terms-of-use.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.  ICD-10 copyright 2024 World Health Organization. All Rights Reserved.  Some measures use RxNorm, a standardized nomenclature and coding for clinical drugs and drug delivery devices, which is made publicly available courtesy of the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services. NLM is not responsible for the measures and does not endorse or recommend this or any other product.  “HL7” is the registered trademark of Health Level Seven International.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -1154,7 +1108,7 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "Chlamydia trachomatis is the most common sexually transmitted bacterial infection in the U.S., resulting in roughly 1.7 million cases (Centers for Disease Control and Prevention, 2019). Chlamydia infections are often asymptomatic, but, if left untreated, can lead to serious and irreversible complications (U.S. Preventive Services Task Force, 2014; Centers for Disease Control and Prevention, 2019).   Women are particularly vulnerable when infected with chlamydia. Left untreated, chlamydia can cause pelvic inflammatory disease (PID), which can lead to chronic pelvic pain or infertility. Pregnant women may also transmit the infection to their infant, potentially resulting in neonatal pneumonia (Centers for Disease Control and Prevention, 2019).",
+  "rationale": "Chlamydia trachomatis is the most common sexually transmitted bacterial infection in the U.S., resulting in roughly 1.7 million cases (Centers for Disease Control and Prevention, 2019). Chlamydia infections are often asymptomatic, but, if left untreated, can lead to serious and irreversible complications (U.S. Preventive Services Task Force, 2021; Centers for Disease Control and Prevention, 2019).   Women are particularly vulnerable when infected with chlamydia. Left untreated, chlamydia can cause pelvic inflammatory disease (PID), which can lead to chronic pelvic pain or infertility. Pregnant women may also transmit the infection to their infant, potentially resulting in neonatal pneumonia (Centers for Disease Control and Prevention, 2019).",
   "clinicalRecommendationStatement": "U.S. Preventive Services Task Force (2021) recommends screening for chlamydia in all sexually active women aged 24 years or younger and in women 25 years or older who are at increased risk for infection (B recommendation)",
   "group": [ {
     "id": "654a55d378418140875e358d",
@@ -1177,6 +1131,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -1217,7 +1183,7 @@
           "display": "Denominator Exclusion"
         } ]
       },
-      "description": "Women who are only eligible for the initial population due to a pregnancy test during the measurement period, and who had an order for an x-ray or for a specified medication on the date of the pregnancy test or the six days after the pregnancy test.  Exclude patients who are in hospice care for any part of the measurement period.",
+      "description": "Exclude patients who are in hospice care for any part of the measurement period.  Women who are only eligible for the initial population due to a pregnancy test during the measurement period, and who had an order for an x-ray or for a specified medication on the date of the pregnancy test or the six days after the pregnancy test.",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Denominator Exclusions"
@@ -1236,30 +1202,6 @@
         "language": "text/cql-identifier",
         "expression": "Numerator"
       }
-    }, {
-      "id": "4fd2fca7-aa3f-44f3-9b41-0be639385fbb",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "752e5d14-0b22-42f8-891c-859a4377877c",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
     } ],
     "stratifier": [ {
       "id": "fd1b6c30-f3d6-422e-9063-5db3590db24c",
@@ -1273,6 +1215,7 @@
           } ]
         }
       } ],
+      "description": "Report a total score, and each of the following strata: Stratum 1: Patients age 16-20 by the end of the measurement period.",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Stratification 1"
@@ -1289,6 +1232,7 @@
           } ]
         }
       } ],
+      "description": "Stratum 2: Patients age 21-24 by the end of the measurement period.",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Stratification 2"

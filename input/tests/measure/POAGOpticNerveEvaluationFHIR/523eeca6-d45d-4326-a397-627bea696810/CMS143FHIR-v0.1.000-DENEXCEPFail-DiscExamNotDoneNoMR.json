@@ -3,7 +3,7 @@
   "id": "6109658e98086b538055b9df",
   "type": "transaction",
   "entry": [ {
-    "fullUrl": "Patient/523eeca6-d45d-4326-a397-627bea696810",
+    "fullUrl": "https://madie.cms.gov/Patient/523eeca6-d45d-4326-a397-627bea696810",
     "resource": {
       "resourceType": "Patient",
       "id": "523eeca6-d45d-4326-a397-627bea696810",
@@ -59,14 +59,14 @@
       "birthDate": "1966-06-14"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/523eeca6-d45d-4326-a397-627bea696810"
     }
   }, {
-    "fullUrl": "Condition/C-500023006",
+    "fullUrl": "https://madie.cms.gov/Condition/500023006",
     "resource": {
       "resourceType": "Condition",
-      "id": "C-500023006",
+      "id": "500023006",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
       },
@@ -106,14 +106,14 @@
       "recordedDate": "2012-04-11T12:40:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
-      "url": "Condition/C-500023006"
+      "method": "POST",
+      "url": "Condition/500023006"
     }
   }, {
-    "fullUrl": "Encounter/E-500023005",
+    "fullUrl": "https://madie.cms.gov/Encounter/500023005",
     "resource": {
       "resourceType": "Encounter",
-      "id": "E-500023005",
+      "id": "500023005",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
       },
@@ -147,14 +147,34 @@
       }
     },
     "request": {
-      "method": "PUT",
-      "url": "Encounter/E-500023005"
+      "method": "POST",
+      "url": "Encounter/500023005"
     }
   }, {
-    "fullUrl": "Observation/O-500023003",
+    "fullUrl": "https://madie.cms.gov/Coverage/1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "status": "active",
+      "beneficiary": {
+        "reference": "Patient/523eeca6-d45d-4326-a397-627bea696810"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/500023003",
     "resource": {
       "resourceType": "Observation",
-      "id": "O-500023003",
+      "id": "500023003",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ]
       },
@@ -182,20 +202,20 @@
       "effectiveDateTime": "2025-03-15T08:15:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
-      "url": "Observation/O-500023003"
+      "method": "POST",
+      "url": "Observation/500023003"
     }
   }, {
-    "fullUrl": "MeasureReport/d564f120-dba9-4941-ad61-ac6bf0d3bdd9",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/5976f30b-14bb-419e-8ac4-2cc1b0c307fa",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "d564f120-dba9-4941-ad61-ac6bf0d3bdd9",
+      "id": "5976f30b-14bb-419e-8ac4-2cc1b0c307fa",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "38737a5c-e850-4550-ac22-ac7145442d13-parameters",
+        "id": "e9ef16d1-ea37-4e1e-b872-f879a4ad9ae9-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "523eeca6-d45d-4326-a397-627bea696810"
@@ -204,7 +224,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#38737a5c-e850-4550-ac22-ac7145442d13-parameters"
+          "reference": "#e9ef16d1-ea37-4e1e-b872-f879a4ad9ae9-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -216,7 +236,7 @@
       } ],
       "status": "complete",
       "type": "individual",
-      "measure": "Measure/POAGOpticNerveEvaluationFHIR",
+      "measure": "https://madie.cms.gov/Measure/POAGOpticNerveEvaluationFHIR",
       "period": {
         "start": "2025-01-01",
         "end": "2025-12-31"
@@ -263,16 +283,18 @@
       "evaluatedResource": [ {
         "reference": "Patient/523eeca6-d45d-4326-a397-627bea696810"
       }, {
-        "reference": "Condition/C-500023006"
+        "reference": "Condition/500023006"
       }, {
-        "reference": "Encounter/E-500023005"
+        "reference": "Encounter/500023005"
       }, {
-        "reference": "Observation/O-500023003"
+        "reference": "Coverage/1"
+      }, {
+        "reference": "Observation/500023003"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/d564f120-dba9-4941-ad61-ac6bf0d3bdd9"
+      "method": "POST",
+      "url": "MeasureReport/5976f30b-14bb-419e-8ac4-2cc1b0c307fa"
     }
   } ]
 }

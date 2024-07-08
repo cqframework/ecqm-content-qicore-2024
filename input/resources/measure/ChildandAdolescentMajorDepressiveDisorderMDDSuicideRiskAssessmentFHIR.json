@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "225337009",
         "display": "Suicide risk assessment (procedure)"
@@ -24,7 +38,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -54,7 +68,7 @@
         "valueString": "Major Depressive Disorder Encounter"
       }, {
         "url": "statement",
-        "valueString": "define \"Major Depressive Disorder Encounter\":\n  ( [\"Encounter\": \"Office Visit\"]\n    union [\"Encounter\": \"Outpatient Consultation\"]\n    union [\"Encounter\": \"Psych Visit Diagnostic Evaluation\"]\n    union [\"Encounter\": \"Psych Visit for Family Psychotherapy\"]\n    union [\"Encounter\": \"Psych Visit Psychotherapy\"]\n    union [\"Encounter\": \"Psychoanalysis\"]\n    union [\"Encounter\": \"Group Psychotherapy\"]\n    union [\"Encounter\": \"Telehealth Services\"] ) ValidEncounter\n    where ValidEncounter.status = 'finished'\n      and ( ValidEncounter.reasonCode in \"Major Depressive Disorder Active\"\n          or exists ( ( CQMCommon.\"EncounterDiagnosis\" ( ValidEncounter ) ) EncounterDiagnosis\n              where EncounterDiagnosis.code in \"Major Depressive Disorder Active\"\n          )\n      )\n      and ValidEncounter.period during \"Measurement Period\""
+        "valueString": "define \"Major Depressive Disorder Encounter\":\n  ( [\"Encounter\": \"Office Visit\"]\n    union [\"Encounter\": \"Outpatient Consultation\"]\n    union [\"Encounter\": \"Psych Visit Diagnostic Evaluation\"]\n    union [\"Encounter\": \"Psych Visit for Family Psychotherapy\"]\n    union [\"Encounter\": \"Psych Visit Psychotherapy\"]\n    union [\"Encounter\": \"Psychoanalysis\"]\n    union [\"Encounter\": \"Group Psychotherapy\"]\n    union [\"Encounter\": \"Telephone Visits\"] ) ValidEncounter\n    where ValidEncounter.status = 'finished'\n      and ( ValidEncounter.reasonCode in \"Major Depressive Disorder Active\"\n          or exists ( ( ValidEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n              where EncounterDiagnosis.code in \"Major Depressive Disorder Active\"\n          )\n      )\n      and ValidEncounter.period during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 2
@@ -69,7 +83,7 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define \"Numerator\":\n  \"Major Depressive Disorder Encounter\" MDDEncounter\n    with [\"Procedure\": \"Suicide risk assessment (procedure)\"] SuicideRiskAssessment\n      such that SuicideRiskAssessment.status = 'completed'\n        and QICoreCommon.\"ToInterval\" ( SuicideRiskAssessment.performed ) during MDDEncounter.period"
+        "valueString": "define \"Numerator\":\n  \"Major Depressive Disorder Encounter\" MDDEncounter\n    with [\"Procedure\": \"Suicide risk assessment (procedure)\"] SuicideRiskAssessment\n      such that SuicideRiskAssessment.status = 'completed'\n        and SuicideRiskAssessment.performed.toInterval ( ) during MDDEncounter.period"
       }, {
         "url": "displaySequence",
         "valueInteger": 3
@@ -111,13 +125,43 @@
         "valueString": "SupplementalDataElements"
       }, {
         "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 6
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 7
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
         "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 6
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -132,7 +176,7 @@
         "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 7
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -147,7 +191,7 @@
         "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 8
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -162,7 +206,7 @@
         "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 9
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -177,7 +221,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 10
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -186,13 +230,13 @@
         "valueString": "CQMCommon"
       }, {
         "url": "name",
-        "valueString": "EncounterDiagnosis"
+        "valueString": "encounterDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the Condition resource referenced by the `diagnosis.condition` element of the Encounter\n@deprecated: This function is deprecated. Use the fluent function `encounterDiagnosis()` instead.\n*/\ndefine function \"EncounterDiagnosis\"(Encounter Encounter ):\n  Encounter.diagnosis D\n\treturn singleton from ([Condition] C where C.id = D.condition.reference.getId())"
+        "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueInteger": 11
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -207,7 +251,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 12
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -222,7 +266,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 13
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -237,9 +281,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 14
+        "valueInteger": 16
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -250,19 +295,23 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library CQMCommon",
-      "resource": "Library/CQMCommon|2.0.000"
+      "resource": "Library/CQMCommon|2.2.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system SNOMEDCT",
@@ -297,12 +346,16 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1187"
     }, {
       "type": "depends-on",
-      "display": "Value set Telehealth Services",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1031"
+      "display": "Value set Telephone Visits",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"
     }, {
       "type": "depends-on",
       "display": "Value set Major Depressive Disorder Active",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1491"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Payer Type",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
     } ],
     "parameter": [ {
       "name": "Measurement Period",
@@ -324,6 +377,12 @@
       "type": "Resource"
     }, {
       "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
@@ -417,7 +476,7 @@
       "mustSupport": [ "type", "condition", "condition.reference", "condition.reference.value", "status", "status.value", "reasonCode", "period" ],
       "codeFilter": [ {
         "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1031"
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"
       } ]
     }, {
       "type": "Procedure",
@@ -436,13 +495,22 @@
           "code": "completed"
         } ]
       } ]
+    }, {
+      "type": "Coverage",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
+      "mustSupport": [ "type", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+      } ]
     } ]
   } ],
   "extension": [ {
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex"
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -505,10 +573,10 @@
         "code": "endorser"
       } ]
     },
-    "system": "https://madie.cms.gov/measure/nqfId",
+    "system": "https://madie.cms.gov/measure/cbeId",
     "value": "1365e",
     "assigner": {
-      "display": "NQF"
+      "display": "CMS Consensus Based Entity"
     }
   }, {
     "use": "official",
@@ -529,7 +597,7 @@
   "title": "Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk AssessmentFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:16+00:00",
+  "date": "2024-07-01T20:13:04+00:00",
   "publisher": "Mathematica",
   "contact": [ {
     "telecom": [ {
@@ -539,25 +607,29 @@
   } ],
   "description": "Percentage of patient visits for those patients aged 6 through 16 at the start of the measurement period with a diagnosis of major depressive disorder (MDD) with an assessment for suicide risk",
   "purpose": "UNKNOWN",
-  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter for major depressive disorder (MDD) during the measurement period. A suicide risk assessment should be performed at every visit for MDD during the measurement period.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS177v12.\n\nIn recognition of the growing use of integrated and team-based care, the diagnosis of depression and the assessment for suicide risk need not be performed by the same provider or clinician. \n\nSuicide risk assessments completed via telehealth services can also meet numerator performance. \n\nUse of a standardized tool(s) or instrument(s) to assess suicide risk will meet numerator performance, so long as the minimum criteria noted above is evaluated. Standardized tools can be mapped to the concept \"Intervention, Performed\": \"Suicide risk assessment (procedure)\" included in the numerator logic below, as no individual suicide risk assessment tool or instrument would satisfy the requirements alone.\n\nTo ensure all patients with major depressive disorder (MDD) are assessed for suicide risk, there are two clinical quality measures addressing suicide risk assessment; CMS177 covers children and adolescents aged 6 through 16 at the start of the measurement period, and CMS161 - Adult Major Depressive Disorder (MDD): Suicide Risk Assessment covers the adult population aged 17 years and older at the start of the measurement period. \n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter for major depressive disorder (MDD) during the measurement period. A suicide risk assessment should be performed at every visit for MDD during the measurement period.\n\nIn recognition of the growing use of integrated and team-based care, the diagnosis of depression and the assessment for suicide risk need not be performed by the same provider or clinician. \n\nSuicide risk assessments completed via telehealth services can also meet numerator performance. \n\nUse of a standardized tool(s) or instrument(s) to assess suicide risk will meet numerator performance, so long as the minimum criteria noted above is evaluated. Standardized tools can be mapped to the concept \"Intervention, Performed\": \"Suicide risk assessment (procedure)\" included in the numerator logic below, as no individual suicide risk assessment tool or instrument would satisfy the requirements alone.\n\nTo ensure all patients with major depressive disorder (MDD) are assessed for suicide risk, there are two clinical quality measures addressing suicide risk assessment; CMS177 covers children and adolescents aged 6 through 16 at the start of the measurement period, and CMS161 - Adult Major Depressive Disorder (MDD): Suicide Risk Assessment covers the adult population aged 17 years and older at the start of the measurement period. \n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS177v13.\n\nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
   "copyright": "Copyright 2024 Mathematica Inc. All Rights Reserved.\nThe PCPI and American Medical Association's (AMA) significant past efforts and contributions to the development and updating of the Measure is acknowledged.",
-  "approvalDate": "2023-11-17",
-  "lastReviewDate": "2023-11-17",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
   },
   "author": [ {
-    "name": "Mathematica",
-    "telecom": [ {
-      "system": "url",
-      "value": "https://www.mathematica.org/"
-    } ]
-  }, {
     "name": "American Medical Association (AMA)",
     "telecom": [ {
       "system": "url",
       "value": "https://www.ama-assn.org/"
+    } ]
+  }, {
+    "name": "American Medical Association-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI)",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.ama-assn.org/"
+    } ]
+  }, {
+    "name": "Mathematica",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.mathematica.org/"
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR" ],
@@ -570,7 +642,7 @@
     } ]
   },
   "rationale": "Research has shown that youth with major depressive disorder (MDD) are at a high risk for suicide attempts and completion - among the most significant and devastating sequelae of the disease (Fontanella et al., 2020). Suicide risk is a critical consideration in children and adolescents with MDD, and an important aspect of care that should be assessed at each visit and subsequently managed to minimize that risk. Additionally, the importance of the assessments is underscored by research (Fontanella et al., 2020; Luoma, Martin, & Pearson, 2002) that indicates that many individuals who die by suicide do make contact with primary care providers and mental health services beforehand. More specifically, approximately 15% of suicide victims aged 35 years or younger had seen a mental health professional within 1 month of suicide while approximately 23% had seen a primary care provider within 1 month of suicide (Luoma, Martin, & Pearson, 2002). A recent analysis of depression severity and suicidal ideation symptom trajectories (Witt et al., 2021) found that suicidal ideation among children and young adults (15-25 years) might not improve with depression symptom severity. This evidence suggests the potential utility of continued suicide risk screening even after improvements in depression symptoms. Better assessment and identification of suicide risk in the health care setting should lead to improved connection to treatment and reduction in suicide attempts and deaths by suicide.",
-  "clinicalRecommendationStatement": "The evaluation must include assessment for the presence of harm to self or others (American Academy of Child and Adolescent Psychiatry, 2007).\n\nSuicidal behavior exists along a continuum from passive thoughts of death to a clearly developed plan and intent to carry out that plan. Because depression is closely associated with suicidal thoughts and behavior, it is imperative to evaluate these symptoms at the initial and subsequent assessments. For this purpose, low burden tools to track suicidal ideation and behavior such as the Columbia-Suicidal Severity Rating Scale can be used. Also, it is crucial to evaluate the risk (e.g., age, sex, stressors, comorbid conditions, hopelessness, impulsivity) and protective factors (e.g., religious belief, concern not to hurt family) that might influence the desire to attempt suicide. The risk for suicidal behavior increases if there is a history of suicide attempts, comorbid psychiatric disorders (e.g., disruptive disorders, substance abuse), impulsivity and aggression, availability of lethal agents (e.g., firearms), exposure to negative events (e.g., physical or sexual abuse, violence), and a family history of suicidal behavior (American Academy of Child and Adolescent Psychiatry, 2007).\n\nA careful and ongoing evaluation of suicide risk is necessary for all patients with major depressive disorder (Category I). Such an assessment includes specific inquiry about suicidal thoughts, intent, plans, means, and behaviors; identification of specific psychiatric symptoms (e.g., psychosis, severe anxiety, substance use) or general medical conditions that may increase the likelihood of acting on suicidal ideas; assessment of past and, particularly, recent suicidal behavior; delineation of current stressors and potential protective factors (e.g., positive reasons for living, strong social support); and identification of any family history of suicide or mental illness (Category I) (American Psychiatric Association, 2010, reaffirmed 2015).",
+  "clinicalRecommendationStatement": "The evaluation must include assessment for the presence of harm to self or others (Birmaher et al., 2007).\n\nSuicidal behavior exists along a continuum from passive thoughts of death to a clearly developed plan and intent to carry out that plan. Because depression is closely associated with suicidal thoughts and behavior, it is imperative to evaluate these symptoms at the initial and subsequent assessments. For this purpose, low burden tools to track suicidal ideation and behavior such as the Columbia-Suicidal Severity Rating Scale can be used. Also, it is crucial to evaluate the risk (e.g., age, sex, stressors, comorbid conditions, hopelessness, impulsivity) and protective factors (e.g., religious belief, concern not to hurt family) that might influence the desire to attempt suicide. The risk for suicidal behavior increases if there is a history of suicide attempts, comorbid psychiatric disorders (e.g., disruptive disorders, substance abuse), impulsivity and aggression, availability of lethal agents (e.g., firearms), exposure to negative events (e.g., physical or sexual abuse, violence), and a family history of suicidal behavior (Birmaher et al., 2007).\n\nA careful and ongoing evaluation of suicide risk is necessary for all patients with major depressive disorder (Category I). Such an assessment includes specific inquiry about suicidal thoughts, intent, plans, means, and behaviors; identification of specific psychiatric symptoms (e.g., psychosis, severe anxiety, substance use) or general medical conditions that may increase the likelihood of acting on suicidal ideas; assessment of past and, particularly, recent suicidal behavior; delineation of current stressors and potential protective factors (e.g., positive reasons for living, strong social support); and identification of any family history of suicide or mental illness (Category I) (Gelenberg et al., 2010).",
   "group": [ {
     "id": "64f0dd3c56d636294b157f18",
     "extension": [ {
@@ -592,6 +664,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -624,18 +708,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "bdd33044-e6ec-4e09-9242-a4287f6ef930",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "1B08534C-7722-4B76-B352-4E80C1FA732E",
       "code": {
         "coding": [ {
@@ -648,30 +720,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "72b56924-a46c-40ed-ac22-833cf82431cd",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "b0964fc5-57da-4671-9136-e449641e8c9f",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ],
@@ -713,6 +761,19 @@
     "criteria": {
       "language": "text/cql-identifier",
       "expression": "SDE Sex"
+    }
+  }, {
+    "id": "sde-payer",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Payer",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Payer"
     }
   } ]
 }

@@ -1,0 +1,334 @@
+{
+  "resourceType": "Bundle",
+  "id": "62fd4b650968f8012246afa2",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/71845418-27a9-4954-9742-354bce965a90",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "71845418-27a9-4954-9742-354bce965a90",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "62fd4b650968f8012246afa2"
+      } ],
+      "name": [ {
+        "family": "NUMERPass",
+        "given": [ "ConsReportOverlapsEndsAfterReferral" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1989-12-31"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/71845418-27a9-4954-9742-354bce965a90"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/preventive-care-services-established-office-visit-18-and-up-11d4",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "preventive-care-services-established-office-visit-18-and-up-11d4",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "version": "2021",
+          "code": "99395",
+          "display": "Periodic comprehensive preventive medicine reevaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, established patient; 18-39 years",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/71845418-27a9-4954-9742-354bce965a90"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000+00:00",
+        "end": "2025-01-01T02:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/preventive-care-services-established-office-visit-18-and-up-11d4"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Task/consultant-report-11d5",
+    "resource": {
+      "resourceType": "Task",
+      "id": "consultant-report-11d5",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-task" ]
+      },
+      "identifier": [ {
+        "use": "official",
+        "system": "http:/goodhealth.org/identifiers",
+        "value": "20170201-002"
+      } ],
+      "basedOn": [ {
+        "reference": "ServiceRequest/referral-6b09"
+      } ],
+      "status": "completed",
+      "intent": "order",
+      "priority": "routine",
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "version": "2.72",
+          "code": "11488-4",
+          "display": "Consult note",
+          "userSelected": true
+        } ]
+      },
+      "for": {
+        "reference": "Patient/71845418-27a9-4954-9742-354bce965a90"
+      },
+      "executionPeriod": {
+        "start": "2025-10-31T23:58:00.000+00:00",
+        "end": "2025-11-01T00:01:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Task/consultant-report-11d5"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/ServiceRequest/referral-6b09",
+    "resource": {
+      "resourceType": "ServiceRequest",
+      "id": "referral-6b09",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ]
+      },
+      "status": "active",
+      "intent": "order",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "version": "2022-03",
+          "code": "103696004",
+          "display": "Patient referral to specialist (procedure)",
+          "userSelected": true
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/71845418-27a9-4954-9742-354bce965a90"
+      },
+      "authoredOn": "2025-10-31T23:59:00.000+00:00"
+    },
+    "request": {
+      "method": "POST",
+      "url": "ServiceRequest/referral-6b09"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Coverage/1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "status": "active",
+      "beneficiary": {
+        "reference": "Patient/71845418-27a9-4954-9742-354bce965a90"
+      },
+      "payor": [ {
+        "reference": "Organization/123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Organization/123456",
+    "resource": {
+      "resourceType": "Organization",
+      "id": "123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
+      },
+      "identifier": [ {
+        "use": "temp",
+        "system": "urn:oid:2.16.840.1.113883.4.4",
+        "value": "21-3259825"
+      } ],
+      "active": true,
+      "type": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "pay",
+          "display": "Payer"
+        } ]
+      } ],
+      "name": "Blue Cross Blue Shield of Texas",
+      "telecom": [ {
+        "system": "phone",
+        "value": "(+1) 972-766-6900"
+      } ],
+      "address": [ {
+        "use": "billing",
+        "type": "postal",
+        "line": [ "P.O. Box 660044" ],
+        "city": "Dallas",
+        "state": "TX",
+        "postalCode": "75266-0044",
+        "country": "USA"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Organization/123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "practitioner-123456",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-practitioner" ]
+      },
+      "identifier": [ {
+        "system": "http://hl7.org/fhir/sid/us-npi",
+        "value": "123456"
+      } ],
+      "name": [ {
+        "family": "Evil",
+        "prefix": [ "Dr" ]
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Practitioner/practitioner-123456"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/0c12a894-fbf3-46f2-b9e1-244d37250b76",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "0c12a894-fbf3-46f2-b9e1-244d37250b76",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "ffa9c3c0-14a5-43e2-aa51-39e3c97917ee-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "71845418-27a9-4954-9742-354bce965a90"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#ffa9c3c0-14a5-43e2-aa51-39e3c97917ee-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Encounter during MP  Referral (\"202x-10-31T23:59:00.000+00:00\") during Referral period.  Consult report overlaps and ends after referral date  (\"start\" : \"202x-10-31T23:58:00.000+00:00\", \"end\" : \"202x-11-01T00:01:00.000+00:00\")\n"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/CRLReceiptofSpecialistReportFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 1
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/71845418-27a9-4954-9742-354bce965a90"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/preventive-care-services-established-office-visit-18-and-up-11d4"
+      }, {
+        "reference": "https://madie.cms.gov/Task/consultant-report-11d5"
+      }, {
+        "reference": "https://madie.cms.gov/ServiceRequest/referral-6b09"
+      }, {
+        "reference": "https://madie.cms.gov/Coverage/1"
+      }, {
+        "reference": "https://madie.cms.gov/Organization/123456"
+      }, {
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/0c12a894-fbf3-46f2-b9e1-244d37250b76"
+    }
+  } ]
+}

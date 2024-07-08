@@ -1,0 +1,841 @@
+<Measure xmlns="http://hl7.org/fhir">
+   <id value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></id>
+   <meta>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
+   </meta>
+   <contained>
+      <Library xmlns="http://hl7.org/fhir">
+         <id value="effective-data-requirements"></id>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="M"></code>
+               <display value="Male"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="F"></code>
+               <display value="Female"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://snomed.info/sct"></system>
+               <code value="225337009"></code>
+               <display value="Suicide risk assessment (procedure)"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case     when Patient.gender = &amp;#39;male&amp;#39; then &amp;quot;M&amp;quot;     when Patient.gender = &amp;#39;female&amp;#39; then &amp;quot;F&amp;quot;     else null   end"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="0"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Sex"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="1"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Major Depressive Disorder Encounter"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Major Depressive Disorder Encounter&amp;quot;:   ( [&amp;quot;Encounter&amp;quot;: &amp;quot;Office Visit&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Outpatient Consultation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Diagnostic Evaluation&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit for Family Psychotherapy&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psych Visit Psychotherapy&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Psychoanalysis&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Group Psychotherapy&amp;quot;]     union [&amp;quot;Encounter&amp;quot;: &amp;quot;Telephone Visits&amp;quot;] ) ValidEncounter     where ValidEncounter.status = &amp;#39;finished&amp;#39;       and ( ValidEncounter.reasonCode in &amp;quot;Major Depressive Disorder Active&amp;quot;           or exists ( ( ValidEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis               where EncounterDiagnosis.code in &amp;quot;Major Depressive Disorder Active&amp;quot;           )       )       and ValidEncounter.period during day of &amp;quot;Measurement Period&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="2"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Numerator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Numerator&amp;quot;:   &amp;quot;Major Depressive Disorder Encounter&amp;quot; MDDEncounter     with [&amp;quot;Procedure&amp;quot;: &amp;quot;Suicide risk assessment (procedure)&amp;quot;] SuicideRiskAssessment       such that SuicideRiskAssessment.status = &amp;#39;completed&amp;#39;         and SuicideRiskAssessment.performed.toInterval ( ) during MDDEncounter.period"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="3"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Initial Population"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   &amp;quot;Major Depressive Disorder Encounter&amp;quot; MDDEncounter     where ( &amp;quot;AgeInYearsAt&amp;quot;(date from start of &amp;quot;Measurement Period&amp;quot;) &amp;gt;= 6         and &amp;quot;AgeInYearsAt&amp;quot;(date from start of &amp;quot;Measurement Period&amp;quot;) &amp;lt;= 16     )"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="4"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="Denominator"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;Denominator&amp;quot;:   &amp;quot;Initial Population&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="5"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="6"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Payer"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="7"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="8"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Ethnicity"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="9"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="SupplementalDataElements"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="10"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="SDE Race"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="11"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToConcept"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept. */ define function ToConcept(concept FHIR.CodeableConcept):     if concept is null then         null     else         System.Concept {             codes: concept.coding C return ToCode(C),             display: concept.text.value         }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="12"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="CQMCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="encounterDiagnosis"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns the Condition resources referenced by the diagnosis element of the Encounter */ define fluent function encounterDiagnosis(Encounter Encounter ):   Encounter.diagnosis D     return singleton from ([Condition] C where C.id = D.condition.reference.getId())"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="13"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="QICoreCommon"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="getId"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Returns the tail of the given uri (i.e. everything after the last slash in the URI). @comment: This function can be used to determine the logical id of a given resource. It can be used in a single-server environment to trace references. However, this function does not attempt to resolve or distinguish the base of the given url, and so cannot be used safely in multi-server environments. */ define fluent function getId(uri String):   Last(Split(uri, &amp;#39;/&amp;#39;))"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="14"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToString"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="define function ToString(value uri): value.value"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="15"></valueString>
+            </extension>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
+            <extension url="libraryName">
+               <valueString value="FHIRHelpers"></valueString>
+            </extension>
+            <extension url="name">
+               <valueString value="ToCode"></valueString>
+            </extension>
+            <extension url="statement">
+               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"></valueString>
+            </extension>
+            <extension url="displaySequence">
+               <valueString value="16"></valueString>
+            </extension>
+         </extension>
+         <status value="active"></status>
+         <type>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
+            </coding>
+         </type>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library SDE"></display>
+            <resource value="Library/SupplementalDataElements|3.5.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library CQMCommon"></display>
+            <resource value="Library/CQMCommon|2.2.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system AdministrativeGender"></display>
+            <resource value="http://hl7.org/fhir/administrative-gender"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Code system SNOMEDCT"></display>
+            <resource value="http://snomed.info/sct"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Office Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Outpatient Consultation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Psych Visit Diagnostic Evaluation"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Psych Visit for Family Psychotherapy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1018"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Psych Visit Psychotherapy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Psychoanalysis"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1141"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Group Psychotherapy"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1187"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Telephone Visits"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Major Depressive Disorder Active"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1491"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Payer Type"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></resource>
+         </relatedArtifact>
+         <parameter>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
+         </parameter>
+         <parameter>
+            <name value="Numerator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Denominator"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Sex"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Coding"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Payer"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Ethnicity"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="SDE Race"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <dataRequirement>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+            <mustSupport value="gender"></mustSupport>
+            <mustSupport value="gender.value"></mustSupport>
+            <mustSupport value="url"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Condition"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"></profile>
+            <mustSupport value="id"></mustSupport>
+            <mustSupport value="id.value"></mustSupport>
+            <mustSupport value="code"></mustSupport>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1008"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1018"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1496"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1141"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1187"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="condition"></mustSupport>
+            <mustSupport value="condition.reference"></mustSupport>
+            <mustSupport value="condition.reference.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="reasonCode"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1080"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Procedure"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="performed"></mustSupport>
+            <codeFilter>
+               <path value="code"></path>
+               <code>
+                  <system value="http://snomed.info/sct"></system>
+                  <code value="225337009"></code>
+                  <display value="Suicide risk assessment (procedure)"></display>
+               </code>
+            </codeFilter>
+         </dataRequirement>
+         <dataRequirement>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <codeFilter>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></valueSet>
+            </codeFilter>
+         </dataRequirement>
+      </Library>
+   </contained>
+   <extension id="supplementalDataGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="guidance">
+         <valueString value="For every patient evaluated by this measure also identify payer, race, ethnicity and sex"></valueString>
+      </extension>
+      <extension url="usage">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+               <code value="supplemental-data"></code>
+               <display value="Supplemental Data"></display>
+            </coding>
+            <text value="Supplemental Data Guidance"></text>
+         </valueCodeableConcept>
+      </extension>
+   </extension>
+   <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
+      <valueReference>
+         <reference value="#effective-data-requirements"></reference>
+      </valueReference>
+   </extension>
+   <url value="https://madie.cms.gov/Measure/ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></url>
+   <identifier>
+      <use value="usual"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS177FHIR"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:50d1dfcf-e2bf-41e8-bc1c-c607e5a09e79"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
+         </coding>
+      </type>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:9920a350-4525-4cc1-98f3-b80dc323a8c2"></value>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="1365e"></value>
+      <assigner>
+         <display value="CMS Consensus Based Entity"></display>
+      </assigner>
+   </identifier>
+   <identifier>
+      <use value="official"></use>
+      <type>
+         <coding>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
+         </coding>
+      </type>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="177FHIR"></value>
+      <assigner>
+         <display value="CMS"></display>
+      </assigner>
+   </identifier>
+   <version value="0.1.000"></version>
+   <name value="ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></name>
+   <title value="Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk AssessmentFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-06T14:05:22+00:00"></date>
+   <publisher value="Mathematica"></publisher>
+   <contact>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.mathematica.org/"></value>
+      </telecom>
+   </contact>
+   <description value="Percentage of patient visits for those patients aged 6 through 16 at the start of the measurement period with a diagnosis of major depressive disorder (MDD) with an assessment for suicide risk"></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="This eCQM is an episode-based measure. An episode is defined as each eligible encounter for major depressive disorder (MDD) during the measurement period. A suicide risk assessment should be performed at every visit for MDD during the measurement period.  In recognition of the growing use of integrated and team-based care, the diagnosis of depression and the assessment for suicide risk need not be performed by the same provider or clinician.   Suicide risk assessments completed via telehealth services can also meet numerator performance.   Use of a standardized tool(s) or instrument(s) to assess suicide risk will meet numerator performance, so long as the minimum criteria noted above is evaluated. Standardized tools can be mapped to the concept &quot;Intervention, Performed&quot;: &quot;Suicide risk assessment (procedure)&quot; included in the numerator logic below, as no individual suicide risk assessment tool or instrument would satisfy the requirements alone.  To ensure all patients with major depressive disorder (MDD) are assessed for suicide risk, there are two clinical quality measures addressing suicide risk assessment; CMS177 covers children and adolescents aged 6 through 16 at the start of the measurement period, and CMS161 - Adult Major Depressive Disorder (MDD): Suicide Risk Assessment covers the adult population aged 17 years and older at the start of the measurement period.   This FHIR-based measure has been derived from the QDM-based measure: CMS177v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="Copyright 2024 Mathematica Inc. All Rights Reserved. The PCPI and American Medical Association's (AMA) significant past efforts and contributions to the development and updating of the Measure is acknowledged."></copyright>
+   <effectivePeriod>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
+   </effectivePeriod>
+   <author>
+      <name value="American Medical Association (AMA)"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.ama-assn.org/"></value>
+      </telecom>
+   </author>
+   <author>
+      <name value="American Medical Association-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI)"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.ama-assn.org/"></value>
+      </telecom>
+   </author>
+   <author>
+      <name value="Mathematica"></name>
+      <telecom>
+         <system value="url"></system>
+         <value value="https://www.mathematica.org/"></value>
+      </telecom>
+   </author>
+   <library value="https://madie.cms.gov/Library/ChildandAdolescentMajorDepressiveDisorderMDDSuicideRiskAssessmentFHIR"></library>
+   <disclaimer value="The Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.   The Measure, while copyrighted, can be reproduced and distributed, without modification, for noncommercial purposes, e.g., use by health care providers in connection with their practices. Commercial use is defined as the sale, license, or distribution of the Measure for commercial gain, or incorporation of the Measure into a product or service that is sold, licensed or distributed for commercial gain.   Commercial uses of the Measure require a license agreement between the user and Mathematica. Neither Mathematica, the PCPI, nor the American Medical Association (AMA), nor the former AMA-convened Physician Consortium for Performance Improvement(R) (AMA-PCPI), nor their members shall be responsible for any use of the Measure.  Mathematica encourages use of the Measure by other health care professionals, where appropriate.  THE MEASURE AND SPECIFICATIONS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND.  Limited proprietary coding may be contained in the Measure specifications for convenience. A license agreement must be entered prior to a third party’s use of Current Procedural Terminology (CPT[R]) or other proprietary code set contained in the Measure. Any other use of CPT or other coding by a third party is strictly prohibited. Mathematica, the AMA, and former members of the PCPI disclaim all liability for use or accuracy of any CPT(R) or other coding contained in the specifications.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.  Due to technical limitations, registered trademarks are indicated by (R) or [R]."></disclaimer>
+   <rationale value="Research has shown that youth with major depressive disorder (MDD) are at a high risk for suicide attempts and completion - among the most significant and devastating sequelae of the disease (Fontanella et al., 2020). Suicide risk is a critical consideration in children and adolescents with MDD, and an important aspect of care that should be assessed at each visit and subsequently managed to minimize that risk. Additionally, the importance of the assessments is underscored by research (Fontanella et al., 2020; Luoma, Martin, &amp; Pearson, 2002) that indicates that many individuals who die by suicide do make contact with primary care providers and mental health services beforehand. More specifically, approximately 15% of suicide victims aged 35 years or younger had seen a mental health professional within 1 month of suicide while approximately 23% had seen a primary care provider within 1 month of suicide (Luoma, Martin, &amp; Pearson, 2002). A recent analysis of depression severity and suicidal ideation symptom trajectories (Witt et al., 2021) found that suicidal ideation among children and young adults (15-25 years) might not improve with depression symptom severity. This evidence suggests the potential utility of continued suicide risk screening even after improvements in depression symptoms. Better assessment and identification of suicide risk in the health care setting should lead to improved connection to treatment and reduction in suicide attempts and deaths by suicide."></rationale>
+   <clinicalRecommendationStatement value="The evaluation must include assessment for the presence of harm to self or others (Birmaher et al., 2007).  Suicidal behavior exists along a continuum from passive thoughts of death to a clearly developed plan and intent to carry out that plan. Because depression is closely associated with suicidal thoughts and behavior, it is imperative to evaluate these symptoms at the initial and subsequent assessments. For this purpose, low burden tools to track suicidal ideation and behavior such as the Columbia-Suicidal Severity Rating Scale can be used. Also, it is crucial to evaluate the risk (e.g., age, sex, stressors, comorbid conditions, hopelessness, impulsivity) and protective factors (e.g., religious belief, concern not to hurt family) that might influence the desire to attempt suicide. The risk for suicidal behavior increases if there is a history of suicide attempts, comorbid psychiatric disorders (e.g., disruptive disorders, substance abuse), impulsivity and aggression, availability of lethal agents (e.g., firearms), exposure to negative events (e.g., physical or sexual abuse, violence), and a family history of suicidal behavior (Birmaher et al., 2007).  A careful and ongoing evaluation of suicide risk is necessary for all patients with major depressive disorder (Category I). Such an assessment includes specific inquiry about suicidal thoughts, intent, plans, means, and behaviors; identification of specific psychiatric symptoms (e.g., psychosis, severe anxiety, substance use) or general medical conditions that may increase the likelihood of acting on suicidal ideas; assessment of past and, particularly, recent suicidal behavior; delineation of current stressors and potential protective factors (e.g., positive reasons for living, strong social support); and identification of any family history of suicide or mental illness (Category I) (Gelenberg et al., 2010)."></clinicalRecommendationStatement>
+   <group id="64f0dd3c56d636294b157f18">
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="proportion"></code>
+               <display value="Proportion"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
+         <valueCode value="Encounter"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="process"></code>
+               <display value="Process"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="None"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="decrease"></code>
+               <display value="increase"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <population id="EAADF858-A8F8-4AEA-A571-27CFCA95F745">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
+            </coding>
+         </code>
+         <description value="All patient visits for those patients aged 6 through 16 at the start of the measurement period with a diagnosis of major depressive disorder"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
+         </criteria>
+      </population>
+      <population id="FD251731-0487-4A1F-B7CC-D7D2696DB9EE">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="denominator"></code>
+               <display value="Denominator"></display>
+            </coding>
+         </code>
+         <description value="Equals Initial Population"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Denominator"></expression>
+         </criteria>
+      </population>
+      <population id="1B08534C-7722-4B76-B352-4E80C1FA732E">
+         <code>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="numerator"></code>
+               <display value="Numerator"></display>
+            </coding>
+         </code>
+         <description value="Patient visits with an assessment for suicide risk"></description>
+         <criteria>
+            <language value="text/cql-identifier"></language>
+            <expression value="Numerator"></expression>
+         </criteria>
+      </population>
+   </group>
+   <supplementalData id="sde-ethnicity">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Ethnicity"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Ethnicity"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-race">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Race"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Race"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-sex">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Sex"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Sex"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="sde-payer">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="SDE Payer"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Payer"></expression>
+      </criteria>
+   </supplementalData>
+</Measure>

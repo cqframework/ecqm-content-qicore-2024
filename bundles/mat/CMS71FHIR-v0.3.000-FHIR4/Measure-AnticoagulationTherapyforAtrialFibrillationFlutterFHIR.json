@@ -10,6 +10,27 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+        "code": "billing",
+        "display": "Billing"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
         "code": "confirmed",
         "display": "Confirmed"
@@ -38,7 +59,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueString": "0"
@@ -65,10 +86,10 @@
         "valueString": "TJCOverall"
       }, {
         "url": "name",
-        "valueString": "Non Elective Inpatient Encounter"
+        "valueString": "Non Elective Inpatient Encounter with Age"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Non Elective Inpatient Encounter&quot;:\n  [&quot;Encounter&quot;: &quot;Nonelective Inpatient Encounter&quot;] NonElectiveEncounter\n        where NonElectiveEncounter.period ends during day of &quot;Measurement Period&quot;"
+        "valueString": "define &quot;Non Elective Inpatient Encounter with Age&quot;:\n  [&quot;Encounter&quot;: &quot;Nonelective Inpatient Encounter&quot;] NonElectiveEncounter\n        where AgeInYearsAt(date from start of NonElectiveEncounter.period ) &gt;= 18\n         and NonElectiveEncounter.period ends during day of &quot;Measurement Period&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "2"
@@ -80,43 +101,13 @@
         "valueString": "TJCOverall"
       }, {
         "url": "name",
-        "valueString": "All Stroke Encounter"
-      }, {
-        "url": "statement",
-        "valueString": "define &quot;All Stroke Encounter&quot;:\n  &quot;Non Elective Inpatient Encounter&quot; NonElectiveEncounter\n  let ConditionCode: NonElectiveEncounter.principalDiagnosis().code\n    where ( ConditionCode in &quot;Hemorrhagic Stroke&quot;\n       or   ConditionCode in &quot;Ischemic Stroke&quot; )"
-      }, {
-        "url": "displaySequence",
-        "valueString": "3"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "TJCOverall"
-      }, {
-        "url": "name",
-        "valueString": "Encounter with Principal Diagnosis and Age"
-      }, {
-        "url": "statement",
-        "valueString": "define &quot;Encounter with Principal Diagnosis and Age&quot;:\n  &quot;All Stroke Encounter&quot; AllStrokeEncounter\n    where AgeInYearsAt(date from start of AllStrokeEncounter.period ) &gt;= 18"
-      }, {
-        "url": "displaySequence",
-        "valueString": "4"
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "TJCOverall"
-      }, {
-        "url": "name",
         "valueString": "Ischemic Stroke Encounter"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Ischemic Stroke Encounter&quot;:\n  &quot;Encounter with Principal Diagnosis and Age&quot; EncounterWithAge\n    where EncounterWithAge.principalDiagnosis().code in &quot;Ischemic Stroke&quot;"
+        "valueString": "define &quot;Ischemic Stroke Encounter&quot;:\n  &quot;Non Elective Inpatient Encounter with Age&quot; NonElectiveEncounterWithAge\n    where NonElectiveEncounterWithAge.principalDiagnosis().code in &quot;Ischemic Stroke&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueString": "3"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -131,7 +122,7 @@
         "valueString": "define &quot;Encounter with a History of Atrial Ablation&quot;:\n  ( TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter\n      where exists ( [&quot;Procedure&quot;: &quot;Atrial Ablation&quot;] AtrialAblationProcedure\n          where AtrialAblationProcedure.status = &#39;completed&#39;\n            and AtrialAblationProcedure.performed.toInterval ( ) starts before start of IschemicStrokeEncounter.period\n      )\n  )\n    union ( TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter\n        with [&quot;Condition&quot;: &quot;History of Atrial Ablation&quot;] AtrialAblationDiagnosis\n          such that AtrialAblationDiagnosis.verificationStatus is not null\n            and AtrialAblationDiagnosis.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;\n            and AtrialAblationDiagnosis.onset.toInterval ( ) starts before start of IschemicStrokeEncounter.period\n    )\n    union ( TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter\n        with [&quot;Observation&quot;: &quot;History of Atrial Ablation&quot;] AtrialAblationObservation\n          such that AtrialAblationObservation.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n            and AtrialAblationObservation.effective.earliest ( ) on or before end of IschemicStrokeEncounter.period\n    )"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueString": "4"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -146,7 +137,7 @@
         "valueString": "define &quot;Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Flutter&quot;:\n  ( TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter\n      with [&quot;Condition&quot;: &quot;Atrial Fibrillation or Flutter&quot;] AtrialFibrillationFlutter\n        such that AtrialFibrillationFlutter.verificationStatus is not null\n          and AtrialFibrillationFlutter.verificationStatus ~ QICoreCommon.&quot;confirmed&quot;\n          and AtrialFibrillationFlutter.onset.toInterval ( ) starts on or before end of IschemicStrokeEncounter.period\n  )\n    union TJC.&quot;Ischemic Stroke Encounter&quot; IschemicStrokeEncounter\n      where exists ( ( IschemicStrokeEncounter.encounterDiagnosis ( ) ) EncounterDiagnosis\n          where EncounterDiagnosis.code in &quot;Atrial Fibrillation or Flutter&quot;\n      )"
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueString": "5"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -161,7 +152,7 @@
         "valueString": "define &quot;Denominator&quot;:\n  &quot;Encounter with a History of Atrial Ablation&quot;\n    union &quot;Encounter with Prior or Present Diagnosis of Atrial Fibrillation or Flutter&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueString": "6"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -173,10 +164,10 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Denominator&quot; Encounter\n    with [&quot;MedicationRequest&quot;: &quot;Anticoagulant Therapy&quot;] DischargeAnticoagulant\n      such that ( DischargeAnticoagulant.isCommunity ( )\n          or DischargeAnticoagulant.isDischarge ( )\n      )\n        and DischargeAnticoagulant.status in { &#39;active&#39;, &#39;completed&#39; }\n        and DischargeAnticoagulant.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n        and DischargeAnticoagulant.doNotPerform is not true\n        and DischargeAnticoagulant.authoredOn during Encounter.period"
+        "valueString": "define &quot;Numerator&quot;:\n  &quot;Denominator&quot; Encounter\n    with [&quot;MedicationRequest&quot;: &quot;Anticoagulant Therapy&quot;] DischargeAnticoagulant\n      such that ( DischargeAnticoagulant.isCommunity ( )\n          or DischargeAnticoagulant.isDischarge ( )\n      )\n        and DischargeAnticoagulant.status in { &#39;active&#39;, &#39;completed&#39; }\n        and DischargeAnticoagulant.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n        and DischargeAnticoagulant.authoredOn during Encounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueString": "7"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -191,7 +182,7 @@
         "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueString": "8"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -206,7 +197,7 @@
         "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueString": "9"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -218,10 +209,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  TJC.&quot;Encounter with Principal Diagnosis and Age&quot;"
+        "valueString": "define &quot;Initial Population&quot;:\n  TJC.&quot;Ischemic Stroke Encounter&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueString": "10"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -236,7 +227,7 @@
         "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueString": "11"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -251,7 +242,7 @@
         "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueString": "12"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -266,7 +257,7 @@
         "valueString": "define &quot;Intervention Comfort Measures&quot;:\n  ( [&quot;ServiceRequest&quot;: code in &quot;Comfort Measures&quot;] SR\n    where SR.status in { &#39;active&#39;, &#39;completed&#39;, &#39;on-hold&#39; }\n      and SR.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }\n      and SR.doNotPerform is not true\n  )  \n  union ( [&quot;Procedure&quot;: &quot;Comfort Measures&quot;] InterventionPerformed\n        where InterventionPerformed.status in { &#39;completed&#39;, &#39;in-progress&#39; }\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueString": "13"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -281,7 +272,7 @@
         "valueString": "define &quot;Encounter with Comfort Measures during Hospitalization for Patients with Documented Atrial Fibrillation or Flutter&quot;:\n  &quot;Denominator&quot; Encounter\n    with TJC.&quot;Intervention Comfort Measures&quot; ComfortMeasure\n      such that Coalesce(start of ComfortMeasure.performed.toInterval(), ComfortMeasure.authoredOn) during Encounter.hospitalizationWithObservation ( )"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueString": "14"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -296,7 +287,7 @@
         "valueString": "define &quot;Denominator Exclusions&quot;:\n  ( &quot;Denominator&quot; Encounter\n      where Encounter.status = &#39;finished&#39;\n        and ( Encounter.hospitalization.dischargeDisposition in &quot;Discharge To Acute Care Facility&quot;\n            or Encounter.hospitalization.dischargeDisposition in &quot;Left Against Medical Advice&quot;\n            or Encounter.hospitalization.dischargeDisposition in &quot;Patient Expired&quot;\n            or Encounter.hospitalization.dischargeDisposition in &quot;Discharged to Home for Hospice Care&quot;\n            or Encounter.hospitalization.dischargeDisposition in &quot;Discharged to Health Care Facility for Hospice Care&quot;\n        )\n  )\n    union &quot;Encounter with Comfort Measures during Hospitalization for Patients with Documented Atrial Fibrillation or Flutter&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueString": "15"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -311,7 +302,7 @@
         "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "18"
+        "valueString": "16"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -326,7 +317,7 @@
         "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
       }, {
         "url": "displaySequence",
-        "valueString": "19"
+        "valueString": "17"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -341,7 +332,7 @@
         "valueString": "define &quot;Documented Reason for Not Giving Anticoagulant at Discharge&quot;:\n  [&quot;MedicationNotRequested&quot;: medication in &quot;Anticoagulant Therapy&quot;] NoAnticoagulant\n    where ( NoAnticoagulant.reasonCode in &quot;Medical Reason For Not Providing Treatment&quot;\n        or NoAnticoagulant.reasonCode in &quot;Patient Refusal&quot;\n    )\n      and ( NoAnticoagulant.isCommunity ( )\n          or NoAnticoagulant.isDischarge ( )\n      )\n      and NoAnticoagulant.intent in { &#39;order&#39;, &#39;original-order&#39;, &#39;reflex-order&#39;, &#39;filler-order&#39;, &#39;instance-order&#39; }"
       }, {
         "url": "displaySequence",
-        "valueString": "20"
+        "valueString": "18"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -353,10 +344,10 @@
         "valueString": "Denominator Exceptions"
       }, {
         "url": "statement",
-        "valueString": "//BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for both Medication.Request and Medication.Discharge which leaves two blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.\n\n\ndefine &quot;Denominator Exceptions&quot;:\n  &quot;Denominator&quot; Encounter\n    with &quot;Documented Reason for Not Giving Anticoagulant at Discharge&quot; NoDischargeAnticoagulant\n      such that NoDischargeAnticoagulant.authoredOn during Encounter.period"
+        "valueString": "//BONNIEMAT-1617-Since there is an anticipated resolution for STU 5 for Medication.Discharge which leaves one blockers on coverage, will leave the assertion logic as is and update the test cases for coverage.\n\n\ndefine &quot;Denominator Exceptions&quot;:\n  &quot;Denominator&quot; Encounter\n    with &quot;Documented Reason for Not Giving Anticoagulant at Discharge&quot; NoDischargeAnticoagulant\n      such that NoDischargeAnticoagulant.authoredOn during Encounter.period"
       }, {
         "url": "displaySequence",
-        "valueString": "21"
+        "valueString": "19"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -368,10 +359,10 @@
         "valueString": "principalDiagnosis"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1) PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ &quot;Billing&quot;) PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
       }, {
         "url": "displaySequence",
-        "valueString": "22"
+        "valueString": "20"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -386,7 +377,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
       }, {
         "url": "displaySequence",
-        "valueString": "23"
+        "valueString": "21"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -401,7 +392,7 @@
         "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;&gt; ):\n  (choice.toInterval()) period\n    return\n      if (period.&quot;hasStart&quot;()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueString": "24"
+        "valueString": "22"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -416,7 +407,7 @@
         "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueString": "25"
+        "valueString": "23"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -431,7 +422,7 @@
         "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Community\n*/\ndefine fluent function isCommunity(medicationRequest MedicationRequest):\n  exists (medicationRequest.category C\n    where C ~ Community\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "26"
+        "valueString": "24"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -446,7 +437,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "27"
+        "valueString": "25"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -461,7 +452,7 @@
         "valueString": "/*\n@description: Returns true if the given MedicationRequest has a category of Discharge\n*/\ndefine fluent function isDischarge(medicationRequest MedicationRequest):\n  exists (medicationRequest.category C\n    where C ~ Discharge\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "28"
+        "valueString": "26"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -476,7 +467,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "29"
+        "valueString": "27"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -491,7 +482,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "30"
+        "valueString": "28"
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -506,7 +497,7 @@
         "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n  \t\t\t\twhere LastObs.status = &#39;finished&#39;\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n  \t\t\t\twhere LastED.status = &#39;finished&#39;\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueString": "31"
+        "valueString": "29"
       } ]
     } ],
     "status": "active",
@@ -519,23 +510,31 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library TJC",
-      "resource": "Library/TJCOverall|8.11.000"
+      "resource": "Library/TJCOverall|8.14.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library CQMCommon",
-      "resource": "Library/CQMCommon|2.0.000"
+      "resource": "Library/CQMCommon|2.2.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
+    }, {
+      "type": "depends-on",
+      "display": "Code system DiagnosisRole",
+      "resource": "http://terminology.hl7.org/CodeSystem/diagnosis-role"
     }, {
       "type": "depends-on",
       "display": "Code system ConditionVerificationStatusCodes",
@@ -548,10 +547,6 @@
       "type": "depends-on",
       "display": "Value set Nonelective Inpatient Encounter",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.424"
-    }, {
-      "type": "depends-on",
-      "display": "Value set Hemorrhagic Stroke",
-      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.212"
     }, {
       "type": "depends-on",
       "display": "Value set Ischemic Stroke",
@@ -685,15 +680,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "rank", "rank.value", "condition", "condition.reference", "condition.reference.value", "status", "status.value", "hospitalization", "hospitalization.dischargeDisposition" ],
-      "codeFilter": [ {
-        "path": "type",
-        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.424"
-      } ]
-    }, {
-      "type": "Encounter",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "rank", "rank.value", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition" ],
+      "mustSupport": [ "type", "status", "status.value", "period", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
@@ -701,10 +688,18 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "status", "status.value", "period", "rank", "rank.value", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition" ],
+      "mustSupport": [ "type", "status", "status.value", "period", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value", "status", "status.value", "hospitalization", "hospitalization.dischargeDisposition" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.424"
       } ]
     }, {
       "type": "Condition",
@@ -753,7 +748,7 @@
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "doNotPerform", "doNotPerform.value", "authoredOn", "authoredOn.value" ],
+      "mustSupport": [ "medication", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "medication",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.200"
@@ -761,7 +756,7 @@
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "doNotPerform", "doNotPerform.value", "authoredOn", "authoredOn.value" ]
+      "mustSupport": [ "medication.reference", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value" ]
     }, {
       "type": "Medication",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
@@ -797,7 +792,7 @@
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
       "url": "guidance",
-      "valueString": "Patient's Ethnicity:\nHispanic or Latino\nNot Hispanic or Latino Patient's Payer:\nCategories of types of health care payer entities as defined by the US Public Health Data Consortium SOP code system Patient's Race:\nNative Hawaiian or Other Pacific Islander\nAsian\nAmerican Indian or Alaska Native\nOther Race\nWhite\nBlack or African American Patient's Sex:\nGender identity restricted to only Male and Female used in administrative situations requiring a restriction to these two categories."
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity-Patient's Ethnicity:\nHispanic or Latino\nNot Hispanic or Latino \n SDE Payer-Patient's Payer:\nCategories of types of health care payer entities as defined by the US Public Health Data Consortium SOP code system \n SDE Race-Patient's Race:\nNative Hawaiian or Other Pacific Islander\nAsian\nAmerican Indian or Alaska Native\nOther Race\nWhite\nBlack or African American \n SDE Sex-Patient's Sex:\nGender identity restricted to only Male and Female used in administrative situations requiring a restriction to these two categories. \n "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -865,7 +860,7 @@
   "title": "Anticoagulation Therapy for Atrial Fibrillation/FlutterFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-29T15:18:40+00:00",
+  "date": "2024-05-14T18:16:13+00:00",
   "publisher": "The Joint Commission",
   "contact": [ {
     "telecom": [ {
@@ -875,10 +870,8 @@
   } ],
   "description": "Ischemic stroke patients with atrial fibrillation/flutter who are prescribed or continuing to take anticoagulation therapy at hospital discharge",
   "purpose": "UNKNOWN",
-  "usage": "The \"Nonelective Inpatient Encounter\" value set intends to capture all non-scheduled hospitalizations. This value set is a subset of the \"Inpatient Encounter\" value set, excluding concepts that specifically refer to elective hospital admissions. Non-elective Inpatient Encounters include emergency, urgent, and unplanned admissions.\n\nThe \"Medication, Discharge\" datatype refers to the discharge medication list and is intended to express medications ordered for post-discharge use.\n\nThe denominator population includes patients with inpatient hospitalizations and patients from Acute Hospital Care at Home programs, who are treated and billed as inpatients but receive care in their home.\n\nThis eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period. This FHIR-based measure has been derived from the QDM-based measure: CMS71v13. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
+  "usage": "The \"Nonelective Inpatient Encounter\" value set intends to capture all non-scheduled hospitalizations. This value set is a subset of the \"Inpatient Encounter\" value set, excluding concepts that specifically refer to elective hospital admissions. Non-elective Inpatient Encounters include emergency, urgent, and unplanned admissions.\n\nThe \"Medication, Discharge\" datatype refers to the discharge medication list and is intended to express medications ordered for post-discharge use.\n\nThe denominator population includes patients with inpatient hospitalizations and patients from Acute Hospital Care at Home programs, who are treated and billed as inpatients but receive care in their home.\n\nThis eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period. This FHIR-based measure has been derived from the QDM-based measure: CMS71v14. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
   "copyright": "Measure specifications are in the Public Domain.\n\nLOINC(R) copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 copyright 2023 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-29",
-  "lastReviewDate": "2023-11-29",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -917,6 +910,18 @@
           "display": "Process"
         } ]
       }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
+        } ]
+      }
     } ],
     "description": "Ischemic stroke patients with atrial fibrillation/flutter who are prescribed or continuing to take anticoagulation therapy at hospital discharge",
     "population": [ {
@@ -928,7 +933,7 @@
           "display": "Initial Population"
         } ]
       },
-      "description": "Inpatient hospitalizations (non-elective admissions) for patients age 18 and older, discharged from inpatient care with a principal diagnosis of ischemic or hemmorhagic stroke, and ends during measurement period",
+      "description": "Inpatient hospitalizations (non-elective admissions) for patients age 18 and older, discharged from inpatient care with a principal diagnosis of ischemic stroke, that ends during the measurement period",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Initial Population"
@@ -974,18 +979,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "1955bf29-cd7e-4c5d-9d9a-e754897d5924",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "4511743B-B054-4A08-800B-C4624450C38C",

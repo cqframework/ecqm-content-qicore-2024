@@ -1,1155 +1,1346 @@
 <Measure xmlns="http://hl7.org/fhir">
-   <id value="HybridHospitalWideMortalityFHIR"/>
+   <id value="HybridHospitalWideMortalityFHIR"></id>
    <meta>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"/>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"/>
-      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"/>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm"></profile>
+      <profile value="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm"></profile>
    </meta>
    <contained>
       <Library xmlns="http://hl7.org/fhir">
-         <id value="effective-data-requirements"/>
+         <id value="effective-data-requirements"></id>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
             <valueCoding>
-               <system value="http://loinc.org"/>
-               <code value="8480-6"/>
-               <display value="Systolic BP"/>
+               <system value="http://loinc.org"></system>
+               <code value="8480-6"></code>
+               <display value="Systolic BP"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="M"></code>
+               <display value="Male"></display>
+            </valueCoding>
+         </extension>
+         <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode">
+            <valueCoding>
+               <system value="http://hl7.org/fhir/administrative-gender"></system>
+               <code value="F"></code>
+               <display value="Female"></display>
             </valueCoding>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Inpatient Encounters"/>
+               <valueString value="Inpatient Encounters"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Inpatient Encounters&amp;quot;:   [Encounter: &amp;quot;Encounter Inpatient&amp;quot;] InpatientEncounter     with ( [Coverage: &amp;quot;Medicare FFS payer&amp;quot;]       union [Coverage: &amp;quot;Medicare Advantage payer&amp;quot;] ) MedicarePayer       such that ( InpatientEncounter.hospitalizationWithObservationAndOutpatientSurgeryService ( ).lengthInDays ( ) ) &amp;lt; 365         and InpatientEncounter.status = &amp;#39;finished&amp;#39;         and AgeInYearsAt(date from start of InpatientEncounter.period) in Interval[65, 94]         and InpatientEncounter.period ends during day of &amp;quot;Measurement Period&amp;quot;"/>
+               <valueString value="define &amp;quot;Inpatient Encounters&amp;quot;:   [Encounter: &amp;quot;Encounter Inpatient&amp;quot;] InpatientEncounter     with ( [Coverage: &amp;quot;Medicare FFS payer&amp;quot;]       union [Coverage: &amp;quot;Medicare Advantage payer&amp;quot;] ) MedicarePayer       such that ( InpatientEncounter.hospitalizationWithObservationAndOutpatientSurgeryService ( ).lengthInDays ( ) ) &amp;lt; 365         and InpatientEncounter.status = &amp;#39;finished&amp;#39;         and AgeInYearsAt(date from start of InpatientEncounter.period) in Interval[65, 94]         and InpatientEncounter.period ends during day of &amp;quot;Measurement Period&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="0"/>
+               <valueString value="0"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Bicarbonate Lab Test"/>
+               <valueString value="Encounter with First Bicarbonate Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Bicarbonate Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstBicarbonateLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Bicarbonate lab test&amp;quot;] BicarbonateLab         where BicarbonateLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and BicarbonateLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and BicarbonateLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstBicarbonateResult: FirstBicarbonateLab.value as Quantity,       Timing: FirstBicarbonateLab.issued     }"/>
+               <valueString value="/* original  define &amp;quot;Blood Pressure Reading&amp;quot;: [&amp;quot;observation-bp&amp;quot;] BloodPressure where BloodPressure.status in {&amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39;}*/   define &amp;quot;Encounter with First Bicarbonate Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstBicarbonateLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Bicarbonate lab test&amp;quot;] BicarbonateLab         where BicarbonateLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and BicarbonateLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and BicarbonateLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstBicarbonateResult: FirstBicarbonateLab.value as Quantity,       Timing: FirstBicarbonateLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="1"/>
+               <valueString value="1"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Heart Rate"/>
+               <valueString value="Encounter with First Heart Rate"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Heart Rate&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstHeartRate: First([&amp;quot;observation-heartrate&amp;quot;] HeartRate         where HeartRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and HeartRate.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and HeartRate.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstHeartRateResult: FirstHeartRate.value as Quantity,       Timing: FirstHeartRate.effective.earliest ( )     }"/>
+               <valueString value="define &amp;quot;Encounter with First Heart Rate&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstHeartRate: First([&amp;quot;observation-heartrate&amp;quot;] HeartRate         where HeartRate.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and HeartRate.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and HeartRate.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstHeartRateResult: FirstHeartRate.value as Quantity,       Timing: FirstHeartRate.effective.earliest ( )     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="2"/>
+               <valueString value="2"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First White Blood Cells Lab Test"/>
+               <valueString value="Encounter with First White Blood Cells Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First White Blood Cells Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstWhiteBloodCellLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;White blood cells count lab test&amp;quot;] WhiteBloodCellLab         where WhiteBloodCellLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and WhiteBloodCellLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and WhiteBloodCellLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstWhiteBloodCellResult: FirstWhiteBloodCellLab.value as Quantity,       Timing: FirstWhiteBloodCellLab.issued     }"/>
+               <valueString value="define &amp;quot;Encounter with First White Blood Cells Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstWhiteBloodCellLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;White blood cells count lab test&amp;quot;] WhiteBloodCellLab         where WhiteBloodCellLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and WhiteBloodCellLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and WhiteBloodCellLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstWhiteBloodCellResult: FirstWhiteBloodCellLab.value as Quantity,       Timing: FirstWhiteBloodCellLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="3"/>
+               <valueString value="3"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Hematocrit Lab Test"/>
+               <valueString value="Encounter with First Hematocrit Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Hematocrit Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstHematocritLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Hematocrit lab test&amp;quot;] HematocritLab         where HematocritLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and HematocritLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and HematocritLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstHematocritResult: FirstHematocritLab.value as Quantity,       Timing: FirstHematocritLab.issued     }"/>
+               <valueString value="define &amp;quot;Encounter with First Hematocrit Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstHematocritLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Hematocrit lab test&amp;quot;] HematocritLab         where HematocritLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and HematocritLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and HematocritLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstHematocritResult: FirstHematocritLab.value as Quantity,       Timing: FirstHematocritLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="4"/>
+               <valueString value="4"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Platelet Lab Test"/>
+               <valueString value="Encounter with First Platelet Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Platelet Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstPlateletLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Platelet count lab test&amp;quot;] PlateletLab         where PlateletLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and PlateletLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and PlateletLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstPlateletResult: FirstPlateletLab.value as Quantity,       Timing: FirstPlateletLab.issued     }"/>
+               <valueString value="define &amp;quot;Encounter with First Platelet Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstPlateletLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Platelet count lab test&amp;quot;] PlateletLab         where PlateletLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and PlateletLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and PlateletLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstPlateletResult: FirstPlateletLab.value as Quantity,       Timing: FirstPlateletLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="5"/>
+               <valueString value="5"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Race"/>
+               <valueString value="Qualifying Blood Pressure Reading"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"/>
+               <valueString value="/* original  define &amp;quot;Encounter with First Systolic Blood Pressure&amp;quot;: &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient let FirstSystolicBP: First(&amp;quot;Blood Pressure Reading&amp;quot; BPReading where BPReading.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes] return singleton from(BPReading.component SBPComponent where SBPComponent.code ~ &amp;quot;Systolic blood pressure&amp;quot; return Tuple { EncounterId: EncounterInpatient.id, FirstSystolicBP: SBPComponent.value as Quantity, Timing: BPReading.effective.earliest() }  ) sort by Timing ascending)*/   define &amp;quot;Qualifying Blood Pressure Reading&amp;quot;:   [&amp;quot;observation-bp&amp;quot;] BPReading     where BPReading.effective.earliest ( ) during day of &amp;quot;Measurement Period&amp;quot;       and BPReading.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="6"/>
+               <valueString value="6"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Race"/>
+               <valueString value="SDE Race"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   Patient.race R     return Tuple {       codes: R.ombCategory union R.detailed,       display: R.text     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="7"/>
+               <valueString value="7"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Blood Pressure Reading"/>
+               <valueString value="SDE Race"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Blood Pressure Reading&amp;quot;:   [&amp;quot;observation-bp&amp;quot;] BloodPressure     where BloodPressure.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }"/>
+               <valueString value="define &amp;quot;SDE Race&amp;quot;:   SDE.&amp;quot;SDE Race&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="8"/>
+               <valueString value="8"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Systolic Blood Pressure"/>
+               <valueString value="Test2"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Systolic Blood Pressure&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstSystolicBP: First(&amp;quot;Blood Pressure Reading&amp;quot; BPReading         where BPReading.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]         return singleton from(BPReading.component SBPComponent             where SBPComponent.code ~ &amp;quot;Systolic blood pressure&amp;quot;             return Tuple {               EncounterId: EncounterInpatient.id,               FirstSystolicBP: SBPComponent.value as Quantity,               Timing: BPReading.effective.earliest()             }         )         sort by Timing ascending     )"/>
+               <valueString value="define &amp;quot;Test2&amp;quot;:   First(&amp;quot;Qualifying Blood Pressure Reading&amp;quot; SBPReading       with &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient         such that SBPReading.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]       return singleton from(SBPReading.component SBPComponent           where SBPComponent.code ~ &amp;quot;Systolic blood pressure&amp;quot;           return SBPComponent.value as Quantity       )       sort asc   )"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="9"/>
+               <valueString value="9"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Sex"/>
+               <valueString value="SDE Sex"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case       when Patient.gender = &amp;#39;male&amp;#39; then Code { code: &amp;#39;M&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Male&amp;#39; }       when Patient.gender = &amp;#39;female&amp;#39; then Code { code: &amp;#39;F&amp;#39;, system: &amp;#39;http://hl7.org/fhir/v3/AdministrativeGender&amp;#39;, display: &amp;#39;Female&amp;#39; }       else null     end"/>
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   case     when Patient.gender = &amp;#39;male&amp;#39; then &amp;quot;M&amp;quot;     when Patient.gender = &amp;#39;female&amp;#39; then &amp;quot;F&amp;quot;     else null   end"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="10"/>
+               <valueString value="10"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Sex"/>
+               <valueString value="SDE Sex"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Sex&amp;quot;:   SDE.&amp;quot;SDE Sex&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="11"/>
+               <valueString value="11"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Creatinine Lab Test"/>
+               <valueString value="Encounter with First Creatinine Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Creatinine Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstCreatinineLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Creatinine lab test&amp;quot;] CreatinineLab         where CreatinineLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and CreatinineLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and CreatinineLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstCreatinineResult: FirstCreatinineLab.value as Quantity,       Timing: FirstCreatinineLab.issued     }"/>
+               <valueString value="define &amp;quot;Encounter with First Creatinine Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstCreatinineLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Creatinine lab test&amp;quot;] CreatinineLab         where CreatinineLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and CreatinineLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and CreatinineLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstCreatinineResult: FirstCreatinineLab.value as Quantity,       Timing: FirstCreatinineLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="12"/>
+               <valueString value="12"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Body Temperature"/>
+               <valueString value="Encounter with First Body Temperature"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Body Temperature&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstTemperature: First([&amp;quot;observation-bodytemp&amp;quot;] temperature         where temperature.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and temperature.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and temperature.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstTemperatureResult: FirstTemperature.value as Quantity,       Timing: FirstTemperature.effective.earliest ( )     }"/>
+               <valueString value="define &amp;quot;Encounter with First Body Temperature&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstTemperature: First([&amp;quot;observation-bodytemp&amp;quot;] temperature         where temperature.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and temperature.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and temperature.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstTemperatureResult: FirstTemperature.value as Quantity,       Timing: FirstTemperature.effective.earliest ( )     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="13"/>
+               <valueString value="13"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Payer"/>
+               <valueString value="SDE Payer"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"/>
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   [Coverage: type in &amp;quot;Payer Type&amp;quot;] Payer     return {       code: Payer.type,       period: Payer.period     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="14"/>
+               <valueString value="14"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Payer"/>
+               <valueString value="SDE Payer"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Payer&amp;quot;:   SDE.&amp;quot;SDE Payer&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="15"/>
+               <valueString value="15"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Initial Population"/>
+               <valueString value="Initial Population"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Initial Population&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot;"/>
+               <valueString value="define &amp;quot;Initial Population&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="16"/>
+               <valueString value="16"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="SupplementalDataElements"/>
+               <valueString value="SupplementalDataElements"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Ethnicity"/>
+               <valueString value="SDE Ethnicity"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"/>
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   Patient.ethnicity E     return Tuple {       codes: { E.ombCategory } union E.detailed,       display: E.text     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="17"/>
+               <valueString value="17"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="SDE Ethnicity"/>
+               <valueString value="SDE Ethnicity"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"/>
+               <valueString value="define &amp;quot;SDE Ethnicity&amp;quot;:   SDE.&amp;quot;SDE Ethnicity&amp;quot;"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="18"/>
+               <valueString value="18"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Oxygen Saturation"/>
+               <valueString value="Encounter with First Oxygen Saturation"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Oxygen Saturation&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstOxygenSat: First([Observation: &amp;quot;Oxygen Saturation by Pulse Oximetry&amp;quot;] O2Saturation         where O2Saturation.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and O2Saturation.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and O2Saturation.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstOxygenSatResult: FirstOxygenSat.value as Quantity,       Timing: FirstOxygenSat.effective.earliest ( )     }"/>
+               <valueString value="define &amp;quot;Encounter with First Oxygen Saturation&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstOxygenSat: First([Observation: &amp;quot;Oxygen Saturation by Pulse Oximetry&amp;quot;] O2Saturation         where O2Saturation.effective.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 120 minutes]           and O2Saturation.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and O2Saturation.value is not null         sort by effective.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstOxygenSatResult: FirstOxygenSat.value as Quantity,       Timing: FirstOxygenSat.effective.earliest ( )     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="19"/>
+               <valueString value="19"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="HybridHospitalWideMortalityFHIR"/>
+               <valueString value="HybridHospitalWideMortalityFHIR"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="Encounter with First Sodium Lab Test"/>
+               <valueString value="Encounter with First Sodium Lab Test"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define &amp;quot;Encounter with First Sodium Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstSodiumLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Sodium lab test&amp;quot;] SodiumLab         where SodiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and SodiumLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and SodiumLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstSodiumResult: FirstSodiumLab.value as Quantity,       Timing: FirstSodiumLab.issued     }"/>
+               <valueString value="define &amp;quot;Encounter with First Sodium Lab Test&amp;quot;:   &amp;quot;Inpatient Encounters&amp;quot; EncounterInpatient     let FirstSodiumLab: First([&amp;quot;USCoreLaboratoryResultObservationProfile&amp;quot;: &amp;quot;Sodium lab test&amp;quot;] SodiumLab         where SodiumLab.issued.earliest() during Interval[start of EncounterInpatient.period - 1440 minutes, start of EncounterInpatient.period + 1440 minutes]           and SodiumLab.status in { &amp;#39;final&amp;#39;, &amp;#39;amended&amp;#39;, &amp;#39;corrected&amp;#39; }           and SodiumLab.value is not null         sort by issued.earliest()     )     return {       EncounterId: EncounterInpatient.id,       FirstSodiumResult: FirstSodiumLab.value as Quantity,       Timing: FirstSodiumLab.issued     }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="20"/>
+               <valueString value="20"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="CQMCommon"/>
+               <valueString value="CQMCommon"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="lengthInDays"/>
+               <valueString value="lengthInDays"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Calculates the difference in calendar days between the start and end of the given interval. */ define fluent function lengthInDays(Value Interval&amp;lt;DateTime&amp;gt; ):   difference in days between start of Value and end of Value"/>
+               <valueString value="/* @description: Calculates the difference in calendar days between the start and end of the given interval. */ define fluent function lengthInDays(Value Interval&amp;lt;DateTime&amp;gt; ):   difference in days between start of Value and end of Value"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="21"/>
+               <valueString value="21"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="CQMCommon"/>
+               <valueString value="CQMCommon"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="hospitalizationWithObservationAndOutpatientSurgeryService"/>
+               <valueString value="hospitalizationWithObservationAndOutpatientSurgeryService"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter. */ define fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter &amp;quot;Encounter&amp;quot; ):   TheEncounter Visit    let ObsVisit: Last([Encounter: &amp;quot;Observation Services&amp;quot;] LastObs      where LastObs.status = &amp;#39;finished&amp;#39;           and LastObs.period ends 1 hour or less on or before start of Visit.period      sort by end of period      ),      VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),      EDVisit: Last([Encounter: &amp;quot;Emergency Department Visit&amp;quot;] LastED      where LastED.status = &amp;#39;finished&amp;#39;           and LastED.period ends 1 hour or less on or before VisitStart      sort by end of period      ),      VisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),      OutpatientSurgeryVisit: Last([Encounter: &amp;quot;Outpatient Surgery Service&amp;quot;] LastSurgeryOP      where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED      sort by end of period      )    return Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"/>
+               <valueString value="/* @description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter. */ define fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter &amp;quot;Encounter&amp;quot; ):   TheEncounter Visit    let ObsVisit: Last([Encounter: &amp;quot;Observation Services&amp;quot;] LastObs      where LastObs.status = &amp;#39;finished&amp;#39;           and LastObs.period ends 1 hour or less on or before start of Visit.period      sort by end of period      ),      VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),      EDVisit: Last([Encounter: &amp;quot;Emergency Department Visit&amp;quot;] LastED      where LastED.status = &amp;#39;finished&amp;#39;           and LastED.period ends 1 hour or less on or before VisitStart      sort by end of period      ),      VisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),      OutpatientSurgeryVisit: Last([Encounter: &amp;quot;Outpatient Surgery Service&amp;quot;] LastSurgeryOP      where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED      sort by end of period      )    return Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="22"/>
+               <valueString value="22"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="QICoreCommon"/>
+               <valueString value="QICoreCommon"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="earliest"/>
+               <valueString value="earliest"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&amp;lt;DateTime, Quantity, Interval&amp;lt;DateTime&amp;gt;, Interval&amp;lt;Quantity&amp;gt;&amp;gt; ):   (choice.toInterval()) period     return       if (period.&amp;quot;hasStart&amp;quot;()) then start of period       else end of period"/>
+               <valueString value="/* @description: Given an interval, return the starting point if the interval has a starting boundary specified, otherwise, return the ending point */ define fluent function earliest(choice Choice&amp;lt;DateTime, Quantity, Interval&amp;lt;DateTime&amp;gt;, Interval&amp;lt;Quantity&amp;gt;&amp;gt; ):   (choice.toInterval()) period     return       if (period.&amp;quot;hasStart&amp;quot;()) then start of period       else end of period"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="23"/>
+               <valueString value="23"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="FHIRHelpers"/>
+               <valueString value="FHIRHelpers"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="ToString"/>
+               <valueString value="ToString"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="define function ToString(value uri): value.value"/>
+               <valueString value="define function ToString(value uri): value.value"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="24"/>
+               <valueString value="24"></valueString>
             </extension>
          </extension>
          <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition">
             <extension url="libraryName">
-               <valueString value="FHIRHelpers"/>
+               <valueString value="FHIRHelpers"></valueString>
             </extension>
             <extension url="name">
-               <valueString value="ToCode"/>
+               <valueString value="ToCode"></valueString>
             </extension>
             <extension url="statement">
-               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"/>
+               <valueString value="/* @description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code. */ define function ToCode(coding FHIR.Coding):     if coding is null then         null     else         System.Code {           code: coding.code.value,           system: coding.system.value,           version: coding.version.value,           display: coding.display.value         }"></valueString>
             </extension>
             <extension url="displaySequence">
-               <valueString value="25"/>
+               <valueString value="25"></valueString>
             </extension>
          </extension>
-         <status value="active"/>
+         <status value="active"></status>
          <type>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/library-type"/>
-               <code value="module-definition"/>
+               <system value="http://terminology.hl7.org/CodeSystem/library-type"></system>
+               <code value="module-definition"></code>
             </coding>
          </type>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library CQMCommon"/>
-            <resource value="Library/CQMCommon|2.0.000"/>
+            <type value="depends-on"></type>
+            <display value="Library CQMCommon"></display>
+            <resource value="Library/CQMCommon|2.2.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library FHIRHelpers"/>
-            <resource value="Library/FHIRHelpers|4.3.000"/>
+            <type value="depends-on"></type>
+            <display value="Library FHIRHelpers"></display>
+            <resource value="Library/FHIRHelpers|4.4.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library QICoreCommon"/>
-            <resource value="Library/QICoreCommon|2.0.000"/>
+            <type value="depends-on"></type>
+            <display value="Library QICoreCommon"></display>
+            <resource value="Library/QICoreCommon|2.1.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Library SDE"/>
-            <resource value="Library/SupplementalDataElements|3.4.000"/>
+            <type value="depends-on"></type>
+            <display value="Library SDE"></display>
+            <resource value="Library/SupplementalDataElements|3.5.000"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Code system LOINC"/>
-            <resource value="http://loinc.org"/>
+            <type value="depends-on"></type>
+            <display value="Code system LOINC"></display>
+            <resource value="http://loinc.org"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Encounter Inpatient"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"/>
+            <type value="depends-on"></type>
+            <display value="Code system AdministrativeGender"></display>
+            <resource value="http://hl7.org/fhir/administrative-gender"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Medicare FFS payer"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.10"/>
+            <type value="depends-on"></type>
+            <display value="Value set Encounter Inpatient"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Medicare Advantage payer"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.12"/>
+            <type value="depends-on"></type>
+            <display value="Value set Medicare FFS payer"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.10"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Observation Services"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"/>
+            <type value="depends-on"></type>
+            <display value="Value set Medicare Advantage payer"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.12"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Emergency Department Visit"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"/>
+            <type value="depends-on"></type>
+            <display value="Value set Observation Services"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Outpatient Surgery Service"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"/>
+            <type value="depends-on"></type>
+            <display value="Value set Emergency Department Visit"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Bicarbonate lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.139"/>
+            <type value="depends-on"></type>
+            <display value="Value set Outpatient Surgery Service"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set White blood cells count lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129"/>
+            <type value="depends-on"></type>
+            <display value="Value set Bicarbonate lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.139"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Hematocrit lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.114"/>
+            <type value="depends-on"></type>
+            <display value="Value set White blood cells count lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Platelet count lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.127"/>
+            <type value="depends-on"></type>
+            <display value="Value set Hematocrit lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.114"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Creatinine lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.2363"/>
+            <type value="depends-on"></type>
+            <display value="Value set Platelet count lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.127"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Payer Type"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+            <type value="depends-on"></type>
+            <display value="Value set Creatinine lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.2363"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Oxygen Saturation by Pulse Oximetry"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.151"/>
+            <type value="depends-on"></type>
+            <display value="Value set Payer Type"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></resource>
          </relatedArtifact>
          <relatedArtifact>
-            <type value="depends-on"/>
-            <display value="Value set Sodium lab test"/>
-            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.119"/>
+            <type value="depends-on"></type>
+            <display value="Value set Oxygen Saturation by Pulse Oximetry"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.151"></resource>
+         </relatedArtifact>
+         <relatedArtifact>
+            <type value="depends-on"></type>
+            <display value="Value set Sodium lab test"></display>
+            <resource value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.119"></resource>
          </relatedArtifact>
          <parameter>
-            <name value="Measurement Period"/>
-            <use value="in"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Period"/>
+            <name value="Measurement Period"></name>
+            <use value="in"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Period"></type>
          </parameter>
          <parameter>
-            <name value="Initial Population"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Initial Population"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Bicarbonate Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Qualifying Blood Pressure Reading"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Heart Rate"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="SDE Race"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First White Blood Cells Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Test2"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Quantity"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Hematocrit Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="SDE Sex"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Coding"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Platelet Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="SDE Payer"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Race"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Resource"/>
+            <name value="SDE Ethnicity"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="1"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Systolic Blood Pressure"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Bicarbonate Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Sex"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Coding"/>
+            <name value="Encounter with First Heart Rate"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Creatinine Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First White Blood Cells Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Body Temperature"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Hematocrit Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Payer"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Platelet Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="SDE Ethnicity"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Creatinine Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Oxygen Saturation"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Body Temperature"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <parameter>
-            <name value="Encounter with First Sodium Lab Test"/>
-            <use value="out"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type value="Resource"/>
+            <name value="Encounter with First Oxygen Saturation"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
+         </parameter>
+         <parameter>
+            <name value="Encounter with First Sodium Lab Test"></name>
+            <use value="out"></use>
+            <min value="0"></min>
+            <max value="*"></max>
+            <type value="Resource"></type>
          </parameter>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="period"/>
-            <mustSupport value="id"/>
-            <mustSupport value="id.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="id"></mustSupport>
+            <mustSupport value="id.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="period"/>
-            <mustSupport value="id"/>
-            <mustSupport value="id.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="id"></mustSupport>
+            <mustSupport value="id.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
-            <mustSupport value="id"/>
-            <mustSupport value="id.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="id"></mustSupport>
+            <mustSupport value="id.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Encounter"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"/>
-            <mustSupport value="type"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="period"/>
-            <mustSupport value="id"/>
-            <mustSupport value="id.value"/>
+            <type value="Encounter"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="period"></mustSupport>
+            <mustSupport value="id"></mustSupport>
+            <mustSupport value="id.value"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Patient"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"/>
-            <mustSupport value="url"/>
-            <mustSupport value="extension"/>
-            <mustSupport value="gender"/>
-            <mustSupport value="gender.value"/>
+            <type value="Patient"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient"></profile>
+            <mustSupport value="url"></mustSupport>
+            <mustSupport value="extension"></mustSupport>
+            <mustSupport value="gender"></mustSupport>
+            <mustSupport value="gender.value"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Coverage"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"/>
-            <mustSupport value="type"/>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.10"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.10"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Coverage"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"/>
-            <mustSupport value="type"/>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.12"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.12"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Coverage"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"/>
-            <mustSupport value="type"/>
-            <mustSupport value="period"/>
+            <type value="Coverage"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage"></profile>
+            <mustSupport value="type"></mustSupport>
+            <mustSupport value="period"></mustSupport>
             <codeFilter>
-               <path value="type"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"/>
+               <path value="type"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.139"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.139"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.129"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.114"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.114"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.127"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.127"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.2363"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.2363"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"/>
-            <mustSupport value="code"/>
-            <mustSupport value="issued"/>
-            <mustSupport value="issued.value"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="issued"></mustSupport>
+            <mustSupport value="issued.value"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.119"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.119"></valueSet>
             </codeFilter>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/StructureDefinition/heartrate"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/StructureDefinition/heartrate"></profile>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/StructureDefinition/bp"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="component"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/StructureDefinition/bp"></profile>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="component"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/StructureDefinition/bodytemp"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/StructureDefinition/bodytemp"></profile>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
          </dataRequirement>
          <dataRequirement>
-            <type value="Observation"/>
-            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"/>
-            <mustSupport value="code"/>
-            <mustSupport value="effective"/>
-            <mustSupport value="status"/>
-            <mustSupport value="status.value"/>
-            <mustSupport value="value"/>
+            <type value="Observation"></type>
+            <profile value="http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"></profile>
+            <mustSupport value="code"></mustSupport>
+            <mustSupport value="effective"></mustSupport>
+            <mustSupport value="status"></mustSupport>
+            <mustSupport value="status.value"></mustSupport>
+            <mustSupport value="value"></mustSupport>
             <codeFilter>
-               <path value="code"/>
-               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.151"/>
+               <path value="code"></path>
+               <valueSet value="http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1045.151"></valueSet>
             </codeFilter>
          </dataRequirement>
       </Library>
    </contained>
    <extension id="supplementalDataGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="guidance">
+         <valueString value="For hospitalizations in the Initial Population, report the FIRST value for vital signs (physical exams) resulted within the 24 hours prior to the inpatient admission. If no values were resulted in the 24 hours prior to the admission (for example, for patients directly admitted to the hospital) report the first value resulted within 2 hours after the start of the inpatient admission.   The physical exam CCDEs are as follows::  Body Temperature Heart rate Oxygen saturation (by pulse oximetry) Systolic blood pressure  For laboratory test results, report the FIRST value resulted within the 24 hours prior to admission. If there are no values in the 24 hours prior to admission, report the first value resulted within 24 hours after the start of the inpatient admission.   The laboratory tests CCDEs are as follows:  Bicarbonate (or carbon dioxide, see Bicarbonate Lab Test value set) Creatinine  Hematocrit Platelet Sodium White blood cell count  First values for the CCDEs may be resulted in the emergency department or other hospital outpatient locations within the hospital facility before a patient is subsequently admitted to the same hospital. First values for these data elements may also be resulted in an inpatient location for directly admitted patients who do not receive care in the emergency department or other hospital outpatient/same day surgery locations before admission.    NOTE: Do not report ALL values on a hospitalization during the entire admission. Only report the FIRST resulted value for EACH CCDE collected in the appropriate timeframe, if available.  For every patient in the Initial Population, also identify payer, race, ethnicity and sex."></valueString>
+      </extension>
       <extension url="usage">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-               <code value="supplemental-data"/>
-               <display value="Supplemental Data"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+               <code value="supplemental-data"></code>
+               <display value="Supplemental Data"></display>
             </coding>
-            <text value="Supplemental Data Guidance"/>
+            <text value="Supplemental Data Guidance"></text>
+         </valueCodeableConcept>
+      </extension>
+   </extension>
+   <extension id="riskAdjustmentVariableGuidance" url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance">
+      <extension url="guidance">
+         <valueString value="For a detailed description of how the core clinical data elements (CCDEs)are used in the Hybrid HWM measure risk adjustment model, see the Hybrid HWM Measure Methodology Report on CMS.gov here: https://qualitynet.cms.gov/inpatient/measures/hybrid/methodology"></valueString>
+      </extension>
+      <extension url="usage">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+               <code value="risk-adjustment-factor"></code>
+               <display value="Risk Adjustment Factor"></display>
+            </coding>
+            <text value="Risk Adjustment Variable Guidance"></text>
          </valueCodeableConcept>
       </extension>
    </extension>
    <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements">
       <valueReference>
-         <reference value="#effective-data-requirements"/>
+         <reference value="#effective-data-requirements"></reference>
       </valueReference>
    </extension>
-   <url value="https://madie.cms.gov/Measure/HybridHospitalWideMortalityFHIR"/>
+   <url value="https://madie.cms.gov/Measure/HybridHospitalWideMortalityFHIR"></url>
    <identifier>
-      <use value="usual"/>
+      <use value="usual"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="short-name"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="short-name"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/shortName"/>
-      <value value="CMS844FHIR"/>
+      <system value="https://madie.cms.gov/measure/shortName"></system>
+      <value value="CMS844FHIR"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="version-independent"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-independent"></code>
          </coding>
       </type>
-      <system value="urn:ietf:rfc:3986"/>
-      <value value="urn:uuid:965255e9-dfeb-42d0-8416-2c4b7ecc5109"/>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:965255e9-dfeb-42d0-8416-2c4b7ecc5109"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="version-specific"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="version-specific"></code>
          </coding>
       </type>
-      <system value="urn:ietf:rfc:3986"/>
-      <value value="urn:uuid:2c92808482113ece0182c5d4fc662f1a"/>
+      <system value="urn:ietf:rfc:3986"></system>
+      <value value="urn:uuid:9a5510d6-6e1b-48a6-8aa3-7540ce826466"></value>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="endorser"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="endorser"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/nqfId"/>
-      <value value="3502"/>
+      <system value="https://madie.cms.gov/measure/cbeId"></system>
+      <value value="3502"></value>
       <assigner>
-         <display value="NQF"/>
+         <display value="CMS Consensus Based Entity"></display>
       </assigner>
    </identifier>
    <identifier>
-      <use value="official"/>
+      <use value="official"></use>
       <type>
          <coding>
-            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"/>
-            <code value="publisher"/>
+            <system value="http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type"></system>
+            <code value="publisher"></code>
          </coding>
       </type>
-      <system value="https://madie.cms.gov/measure/cmsId"/>
-      <value value="844FHIR"/>
+      <system value="https://madie.cms.gov/measure/cmsId"></system>
+      <value value="844FHIR"></value>
       <assigner>
-         <display value="CMS"/>
+         <display value="CMS"></display>
       </assigner>
    </identifier>
-   <version value="0.0.001"/>
-   <name value="HybridHospitalWideMortalityFHIR"/>
-   <title value="Core Clinical Data Elements for the Hybrid Hospital-Wide (All-Condition, All-Procedure) Risk-Standardized Mortality Measure (HWM)FHIR"/>
-   <status value="draft"/>
-   <experimental value="true"/>
-   <date value="2023-11-28T22:47:49+00:00"/>
-   <publisher value="Centers for Medicare &amp; Medicaid Services (CMS)"/>
+   <version value="0.0.001"></version>
+   <name value="HybridHospitalWideMortalityFHIR"></name>
+   <title value="Core Clinical Data Elements for the Hybrid Hospital Wide All Condition All Procedure Risk Standardized Mortality Measure HWMFHIR"></title>
+   <status value="draft"></status>
+   <experimental value="false"></experimental>
+   <date value="2024-05-16T13:42:20+00:00"></date>
+   <publisher value="Centers for Medicare &amp; Medicaid Services (CMS)"></publisher>
    <contact>
       <telecom>
-         <system value="url"/>
-         <value value="https://www.cms.gov/"/>
+         <system value="url"></system>
+         <value value="https://www.cms.gov/"></value>
       </telecom>
    </contact>
-   <description value="This logic is intended to extract electronic clinical data. This is not an electronic clinical quality measure and this logic will not produce measure results. Instead, it will produce a file containing the data that CMS will link with administrative claims to risk adjust the Hybrid HWM outcome measure. It is designed to extract the first resulted set of vital signs and basic laboratory results obtained from encounters for adult Medicare Fee-For-Service (FFS) and Medicare Advantage (MA) patients admitted to acute care hospitals."/>
-   <purpose value="UNKNOWN"/>
-   <usage value="These specifications are for use for data with discharges that occur between July 1, 2025 and June 30, 2026. The associated Hospital Specific Report (HSR) is anticipated to be released in Spring 2027.   This logic guides the user to extract the FIRST resulted HWM-specific CCDEs for all Medicare FFS and MA encounters for patients aged 65 through 94 years (Initial Population) directly admitted to the hospital or admitted to the same facility after being treated in another area, such as the emergency department or hospital outpatient location.  The logic supports extraction of the FIRST set of HWM-specific CCDEs in two different ways, depending on if the patient was a direct admission, meaning that the patient was admitted directly to an inpatient unit without first receiving care in the emergency department or other hospital outpatient locations within the same admitting facility:  1. If the patient was a direct admission, the logic supports extraction of the FIRST resulted vital signs (physical exams) within 2 hours (120 minutes) after the start of the inpatient admission, and the FIRST resulted laboratory tests within 24 hours (1440 minutes) after the start of the inpatient admission. 2. If the patient has values captured prior to admission, for example from the emergency department, pre-operative, or other outpatient area within the hospital, the logic supports extraction of the FIRST resulted vital signs and laboratory tests within 24 hours (1440 minutes) PRIOR to the start of the inpatient admission. All clinical systems used in inpatient and outpatient locations within the hospital facility should be queried when looking for core clinical data element values related to a patient who is subsequently admitted.  Value sets for the laboratory tests are represented using Logical Observation Identifiers Names and Codes (LOINC) currently available for these tests. If the institution is using local codes to capture and store relevant laboratory test data, those sites should map that information to the LOINC code for reporting of the core clinical data elements.    NOTE: Do not report ALL values on an encounter during their entire admission. Only report the FIRST resulted value for EACH CCDE collected in the appropriate timeframe, if available.  For each CCDE, it is recommended that hospitals report the below UCUM units, however, any unit may be submitted. Where the reported unit is not easily converted to the requested UCUM units, the value will be set to missing and multiple imputation will be used to impute a value based on the characteristics of the CCDE reported.  CCDE                                                    UCUM Unit: Bicarbonate-------------------------------------meq/L                                                                                                  mmol/L  Creatinine---------------------------------------mg/dL  Heart rate---------------------------------------{Beats}/min Hematocrit -------------------------------------% Oxygen saturation (by pulse oximetry)------------% Platelet-----------------------------------------10*3/uL  Sodium-----------------------------------------meq/L                                                                                                mmol/L  Systolic blood pressure--------------------------mm[Hg] Temperature------------------------------------Cel                                                                                               [degF]       White blood cell count --------------------------{Cells}/uL                                                                                               10*3/uL                                                                                               10*9/L                                                                 For each encounter please also submit the following Linking Variables:  CMS Certification Number (CCN) for Medicare FFS patients or National Provider Identifier (NPI) for MA patients;    Medicare Beneficiary Identifier (MBI); Date of Birth; Sex; Inpatient Admission Date; and Discharge Date.  The initial population includes patients with inpatient hospitalizations and patients from Acute Hospital Care at Home programs, who are treated and billed as inpatients but receive care in their home.   This eCQM is a encounter-based measure. This FHIR-based measure has been derived from the QDM-based measure: CMS844v4. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html)."/>
-   <copyright value="Limited proprietary coding is contained in these specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. All rights reserved.  LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc."/>
-   <approvalDate value="2023-11-28"/>
-   <lastReviewDate value="2023-11-28"/>
+   <description value="This logic is intended to extract electronic clinical data. This is not an electronic clinical quality measure and this logic will not produce measure results. Instead, it will produce a file containing the data that CMS will link with administrative claims to risk adjust the Hybrid HWM outcome measure. It is designed to extract the first resulted set of vital signs and basic laboratory results obtained from hospitalizations for adult Medicare Fee-For-Service (FFS) and Medicare Advantage (MA) patients admitted to acute care hospitals."></description>
+   <purpose value="UNKNOWN"></purpose>
+   <usage value="These specifications are for use for data with discharges that occur between July 1, 2025 and June 30, 2026. The associated Hospital Specific Report (HSR) is anticipated to be released in Spring 2027.   This logic guides the user to extract the FIRST resulted HWM-specific CCDEs for all Medicare FFS and MA hospitalizations for patients aged 65 through 94 years (Initial Population) directly admitted to the hospital or admitted to the same facility after being treated in another area, such as the emergency department or hospital outpatient location.  The logic supports extraction of the FIRST set of HWM-specific CCDEs in two different ways, depending on if the patient was a direct admission, meaning that the patient was admitted directly to an inpatient unit without first receiving care in the emergency department or other hospital outpatient locations within the same admitting facility:  1. If the patient was a direct admission, the logic supports extraction of the FIRST resulted vital signs (physical exams) within 2 hours (120 minutes) after the start of the inpatient admission, and the FIRST resulted laboratory tests within 24 hours (1440 minutes) after the start of the inpatient admission. 2. If the patient has values captured prior to admission, for example from the emergency department, pre-operative, or other outpatient area within the hospital, the logic supports extraction of the FIRST resulted vital signs and laboratory tests within 24 hours (1440 minutes) PRIOR to the start of the inpatient admission. All clinical systems used in inpatient and outpatient locations within the hospital facility should be queried when looking for core clinical data element values related to a patient who is subsequently admitted.  Value sets for the laboratory tests are represented using Logical Observation Identifiers Names and Codes (LOINC) currently available for these tests. If the institution is using local codes to capture and store relevant laboratory test data, those sites should map that information to the LOINC code for reporting of the core clinical data elements.  NOTE: It is recommended hospitals only report the FIRST resulted value for EACH core clinical data element collected in the appropriate timeframe, if available. Hospitals may also choose to report ALL values on an encounter during their entire admission; however, only the first resulted values are utilized in the logic for measure calculation.  For each CCDE, it is recommended that hospitals report the below Unified Code for Units of Measure (UCUM) units, however, any unit may be submitted. Where the reported unit is not easily converted to the requested UCUM units, the value will be set to missing and multiple imputation will be used to impute a value based on the characteristics of the CCDE reported.  CCDE                                                    UCUM Unit: Bicarbonate--------------------------------------meq/L                                                                   mmol/L  Creatinine-----------------------------------------mg/dL   Heart rate-----------------------------------------{Beats}/min  Hematocrit ---------------------------------------%  Oxygen saturation (by pulse oximetry)----%  Platelet--------------------------------------------10*3/uL  Sodium--------------------------------------------meq/L                                                                  mmol/L  Systolic blood pressure-----------------------mm[Hg]  Temperature-------------------------------------Cel                                                                 [degF]        White blood cell count -----------------------{Cells}/uL                                                                 10*3/uL                                                                 10*9/L                                                                 For each hospitalization please also submit the following Linking Variables:  CMS Certification Number (CCN);  National Provider Identifier (NPI) for MA patients;    Medicare Beneficiary Identifier (MBI); Inpatient Admission Date; and Discharge Date.   The initial population includes patients with inpatient hospitalizations and patients from Acute Hospital Care at Home programs, who are treated and billed as inpatients but receive care in their home.   This FHIR-based measure has been derived from the QDM-based measure: CMS844v5. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)."></usage>
+   <copyright value="Limited proprietary coding is contained in these specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.  This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. All rights reserved.  LOINC(R) copyright 2004-2023 Regenstrief Institute, Inc."></copyright>
    <effectivePeriod>
-      <start value="2025-07-01"/>
-      <end value="2026-06-30"/>
+      <start value="2025-01-01"></start>
+      <end value="2025-12-31"></end>
    </effectivePeriod>
    <author>
-      <name value="Lantana Consulting Group"/>
+      <name value="Lantana Consulting Group"></name>
       <telecom>
-         <system value="url"/>
-         <value value="https://www.lantanagroup.com/"/>
+         <system value="url"></system>
+         <value value="https://www.lantanagroup.com/"></value>
       </telecom>
    </author>
    <author>
-      <name value="Mathematica"/>
+      <name value="Yale New Haven Health Service Corporation/ Center for Outcomes Research and Evaluation"></name>
       <telecom>
-         <system value="url"/>
-         <value value="https://www.mathematica.org/"/>
+         <system value="url"></system>
+         <value value="https://medicine.yale.edu/core/"></value>
       </telecom>
    </author>
-   <author>
-      <name value="Yale New Haven Health Service Corporation/ Center for Outcomes Research and Evaluation"/>
-      <telecom>
-         <system value="url"/>
-         <value value="https://medicine.yale.edu/core/"/>
-      </telecom>
-   </author>
-   <library value="https://madie.cms.gov/Library/HybridHospitalWideMortalityFHIR"/>
-   <disclaimer value="These performance specifications are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM]."/>
-   <rationale value="The intent of this logic is to extract the FIRST set of clinical data elements from hospital electronic health records (EHRs) for all qualifying encounters. The data will be linked with administrative claims to risk adjust the Hybrid HWM outcome measure. This work addresses stakeholder concerns that clinical data garnered from patients and used by clinicians to guide diagnostic decisions and treatment, are preferable to administrative claims data when profiling hospitals’ case mix. We are calling the list of data elements for extraction the &quot;HWM-specific core clinical data elements&quot; (CCDE). The CCDEs are the first set of vital signs and basic laboratory tests resulted from encounters for adult Medicare FFS and MA patients, age 65 through 94 years (Initial Population), after they arrive at the hospital to which they are subsequently admitted. For example, this first set of data values are often captured in the emergency department or in the pre-operative area, sometimes hours before a patient is admitted to that same facility.   Encounters over the age of 94 years are not included to avoid holding hospitals responsible for the survival of the oldest elderly patients, who may be less likely to have survival as a primary goal. While we acknowledge that many elderly patients do have survival beyond 30 days as a primary goal for their hospitalization, with input from our Technical Expert Panel and work groups, we decided to only include encounters between 65 and 94 years of age.  These CCDEs were selected because they: 1. reflect patients' clinical status when they first present to the hospital; 2. are clinically and statistically relevant to patient outcomes; 3. are consistently obtained during adult inpatient encounters based on current clinical practice; 4. are captured with a standard definition and recorded in a standard format across providers; and 5. are entered in structured fields that are feasibly retrieved from current EHR systems (YNHHSC/CORE, 2015).   Additional data called Linking Variables are used to link EHR data files with administrative claims data for CMS to calculate results for the Hybrid HWM measure, which are: CMS Certification Number (CCN) for Medicare FFS patients or National Provider Identifier (NPI) for MA patients; Medicare Beneficiary Identifier (MBI); Date of Birth; Sex; Inpatient Admission Date; and Discharge Date."/>
-   <clinicalRecommendationStatement value="The logic is not meant to guide or alter the care patients receive. The purpose of this CCDE logic is to extract clinical data that are already routinely captured in EHRs from encounters for hospitalized adult patients. It is not intended to require that clinical staff perform additional measurements or tests that are not needed for diagnostic assessment or treatment of patients."/>
+   <library value="https://madie.cms.gov/Library/HybridHospitalWideMortalityFHIR"></library>
+   <disclaimer value="These performance specifications are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM]."></disclaimer>
+   <rationale value="The intent of this logic is to extract the FIRST set of clinical data elements from hospital electronic health records (EHRs) for all qualifying hospitalizations. The data will be linked with administrative claims to risk adjust the Hybrid HWM outcome measure. This work addresses stakeholder concerns that clinical data garnered from patients and used by clinicians to guide diagnostic decisions and treatment, are preferable to administrative claims data when profiling hospitals’ case mix. We are calling the list of data elements for extraction the &quot;HWM-specific core clinical data elements&quot; (CCDE). The CCDEs are the first set of vital signs and basic laboratory tests resulted from hospitalizations for adult Medicare FFS and MA patients, age 65 through 94 years (Initial Population), after they arrive at the hospital to which they are subsequently admitted. For example, this first set of data values are often captured in the emergency department or in the pre-operative area, sometimes hours before a patient is admitted to that same facility.   Hospitalizations over the age of 94 years are not included to avoid holding hospitals responsible for the survival of the oldest elderly patients, who may be less likely to have survival as a primary goal. While we acknowledge that many elderly patients do have survival beyond 30 days as a primary goal for their hospitalization, with input from our Technical Expert Panel and work groups, we decided to only include hospitalizations between 65 and 94 years of age.  These CCDEs were selected because they: 1. reflect patients' clinical status when they first present to the hospital; 2. are clinically and statistically relevant to patient outcomes; 3. are consistently obtained during adult inpatient hospitalizations based on current clinical practice; 4. are captured with a standard definition and recorded in a standard format across providers; and 5. are entered in structured fields that are feasibly retrieved from current EHR systems (YNHHSC/CORE, 2015).   Additional data called Linking Variables are used to link EHR data files with administrative claims data for CMS to calculate results for the Hybrid HWM measure, which are: CMS Certification Number (CCN); National Provider Identifier (NPI) for MA patients; Medicare Beneficiary Identifier (MBI); Date of Birth; Sex; Inpatient Admission Date; and Discharge Date."></rationale>
+   <clinicalRecommendationStatement value="The logic is not meant to guide or alter the care patients receive. The purpose of this CCDE logic is to extract clinical data that are already routinely captured in EHRs from hospitalizations for adult patients. It is not intended to require that clinical staff perform additional measurements or tests that are not needed for diagnostic assessment or treatment of patients."></clinicalRecommendationStatement>
    <group id="6385011c4ba3d47c885c02aa">
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"/>
-               <code value="cohort"/>
-               <display value="Cohort"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-scoring"></system>
+               <code value="cohort"></code>
+               <display value="Cohort"></display>
             </coding>
          </valueCodeableConcept>
       </extension>
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis">
-         <valueCode value="Encounter"/>
+         <valueCode value="Encounter"></valueCode>
       </extension>
       <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type">
          <valueCodeableConcept>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-type"/>
-               <code value="outcome"/>
-               <display value="Outcome"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-type"></system>
+               <code value="outcome"></code>
+               <display value="Outcome"></display>
             </coding>
          </valueCodeableConcept>
       </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation">
+         <valueCode value="None"></valueCode>
+      </extension>
+      <extension url="http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation">
+         <valueCodeableConcept>
+            <coding>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-improvement-notation"></system>
+               <code value="decrease"></code>
+               <display value="decrease"></display>
+            </coding>
+         </valueCodeableConcept>
+      </extension>
+      <description value="This logic is intended to extract electronic clinical data. This is not an electronic clinical quality measure and this logic will not produce measure results. Instead, it will produce a file containing the data that CMS will link with administrative claims to risk adjust the Hybrid HWM outcome measure. It is designed to extract the first resulted set of vital signs and basic laboratory results obtained from hospitalizations for adult Medicare Fee-For-Service (FFS) and Medicare Advantage (MA) patients admitted to acute care hospitals."></description>
       <population id="24BB5BA9-820F-4958-B8AA-AA8962E9E398">
          <code>
             <coding>
-               <system value="http://terminology.hl7.org/CodeSystem/measure-population"/>
-               <code value="initial-population"/>
-               <display value="Initial Population"/>
+               <system value="http://terminology.hl7.org/CodeSystem/measure-population"></system>
+               <code value="initial-population"></code>
+               <display value="Initial Population"></display>
             </coding>
          </code>
-         <description value="All Medicare FFS and MA encounters for patients aged 65 through 94 years at the start of an inpatient admission, who are discharged during the measurement period (length of stay &lt;365 days).  NOTE: All Medicare FFS and MA encounters meeting the above criteria should be included, regardless of whether Medicare FFS/MA is the primary, secondary, or tertiary payer."/>
+         <description value="All Medicare FFS and MA hospitalizations for patients aged 65 through 94 years at the start of an inpatient admission, where the length of stay is less than 365 days, and the hospitalization ends during the measurement period.    NOTE: All Medicare FFS and MA hospitalizations meeting the above criteria should be included, regardless of whether Medicare FFS/MA is the primary, secondary, or tertiary payer."></description>
          <criteria>
-            <language value="text/cql-identifier"/>
-            <expression value="Initial Population"/>
+            <language value="text/cql-identifier"></language>
+            <expression value="Initial Population"></expression>
          </criteria>
       </population>
    </group>
    <supplementalData id="sde-ethnicity">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Ethnicity"/>
+      <description value="SDE Ethnicity"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Ethnicity"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Ethnicity"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-payer">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Payer"/>
+      <description value="SDE Payer"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Payer"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Payer"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-race">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Race"/>
+      <description value="SDE Race"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Race"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Race"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="sde-sex">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="SDE Sex"/>
+      <description value="SDE Sex"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="SDE Sex"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="SDE Sex"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-bicarbonate-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Bicarbonate Lab Test"/>
+      <description value="Encounter with First Bicarbonate Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Bicarbonate Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Bicarbonate Lab Test"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-body-temperature">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Body Temperature"/>
+      <description value="Encounter with First Body Temperature"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Body Temperature"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Body Temperature"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-creatinine-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Creatinine Lab Test"/>
+      <description value="Encounter with First Creatinine Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Creatinine Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Creatinine Lab Test"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-heart-rate">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Heart Rate"/>
+      <description value="Encounter with First Heart Rate"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Heart Rate"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Heart Rate"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-hematocrit-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Hematocrit Lab Test"/>
+      <description value="Encounter with First Hematocrit Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Hematocrit Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Hematocrit Lab Test"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-oxygen-saturation">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Oxygen Saturation"/>
+      <description value="Encounter with First Oxygen Saturation"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Oxygen Saturation"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Oxygen Saturation"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-platelet-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Platelet Lab Test"/>
+      <description value="Encounter with First Platelet Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Platelet Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Platelet Lab Test"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-sodium-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Sodium Lab Test"/>
+      <description value="Encounter with First Sodium Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Sodium Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Sodium Lab Test"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-white-blood-cells-lab-test">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
          </coding>
       </usage>
-      <description value="Encounter with First White Blood Cells Lab Test"/>
+      <description value="Encounter with First White Blood Cells Lab Test"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First White Blood Cells Lab Test"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First White Blood Cells Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="qualifying-blood-pressure-reading">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="Qualifying Blood Pressure Reading"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Qualifying Blood Pressure Reading"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="test2">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="supplemental-data"></code>
+         </coding>
+      </usage>
+      <description value="Test2"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Test2"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-body-temperature">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Body Temperature"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Body Temperature"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-heart-rate">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Heart Rate"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Heart Rate"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-oxygen-saturation">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Oxygen Saturation"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Oxygen Saturation"></expression>
       </criteria>
    </supplementalData>
    <supplementalData id="encounter-with-first-systolic-blood-pressure">
       <usage>
          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"/>
-            <code value="supplemental-data"/>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
          </coding>
       </usage>
-      <description value="Encounter with First Systolic Blood Pressure"/>
+      <description value="Encounter with First Systolic Blood Pressure"></description>
       <criteria>
-         <language value="text/cql-identifier"/>
-         <expression value="Encounter with First Systolic Blood Pressure"/>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Systolic Blood Pressure"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-bicarbonate-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Bicarbonate Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Bicarbonate Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-creatinine-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Creatinine Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Creatinine Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-hematocrit-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Hematocrit Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Hematocrit Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-platelet-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Platelet Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Platelet Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-sodium-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First Sodium Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First Sodium Lab Test"></expression>
+      </criteria>
+   </supplementalData>
+   <supplementalData id="encounter-with-first-white-blood-cells-lab-test">
+      <usage>
+         <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/measure-data-usage"></system>
+            <code value="risk-adjustment-factor"></code>
+         </coding>
+      </usage>
+      <description value="Encounter with First White Blood Cells Lab Test"></description>
+      <criteria>
+         <language value="text/cql-identifier"></language>
+         <expression value="Encounter with First White Blood Cells Lab Test"></expression>
       </criteria>
    </supplementalData>
 </Measure>

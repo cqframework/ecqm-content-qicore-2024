@@ -1,0 +1,231 @@
+{
+  "resourceType": "Bundle",
+  "id": "Patient-32-DENEXPass-OsteoFracturesDurMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/b37d7d0c-ad58-4965-8564-b9d34edb6f33",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "b37d7d0c-ad58-4965-8564-b9d34edb6f33",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "1975-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/b37d7d0c-ad58-4965-8564-b9d34edb6f33"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-32",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-32",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "version": "2024",
+          "code": "99397",
+          "display": "Periodic comprehensive preventive medicine reevaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, established patient; 65 years and older"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/b37d7d0c-ad58-4965-8564-b9d34edb6f33"
+      },
+      "period": {
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-32"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/Condition-16",
+    "resource": {
+      "resourceType": "Condition",
+      "id": "Condition-16",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
+      },
+      "clinicalStatus": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+          "code": "active"
+        } ]
+      },
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "problem-list-item",
+          "display": "Problem List Item"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "203444008",
+          "display": "Postoophorectomy osteoporosis with pathological fracture (disorder)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/b37d7d0c-ad58-4965-8564-b9d34edb6f33"
+      },
+      "onsetDateTime": "2025-12-31T23:59:00.000Z"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Condition/Condition-16"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/773721b7-230f-473f-85e3-da67e640576c",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "773721b7-230f-473f-85e3-da67e640576c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "180fc144-0c52-4d7d-aef2-a4350e4c88e9-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "b37d7d0c-ad58-4965-8564-b9d34edb6f33"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#180fc144-0c52-4d7d-aef2-a4350e4c88e9-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Osteoporotic fractures during the MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AppropriateDXAScansForWomenUnder65FHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator-exclusion",
+              "display": "Numerator Exclusion"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/b37d7d0c-ad58-4965-8564-b9d34edb6f33"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-32"
+      }, {
+        "reference": "https://madie.cms.gov/Condition/Condition-16"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/773721b7-230f-473f-85e3-da67e640576c"
+    }
+  } ]
+}

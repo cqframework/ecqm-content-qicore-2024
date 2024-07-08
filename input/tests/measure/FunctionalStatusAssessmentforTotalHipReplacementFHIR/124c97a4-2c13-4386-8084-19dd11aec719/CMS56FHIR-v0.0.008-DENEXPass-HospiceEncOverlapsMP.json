@@ -1,0 +1,251 @@
+{
+  "resourceType": "Bundle",
+  "id": "DENEXPass-HospiceEncOverlapsMP",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/124c97a4-2c13-4386-8084-19dd11aec719",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "124c97a4-2c13-4386-8084-19dd11aec719",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Bertha",
+        "given": [ "Betty" ]
+      } ],
+      "gender": "female",
+      "birthDate": "2006-01-01"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/124c97a4-2c13-4386-8084-19dd11aec719"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-31",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-31",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "281036007",
+          "display": "Follow-up consultation (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/124c97a4-2c13-4386-8084-19dd11aec719"
+      },
+      "period": {
+        "start": "2024-11-01T00:00:00.000Z",
+        "end": "2024-11-01T01:15:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-31"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Procedure/Procedure-31",
+    "resource": {
+      "resourceType": "Procedure",
+      "id": "Procedure-31",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-recorded",
+        "valueDateTime": "2025-01-15T00:00:00.000Z"
+      } ],
+      "status": "completed",
+      "code": {
+        "coding": [ {
+          "system": "http://www.cms.gov/Medicare/Coding/ICD10",
+          "code": "0SR9019",
+          "display": "Replacement of Right Hip Joint with Metal Synthetic Substitute, Cemented, Open Approach"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/124c97a4-2c13-4386-8084-19dd11aec719"
+      },
+      "performedPeriod": {
+        "start": "2023-11-01T00:00:00.000Z",
+        "end": "2023-11-01T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Procedure/Procedure-31"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/Encounter-31.1",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "Encounter-31.1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "183921001",
+          "display": "Admission to hospice for respite (procedure)"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/124c97a4-2c13-4386-8084-19dd11aec719"
+      },
+      "period": {
+        "start": "2024-12-31T23:59:59.000Z",
+        "end": "2025-01-01T01:00:00.000Z"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/Encounter-31.1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/377d7959-eef8-47cc-9a11-a7a8c6b31443",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "377d7959-eef8-47cc-9a11-a7a8c6b31443",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "3e322816-a59c-4a26-a9e2-624bc1418433-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "124c97a4-2c13-4386-8084-19dd11aec719"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#3e322816-a59c-4a26-a9e2-624bc1418433-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Hospice encounter overlaps MP"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/FunctionalStatusAssessmentforTotalHipReplacementFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "https://madie.cms.gov/Patient/124c97a4-2c13-4386-8084-19dd11aec719"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-31"
+      }, {
+        "reference": "https://madie.cms.gov/Procedure/Procedure-31"
+      }, {
+        "reference": "https://madie.cms.gov/Encounter/Encounter-31.1"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/377d7959-eef8-47cc-9a11-a7a8c6b31443"
+    }
+  } ]
+}

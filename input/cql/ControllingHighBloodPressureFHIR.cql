@@ -2,15 +2,14 @@ library ControllingHighBloodPressureFHIR version '0.1.000'
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include QICoreCommon version '2.0.000' called QICoreCommon
-include CQMCommon version '2.0.000' called CQMCommon
-include SupplementalDataElements version '3.4.000' called SDE
-include Status version '1.6.000' called Status
-include AdvancedIllnessandFrailty version '1.8.000' called AIFrailLTCF
-include AdultOutpatientEncounters version '4.8.000' called AdultOutpatientEncounters
-include Hospice version '6.9.000' called Hospice
-include PalliativeCare version '1.9.000' called PalliativeCare
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
+include Status version '1.8.000' called Status
+include AdvancedIllnessandFrailty version '1.16.000' called AIFrailLTCF
+include AdultOutpatientEncounters version '4.11.000' called AdultOutpatientEncounters
+include Hospice version '6.12.000' called Hospice
+include PalliativeCare version '1.11.000' called PalliativeCare
 
 codesystem "LOINC": 'http://loinc.org'
 

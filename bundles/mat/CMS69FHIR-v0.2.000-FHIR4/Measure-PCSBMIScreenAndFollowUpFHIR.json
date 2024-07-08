@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/condition-category",
         "code": "problem-list-item",
         "display": "Problem List Item"
@@ -108,7 +122,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueString": "0"
@@ -183,7 +197,7 @@
         "valueString": "High BMI Interventions Performed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;High BMI Interventions Performed&quot;:\n  ( [Procedure: &quot;Follow Up for Above Normal BMI&quot;] HighInterventionsPerformed\n      where HighInterventionsPerformed.reasonCode in &quot;Overweight or Obese&quot;\n        and HighInterventionsPerformed.status = &#39;completed&#39;\n        or ( exists [Condition: &quot;Overweight or Obese&quot;] OverweightObese\n            where OverweightObese.isHealthConcern ( )\n              and OverweightObese.isActive ( )\n              and OverweightObese.prevalenceInterval ( ) starts before or on day of HighInterventionsPerformed.performed.toInterval ( )\n        )\n  )"
+        "valueString": "define &quot;High BMI Interventions Performed&quot;:\n  ( [Procedure: &quot;Follow Up for Above Normal BMI&quot;] HighInterventionsPerformed\n      where HighInterventionsPerformed.reasonCode in &quot;Overweight or Obese&quot;\n        or ( exists [&quot;Condition&quot;: &quot;Overweight or Obese&quot;] OverweightObese\n            where OverweightObese.prevalenceInterval ( ) starts before or on day of HighInterventionsPerformed.performed\n              and not ( OverweightObese.prevalenceInterval ( ) ends before day of HighInterventionsPerformed.performed )\n        )\n  )"
       }, {
         "url": "displaySequence",
         "valueString": "5"
@@ -243,7 +257,7 @@
         "valueString": "Low BMI Interventions Performed"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Low BMI Interventions Performed&quot;:\n  ( [Procedure: &quot;Follow Up for Below Normal BMI&quot;] LowInterventionsPerformed\n      where LowInterventionsPerformed.reasonCode in &quot;Underweight&quot;\n        and LowInterventionsPerformed.status = &#39;completed&#39;\n        or ( exists [Condition: &quot;Underweight&quot;] Underweight\n            where ( Underweight.isHealthConcern ( ) )\n              and Underweight.isActive ( )\n              and Underweight.prevalenceInterval ( ) starts before or on day of LowInterventionsPerformed.performed.toInterval ( )\n              and LowInterventionsPerformed.performed.toInterval ( ) during day of &quot;Measurement Period&quot;\n        )\n  )"
+        "valueString": "define &quot;Low BMI Interventions Performed&quot;:\n  ( [Procedure: &quot;Follow Up for Below Normal BMI&quot;] LowInterventionsPerformed\n      where LowInterventionsPerformed.reasonCode in &quot;Underweight&quot;\n        and LowInterventionsPerformed.status = &#39;completed&#39;\n        or ( exists [Condition: &quot;Underweight&quot;] Underweight\n            where ( Underweight.isHealthConcern ( ) )\n              and Underweight.isActive ( )\n              and Underweight.prevalenceInterval ( ) starts before or on day of LowInterventionsPerformed.performed.toInterval ( )\n              and LowInterventionsPerformed.performed.toInterval ( ) during day of &quot;Measurement Period&quot;\n              and not ( Underweight.prevalenceInterval ( ) ends before day of LowInterventionsPerformed.performed.toInterval ( ) )\n        )\n  )"
       }, {
         "url": "displaySequence",
         "valueString": "9"
@@ -273,7 +287,7 @@
         "valueString": "Has Normal BMI"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Normal BMI&quot;:\n  exists ( &quot;BMI during Measurement Period&quot; BMI\n      where BMI.value in Interval[18.5 &#39;kg/m2&#39;, 24.9 &#39;kg/m2&#39;]\n  )\n    and not ( exists &quot;Documented High BMI during Measurement Period&quot;\n        or exists &quot;Documented Low BMI during Measurement Period&quot;\n    )"
+        "valueString": "define &quot;Has Normal BMI&quot;:\n  exists ( &quot;BMI during Measurement Period&quot; BMI\n      where BMI.value &gt;= 18.5 &#39;kg/m2&#39;\n        and BMI.value &lt; 25 &#39;kg/m2&#39;\n  )\n    and not ( exists &quot;Documented High BMI during Measurement Period&quot;\n        or exists &quot;Documented Low BMI during Measurement Period&quot;\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "11"
@@ -408,7 +422,7 @@
         "valueString": "Has Hospice Services"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
+        "valueString": "define &quot;Has Hospice Services&quot;:\n  exists ((([Encounter: &quot;Encounter Inpatient&quot;]).isEncounterPerformed()) InpatientEncounter\n      where (InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to home for hospice care (procedure)&quot;\n          or InpatientEncounter.hospitalization.dischargeDisposition ~ &quot;Discharge to healthcare facility for hospice care (procedure)&quot;\n      )\n        and InpatientEncounter.period.toInterval() ends during day of &quot;Measurement Period&quot;\n  )\n    or exists ((([Encounter: &quot;Hospice Encounter&quot;]).isEncounterPerformed()) HospiceEncounter\n        where HospiceEncounter.period.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([Observation: &quot;Hospice care [Minimum Data Set]&quot;]).isAssessmentPerformed()) HospiceAssessment\n        where HospiceAssessment.value ~ &quot;Yes (qualifier value)&quot;\n          and HospiceAssessment.effective.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists ((([ServiceRequest: &quot;Hospice Care Ambulatory&quot;]).isInterventionOrder()) HospiceOrder\n        where HospiceOrder.authoredOn.toInterval() during day of &quot;Measurement Period&quot;\n        // and HospiceOrder.doNotPerform is not true\n        // https://oncprojectracking.healthit.gov/support/browse/CQLIT-447\n    )\n    or exists ((([Procedure: &quot;Hospice Care Ambulatory&quot;]).isInterventionPerformed()) HospicePerformed\n        where HospicePerformed.performed.toInterval() overlaps day of &quot;Measurement Period&quot;\n    )\n    or exists (([Condition: &quot;Hospice Diagnosis&quot;]) HospiceCareDiagnosis\n        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of &quot;Measurement Period&quot;\n    )"
       }, {
         "url": "displaySequence",
         "valueString": "20"
@@ -435,10 +449,10 @@
         "valueString": "PCSBMIScreenAndFollowUpFHIR"
       }, {
         "url": "name",
-        "valueString": "Pregnancy"
+        "valueString": "Is Pregnant during Day of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Pregnancy&quot;:\n  [Condition: &quot;Pregnancy or Other Related Diagnoses&quot;] PregnancyDiagnosis\n    with &quot;Qualifying Encounter during Day of Measurement Period&quot; QualifyingEncounter\n      such that PregnancyDiagnosis.clinicalStatus ~ QICoreCommon.&quot;active&quot;\n        and PregnancyDiagnosis.prevalenceInterval ( ) overlaps day of &quot;Measurement Period&quot;"
+        "valueString": "define &quot;Is Pregnant during Day of Measurement Period&quot;:\n  [Condition: &quot;Pregnancy or Other Related Diagnoses&quot;] PregnancyDiagnosis\n    with &quot;Qualifying Encounter during Day of Measurement Period&quot; QualifyingEncounter\n      such that PregnancyDiagnosis.clinicalStatus ~ QICoreCommon.&quot;active&quot;\n        and PregnancyDiagnosis.prevalenceInterval ( ) overlaps day of &quot;Measurement Period&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "22"
@@ -453,7 +467,7 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator Exclusions&quot;:\n  Hospice.&quot;Has Hospice Services&quot;\n    or PalliativeCare.&quot;Has Palliative Care in the Measurement Period&quot;\n    or exists &quot;Pregnancy&quot;"
+        "valueString": "define &quot;Denominator Exclusions&quot;:\n  Hospice.&quot;Has Hospice Services&quot;\n    or PalliativeCare.&quot;Has Palliative Care in the Measurement Period&quot;\n    or exists &quot;Is Pregnant during Day of Measurement Period&quot;"
       }, {
         "url": "displaySequence",
         "valueString": "23"
@@ -603,7 +617,7 @@
         "valueString": "prevalenceInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of ToAbatementInterval(condition)) abatementDate\n    return if abatementDate is null then\n      Interval[start of ToInterval(condition.onset), abatementDate)\n    else\n      Interval[start of ToInterval(condition.onset), abatementDate]"
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ &quot;active&quot;\n  or condition.clinicalStatus ~ &quot;recurrence&quot;\n  or condition.clinicalStatus ~ &quot;relapse&quot; then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
         "valueString": "33"
@@ -663,7 +677,7 @@
         "valueString": "isEncounterPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
+        "valueString": "//Encounter, Performed\n//General usage unless required otherwise by measure intent (e.g., follow-up encounters)\ndefine fluent function isEncounterPerformed(Enc List&lt;Encounter&gt;):\n  Enc E\n    where E.status in {&#39;finished&#39;, &#39;arrived&#39;, &#39;triaged&#39;, &#39;in-progress&#39;, &#39;onleave&#39;}"
       }, {
         "url": "displaySequence",
         "valueString": "37"
@@ -678,7 +692,7 @@
         "valueString": "isAssessmentPerformed"
       }, {
         "url": "statement",
-        "valueString": "//Similar but different from QICoreCommon.isSurvey, which does not have status constraints\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
+        "valueString": "//This library contains functions that are based on QDM 5.6 to QICore 4.1.1 March 2023 (https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1). The functions may appear similar to some QICoreCommon functions but different in that they have constraints that are relevant for measures authored by NCQA.\n\n//Assessment, Performed\ndefine fluent function isAssessmentPerformed(Obs List&lt;Observation&gt;):\n  Obs O\n    where O.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n          and exists ( O.category ObservationCategory\n          where ( ObservationCategory ) ~ &quot;survey&quot;\n      )"
       }, {
         "url": "displaySequence",
         "valueString": "38"
@@ -693,7 +707,7 @@
         "valueString": "isInterventionOrder"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
+        "valueString": "//Intervention, Order: active and completed only    \ndefine fluent function isInterventionOrder(ServiceRequest List&lt;ServiceRequest&gt;):\n  ServiceRequest S\n    where S.status in { &#39;active&#39;, &#39;completed&#39; }\n      and S.intent = &#39;order&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "39"
@@ -708,7 +722,7 @@
         "valueString": "isInterventionPerformed"
       }, {
         "url": "statement",
-        "valueString": "define fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
+        "valueString": "//Intervention, Performed\ndefine fluent function isInterventionPerformed(Proc List&lt;Procedure&gt;):\n  Proc P\n    where P.status ~ &#39;completed&#39;"
       }, {
         "url": "displaySequence",
         "valueString": "40"
@@ -724,27 +738,31 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library Hospice",
-      "resource": "Library/Hospice|6.9.000"
+      "resource": "Library/Hospice|6.12.000"
     }, {
       "type": "depends-on",
       "display": "Library Status",
-      "resource": "Library/Status|1.6.000"
+      "resource": "Library/Status|1.8.000"
     }, {
       "type": "depends-on",
       "display": "Library PalliativeCare",
-      "resource": "Library/PalliativeCare|1.9.000"
+      "resource": "Library/PalliativeCare|1.11.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system ConditionCategory",
@@ -1022,7 +1040,7 @@
     }, {
       "type": "Procedure",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
-      "mustSupport": [ "code", "reasonCode", "status", "status.value", "performed" ],
+      "mustSupport": [ "code", "reasonCode", "performed", "status", "status.value" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1.1525"
@@ -1213,7 +1231,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity, and sex; SDE Ethnicity \n SDE Payer \n SDE Race \n SDE Sex \n "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -1278,10 +1297,10 @@
   } ],
   "version": "0.2.000",
   "name": "PCSBMIScreenAndFollowUpFHIR",
-  "title": "Preventive Care and Screening: Body Mass Index (BMI) Screening and Follow-Up PlanFHIR",
+  "title": "Preventive Care and Screening Body Mass Index Screening and Follow Up PlanFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-16T20:41:34+00:00",
+  "date": "2024-05-16T12:08:19+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1291,10 +1310,8 @@
   } ],
   "description": "Percentage of patients aged 18 years and older with a BMI documented during the current encounter or during the measurement period AND who had a follow-up plan documented if BMI was outside of normal parameters",
   "purpose": "UNKNOWN",
-  "usage": "BMI Measurement Guidance:\n-  Height and Weight - An eligible professional or their staff is required to measure both height and weight. Both height and weight must be measured during the measurement period. Self-reported values cannot be used.\n-  The BMI may be documented in the medical record of the provider or in outside medical records obtained by the provider. \n-  If the documented BMI is outside of normal parameters, then a follow-up plan is documented during the encounter or during the measurement period. \n-  If more than one BMI is reported during the measurement period, and any of the documented BMI assessments is outside of normal parameters, documentation of an appropriate follow-up plan will be used to determine if performance has been met. \n-  Review the exclusions and exceptions criteria to determine those patients that BMI measurement may not be appropriate or necessary. \n\nFollow-Up Plan Guidance: \nThe documented follow-up plan must be based on the documented BMI, outside of normal parameters, example: \"Patient referred to nutrition counseling for BMI above or below normal parameters.\" See the Definition section for examples of follow-up plan treatments.\n\nVariation has been noted in studies exploring optimal BMI ranges for the elderly (see Donini et al., 2012; Holme & Tonstad, 2015; Diehr et al., 2008). Notably however, all these studies have arrived at ranges that differ from the standard range for ages 18 and older, which is >= 18.5 and < 25 kg/m2. For instance, both Donini et al. and Holme and Tonstad reported findings that suggest that higher BMI (higher than the upper end of 25 kg/m2) in the elderly may be beneficial. Similarly, worse outcomes have been associated with being underweight (at a threshold higher than 18.5 kg/m2) at age 65 (Diehr et al., 2008). Because of optimal BMI range variation recommendations from these studies, no specific optimal BMI range for the elderly is used. However, it may be appropriate to exempt certain patients from a follow-up plan by applying the exception criteria. See Denominator Exception section for examples.\n\nThis eCQM is a patient-based measure. This measure is to be reported a minimum of once per measurement period for patients seen during the measurement period.\n\nThis measure may be reported by eligible professionals who perform the quality actions described in the measure based on the services provided at the time of the qualifying encounter and the measure-specific denominator coding. \n\nTelehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS69v12.  \nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2022 American Medical Association. LOINC(R) is copyright 2004-2022 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-22",
-  "lastReviewDate": "2023-11-22",
+  "usage": "BMI Measurement Guidance:\n- Height and Weight - An eligible clinician or their staff is required to measure both height and weight. Both height and weight must be measured during the measurement period. Self-reported values cannot be used.\n- The BMI may be documented in the medical record of the provider or in outside medical records obtained by the provider. \n- If the documented BMI is outside of normal parameters, then a follow-up plan is documented during the encounter or during the measurement period. \n- If more than one BMI is reported during the measurement period, and any of the documented BMI assessments is outside of normal parameters, documentation of an appropriate follow-up plan will be used to determine if performance has been met. \n- Review the exclusions and exceptions criteria to determine those patients that BMI measurement may not be appropriate or necessary. \n\nFollow-Up Plan Guidance: \nThe documented follow-up plan must be based on the documented BMI, outside of normal parameters, example: \"Patient referred to nutrition counseling for BMI above or below normal parameters.\" See the Definition section for examples of follow-up plan treatments.\n\nVariation has been noted in studies exploring optimal BMI ranges for the elderly (see Donini et al., 2012; Holme & Tonstad, 2015; Diehr et al., 2008). Notably however, all these studies have arrived at ranges that differ from the standard range for ages 18 and older, which is >= 18.5 and < 25 kg/m2. For instance, both Donini et al. and Holme and Tonstad reported findings that suggest that higher BMI (higher than the upper end of 25 kg/m2) in the elderly may be beneficial. Similarly, worse outcomes have been associated with being underweight (at a threshold higher than 18.5 kg/m2) at age 65 (Diehr et al., 2008). Because of optimal BMI range variation recommendations from these studies, no specific optimal BMI range for the elderly is used. However, it may be appropriate to exempt certain patients from a follow-up plan by applying the exception criteria. See Denominator Exception section for examples.\n\nThis eCQM is a patient-based measure. This measure is to be reported a minimum of once per measurement period for patients seen during the measurement period.\n\nThis measure may be reported by eligible clinicians who perform the quality actions described in the measure based on the services provided at the time of the qualifying encounter or during the measurement period and the measure-specific denominator coding. \n\nTelehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.\n\nIf a patient meets exception criteria for the denominator (i.e., the patient refuses height or weight measurement or has a documented medical reason for not documenting BMI or a follow-up plan), an eligible clinician must document those criteria on the same day as the qualifying encounter. \n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS 69v13. \nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -1308,7 +1325,7 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/PCSBMIScreenAndFollowUpFHIR" ],
   "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "rationale": "BMI Above Normal Parameters\n\n“Obesity is a chronic, multifactorial disease with complex psychological, environmental (social and cultural), genetic, physiologic, metabolic and behavioral causes and consequences. The prevalence of overweight and obese people is increasing worldwide at an alarming rate in both developing and developed countries. Environmental and behavioral changes brought about by economic development, modernization and urbanization have been linked to the rise in global obesity. The health consequences are becoming apparent” (Fitch et al., 2013).\n\nMore than a third of U.S. adults have a body mass index [BMI] >= 30 kg/m2 and are at increased risk for diabetes, cardiovascular disease (CVD), and obstructive sleep apnea (Flegal et al., 2012; Ogden et al., 2015; Dong et al., 2020). Hales et al. (2017), reported that the prevalence of obesity among adults and youth in the United States was 39.8 percent and 18.5 percent respectively, from 2015-2016. Furthermore, the prevalence of obesity in adults increased to 42.4 percent in 2018, with the highest percentage among adults in the 40-59 age bracket compared with other age groups (Hales et al., 2020). Hales et al. (2020) also disaggregated the data according to race/ethnicity and noted that obesity prevalence was higher among non-Hispanic Black adults and Hispanic adults when compared with other races and ethnicities. Obesity prevalence was lowest among non-Hispanic Asian men and women. Among men, obesity prevalence was higher among Hispanic men compared with non-Hispanic Black men and non-Hispanic White men. Among women, the prevalence among non-Hispanic Black women was 56.9 percent, which was higher than all other race/ethnicities. In general, the prevalence of obesity in the U.S. remains higher than the Healthy People 2020 goals of 30.5 percent among adults (Hales et al., 2020). \n\nBMI continues to be a common and reasonably reliable measurement to identify overweight and obese adults who may be at an increased risk for future morbidity. Although good quality evidence supports obtaining a BMI, it is important to recognize it is not a perfect measurement. For example, BMI and its associated disease and mortality risk appear to vary among ethnic subgroups. Black/African Americans appear to have the lowest mortality risk at a BMI of 26.2-28.5 kg/m2 in Black women and 27.1-30.2 kg/m2 in Black men. In contrast, Asian populations may experience lowest mortality rates starting at a BMI of 23 to 24 kg/m2. The correlation between BMI and diabetes risk also varies by ethnicity (LeBlanc et al., 2011). BMI is not a direct measure of adiposity and as a consequence, it can over or underestimate adiposity. However, overall, BMI is a derived value that correlates well with total body fat and markers of secondary complications, e.g., hypertension and dyslipidemia (Barlow & the Expert Committee, 2007).\n\nIt is important to enhance beneficiary access to appropriate treatments for obesity, which could result in decreased healthcare costs and lower obesity rates. Behavioral weight management treatment has been identified as an effective first-line treatment for obesity with an average initial weight loss of 8-10 percent. This percentage weight loss is associated with a significant risk reduction for diabetes and CVD (Wadden, Butryn & Wilson, 2007). Evidence also shows that when provided 14 or more high-intensity behavioral intervention sessions of face-to-face individual or group treatment across 6 months, participants lose up to 8 percent of their weight during that time and experience improvements in heart disease risk factors and quality of life (Wadden, Tronieri, & Butryn, 2020). There is also evidence that high-intensity behavioral counseling is effective, whether delivered in-person, by phone, or electronically (Tronieri et al., 2019). Moreover, intensive behavioral therapy for obesity provided by registered dietitian nutritionists for 6-12 months shows significant mean weight loss of up to 10 percent of body weight, maintained over one year’s time (Raynor & Champagne, 2016). Despite the evidence that supports weight management counseling, the rate of use in primary care for patients with obesity decreased by 10 percent from 39.9 percent in 1995-1996 to 29.9 percent in 2007-2008 (Kraschnewski et al., 2013). Weight management counseling during primary care visits further declined from 33 percent to 21 percent between 2008-2009 and 2012-2013. This suggests that obesity management in primary care remains suboptimal (Fitzpatrick & Stevens, 2017).\n\nTherefore, screening for BMI and follow-up is critical and will help in reaching the quality goals of population health and cost reduction. However, due to concerns for other underlying conditions (such as bone health) or nutrition-related deficiencies, providers are cautioned to use their best clinical judgment when considering weight management programs for overweight patients, especially the elderly (National Heart, Lung, and Blood Institute [NHLBI] Obesity Education Initiative, 1998).\n\nBMI Below Normal Parameters \n\nOn the other end of the body weight spectrum is underweight (BMI < 18.5 kg/m2), which is also detrimental to population health. When compared to normal weight individuals (BMI 18.5-25 kg/m2), underweight individuals have significantly higher death rates with a Hazard Ratio of 2.27 and 95 percent confidence intervals = 1.78, 2.90 (Borrell & Samuel, 2014). Individuals with a BMI < 18.5 kg/m2 have been shown to be at a higher risk for adverse events, postoperative infection, and/or mortality following a surgical procedure (Katakam, et al., 2021; Ottesen et al., 2020; Ottesen et al., 2022; Rudasill et al., 2021). BMI below normal parameters is a risk factor for developing severe illness from respiratory infections such as influenza and COVID-19 (Moser et al., 2019; Ye et al., 2021). BMI below normal parameters can negatively impact both male and female fertility (Boutari et al., 2020; Guo et al., 2019).\n\nPoor nutrition or underlying health conditions can result in underweight (Fryar & Ogden, 2012). The National Health and Nutrition Examination Survey (NHANES) results from 2007-2010 indicate that women are more likely to be underweight than men (Centers for Disease Control and Prevention, 2012). However, all patients should be equally screened for underweight and followed up with nutritional counseling or another clinically appropriate intervention to reduce mortality and morbidity associated with underweight.",
+  "rationale": "BMI Above Normal Parameters\n\n“Obesity is a chronic, multifactorial disease with complex psychological, environmental (social and cultural), genetic, physiologic, metabolic and behavioral causes and consequences. The prevalence of overweight and obese people is increasing worldwide at an alarming rate in both developing and developed countries. Environmental and behavioral changes brought about by economic development, modernization and urbanization have been linked to the rise in global obesity. The health consequences are becoming apparent” (Fitch et al., 2013).\n\nMore than a third of U.S. adults have a body mass index (BMI) >= 30 kg/m2 and are at increased risk for diabetes, cardiovascular disease (CVD), and obstructive sleep apnea (Flegal et al., 2012; Ogden et al., 2015; Dong et al., 2020). Hales et al. (2017), reported that the prevalence of obesity among adults and youth in the United States was 39.8 percent and 18.5 percent respectively, from 2015-2016. Furthermore, the prevalence of obesity in adults increased to 42.4 percent in 2018, with the highest percentage among adults in the 40-59 age bracket compared with other age groups (Hales et al., 2020). Hales et al. (2020) also disaggregated the data according to race/ethnicity and noted that obesity prevalence was higher among non-Hispanic Black adults and Hispanic adults when compared with other races and ethnicities. Obesity prevalence was lowest among non-Hispanic Asian men and women. Among men, obesity prevalence was higher among Hispanic men compared with non-Hispanic Black men and non-Hispanic White men. Among women, the prevalence among non-Hispanic Black women was 56.9 percent, which was higher than all other race/ethnicities. In general, the prevalence of obesity in the U.S. remains higher than the Healthy People 2020 goals of 30.5 percent among adults (Hales et al., 2020). \n\nBMI continues to be a common and reasonably reliable measurement to identify overweight and obese adults who may be at an increased risk for future morbidity. Although good quality evidence supports obtaining a BMI, it is important to recognize it is not a perfect measurement. For example, BMI and its associated disease and mortality risk appear to vary among ethnic subgroups. Black/African Americans appear to have the lowest mortality risk at a BMI of 26.2-28.5 kg/m2 in Black women and 27.1-30.2 kg/m2 in Black men. In contrast, Asian populations may experience lowest mortality rates starting at a BMI of 23 to 24 kg/m2. The correlation between BMI and diabetes risk also varies by ethnicity (LeBlanc et al., 2011). BMI is not a direct measure of adiposity and as a consequence, it can over or underestimate adiposity. However, overall, BMI is a derived value that correlates well with total body fat and markers of secondary complications, e.g., hypertension and dyslipidemia (Barlow & the Expert Committee, 2007).\n\nIt is important to enhance beneficiary access to appropriate treatments for obesity, which could result in decreased healthcare costs and lower obesity rates. Behavioral weight management treatment has been identified as an effective first-line treatment for obesity with an average initial weight loss of 8-10 percent. This percentage of weight loss is associated with a significant risk reduction for diabetes and CVD (Wadden, Butryn & Wilson, 2007). Evidence also shows that when provided 14 or more high-intensity behavioral intervention sessions of face-to-face individual or group treatment across 6 months, participants lose up to 8 percent of their weight during that time and experience improvements in heart disease risk factors and quality of life (Wadden, Tronieri, & Butryn, 2020). There is also evidence that high-intensity behavioral counseling is effective, whether delivered in-person, by phone, or electronically (Tronieri et al., 2019). Moreover, intensive behavioral therapy for obesity provided by registered dietitian nutritionists for 6-12 months shows significant mean weight loss of up to 10 percent of body weight, maintained over one year’s time (Raynor & Champagne, 2016). Despite the evidence that supports weight management counseling, the rate of use in primary care for patients with obesity decreased by 10 percent from 39.9 percent in 1995-1996 to 29.9 percent in 2007-2008 (Kraschnewski et al., 2013). Weight management counseling during primary care visits further declined from 33 percent to 21 percent between 2008-2009 and 2012-2013. This suggests that obesity management in primary care remains suboptimal (Fitzpatrick & Stevens, 2017).\n\nTherefore, screening for BMI and follow-up is critical and will help in reaching the quality goals of population health and cost reduction. However, due to concerns for other underlying conditions (such as bone health) or nutrition-related deficiencies, providers are cautioned to use their best clinical judgment when considering weight management programs for overweight patients, especially the elderly (National Heart, Lung, and Blood Institute [NHLBI] Obesity Education Initiative, 1998).\n\nBMI Below Normal Parameters \n\nOn the other end of the body weight spectrum is underweight (BMI < 18.5 kg/m2), which is also detrimental to population health. When compared to normal weight individuals (BMI 18.5-25 kg/m2), underweight individuals have significantly higher death rates with a Hazard Ratio of 2.27 and 95 percent confidence intervals = 1.78, 2.90 (Borrell & Samuel, 2014). Individuals with a BMI < 18.5 kg/m2 have been shown to be at a higher risk for adverse events, postoperative infection, and/or mortality following a surgical procedure (Katakam, et al., 2021; Ottesen et al., 2020; Ottesen et al., 2022; Rudasill et al., 2021). BMI below normal parameters is a risk factor for developing severe illness from respiratory infections such as influenza and COVID-19 (Moser et al., 2019; Ye et al., 2021). BMI below normal parameters can negatively impact both male and female fertility (Boutari et al., 2020; Guo et al., 2019).\n\nPoor nutrition or underlying health conditions can result in underweight (Fryar & Ogden, 2012). The National Health and Nutrition Examination Survey (NHANES) results from 2007-2010 indicate that women are more likely to be underweight than men (Fryar & Ogden, 2012). However, all patients should be equally screened for underweight and followed up with nutritional counseling or another clinically appropriate intervention to reduce mortality and morbidity associated with underweight.",
   "clinicalRecommendationStatement": "All adults should be screened annually using a BMI measurement. BMI measurements >= 25 kg/m2 should be used to initiate further evaluation of overweight or obesity after taking into account age, gender, ethnicity, fluid status, and muscularity; therefore, clinical evaluation and judgment must be used when BMI is employed as the anthropometric indicator of excess adiposity, particularly in athletes and those with sarcopenia (Garvey et al., 2016) (Grade A).\n\nOverweight and Underweight Categories:\nUnderweight < 18.5; Normal weight 18.5-24.9; Overweight 25-29.9; Obese class I 30-34.9; Obese class II 35-39.9; Obese class III >= 40 (Garvey et al., 2016).\n\nBMI cutoff point value of >= 23 kg/m2 should be used in the screening and confirmation of excess adiposity in Asian adults (Garvey et al., 2016) (Grade B).  \n\nLifestyle/behavioral therapy for overweight and obesity should include behavioral interventions that enhance adherence to prescriptions for a reduced-calorie meal plan and increased physical activity (behavioral interventions can include: self-monitoring of weight, food intake, and physical activity; clear and reasonable goal-setting; education pertaining to obesity, nutrition, and physical activity; face-to-face and group meetings; stimulus control; systematic approaches for problem solving; stress reduction; cognitive restructuring [i.e., cognitive behavioral therapy], motivational interviewing; behavioral contracting; psychological counseling; and mobilization of social support structures) (Garvey et al., 2016) (Grade A).\n\nBehavioral lifestyle intervention should be tailored to a patient's ethnic, cultural, socioeconomic, and educational background (Garvey et al., 2016) (Grade B).\n\nThe U.S. Preventive Services Task Force (USPSTF) recommends that clinicians offer or refer adults with a BMI of 30 kg/m2 or higher to intensive, multicomponent behavioral interventions (USPSTF, 2018) (Grade B).\n\nInterventions:\n- Effective intensive behavioral interventions were designed to help participants achieve or maintain weight loss of at least five percent through a combination of dietary changes and increased physical activity\n- Most interventions lasted for one to two years, and the majority had at least 12 sessions in the first year \n- Most behavioral interventions focused on problem solving to identify barriers, self-monitoring of weight, peer support, and relapse prevention\n- Interventions also provided tools to support weight loss or weight loss maintenance (e.g., pedometers, food scales, or exercise videos) (USPSTF, 2018)\n\nNutritional safety for the elderly should be considered when recommending weight reduction. \"A clinical decision to forego obesity treatment in older adults should be guided by an evaluation of the potential benefits of weight reduction for day-to-day functioning and reduction of the risk of future cardiovascular events, as well as the patient's motivation for weight reduction. Care must be taken to ensure that any weight reduction program minimizes the likelihood of adverse effects on bone health or other aspects of nutritional status\" (NHLBI Obesity Education Initiative, 1998) (Evidence Category D). In addition, weight reduction prescriptions in older persons should be accompanied by proper nutritional counseling and regular body weight monitoring (NHLBI Obesity Education Initiative, 1998).\n\nThe possibility that a standard approach to weight loss will work differently in diverse patient populations must be considered when setting expectations about treatment outcomes (NHLBI Obesity Education Initiative, 1998) (Evidence Category B).",
   "group": [ {
     "id": "64ef766456d636294b157b5f",
@@ -1331,6 +1348,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -1390,18 +1419,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "c8fae867-4f89-4c58-a6bf-c0d40643babe",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "50B4FD1B-95FC-404D-BA83-1F54ADD2F00F",

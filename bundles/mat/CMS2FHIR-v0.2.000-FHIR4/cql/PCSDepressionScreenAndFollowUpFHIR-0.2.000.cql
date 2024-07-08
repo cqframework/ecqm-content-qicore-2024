@@ -2,9 +2,9 @@ library PCSDepressionScreenAndFollowUpFHIR version '0.2.000'
 
 using QICore version '4.1.1'
 
-include QICoreCommon version '2.0.000' called QICoreCommon
-include SupplementalDataElements version '3.4.000' called SDE
-include FHIRHelpers version '4.3.000' called FHIRHelpers
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
+include FHIRHelpers version '4.4.000' called FHIRHelpers
 
 codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
@@ -127,9 +127,6 @@ define "History of Bipolar Diagnosis Before Qualifying Encounter":
           or BipolarDiagnosis.isHealthConcern ( )
       )
         and BipolarDiagnosis.prevalenceInterval ( ) starts before QualifyingEncounter.period
-        and ( BipolarDiagnosis.isActive ( )
-            or BipolarDiagnosis.clinicalStatus ~ QICoreCommon."remission"
-        )
 
 define "Medical or Patient Reason for Not Screening Adolescent for Depression":
   [ObservationNotDone: code ~ "Adolescent depression screening assessment"] NoAdolescentScreen

@@ -1,0 +1,185 @@
+{
+  "resourceType": "Bundle",
+  "id": "64a710b8d5b5ccbc63c46847",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/f96bf714-ae74-456a-85bc-2d896fdae2a1",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "f96bf714-ae74-456a-85bc-2d896fdae2a1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "1002-5",
+            "display": "American Indian or Alaska Native",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "American Indian or Alaska Native"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "userSelected": true
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          } ]
+        },
+        "system": "https://bonnie-fhir.healthit.gov/",
+        "value": "64a710b8d5b5ccbc63c46847"
+      } ],
+      "name": [ {
+        "family": "DENOMPass",
+        "given": [ "Age16InitialVisit" ]
+      } ],
+      "gender": "male",
+      "birthDate": "2007-02-23"
+    },
+    "request": {
+      "method": "POST",
+      "url": "Patient/f96bf714-ae74-456a-85bc-2d896fdae2a1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Encounter/preventive-care-established-office-visit-0-to-17-6849",
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "preventive-care-established-office-visit-0-to-17-6849",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ]
+      },
+      "status": "finished",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory",
+        "userSelected": true
+      },
+      "type": [ {
+        "coding": [ {
+          "system": "http://www.ama-assn.org/go/cpt",
+          "version": "2021",
+          "code": "99394",
+          "display": "Periodic comprehensive preventive medicine reevaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, established patient; adolescent (age 12 through 17 years)",
+          "userSelected": true
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/f96bf714-ae74-456a-85bc-2d896fdae2a1"
+      },
+      "period": {
+        "start": "2025-07-06T08:00:00.000+00:00",
+        "end": "2025-07-06T08:15:00.000+00:00"
+      }
+    },
+    "request": {
+      "method": "POST",
+      "url": "Encounter/preventive-care-established-office-visit-0-to-17-6849"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/f1429042-2c46-41b4-837f-25e5a1e4cf8c",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "f1429042-2c46-41b4-837f-25e5a1e4cf8c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "6911b4f2-1da2-4c9b-bb30-e88ce722259d-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "f96bf714-ae74-456a-85bc-2d896fdae2a1"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#6911b4f2-1da2-4c9b-bb30-e88ce722259d-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient is 16 and has a qualifying encounter during the measurement period. This tests the denominator criteria."
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/HIVScreeningFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 1
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "Patient/f96bf714-ae74-456a-85bc-2d896fdae2a1"
+      }, {
+        "reference": "Encounter/preventive-care-established-office-visit-0-to-17-6849"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "MeasureReport/f1429042-2c46-41b4-837f-25e5a1e4cf8c"
+    }
+  } ]
+}

@@ -1,11 +1,11 @@
-library HFACEIorARBorARNIforLVSDFHIR version '0.1.000'
+library HFACEIorARBorARNIforLVSDFHIR version '0.2.000'
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include SupplementalDataElements version '3.4.000' called SDE
-include QICoreCommon version '2.0.000' called QICoreCommon
-include AHAOverall version '2.6.000' called AHA
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include SupplementalDataElements version '3.5.000' called SDE
+include QICoreCommon version '2.1.000' called QICoreCommon
+include AHAOverall version '2.8.000' called AHA
 
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
 
@@ -26,10 +26,11 @@ code "Substance with neprilysin inhibitor mechanism of action (substance)": '786
 
 parameter "Measurement Period" Interval<DateTime>
   default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+
 context Patient
 
 define "Initial Population":
-  AHA."Has Two Qualifying Outpatient Encounters and Heart Failure Outpatient Encounter During the Measurement Period"
+  AHA."Is Adults With Two Qualifying Outpatient Encounters and One Heart Failure Outpatient Encounter During the Measurement Period"
 
 define "Denominator":
   "Initial Population"
@@ -45,9 +46,16 @@ define "Numerator":
   "Has ACEI or ARB or ARNI Ordered"
     or "Is Currently Taking ACEI or ARB or ARNI"
 
+/*
+@commentedOut: "Has Medical or Patient Reason for Not Ordering ACEI or ARB or ARNI"
+@commentedOutReason: Negation issue noted in https://github.com/cqframework/cql-execution/issues/296, which is tied to https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1455
+*/
+
+
 define "Denominator Exceptions":
-  "Has Medical or Patient Reason for Not Ordering ACEI or ARB or ARNI"
-    or "Has Allergy or Intolerance to ACEI or ARB or ARNI Ingredient"
+    //"Has Medical or Patient Reason for Not Ordering ACEI or ARB or ARNI" or
+  
+  "Has Allergy or Intolerance to ACEI or ARB or ARNI Ingredient"
     or "Has Diagnosis of Allergy or Intolerance to ACEI or ARB"
     or "Has Diagnosis of Pregnancy"
     or "Has Diagnosis of Renal Failure Due to ACEI"
@@ -91,7 +99,7 @@ define "Has Diagnosis of Pregnancy":
 
 define "Has Diagnosis of Renal Failure Due to ACEI":
   exists ( [Condition: "Acute renal failure caused by angiotensin-converting-enzyme inhibitor (disorder)"] RenalFailureDueToACEI
-      where RenalFailureDueToACEI.overlapsAfterHeartFailureOutpatientEncounter ( )
+      where RenalFailureDueToACEI.overlapsHeartFailureOutpatientEncounter ( )
   )
 
 define "Has Medical or Patient Reason for Not Ordering ACEI or ARB or ARNI":

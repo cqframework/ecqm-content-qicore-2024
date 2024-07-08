@@ -63,7 +63,7 @@
       "birthDate": "1975-09-26"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/5736982d-6c82-4815-b0d2-3416ebe105f4"
     }
   }, {
@@ -104,9 +104,9 @@
         },
         "use": {
           "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "111297002",
-            "display": "Ischemic Stroke"
+            "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+            "code": "billing",
+            "display": "Billing"
           } ]
         },
         "rank": 1
@@ -116,16 +116,16 @@
         },
         "use": {
           "coding": [ {
-            "system": "http://hl7.org/fhir/sid/icd-10-cm",
-            "code": "Z92.82",
-            "display": "Status post administration of tPA (rtPA) in a different facility within the last 24 hours prior to admission to current facility"
+            "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+            "code": "billing",
+            "display": "Billing"
           } ]
         },
         "rank": 2
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/5ce6cfeab84846725ea45883"
     }
   }, {
@@ -170,7 +170,7 @@
       "recordedDate": "2025-08-12T08:00:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Condition/ischemic-stroke-824c"
     }
   }, {
@@ -215,14 +215,14 @@
       "recordedDate": "2025-10-10T06:16:00+00:00"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Condition/prior-thrombolytic-therapy"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Coverage/1",
     "resource": {
       "resourceType": "Coverage",
-      "id": "Coverage-1",
+      "id": "1",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
       },
@@ -231,18 +231,18 @@
         "reference": "Patient/5736982d-6c82-4815-b0d2-3416ebe105f4"
       },
       "payor": [ {
-        "reference": "Organization/Org-123456"
+        "reference": "Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Coverage/Coverage-1"
+      "method": "POST",
+      "url": "Coverage/1"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Organization/123456",
     "resource": {
       "resourceType": "Organization",
-      "id": "Org-123456",
+      "id": "123456",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
       },
@@ -275,20 +275,20 @@
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Organization/Org-123456"
+      "method": "POST",
+      "url": "Organization/123456"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/MeasureReport/f71172c3-1096-4372-baa6-843dfdfa490c",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/d1160c95-5a77-4f75-8bb0-19a5d56366d3",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "f71172c3-1096-4372-baa6-843dfdfa490c",
+      "id": "d1160c95-5a77-4f75-8bb0-19a5d56366d3",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "31ae39b5-d230-4c24-94d3-448d2cfce771-parameters",
+        "id": "cfe9554a-c0b6-4b44-a855-ecd8e903ea07-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "5736982d-6c82-4815-b0d2-3416ebe105f4"
@@ -297,7 +297,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#31ae39b5-d230-4c24-94d3-448d2cfce771-parameters"
+          "reference": "#cfe9554a-c0b6-4b44-a855-ecd8e903ea07-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -363,22 +363,22 @@
         } ]
       } ],
       "evaluatedResource": [ {
-        "reference": "Patient/5736982d-6c82-4815-b0d2-3416ebe105f4"
+        "reference": "https://madie.cms.gov/Patient/5736982d-6c82-4815-b0d2-3416ebe105f4"
       }, {
-        "reference": "Encounter/5ce6cfeab84846725ea45883"
+        "reference": "https://madie.cms.gov/Encounter/5ce6cfeab84846725ea45883"
       }, {
-        "reference": "Condition/ischemic-stroke-824c"
+        "reference": "https://madie.cms.gov/Condition/ischemic-stroke-824c"
       }, {
-        "reference": "Condition/prior-thrombolytic-therapy"
+        "reference": "https://madie.cms.gov/Condition/prior-thrombolytic-therapy"
       }, {
-        "reference": "Coverage/Coverage-1"
+        "reference": "https://madie.cms.gov/Coverage/1"
       }, {
-        "reference": "Organization/Org-123456"
+        "reference": "https://madie.cms.gov/Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/f71172c3-1096-4372-baa6-843dfdfa490c"
+      "method": "POST",
+      "url": "MeasureReport/d1160c95-5a77-4f75-8bb0-19a5d56366d3"
     }
   } ]
 }

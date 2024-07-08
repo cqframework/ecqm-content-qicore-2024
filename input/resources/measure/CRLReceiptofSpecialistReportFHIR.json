@@ -8,6 +8,55 @@
     "resourceType": "Library",
     "id": "effective-data-requirements",
     "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://www.ama-assn.org/go/cpt",
+        "code": "96136",
+        "display": "Psychological or neuropsychological test administration and scoring by physician or other qualified health care professional, two or more tests, any method; first 30 minutes"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://www.ama-assn.org/go/cpt",
+        "code": "96138",
+        "display": "Psychological or neuropsychological test administration and scoring by technician, two or more tests, any method; first 30 minutes"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://www.ama-assn.org/go/cpt",
+        "code": "90839",
+        "display": "Psychotherapy for crisis; first 60 minutes"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://www.ama-assn.org/go/cpt",
+        "code": "96112",
+        "display": "Developmental test administration (including assessment of fine and/or gross motor, language, cognitive level, social, memory and/or executive functions by standardized developmental instruments when performed), by physician or other qualified health care professional, with interpretation and report; first hour"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://www.ama-assn.org/go/cpt",
+        "code": "96156",
+        "display": "Health behavior assessment, or re-assessment (ie, health-focused clinical interview, behavioral observations, clinical decision making)"
+      }
+    }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
@@ -17,10 +66,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  case\n      when Patient.gender = &#39;male&#39; then Code { code: &#39;M&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Male&#39; }\n      when Patient.gender = &#39;female&#39; then Code { code: &#39;F&#39;, system: &#39;http://hl7.org/fhir/v3/AdministrativeGender&#39;, display: &#39;Female&#39; }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
-        "valueString": "0"
+        "valueInteger": 0
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -32,10 +81,10 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+        "valueString": "define \"SDE Sex\":\n  SDE.\"SDE Sex\""
       }, {
         "url": "displaySequence",
-        "valueString": "1"
+        "valueInteger": 1
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -47,10 +96,10 @@
         "valueString": "First Referral during First 10 Months of Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;First Referral during First 10 Months of Measurement Period&quot;:\n  First([ServiceRequest: &quot;Referral&quot;] ReferralOrder\n      where ReferralOrder.status in { &#39;active&#39;, &#39;completed&#39; }\n        and ReferralOrder.intent = &#39;order&#39;\n        and ReferralOrder.authoredOn during day of Interval[start of &quot;Measurement Period&quot;, Date(year from start of &quot;Measurement Period&quot;, 10, 31)]\n      return {\n        ID: ReferralOrder.id,\n        AuthorDate: ReferralOrder.authoredOn\n      }\n      sort by AuthorDate ascending\n  )"
+        "valueString": "define \"First Referral during First 10 Months of Measurement Period\":\n  First([ServiceRequest: \"Referral\"] ReferralOrder\n      where ReferralOrder.status in { 'active', 'completed' }\n        and ReferralOrder.intent = 'order'\n        and ReferralOrder.authoredOn during day of Interval[start of \"Measurement Period\", Date(year from start of \"Measurement Period\", 10, 31)]\n      return {\n        ID: ReferralOrder.id,\n        AuthorDate: ReferralOrder.authoredOn\n      }\n      sort by AuthorDate ascending\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "2"
+        "valueInteger": 2
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -62,10 +111,10 @@
         "valueString": "Referring Clinician Receives Consultant Report to Close Referral Loop"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Referring Clinician Receives Consultant Report to Close Referral Loop&quot;:\n  exists ( [Task: &quot;Consultant Report&quot;] ConsultantReportObtained\n      with &quot;First Referral during First 10 Months of Measurement Period&quot; FirstReferral\n        such that FirstReferral.ID in &quot;TaskGetRequestID&quot;(ConsultantReportObtained)\n          and ConsultantReportObtained.executionPeriod ends after FirstReferral.AuthorDate\n          and ConsultantReportObtained.status = &#39;completed&#39;\n          and ConsultantReportObtained.executionPeriod ends during day of &quot;Measurement Period&quot;\n  )"
+        "valueString": "define \"Referring Clinician Receives Consultant Report to Close Referral Loop\":\n  exists ( [Task: \"Consultant Report\"] ConsultantReportObtained\n      with \"First Referral during First 10 Months of Measurement Period\" FirstReferral\n        such that FirstReferral.ID in \"TaskGetRequestID\"(ConsultantReportObtained)\n          and ConsultantReportObtained.executionPeriod ends after FirstReferral.AuthorDate\n          and ConsultantReportObtained.status = 'completed'\n          and ConsultantReportObtained.executionPeriod ends during day of \"Measurement Period\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueString": "3"
+        "valueInteger": 3
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -77,10 +126,40 @@
         "valueString": "Numerator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Numerator&quot;:\n  &quot;Referring Clinician Receives Consultant Report to Close Referral Loop&quot;"
+        "valueString": "define \"Numerator\":\n  \"Referring Clinician Receives Consultant Report to Close Referral Loop\""
       }, {
         "url": "displaySequence",
-        "valueString": "4"
+        "valueInteger": 4
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CRLReceiptofSpecialistReportFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Has Encounter from Valuesets during Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Has Encounter from Valuesets during Measurement Period\":\n  exists ( ( [Encounter: \"Behavioral/Neuropsych Assessment\"]\n      union [Encounter: \"Office Visit\"]\n      union [Encounter: \"Ophthalmological Services\"]\n      union [Encounter: \"Preventive Care Services Established Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care Services, Initial Office Visit, 0 to 17\"]\n      union [Encounter: \"Preventive Care Services Initial Office Visit, 18 and Up\"]\n      union [Encounter: \"Preventive Care, Established Office Visit, 0 to 17\"]\n      union [Encounter: \"Psych Visit Diagnostic Evaluation\"] ) Encounter\n      where Encounter.status = 'finished'\n        and Encounter.period during day of \"Measurement Period\"\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 5
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CRLReceiptofSpecialistReportFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Has Encounter from DRCs during Measurement Period"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Has Encounter from DRCs during Measurement Period\":\n  exists ( ( [Encounter] EncDRC\n      where exists ( ( EncDRC.type ) T\n          where T ~ \"Psychological or neuropsychological test administration and scoring by physician or other qualified health care professional, two or more tests, any method; first 30 minutes\"\n      )\n        or exists ( ( EncDRC.type ) T\n            where T ~ \"Psychological or neuropsychological test administration and scoring by technician, two or more tests, any method; first 30 minutes\"\n        )\n        or exists ( ( EncDRC.type ) T\n            where T ~ \"Psychotherapy for crisis; first 60 minutes\"\n        )\n        or exists ( ( EncDRC.type ) T\n            where T ~ \"Developmental test administration (including assessment of fine and/or gross motor, language, cognitive level, social, memory and/or executive functions by standardized developmental instruments when performed), by physician or other qualified health care professional, with interpretation and report; first hour\"\n        )\n        or exists ( ( EncDRC.type ) T\n            where T ~ \"Health behavior assessment, or re-assessment (ie, health-focused clinical interview, behavioral observations, clinical decision making)\"\n        ) ) Encounter\n      where Encounter.status = 'finished'\n        and Encounter.period during day of \"Measurement Period\"\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 6
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -92,10 +171,10 @@
         "valueString": "Has Encounter during Measurement Period"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Has Encounter during Measurement Period&quot;:\n  exists ( ( [Encounter: &quot;Office Visit&quot;]\n      union [Encounter: &quot;Ophthalmological Services&quot;]\n      union [Encounter: &quot;Preventive Care Services - Established Office Visit, 18 and Up&quot;]\n      union [Encounter: &quot;Preventive Care Services, Initial Office Visit, 0 to 17&quot;]\n      union [Encounter: &quot;Preventive Care Services-Initial Office Visit, 18 and Up&quot;]\n      union [Encounter: &quot;Preventive Care, Established Office Visit, 0 to 17&quot;] ) Encounter\n      where Encounter.status = &#39;finished&#39;\n        and Encounter.period during day of &quot;Measurement Period&quot;\n  )"
+        "valueString": "define \"Has Encounter during Measurement Period\":\n  \"Has Encounter from Valuesets during Measurement Period\"\n    or \"Has Encounter from DRCs during Measurement Period\""
       }, {
         "url": "displaySequence",
-        "valueString": "5"
+        "valueInteger": 7
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -107,10 +186,10 @@
         "valueString": "Initial Population"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Initial Population&quot;:\n  &quot;Has Encounter during Measurement Period&quot;\n    and &quot;First Referral during First 10 Months of Measurement Period&quot; is not null"
+        "valueString": "define \"Initial Population\":\n  \"Has Encounter during Measurement Period\"\n    and \"First Referral during First 10 Months of Measurement Period\" is not null"
       }, {
         "url": "displaySequence",
-        "valueString": "6"
+        "valueInteger": 8
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -122,10 +201,10 @@
         "valueString": "Denominator"
       }, {
         "url": "statement",
-        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+        "valueString": "define \"Denominator\":\n  \"Initial Population\""
       }, {
         "url": "displaySequence",
-        "valueString": "7"
+        "valueInteger": 9
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -137,10 +216,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+        "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "8"
+        "valueInteger": 10
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -152,10 +231,10 @@
         "valueString": "SDE Payer"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+        "valueString": "define \"SDE Payer\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueString": "9"
+        "valueInteger": 11
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -167,10 +246,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+        "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "10"
+        "valueInteger": 12
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -182,10 +261,10 @@
         "valueString": "SDE Ethnicity"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+        "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueString": "11"
+        "valueInteger": 13
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -197,10 +276,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+        "valueString": "define \"SDE Race\":\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueString": "12"
+        "valueInteger": 14
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -212,10 +291,10 @@
         "valueString": "SDE Race"
       }, {
         "url": "statement",
-        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+        "valueString": "define \"SDE Race\":\n  SDE.\"SDE Race\""
       }, {
         "url": "displaySequence",
-        "valueString": "13"
+        "valueInteger": 15
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -227,10 +306,10 @@
         "valueString": "TaskGetRequestID"
       }, {
         "url": "statement",
-        "valueString": "define function &quot;TaskGetRequestID&quot;(task Task):\n  task.basedOn Task\n    return QICoreCommon.&quot;GetId&quot; ( Task.reference )"
+        "valueString": "define function \"TaskGetRequestID\"(task Task):\n  task.basedOn Task\n    return QICoreCommon.\"GetId\" ( Task.reference )"
       }, {
         "url": "displaySequence",
-        "valueString": "14"
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -242,10 +321,25 @@
         "valueString": "GetId"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n@deprecated: This function is deprecated. Use the fluent function `getId()` instead\n*/\ndefine function GetId(uri String ):\n  Last(Split(uri, &#39;/&#39;))"
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n@deprecated: This function is deprecated. Use the fluent function `getId()` instead\n*/\ndefine function GetId(uri String ):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueString": "15"
+        "valueInteger": 17
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToConcept"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -260,7 +354,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueString": "16"
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -275,9 +369,10 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueString": "17"
+        "valueInteger": 20
       } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -288,15 +383,23 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
+    }, {
+      "type": "depends-on",
+      "display": "Code system CPT",
+      "resource": "http://www.ama-assn.org/go/cpt"
     }, {
       "type": "depends-on",
       "display": "Value set Consultant Report",
@@ -307,6 +410,10 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1046"
     }, {
       "type": "depends-on",
+      "display": "Value set Behavioral/Neuropsych Assessment",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"
+    }, {
+      "type": "depends-on",
       "display": "Value set Office Visit",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001"
     }, {
@@ -315,7 +422,7 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1285"
     }, {
       "type": "depends-on",
-      "display": "Value set Preventive Care Services - Established Office Visit, 18 and Up",
+      "display": "Value set Preventive Care Services Established Office Visit, 18 and Up",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025"
     }, {
       "type": "depends-on",
@@ -323,12 +430,16 @@
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1022"
     }, {
       "type": "depends-on",
-      "display": "Value set Preventive Care Services-Initial Office Visit, 18 and Up",
+      "display": "Value set Preventive Care Services Initial Office Visit, 18 and Up",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023"
     }, {
       "type": "depends-on",
       "display": "Value set Preventive Care, Established Office Visit, 0 to 17",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1024"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Psych Visit Diagnostic Evaluation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"
     }, {
       "type": "depends-on",
       "display": "Value set Payer Type",
@@ -340,6 +451,12 @@
       "min": 0,
       "max": "1",
       "type": "Period"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
     }, {
       "name": "Numerator",
       "use": "out",
@@ -353,23 +470,17 @@
       "max": "1",
       "type": "boolean"
     }, {
-      "name": "Initial Population",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "boolean"
-    }, {
-      "name": "SDE Sex",
-      "use": "out",
-      "min": 0,
-      "max": "1",
-      "type": "Coding"
-    }, {
       "name": "SDE Payer",
       "use": "out",
       "min": 0,
       "max": "*",
       "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "boolean"
     }, {
       "name": "SDE Ethnicity",
       "use": "out",
@@ -386,22 +497,76 @@
     "dataRequirement": [ {
       "type": "Patient",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
-      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+      "mustSupport": [ "ethnicity", "race" ]
     }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1046"
+      }, {
+        "path": "intent.value",
+        "code": [ {
+          "code": "order"
+        } ]
+      } ]
+    }, {
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
+        "extension": [ {
+          "url": "targetId",
+          "valueString": "509"
+        }, {
+          "url": "targetProperty",
+          "valueString": "executionPeriod"
+        } ]
+      } ],
       "type": "ServiceRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
       "mustSupport": [ "code", "status", "status.value", "intent", "intent.value", "authoredOn", "authoredOn.value", "id", "id.value", "ID", "AuthorDate" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1046"
+      }, {
+        "path": "intent.value",
+        "code": [ {
+          "code": "order"
+        } ]
       } ]
     }, {
+      "id": "509",
       "type": "Task",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-task" ],
       "mustSupport": [ "code", "executionPeriod", "status", "status.value", "reference", "reference.value" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.121.12.1006"
+      }, {
+        "path": "status.value",
+        "code": [ {
+          "code": "completed"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "executionPeriod",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1023"
       } ]
     }, {
       "type": "Encounter",
@@ -452,6 +617,28 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1024"
       } ]
     }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1492"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period" ],
+      "codeFilter": [ {
+        "path": "status.value",
+        "code": [ {
+          "code": "finished"
+        } ]
+      } ]
+    }, {
       "type": "Coverage",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
       "mustSupport": [ "type", "period" ],
@@ -465,7 +652,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -478,6 +666,12 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
+    "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
@@ -513,7 +707,7 @@
       } ]
     },
     "system": "urn:ietf:rfc:3986",
-    "value": "urn:uuid:da750264-048c-4e17-b45c-9d05b2c1fa55"
+    "value": "urn:uuid:28defa55-b86f-4d45-9919-08ee327231da"
   }, {
     "use": "official",
     "type": {
@@ -528,12 +722,12 @@
       "display": "CMS"
     }
   } ],
-  "version": "0.2.000",
+  "version": "0.3.000",
   "name": "CRLReceiptofSpecialistReportFHIR",
   "title": "Closing the Referral Loop: Receipt of Specialist ReportFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-11-17T19:15:20+00:00",
+  "date": "2024-07-01T20:13:03+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -543,10 +737,8 @@
   } ],
   "description": "Percentage of patients with referrals, regardless of age, for which the referring clinician receives a report from the clinician to whom the patient was referred",
   "purpose": "UNKNOWN",
-  "usage": "The clinician who refers the patient to another clinician is the clinician who should be held accountable for the performance of this measure. \n\nOnly the first referral made between January 1 – October 31 of the measurement period will be considered for this measure to allow adequate time for the referring clinician to collect the consult report by the end of the measurement period.\n\nIf there are multiple referrals for a patient during the measurement period, use the first referral.\n\nThe clinician to whom the patient was referred is responsible for sending the consultant report that will fulfill the communication. Note: this is not the same clinician who would report on the measure. \n\nThe consultant report that will successfully close the referral loop should be related to the first referral for a patient during the measurement period. If there are multiple consultant reports received by the referring clinician which pertain to a particular referral, use the first consultant report to satisfy the measure. Eligible clinicians reporting on this measure should note that all data for the performance period is to be submitted by the deadline established by CMS. Therefore, eligible clinicians who refer patients towards the end of the performance period (i.e., October), should request that clinicians to whom they referred their patients share their consult reports as soon as possible in order for those patients to be counted in the measure numerator during the measurement period. When clinicians to whom patients are referred communicate the consult report as soon as possible with the referring clinician, it ensures that the communication loop is closed in a timely manner and that the data are included in the submission to CMS.\n\nThis eCQM is a patient-based measure.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS50v12.  \n\nPlease refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.",
-  "approvalDate": "2023-11-27",
-  "lastReviewDate": "2023-11-27",
+  "usage": "The clinician who refers the patient to another clinician is the clinician who should be held accountable for the performance of this measure.   Only the first referral made between January 1 – October 31 of the measurement period will be considered for this measure to allow adequate time for the referring clinician to collect the consult report by the end of the measurement period.  If there are multiple referrals for a patient during the measurement period, use the first referral.  The clinician to whom the patient was referred is responsible for sending the consultant report that will fulfill the communication. Note: this is not the same clinician who would report on the measure.   The consultant report that will successfully close the referral loop should be related to the first referral for a patient during the measurement period. If there are multiple consultant reports received by the referring clinician which pertain to a particular referral, use the first consultant report to satisfy the measure. Eligible clinicians reporting on this measure should note that all data for the measurement period is to be submitted by the deadline established by CMS. Therefore, eligible clinicians who refer patients towards the end of the measurement period (i.e., October), should request that clinicians to whom they referred their patients share their consult reports as soon as possible in order for those patients to be counted in the measure numerator during the measurement period. When clinicians to whom patients are referred communicate the consult report as soon as possible with the referring clinician, it ensures that the communication loop is closed in a timely manner and that the data are included in the submission to CMS.  This eCQM is a patient-based measure.  This FHIR-based measure has been derived from the QDM-based measure: CMS50v13.    Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -559,9 +751,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/CRLReceiptofSpecialistReportFHIR" ],
-  "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.\n\nTHE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
-  "rationale": "Problems in the outpatient referral and consultation process have been documented, including inadequate care pathways between specialty and primary care. Studies suggest that both specialists and primary care providers (PCPs) are not satisfied with current processes (Institute for Healthcare Improvement / National Patient Safety Foundation, 2017; Greenwood-Lee et. al, 2018). Breakdowns in referral communication leads to worse health outcomes, increased cost, and appointment delays (Patel et. al, 2018; Odisho et. al, 2020. A 2018 analysis of primary care referrals to specialists found that of the 103,737 referral scheduling attempts analyzed, only 36,072 (34.8%) resulted in documented complete appointments, defined by the specialty clinician providing report to the PCP after the referral visit (Patel et. al, 2018). \nTechnological and process-based updates can improve the referral loop process and increase rates of closing the referral loop. Ramelson et. al (2018) enhanced an EHR's Referral Manager module to meet the Controlled Risk Insurance Company’s best practice steps and the requirements of both the CMS EHR Incentive Program and the National Committee for Quality Assurance Patient-Centered Medical Home program. Following the updates, 76.8% of referrals were completed and all defined referral process steps were easier to accomplish. Odisho et. al (2020) developed a referrals automation software to simplify the fax to referral process. Feedback from key stakeholder interviews noted that the software enhanced the referrals process by further streamlining and organizing the patient referral process. The Institute for Healthcare Improvement and the National Patient Safety Foundation (2017) reviewed the referrals process in the ambulatory care setting and found that organizational leaders, EHR vendors, regulatory agencies, clinicians, and patients all play a role in creating a referrals system that is effective, safe, convenient, and patient-centered.",
-  "clinicalRecommendationStatement": "None",
+  "disclaimer": "This performance Measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications.  THE MEASURE AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -569,8 +759,10 @@
       "display": "Proportion"
     } ]
   },
-  "  "group": [ {
-    "id": "64ef74b456d636294b157b24",
+  "rationale": "Problems in the outpatient referral and consultation process have been documented, including inadequate care pathways between specialty and primary care. Studies suggest that both specialists and primary care providers (PCPs) are not satisfied with current processes (Institute for Healthcare Improvement / National Patient Safety Foundation, 2017; Greenwood-Lee et. al, 2018). Breakdowns in referral communication leads to worse health outcomes, increased cost, and appointment delays (Patel et. al, 2018; Odisho et. al, 2020). A 2018 analysis of primary care referrals to specialists found that of the 103,737 referral scheduling attempts analyzed, only 36,072 (34.8%) resulted in documented complete appointments, defined by the specialty clinician providing report to the PCP after the referral visit (Patel et. al, 2018).  Technological and process-based updates can improve the referral loop process and increase rates of closing the referral loop. Ramelson et. al (2018) enhanced an EHR's Referral Manager module to meet the Controlled Risk Insurance Company’s best practice steps and the requirements of both the CMS EHR Incentive Program and the National Committee for Quality Assurance Patient-Centered Medical Home program. Following the updates, 76.8% of referrals were completed and all defined referral process steps were easier to accomplish. Odisho et. al (2020) developed a referrals automation software to simplify the fax to referral process. Feedback from key stakeholder interviews noted that the software enhanced the referrals process by further streamlining and organizing the patient referral process. The Institute for Healthcare Improvement and the National Patient Safety Foundation (2017) reviewed the referrals process in the ambulatory care setting and found that organizational leaders, EHR vendors, regulatory agencies, clinicians, and patients all play a role in creating a referrals system that is effective, safe, convenient, and patient-centered.",
+  "clinicalRecommendationStatement": "None",
+  "group": [ {
+    "id": "656518260f81f93fca7d75b4",
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
       "valueCodeableConcept": {
@@ -590,6 +782,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -623,18 +827,6 @@
         "expression": "Denominator"
       }
     }, {
-      "id": "5aa37c53-7084-4adb-bdda-5be51c19af19",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exclusion",
-          "display": "Denominator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "5AAED7CC-78D7-4AA8-B9B9-734D2C4BE151",
       "code": {
         "coding": [ {
@@ -647,30 +839,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "564dcd80-1f83-4b2f-bbd5-3a82fc30a427",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
-      "id": "307125b6-3104-4ac6-aea4-a438914ea420",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "denominator-exception",
-          "display": "Denominator Exception"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     } ]
   } ],

@@ -2,9 +2,9 @@ library DocumentationofCurrentMedicationsFHIR version '0.2.000'
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include QICoreCommon version '2.0.000' called QICoreCommon
-include SupplementalDataElements version '3.4.000' called SDE
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include QICoreCommon version '2.1.000' called QICoreCommon
+include SupplementalDataElements version '3.5.000' called SDE
 
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
 
@@ -15,6 +15,7 @@ code "Documentation of current medications (procedure)": '428191000124101' from 
 
 parameter "Measurement Period" Interval<DateTime>
   default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
+
 context Patient
 
 define "SDE Ethnicity":

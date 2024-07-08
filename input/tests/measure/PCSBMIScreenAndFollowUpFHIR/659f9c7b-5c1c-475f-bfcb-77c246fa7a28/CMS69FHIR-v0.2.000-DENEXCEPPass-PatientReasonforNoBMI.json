@@ -57,7 +57,7 @@
       "birthDate": "1956-11-07"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/659f9c7b-5c1c-475f-bfcb-77c246fa7a28"
     }
   }, {
@@ -88,11 +88,11 @@
       },
       "period": {
         "start": "2025-01-01T08:00:00.000+00:00",
-        "end": "2025-01-01T08:15:00.000+00:00"
+        "end": "2025-01-01T08:25:00.000+00:00"
       }
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/encounter-to-evaluate-bmi-533b"
     }
   }, {
@@ -138,7 +138,7 @@
       "valueBoolean": true
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Observation/body-mass-index-bmi-ratio-534c"
     }
   }, {
@@ -165,27 +165,27 @@
       },
       "authoredOn": "2025-01-01T08:10:00.000+00:00",
       "requester": {
-        "reference": "Practitioner/f007",
+        "reference": "Practitioner/example",
         "display": "Patrick Pump"
       },
       "reasonCode": [ {
         "coding": [ {
-          "system": "http://hl7.org/fhir/sid/icd-10-cm",
-          "code": "E66.01",
-          "display": "Morbid (severe) obesity due to excess calories",
+          "system": "http://snomed.info/sct",
+          "code": "62014003",
+          "display": "Adverse reaction caused by drug (disorder)",
           "userSelected": true
         } ]
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "MedicationRequest/medications-for-above-normal-bmi-a906"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Coverage/1",
     "resource": {
       "resourceType": "Coverage",
-      "id": "Coverage-1",
+      "id": "1",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
       },
@@ -194,18 +194,18 @@
         "reference": "Patient/659f9c7b-5c1c-475f-bfcb-77c246fa7a28"
       },
       "payor": [ {
-        "reference": "Organization/Org-123456"
+        "reference": "Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Coverage/Coverage-1"
+      "method": "POST",
+      "url": "Coverage/1"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Organization/123456",
     "resource": {
       "resourceType": "Organization",
-      "id": "Org-123456",
+      "id": "123456",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
       },
@@ -238,8 +238,8 @@
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Organization/Org-123456"
+      "method": "POST",
+      "url": "Organization/123456"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
@@ -259,20 +259,20 @@
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Practitioner/practitioner-123456"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/MeasureReport/92aac32b-27a4-4b18-a459-590e78029fae",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/e7aaa42a-e0a4-432e-9f24-b8b01c2a8aab",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "92aac32b-27a4-4b18-a459-590e78029fae",
+      "id": "e7aaa42a-e0a4-432e-9f24-b8b01c2a8aab",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "3c1fd7cd-ebb6-4238-84fb-61d79bcb37b0-parameters",
+        "id": "5fc4df1d-c1da-43e0-ac0e-6c6f302cb041-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "659f9c7b-5c1c-475f-bfcb-77c246fa7a28"
@@ -281,7 +281,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#3c1fd7cd-ebb6-4238-84fb-61d79bcb37b0-parameters"
+          "reference": "#5fc4df1d-c1da-43e0-ac0e-6c6f302cb041-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -347,24 +347,24 @@
         } ]
       } ],
       "evaluatedResource": [ {
-        "reference": "Patient/659f9c7b-5c1c-475f-bfcb-77c246fa7a28"
+        "reference": "https://madie.cms.gov/Patient/659f9c7b-5c1c-475f-bfcb-77c246fa7a28"
       }, {
-        "reference": "Encounter/encounter-to-evaluate-bmi-533b"
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-evaluate-bmi-533b"
       }, {
-        "reference": "Observation/body-mass-index-bmi-ratio-534c"
+        "reference": "https://madie.cms.gov/Observation/body-mass-index-bmi-ratio-534c"
       }, {
-        "reference": "MedicationRequest/medications-for-above-normal-bmi-a906"
+        "reference": "https://madie.cms.gov/MedicationRequest/medications-for-above-normal-bmi-a906"
       }, {
-        "reference": "Coverage/Coverage-1"
+        "reference": "https://madie.cms.gov/Coverage/1"
       }, {
-        "reference": "Organization/Org-123456"
+        "reference": "https://madie.cms.gov/Organization/123456"
       }, {
-        "reference": "Practitioner/practitioner-123456"
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/92aac32b-27a4-4b18-a459-590e78029fae"
+      "method": "POST",
+      "url": "MeasureReport/e7aaa42a-e0a4-432e-9f24-b8b01c2a8aab"
     }
   } ]
 }

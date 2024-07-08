@@ -10,23 +10,23 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
         "code": "VR",
         "display": "virtual"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "183624006",
-        "display": "Follow-up 2-3 months (finding)"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://snomed.info/sct",
-        "code": "183625007",
-        "display": "Follow-up 4-6 months (finding)"
       }
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
@@ -59,27 +59,6 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "active",
-        "display": "Active"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "recurrence",
-        "display": "Recurrence"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "relapse",
-        "display": "Relapse"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
         "system": "http://loinc.org",
         "code": "8480-6",
         "display": "Systolic blood pressure"
@@ -101,7 +80,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -173,10 +152,10 @@
         "valueString": "PCSBPScreeningFollowUpFHIR"
       }, {
         "url": "name",
-        "valueString": "Follow up with Rescreen in 2 to 6 Months"
+        "valueString": "Follow up with Rescreen Within 6 Months"
       }, {
         "url": "statement",
-        "valueString": "define \"Follow up with Rescreen in 2 to 6 Months\":\n  ( [ServiceRequest: \"Follow-up 2-3 months (finding)\"]\n    union [ServiceRequest: \"Follow-up 4-6 months (finding)\"] ) FollowUp\n    where FollowUp.intent ~ 'order'"
+        "valueString": "define \"Follow up with Rescreen Within 6 Months\":\n  [ServiceRequest: \"Follow Up Within 6 Months\"] FollowUp\n    where FollowUp.intent ~ 'order'"
       }, {
         "url": "displaySequence",
         "valueInteger": 5
@@ -221,7 +200,7 @@
         "valueString": "Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions\":\n  ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n      with \"Follow up with Rescreen in 2 to 6 Months\" Twoto6MonthRescreen\n        such that Twoto6MonthRescreen.authoredOn during day of ElevatedEncounter.period\n      with \"NonPharmacological Interventions\" NonPharmInterventions\n        such that NonPharmInterventions.authoredOn during day of ElevatedEncounter.period\n  )\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n        with \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" Referral\n          such that Referral.authoredOn during day of ElevatedEncounter.period\n    )"
+        "valueString": "define \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80 and Interventions\":\n  ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n      with \"Follow up with Rescreen Within 6 Months\" Twoto6MonthRescreen\n        such that Twoto6MonthRescreen.authoredOn during day of ElevatedEncounter.period\n      with \"NonPharmacological Interventions\" NonPharmInterventions\n        such that NonPharmInterventions.authoredOn during day of ElevatedEncounter.period\n  )\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedEncounter\n        with \"Referral to Alternate or Primary Healthcare Professional for Hypertensive Reading\" Referral\n          such that Referral.authoredOn during day of ElevatedEncounter.period\n    )"
       }, {
         "url": "displaySequence",
         "valueInteger": 8
@@ -326,7 +305,7 @@
         "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\":\n  \"Follow up with Rescreen in 2 to 6 Months\" Rescreen2to6\n    with \"Laboratory Test or ECG for Hypertension\" LabECGIntervention\n      such that Rescreen2to6.authoredOn during day of \"Measurement Period\"\n        and LabECGIntervention.authoredOn during day of \"Measurement Period\"\n    with \"NonPharmacological Interventions\" NonPharmSecondIntervention\n      such that NonPharmSecondIntervention.authoredOn during day of \"Measurement Period\""
+        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 and Interventions\":\n  \"Follow up with Rescreen Within 6 Months\" Rescreen2to6\n    with \"Laboratory Test or ECG for Hypertension\" LabECGIntervention\n      such that Rescreen2to6.authoredOn during day of \"Measurement Period\"\n        and LabECGIntervention.authoredOn during day of \"Measurement Period\"\n    with \"NonPharmacological Interventions\" NonPharmSecondIntervention\n      such that NonPharmSecondIntervention.authoredOn during day of \"Measurement Period\""
       }, {
         "url": "displaySequence",
         "valueInteger": 15
@@ -506,7 +485,7 @@
         "valueString": "Denominator Exclusions"
       }, {
         "url": "statement",
-        "valueString": "define \"Denominator Exclusions\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    with [Condition: \"Diagnosis of Hypertension\"] Hypertension\n      such that ( Hypertension.isProblemListItem ( )\n          or Hypertension.isHealthConcern ( )\n      )\n        and Hypertension.isActive ( )\n        and Hypertension.prevalenceInterval ( ) starts before or on day of QualifyingEncounter.period"
+        "valueString": "define \"Denominator Exclusions\":\n  \"Qualifying Encounter during Measurement Period\" QualifyingEncounter\n    with [Condition: \"Diagnosis of Hypertension\"] Hypertension\n      such that ( Hypertension.isProblemListItem ( )\n          or Hypertension.isHealthConcern ( )\n      )\n        and Hypertension.prevalenceInterval ( ) starts before or on day of QualifyingEncounter.period"
       }, {
         "url": "displaySequence",
         "valueInteger": 27
@@ -596,7 +575,7 @@
         "valueString": "Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined"
       }, {
         "url": "statement",
-        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\":\n  ( ( ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: code = \"Follow-up 2-3 months (finding)\"]\n        union [ServiceNotRequested: code = \"Follow-up 4-6 months (finding)\"] ) SecondHTNDeclinedReferralAndFollowUp\n        where SecondHTNDeclinedReferralAndFollowUp.reasonRefused in \"Patient Declined\"\n          and SecondHTNDeclinedReferralAndFollowUp.status = 'completed'\n    )\n      union \"Laboratory Test or ECG for Hypertension Not Ordered\"\n      union \"NonPharmacological Intervention Not Ordered\"\n  )"
+        "valueString": "define \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\":\n  ( ( ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: \"Follow Up Within 6 Months\"] ) SecondHTNDeclinedReferralAndFollowUp\n        where SecondHTNDeclinedReferralAndFollowUp.reasonRefused in \"Patient Declined\"\n          and SecondHTNDeclinedReferralAndFollowUp.status = 'completed'\n    )\n      union \"Laboratory Test or ECG for Hypertension Not Ordered\"\n      union \"NonPharmacological Intervention Not Ordered\"\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 33
@@ -626,7 +605,7 @@
         "valueString": "Encounter with Order for Hypertension Follow Up Declined by Patient"
       }, {
         "url": "statement",
-        "valueString": "define \"Encounter with Order for Hypertension Follow Up Declined by Patient\":\n  ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n      with ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n        union [ServiceNotRequested: code = \"Follow-up 2-3 months (finding)\"]\n        union [ServiceNotRequested: code = \"Follow-up 4-6 months (finding)\"] ) ElevatedBPDeclinedInterventions\n        such that ElevatedBPDeclinedInterventions.reasonRefused in \"Patient Declined\"\n          and ElevatedBPDeclinedInterventions.authoredOn during day of ElevatedBPEncounter.period\n          and ElevatedBPDeclinedInterventions.status = 'completed'\n  )\n    union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n        with \"NonPharmacological Intervention Not Ordered\" NotOrdered\n          such that NotOrdered.authoredOn during day of ElevatedBPEncounter.period\n    )\n    union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n        with ( [ServiceNotRequested: \"Follow Up Within 4 Weeks\"]\n          union [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"] ) FirstHTNDeclinedInterventions\n          such that FirstHTNDeclinedInterventions.reasonRefused in \"Patient Declined\"\n            and FirstHTNDeclinedInterventions.authoredOn during day of FirstHTNEncounter.period\n            and FirstHTNDeclinedInterventions.status = 'completed'\n    )\n    union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n        with \"NonPharmacological Intervention Not Ordered\" NoNonPharm\n          such that NoNonPharm.authoredOn during day of FirstHTNEncounter.period\n    )\n    union ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\" SecondHTNEncounter\n        with \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\" SecondHTNDeclinedInterventions\n          such that SecondHTNDeclinedInterventions.authoredOn during day of SecondHTNEncounter.period\n    )\n    union ( \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\" SecondHTN140Over90Encounter\n        with \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined\" SecondHTN140Over90DeclinedInterventions\n          such that SecondHTN140Over90DeclinedInterventions.authoredOn during day of SecondHTN140Over90Encounter.period\n    )"
+        "valueString": "define \"Encounter with Order for Hypertension Follow Up Declined by Patient\":\n  ( ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n        with ( [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"]\n          union [ServiceNotRequested: \"Follow Up Within 6 Months\"] ) ElevatedBPDeclinedInterventions\n          such that ElevatedBPDeclinedInterventions.reasonRefused in \"Patient Declined\"\n            and ElevatedBPDeclinedInterventions.authoredOn during day of ElevatedBPEncounter.period\n            and ElevatedBPDeclinedInterventions.status = 'completed'\n    )\n      union ( \"Encounter with Elevated Blood Pressure Reading SBP 120 to 129 AND DBP less than 80\" ElevatedBPEncounter\n          with \"NonPharmacological Intervention Not Ordered\" NotOrdered\n            such that NotOrdered.authoredOn during day of ElevatedBPEncounter.period\n      )\n      union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n          with ( [ServiceNotRequested: \"Follow Up Within 4 Weeks\"]\n            union [ServiceNotRequested: \"Referral to Primary Care or Alternate Provider\"] ) FirstHTNDeclinedInterventions\n            such that FirstHTNDeclinedInterventions.reasonRefused in \"Patient Declined\"\n              and FirstHTNDeclinedInterventions.authoredOn during day of FirstHTNEncounter.period\n              and FirstHTNDeclinedInterventions.status = 'completed'\n      )\n      union ( \"Encounter with First Hypertensive Reading SBP Greater than or Equal to 130 OR DBP Greater than or Equal to 80\" FirstHTNEncounter\n          with \"NonPharmacological Intervention Not Ordered\" NoNonPharm\n            such that NoNonPharm.authoredOn during day of FirstHTNEncounter.period\n      )\n      union ( \"Encounter with Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89\" SecondHTNEncounter\n          with \"Second Hypertensive Reading SBP 130 to 139 OR DBP 80 to 89 Interventions Declined\" SecondHTNDeclinedInterventions\n            such that SecondHTNDeclinedInterventions.authoredOn during day of SecondHTNEncounter.period\n      )\n      union ( \"Encounter with Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90\" SecondHTN140Over90Encounter\n          with \"Second Hypertensive Reading SBP Greater than or Equal to 140 OR DBP Greater than or Equal to 90 Interventions Declined\" SecondHTN140Over90DeclinedInterventions\n            such that SecondHTN140Over90DeclinedInterventions.authoredOn during day of SecondHTN140Over90Encounter.period\n      )\n  )"
       }, {
         "url": "displaySequence",
         "valueInteger": 35
@@ -721,22 +700,8 @@
         "url": "displaySequence",
         "valueInteger": 41
       } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "isActive"
-      }, {
-        "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 42
-      } ]
     } ],
+    "name": "EffectiveDataRequirements",
     "status": "active",
     "type": {
       "coding": [ {
@@ -747,23 +712,23 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system ActCode",
       "resource": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-    }, {
-      "type": "depends-on",
-      "display": "Code system SNOMEDCT",
-      "resource": "http://snomed.info/sct"
     }, {
       "type": "depends-on",
       "display": "Code system LOINC",
@@ -778,12 +743,12 @@
       "resource": "http://hl7.org/fhir/us/core/CodeSystem/condition-category"
     }, {
       "type": "depends-on",
-      "display": "Code system ConditionClinicalStatusCodes",
-      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
-    }, {
-      "type": "depends-on",
       "display": "Value set Encounter to Screen for Blood Pressure",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1920"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Follow Up Within 6 Months",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
     }, {
       "type": "depends-on",
       "display": "Value set Lifestyle Recommendation",
@@ -931,30 +896,6 @@
       "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "code",
-        "code": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183624006",
-          "display": "Follow-up 2-3 months (finding)"
-        } ]
-      } ]
-    }, {
-      "type": "ServiceRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
-      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
-      "codeFilter": [ {
-        "path": "code",
-        "code": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183625007",
-          "display": "Follow-up 4-6 months (finding)"
-        } ]
-      } ]
-    }, {
-      "type": "ServiceRequest",
-      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
-      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
-      "codeFilter": [ {
-        "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1581"
       } ]
     }, {
@@ -995,6 +936,19 @@
       "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+      }, {
+        "path": "intent.value",
+        "code": [ {
+          "code": "order"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
         "code": [ {
           "system": "http://loinc.org",
           "code": "34534-8",
@@ -1020,6 +974,31 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1482"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "intent", "intent.value", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
+      }, {
+        "path": "intent.value",
+        "code": [ {
+          "code": "order"
+        } ]
+      } ],
+      "dateFilter": [ {
+        "path": "authoredOn.value",
+        "valuePeriod": {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+            "valueExpression": {
+              "language": "text/cql-identifier",
+              "expression": "Measurement Period"
+            }
+          } ]
+        }
       } ]
     }, {
       "type": "ServiceRequest",
@@ -1064,7 +1043,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "G10002"
+          "valueString": "1442"
         }, {
           "url": "targetProperty",
           "valueString": "medication"
@@ -1074,7 +1053,7 @@
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
       "mustSupport": [ "id" ]
     }, {
-      "id": "G10002",
+      "id": "1442",
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
       "mustSupport": [ "medication.reference", "authoredOn", "authoredOn.value", "status", "status.value" ]
@@ -1252,11 +1231,7 @@
       "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "code",
-        "code": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183624006",
-          "display": "Follow-up 2-3 months (finding)"
-        } ]
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
       } ]
     }, {
       "type": "ServiceRequest",
@@ -1264,11 +1239,7 @@
       "mustSupport": [ "code", "extension", "status", "status.value", "authoredOn", "authoredOn.value" ],
       "codeFilter": [ {
         "path": "code",
-        "code": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183625007",
-          "display": "Follow-up 4-6 months (finding)"
-        } ]
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1108.125"
       } ]
     }, {
       "type": "ServiceRequest",
@@ -1324,6 +1295,9 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
+    }, {
       "url": "usage",
       "valueCodeableConcept": {
         "coding": [ {
@@ -1393,10 +1367,10 @@
   } ],
   "version": "0.2.000",
   "name": "PCSBPScreeningFollowUpFHIR",
-  "title": "Preventive Care and Screening: Screening for High Blood Pressure and Follow-Up DocumentedFHIR",
+  "title": "Preventive Care and Screening Screening for High Blood Pressure and Follow Up DocumentedFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2023-12-21T19:53:18+00:00",
+  "date": "2024-07-01T20:13:06+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1406,10 +1380,8 @@
   } ],
   "description": "Percentage of patient visits for patients aged 18 years and older seen during the measurement period who were screened for high blood pressure AND a recommended follow-up plan is documented, as indicated, if blood pressure is elevated or hypertensive",
   "purpose": "UNKNOWN",
-  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter for patients aged 18 years and older during the measurement period. This measure should be reported for every visit. The measure requires that blood pressure measurements (i.e., diastolic and systolic) be obtained during each visit in order to determine the blood pressure reading used to evaluate if an intervention is needed.   Both the systolic and diastolic blood pressure measurements are required for inclusion. If there are multiple blood pressures obtained during a patient visit, only the last, or most recent, pressure measurement will be used to evaluate the measure requirements.  The intent of this measure is to screen patients for high blood pressure and provide recommended follow-up as indicated. The documented follow-up plan must be related to the current blood pressure reading as indicated, example: \"Patient referred to primary care provider for BP management.\"  Telehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.    This FHIR-based measure has been derived from the QDM-based measure: CMS22v12.   Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2022 American Medical Association. LOINC(R) is copyright 2004-2022 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2022 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2022 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-22",
-  "lastReviewDate": "2023-11-22",
+  "usage": "This eCQM is an episode-based measure. An episode is defined as each eligible encounter for patients aged 18 years and older during the measurement period. This measure should be reported for every visit. The measure requires that blood pressure measurements (i.e., diastolic and systolic) be obtained during each visit in order to determine the blood pressure reading used to evaluate if an intervention is needed.   Both the systolic and diastolic blood pressure measurements are required for inclusion. If there are multiple blood pressures obtained during a patient visit, only the last, or most recent, pressure measurement will be used to evaluate the measure requirements.  The intent of this measure is to screen patients for high blood pressure and provide recommended follow-up as indicated. The documented follow-up plan must be related to the current blood pressure reading as indicated, example: \"Patient referred to primary care provider for BP management.\"  Telehealth encounters are not eligible for this measure because the measure requires a clinical action that cannot be conducted via telehealth.    This eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.   This FHIR-based measure has been derived from the QDM-based measure: CMS 22v13.  Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organisation. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -1430,7 +1402,7 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "Hypertension is a prevalent condition that affects approximately 66.9 million people in the United States. It is estimated that about 20-40% of the adult population has hypertension; the majority of people over age 65 have a hypertension diagnosis (Appleton et al., 2013 and Luehr et al., 2012). Winter (2013) noted that 1 in 3 American adults have hypertension and the lifetime risk of developing hypertension is 90%. The African American population or non-Hispanic Blacks, the elderly, diabetics and those with chronic kidney disease are at increased risk of stroke, myocardial infarction and renal disease. Non-Hispanic Blacks have the highest prevalence at 38.6% (Winter et al., 2013). Hypertension is a major risk factor for ischemic heart disease, left ventricular hypertrophy, renal failure, stroke and dementia (Luehr et al., 2012). Prevention of hypertension and the treatment of established hypertension are complementary approaches to reducing cardiovascular disease risk in the population, but prevention of hypertension provides the optimal means of reducing risk and avoiding harmful consequences. Periodic blood pressure (BP) screening can identify individuals who develop elevated BP over time. More frequent BP screening may be particularly important for individuals with elevated atherosclerotic cardiovascular disease (ASCVD) risk (Whelton et al., 2018).    Hypertension is the most common reason for adult office visits other than pregnancy. Garrison (2013) stated that in 2007, 42 million ambulatory visits were attributed to hypertension (Garrison & Oberhelman, 2013). It also has the highest utilization of prescription drugs. Numerous resources and treatment options are available, yet only about 40-50% of the hypertensive patients have their blood pressure under control (<140/90) (Appleton et al., 2013 and Luehr et al., 2012). In addition to medication non-compliance, poor outcomes are also attributed to poor adherence to lifestyle changes such as a low-sodium diet, weight loss, increased exercise and limiting alcohol intake. Many adults find it difficult to continue medications and lifestyle changes when they are asymptomatic. Symptoms of elevated blood pressure usually do not occur until secondary problems arise such as with vascular diseases (myocardial infarction, stroke, heart failure and renal insufficiency) (Luehr et al., 2012).  Appropriate follow-up after blood pressure measurement is a pivotal component in preventing the progression of hypertension and the development of heart disease. Detection of marginally or fully elevated blood pressure by a specialty clinician warrants referral to a provider familiar with the management of hypertension and prehypertension.   The American College of Cardiology/American Heart Association (ACC/AHA) 2017 Guidelines provide updated recommendations for ASCVD risk. For additional information please refer to the 2017 ACC/AHA guidelines: https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2017/11/09/11/41/2017-guideline-for-high-blood-pressure-in-adults.  Lifestyle modifications have demonstrated effectiveness in lowering blood pressure (U.S. Department of Health and Human Services, 2003). The synergistic effect of several lifestyle modifications results in greater benefits than a single modification alone. Baseline diagnostic/laboratory testing establishes if a co-existing underlying condition is the etiology of hypertension and evaluates if end organ damage from hypertension has already occurred. Landmark trials such as the Antihypertensive and Lipid-Lowering Treatment to Prevent Heart Attack Trial (ALLHAT) have repeatedly proven the efficacy of pharmacologic therapy to control blood pressure and reduce the complications of hypertension. A review of 35 studies found that the pharmacist-led interventions involved medication counseling and patient education. Twenty-nine of the 35 studies showed statistically significant improvement in BP levels of the intervention groups at follow-up (Reeves et al., 2020). Follow-up intervals based on blood pressure control have been established by the 2017 ACC/AHA guideline and the United States Preventive Services Task Force (Whelton et al., 2018; USPSTF, 2021).",
+  "rationale": "Hypertension is a prevalent condition that affects approximately 66.9 million people in the United States. It is estimated that about 20-40 percent of the adult population has hypertension; the majority of people over age 65 have a hypertension diagnosis (Appleton et al., 2013 and Luehr et al., 2012). Winter (2013) noted that 1 in 3 American adults have hypertension and the lifetime risk of developing hypertension is 90 percent. The African American population or non-Hispanic Blacks, the elderly, diabetics and those with chronic kidney disease are at increased risk of stroke, myocardial infarction and renal disease. Non-Hispanic Blacks have the highest prevalence at 38.6 percent (Winter et al., 2013). Hypertension is a major risk factor for ischemic heart disease, left ventricular hypertrophy, renal failure, stroke and dementia (Luehr et al., 2012). Prevention of hypertension and the treatment of established hypertension are complementary approaches to reducing cardiovascular disease risk in the population, but prevention of hypertension provides the optimal means of reducing risk and avoiding harmful consequences. Periodic blood pressure (BP) screening can identify individuals who develop elevated BP over time. More frequent BP screening may be particularly important for individuals with elevated atherosclerotic cardiovascular disease (ASCVD) risk (Whelton et al., 2018).    Hypertension is the most common reason for adult office visits other than pregnancy. Garrison (2013) stated that in 2007, 42 million ambulatory visits were attributed to hypertension (Garrison & Oberhelman, 2013). It also has the highest utilization of prescription drugs. Numerous resources and treatment options are available, yet only about 40-50 percent of the hypertensive patients have their blood pressure under control (<140/90) (Appleton et al., 2013 and Luehr et al., 2012). In addition to medication non-compliance, poor outcomes are also attributed to poor adherence to lifestyle changes such as a low-sodium diet, weight loss, increased exercise and limiting alcohol intake. Many adults find it difficult to continue medications and lifestyle changes when they are asymptomatic. Symptoms of elevated blood pressure usually do not occur until secondary problems arise such as with vascular diseases (myocardial infarction, stroke, heart failure and renal insufficiency) (Luehr et al., 2012).  Appropriate follow-up after blood pressure measurement is a pivotal component in preventing the progression of hypertension and the development of heart disease. Detection of marginally or fully elevated blood pressure by a specialty clinician warrants referral to a provider familiar with the management of hypertension and prehypertension.   The American College of Cardiology/American Heart Association (ACC/AHA) 2017 Guidelines provide updated recommendations for ASCVD risk. For additional information please refer to the 2017 ACC/AHA guidelines: https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2017/11/09/11/41/2017-guideline-for-high-blood-pressure-in-adults.  Lifestyle modifications have demonstrated effectiveness in lowering blood pressure (U.S. Department of Health and Human Services, 2003). The synergistic effect of several lifestyle modifications results in greater benefits than a single modification alone. Baseline diagnostic/laboratory testing establishes if a co-existing underlying condition is the etiology of hypertension and evaluates if end organ damage from hypertension has already occurred. Landmark trials such as the Antihypertensive and Lipid-Lowering Treatment to Prevent Heart Attack Trial (ALLHAT) have repeatedly proven the efficacy of pharmacologic therapy to control blood pressure and reduce the complications of hypertension. A review of 35 studies found that the pharmacist-led interventions involved medication counseling and patient education. Twenty-nine of the 35 studies showed statistically significant improvement in BP levels of the intervention groups at follow-up (Reeves et al., 2020). Follow-up intervals based on blood pressure control have been established by the 2017 ACC/AHA guideline and the United States Preventive Services Task Force (Whelton et al., 2018; USPSTF, 2021).",
   "clinicalRecommendationStatement": "The U.S. Preventive Services Task Force (USPSTF, 2021) recommends screening for high blood pressure in adults aged 18 years and older. This is a grade A recommendation.",
   "group": [ {
     "id": "64ef76cf56d636294b157c3f",
@@ -1453,6 +1425,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -1512,18 +1496,6 @@
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Numerator"
-      }
-    }, {
-      "id": "de2ece3e-6506-4e4d-840d-236b80930ba4",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
       }
     }, {
       "id": "DACDF805-EA30-4892-9F23-4D3B3D095C22",

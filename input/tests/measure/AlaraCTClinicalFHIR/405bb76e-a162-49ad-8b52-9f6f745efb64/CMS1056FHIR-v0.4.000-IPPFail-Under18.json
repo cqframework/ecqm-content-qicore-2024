@@ -1,0 +1,210 @@
+{
+  "resourceType": "Bundle",
+  "id": "ippfail-under18",
+  "type": "transaction",
+  "entry": [ {
+    "fullUrl": "https://madie.cms.gov/Patient/84f4944f-543c-4f54-abbd-4ceb0b6d12ec",
+    "resource": {
+      "resourceType": "Patient",
+      "id": "84f4944f-543c-4f54-abbd-4ceb0b6d12ec",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient", "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ]
+      },
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2028-9",
+            "display": "Asian"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Asian"
+        } ]
+      }, {
+        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+        "extension": [ {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        }, {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "http://hospital.smarthealthit.org",
+        "value": "999999995"
+      } ],
+      "name": [ {
+        "family": "Under18",
+        "given": [ "IPPFail" ]
+      } ],
+      "gender": "unknown",
+      "birthDate": "2007-01-02"
+    },
+    "request": {
+      "method": "PUT",
+      "url": "Patient/84f4944f-543c-4f54-abbd-4ceb0b6d12ec"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Observation/012ade9a-fd94-43c6-9cb0-8f4e7fce1e5c",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "012ade9a-fd94-43c6-9cb0-8f4e7fce1e5c",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ]
+      },
+      "status": "final",
+      "category": [ {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "imaging",
+          "display": "Imaging"
+        } ]
+      } ],
+      "code": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "96914-7",
+          "display": "CT dose and image quality category"
+        } ],
+        "text": "CT dose and image quality category"
+      },
+      "subject": {
+        "reference": "Patient/84f4944f-543c-4f54-abbd-4ceb0b6d12ec"
+      },
+      "effectiveDateTime": "2024-01-02T00:00:00.000Z",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://loinc.org",
+          "code": "LA31752-1",
+          "display": "Abdomen and Pelvis Low Dose"
+        } ]
+      },
+      "component": [ {
+        "code": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "96912-1",
+            "display": "Calculated CT global noise"
+          } ]
+        },
+        "valueQuantity": {
+          "value": 63,
+          "unit": "[hnsf'U]",
+          "system": "http://unitsofmeasure.org",
+          "code": "[hnsf'U]"
+        }
+      }, {
+        "code": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "96913-9",
+            "display": "Calculated CT size-adjusted dose"
+          } ]
+        },
+        "valueQuantity": {
+          "value": 597,
+          "unit": "mGy.cm",
+          "system": "http://unitsofmeasure.org",
+          "code": "mGy.cm"
+        }
+      } ]
+    },
+    "request": {
+      "method": "PUT",
+      "url": "Observation/012ade9a-fd94-43c6-9cb0-8f4e7fce1e5c"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/MeasureReport/d5bbffc4-4fc3-4262-9afa-aea701a96ce2",
+    "resource": {
+      "resourceType": "MeasureReport",
+      "id": "d5bbffc4-4fc3-4262-9afa-aea701a96ce2",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+      },
+      "contained": [ {
+        "resourceType": "Parameters",
+        "id": "f38f3a6b-aa95-4e25-ac6b-1364874bcc08-parameters",
+        "parameter": [ {
+          "name": "subject",
+          "valueString": "84f4944f-543c-4f54-abbd-4ceb0b6d12ec"
+        } ]
+      } ],
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+        "valueReference": {
+          "reference": "#f38f3a6b-aa95-4e25-ac6b-1364874bcc08-parameters"
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+        "valueMarkdown": "Patient has a valid CT Scan but is 1 day under 18 at the start of the Measurement Period"
+      } ],
+      "modifierExtension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+        "valueBoolean": true
+      } ],
+      "status": "complete",
+      "type": "individual",
+      "measure": "https://madie.cms.gov/Measure/AlaraCTClinicalFHIR",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      },
+      "group": [ {
+        "population": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "initial-population",
+              "display": "Initial Population"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator",
+              "display": "Denominator"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "denominator-exclusion",
+              "display": "Denominator Exclusion"
+            } ]
+          },
+          "count": 0
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+              "code": "numerator",
+              "display": "Numerator"
+            } ]
+          },
+          "count": 0
+        } ]
+      } ],
+      "evaluatedResource": [ {
+        "reference": "Patient/84f4944f-543c-4f54-abbd-4ceb0b6d12ec"
+      }, {
+        "reference": "Observation/012ade9a-fd94-43c6-9cb0-8f4e7fce1e5c"
+      } ]
+    },
+    "request": {
+      "method": "PUT",
+      "url": "MeasureReport/d5bbffc4-4fc3-4262-9afa-aea701a96ce2"
+    }
+  } ]
+}

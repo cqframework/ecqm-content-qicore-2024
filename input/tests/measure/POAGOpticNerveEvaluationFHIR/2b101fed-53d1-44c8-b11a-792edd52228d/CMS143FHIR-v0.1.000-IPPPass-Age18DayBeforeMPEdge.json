@@ -3,7 +3,7 @@
   "id": "6109658e98086b538055b9e4",
   "type": "transaction",
   "entry": [ {
-    "fullUrl": "Patient/2b101fed-53d1-44c8-b11a-792edd52228d",
+    "fullUrl": "https://madie.cms.gov/Patient/2b101fed-53d1-44c8-b11a-792edd52228d",
     "resource": {
       "resourceType": "Patient",
       "id": "2b101fed-53d1-44c8-b11a-792edd52228d",
@@ -59,11 +59,11 @@
       "birthDate": "2005-12-31"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/2b101fed-53d1-44c8-b11a-792edd52228d"
     }
   }, {
-    "fullUrl": "Encounter/604287465c49a000003f51d4",
+    "fullUrl": "https://madie.cms.gov/Encounter/604287465c49a000003f51d4",
     "resource": {
       "resourceType": "Encounter",
       "id": "604287465c49a000003f51d4",
@@ -79,11 +79,8 @@
       },
       "type": [ {
         "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "37894004"
-        }, {
           "system": "http://www.ama-assn.org/go/cpt",
-          "code": "99213",
+          "code": "99309",
           "userSelected": true
         } ]
       } ],
@@ -96,14 +93,51 @@
       }
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/604287465c49a000003f51d4"
     }
   }, {
-    "fullUrl": "Condition/C-6000320042",
+    "fullUrl": "https://madie.cms.gov/Coverage/Coverage-1",
+    "resource": {
+      "resourceType": "Coverage",
+      "id": "Coverage-1",
+      "meta": {
+        "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
+      },
+      "identifier": [ {
+        "system": "http://benefitsinc.com/certificate",
+        "value": "12345"
+      } ],
+      "status": "active",
+      "type": {
+        "coding": [ {
+          "system": "https://nahdo.org/sopt",
+          "version": "9.2",
+          "code": "1",
+          "display": "MEDICARE",
+          "userSelected": true
+        } ]
+      },
+      "beneficiary": {
+        "reference": "Patient/2b101fed-53d1-44c8-b11a-792edd52228d"
+      },
+      "period": {
+        "start": "2025-01-28T08:00:00.000+00:00",
+        "end": "2025-12-28T00:15:00.000+00:00"
+      },
+      "payor": [ {
+        "reference": "Organization/Organization-2"
+      } ]
+    },
+    "request": {
+      "method": "POST",
+      "url": "Coverage/Coverage-1"
+    }
+  }, {
+    "fullUrl": "https://madie.cms.gov/Condition/6000320042",
     "resource": {
       "resourceType": "Condition",
-      "id": "C-6000320042",
+      "id": "6000320042",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ]
       },
@@ -135,20 +169,20 @@
       "onsetDateTime": "2023-09-14T08:00:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
-      "url": "Condition/C-6000320042"
+      "method": "POST",
+      "url": "Condition/6000320042"
     }
   }, {
-    "fullUrl": "MeasureReport/5e5520e5-6c9f-4f69-9086-be234a469fe8",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/bb7560df-aada-45d1-8947-90b36606730e",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "5e5520e5-6c9f-4f69-9086-be234a469fe8",
+      "id": "bb7560df-aada-45d1-8947-90b36606730e",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "d7c15252-3cf4-4e70-9b4a-e6a1c9946861-parameters",
+        "id": "a94b314f-4752-4c84-8b15-cada39f661b2-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "2b101fed-53d1-44c8-b11a-792edd52228d"
@@ -157,11 +191,11 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#d7c15252-3cf4-4e70-9b4a-e6a1c9946861-parameters"
+          "reference": "#a94b314f-4752-4c84-8b15-cada39f661b2-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
-        "valueMarkdown": "Patient turns 18 on the day before the start of the MP with POAD Diagnosis starting before MP (but not ending)"
+        "valueMarkdown": "Patient turns 18 on the day before the start of the MP with POAG Diagnosis starting before MP (but not ending)"
       } ],
       "modifierExtension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
@@ -169,7 +203,7 @@
       } ],
       "status": "complete",
       "type": "individual",
-      "measure": "Measure/POAGOpticNerveEvaluationFHIR",
+      "measure": "https://madie.cms.gov/Measure/POAGOpticNerveEvaluationFHIR",
       "period": {
         "start": "2025-01-01",
         "end": "2025-12-31"
@@ -218,12 +252,14 @@
       }, {
         "reference": "Encounter/604287465c49a000003f51d4"
       }, {
-        "reference": "Condition/C-6000320042"
+        "reference": "Coverage/Coverage-1"
+      }, {
+        "reference": "Condition/6000320042"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/5e5520e5-6c9f-4f69-9086-be234a469fe8"
+      "method": "POST",
+      "url": "MeasureReport/bb7560df-aada-45d1-8947-90b36606730e"
     }
   } ]
 }

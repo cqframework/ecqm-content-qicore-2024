@@ -57,7 +57,7 @@
       "birthDate": "2004-01-01"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/afdeaa75-d332-40f2-9b30-0b6ddf7e7c14"
     }
   }, {
@@ -92,7 +92,7 @@
       }
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/encounter-to-screen-for-blood-pressure-d1ae"
     }
   }, {
@@ -154,14 +154,14 @@
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Observation/blood-pressure-1"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/ServiceRequest/follow-up-2-3-months-finding-0d6d",
+    "fullUrl": "https://madie.cms.gov/ServiceRequest/follow-up-within-6-months-0d6d",
     "resource": {
       "resourceType": "ServiceRequest",
-      "id": "follow-up-2-3-months-finding-0d6d",
+      "id": "follow-up-within-6-months-0d6d",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicenotrequested" ]
       },
@@ -170,8 +170,9 @@
         "valueCodeableConcept": {
           "coding": [ {
             "system": "http://snomed.info/sct",
-            "code": "105480006",
-            "display": "Procedure declined by patient (situation)",
+            "version": "2022-03",
+            "code": "413311005",
+            "display": "Patient non-compliant - declined intervention / support (situation)",
             "userSelected": true
           } ]
         }
@@ -182,6 +183,7 @@
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
+          "version": "2022-03",
           "code": "183624006",
           "display": "Follow-up 2-3 months (finding)",
           "userSelected": true
@@ -193,14 +195,14 @@
       "authoredOn": "2025-01-01T08:20:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
-      "url": "ServiceRequest/follow-up-2-3-months-finding-0d6d"
+      "method": "POST",
+      "url": "ServiceRequest/follow-up-within-6-months-0d6d"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Coverage/1",
     "resource": {
       "resourceType": "Coverage",
-      "id": "Coverage-1",
+      "id": "1",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
       },
@@ -209,18 +211,18 @@
         "reference": "Patient/afdeaa75-d332-40f2-9b30-0b6ddf7e7c14"
       },
       "payor": [ {
-        "reference": "Organization/Org-123456"
+        "reference": "Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Coverage/Coverage-1"
+      "method": "POST",
+      "url": "Coverage/1"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Organization/123456",
     "resource": {
       "resourceType": "Organization",
-      "id": "Org-123456",
+      "id": "123456",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
       },
@@ -253,8 +255,8 @@
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Organization/Org-123456"
+      "method": "POST",
+      "url": "Organization/123456"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
@@ -274,20 +276,20 @@
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Practitioner/practitioner-123456"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/MeasureReport/2960c1ab-fb39-4918-88c9-d71be482f985",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/c428745f-a65e-4f34-88c9-c88bf9cf2b70",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "2960c1ab-fb39-4918-88c9-d71be482f985",
+      "id": "c428745f-a65e-4f34-88c9-c88bf9cf2b70",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "08504d12-7cd8-4f5f-91ba-6f177927c588-parameters",
+        "id": "4701dee2-df2e-4c66-a95e-f87a22a309db-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "afdeaa75-d332-40f2-9b30-0b6ddf7e7c14"
@@ -296,7 +298,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#08504d12-7cd8-4f5f-91ba-6f177927c588-parameters"
+          "reference": "#4701dee2-df2e-4c66-a95e-f87a22a309db-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -362,24 +364,24 @@
         } ]
       } ],
       "evaluatedResource": [ {
-        "reference": "Patient/afdeaa75-d332-40f2-9b30-0b6ddf7e7c14"
+        "reference": "https://madie.cms.gov/Patient/afdeaa75-d332-40f2-9b30-0b6ddf7e7c14"
       }, {
-        "reference": "Encounter/encounter-to-screen-for-blood-pressure-d1ae"
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-screen-for-blood-pressure-d1ae"
       }, {
-        "reference": "Observation/blood-pressure-1"
+        "reference": "https://madie.cms.gov/Observation/blood-pressure-1"
       }, {
-        "reference": "ServiceRequest/follow-up-2-3-months-finding-0d6d"
+        "reference": "https://madie.cms.gov/ServiceRequest/follow-up-within-6-months-0d6d"
       }, {
-        "reference": "Coverage/Coverage-1"
+        "reference": "https://madie.cms.gov/Coverage/1"
       }, {
-        "reference": "Organization/Org-123456"
+        "reference": "https://madie.cms.gov/Organization/123456"
       }, {
-        "reference": "Practitioner/practitioner-123456"
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/2960c1ab-fb39-4918-88c9-d71be482f985"
+      "method": "POST",
+      "url": "MeasureReport/c428745f-a65e-4f34-88c9-c88bf9cf2b70"
     }
   } ]
 }

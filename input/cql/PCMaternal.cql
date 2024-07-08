@@ -1,12 +1,12 @@
-library PCMaternal version '5.16.000'
+library PCMaternal version '5.19.000'
 
 /*@update: @@Created from QDM v2.1 to FHIR, then updated 041922 after annual update to QDM v2.21.000 @@*/
 
 using QICore version '4.1.1'
 
-include FHIRHelpers version '4.3.000' called FHIRHelpers
-include CQMCommon version '2.0.000' called CQMCommon
-include QICoreCommon version '2.0.000' called QICoreCommon
+include FHIRHelpers version '4.4.000' called FHIRHelpers
+include CQMCommon version '2.2.000' called CQMCommon
+include QICoreCommon version '2.1.000' called QICoreCommon
 
 codesystem "LOINC": 'http://loinc.org' 
 
@@ -36,7 +36,7 @@ define "Encounter with Age Range":
                   
 
 define "Variable Calculated Gestational Age":
-  //This definition establishes a variable of CGA (Calculated Gestational Age) for all patients for the sole purpose of displaying the Calculated Gestational Age. This definition is not used in the measure logic.
+ // This definition establishes a variable of CGA (Calculated Gestational Age).  CGA is a supplemental data element to store the calculated gestational age result from the "CalculatedGestationalAge" function.  The data element enables the capturing and saving of the CGA for data analysis post data receipt. Hospitals do not need to submit any additional data to comply with this definition
   "Delivery Encounter with Age Range" DeliveryEncounter
     let CGA: DeliveryEncounter.calculatedGestationalAge()
   //  return { QualifyingEncounter, CGA }

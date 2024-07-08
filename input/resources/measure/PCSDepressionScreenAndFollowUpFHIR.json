@@ -10,6 +10,20 @@
     "extension": [ {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
         "system": "http://loinc.org",
         "code": "73831-0",
         "display": "Adolescent depression screening assessment"
@@ -52,34 +66,6 @@
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "active",
-        "display": "Active"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "recurrence",
-        "display": "Recurrence"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "relapse",
-        "display": "Relapse"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-        "code": "remission",
-        "display": "Remission"
-      }
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
-      "valueCoding": {
         "system": "http://snomed.info/sct",
         "code": "720834000",
         "display": "Depression screening declined (situation)"
@@ -94,7 +80,7 @@
         "valueString": "SDE Sex"
       }, {
         "url": "statement",
-        "valueString": "define \"SDE Sex\":\n  case\n      when Patient.gender = 'male' then Code { code: 'M', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Male' }\n      when Patient.gender = 'female' then Code { code: 'F', system: 'http://hl7.org/fhir/v3/AdministrativeGender', display: 'Female' }\n      else null\n    end"
+        "valueString": "define \"SDE Sex\":\n  case\n    when Patient.gender = 'male' then \"M\"\n    when Patient.gender = 'female' then \"F\"\n    else null\n  end"
       }, {
         "url": "displaySequence",
         "valueInteger": 0
@@ -424,7 +410,7 @@
         "valueString": "History of Bipolar Diagnosis Before Qualifying Encounter"
       }, {
         "url": "statement",
-        "valueString": "define \"History of Bipolar Diagnosis Before Qualifying Encounter\":\n  [Condition: \"Bipolar Disorder\"] BipolarDiagnosis\n    with \"Qualifying Encounter During Measurement Period\" QualifyingEncounter\n      such that ( BipolarDiagnosis.isProblemListItem ( )\n          or BipolarDiagnosis.isHealthConcern ( )\n      )\n        and BipolarDiagnosis.prevalenceInterval ( ) starts before QualifyingEncounter.period\n        and ( BipolarDiagnosis.isActive ( )\n            or BipolarDiagnosis.clinicalStatus ~ QICoreCommon.\"remission\"\n        )"
+        "valueString": "define \"History of Bipolar Diagnosis Before Qualifying Encounter\":\n  [Condition: \"Bipolar Disorder\"] BipolarDiagnosis\n    with \"Qualifying Encounter During Measurement Period\" QualifyingEncounter\n      such that ( BipolarDiagnosis.isProblemListItem ( )\n          or BipolarDiagnosis.isHealthConcern ( )\n      )\n        and BipolarDiagnosis.prevalenceInterval ( ) starts before QualifyingEncounter.period"
       }, {
         "url": "displaySequence",
         "valueInteger": 22
@@ -624,21 +610,6 @@
         "url": "displaySequence",
         "valueInteger": 35
       } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "QICoreCommon"
-      }, {
-        "url": "name",
-        "valueString": "isActive"
-      }, {
-        "url": "statement",
-        "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 36
-      } ]
     } ],
     "name": "EffectiveDataRequirements",
     "status": "active",
@@ -651,15 +622,19 @@
     "relatedArtifact": [ {
       "type": "depends-on",
       "display": "Library SDE",
-      "resource": "Library/SupplementalDataElements|3.4.000"
+      "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
       "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.3.000"
+      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
-      "resource": "Library/QICoreCommon|2.0.000"
+      "resource": "Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
       "display": "Code system LOINC",
@@ -676,10 +651,6 @@
       "type": "depends-on",
       "display": "Code system USCoreConditionCategoryExtensionCodes",
       "resource": "http://hl7.org/fhir/us/core/CodeSystem/condition-category"
-    }, {
-      "type": "depends-on",
-      "display": "Code system ConditionClinicalStatusCodes",
-      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
     }, {
       "type": "depends-on",
       "display": "Value set Encounter to Screen for Depression",
@@ -933,7 +904,7 @@
     }, {
       "type": "Condition",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
-      "mustSupport": [ "code", "clinicalStatus" ],
+      "mustSupport": [ "code" ],
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.67.1.101.1.128"
@@ -968,7 +939,8 @@
     "id": "supplementalDataGuidance",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
     "extension": [ {
-      "url": "guidance"
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity, and sex; SDE Ethnicity   SDE Payer   SDE Race   SDE Sex   "
     }, {
       "url": "usage",
       "valueCodeableConcept": {
@@ -981,15 +953,15 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
     "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
-    }
-  }, {
-    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
-    "valueReference": {
-      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/PCSDepressionScreenAndFollowUpFHIR",
@@ -1042,7 +1014,7 @@
   "title": "Preventive Care and Screening: Screening for Depression and Follow-Up PlanFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-02-22T01:07:52+00:00",
+  "date": "2024-07-01T20:13:03+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1052,10 +1024,8 @@
   } ],
   "description": "Percentage of patients aged 12 years and older screened for depression on the date of the encounter or up to 14 days prior to the date of the encounter using an age-appropriate standardized depression screening tool AND if positive a follow-up plan is documented on the date of or up to two days after the date of the qualifying encounter.",
   "purpose": "UNKNOWN",
-  "usage": "The intent of the measure is to screen all patients for depression except those with a diagnosis of bipolar disorder. Patients who have ever been diagnosed with bipolar disorder prior to the qualifying encounter will be excluded from the measure regardless of whether the diagnosis is active or not.\n\nA depression screen is completed on the date of the encounter or up to 14 calendar days prior to the date of the encounter using an age-appropriate standardized depression screening tool AND if positive, a follow-up plan must be documented on the date of or up to two calendar days after the date of the encounter, such as referral to a provider for additional evaluation, pharmacological interventions, or other interventions for the treatment of depression. An example to illustrate the follow-up plan documentation timing: if the encounter is on a Monday from 3-4 pm (day 0) and the patient screens positive, the clinician has through anytime on Wednesday (day 2) to complete follow-up plan documentation.\n\nThis measure does not require documentation of a specific score, just whether results of the normalized and validated depression screening tool used are considered positive or negative. Each standardized screening tool provides guidance on whether a particular score is considered positive for depression.  \n\nThis eCQM is a patient-based measure. Depression screening is required once per measurement period, not at all encounters.\n\nScreening Tools:\n -  An age-appropriate, standardized, and validated depression screening tool must be used for numerator compliance.\n -  The name of the age-appropriate standardized depression screening tool utilized must be documented in the medical record.\n -  The depression screening must be reviewed and addressed by the provider, filing the code, on the date of the encounter. Positive pre-screening results indicating a patient is at high risk for self-harm should receive more urgent intervention as determined by the provider practice.\n -  The screening should occur during a qualifying encounter or up to 14 calendar days prior to the date of the qualifying encounter.\n -  The measure assesses the most recent depression screening completed either during the qualifying encounter or within the 14 calendar days prior to that encounter. Therefore, a clinician would not be able to complete another screening at the time of the encounter to count towards a follow-up, because that would serve as the most recent screening. In order to satisfy the follow-up requirement for a patient screening positively, the eligible clinician would need to provide one of the aforementioned follow-up actions, which does not include use of a standardized depression screening tool.\n\nFollow-Up Plan:\nThe follow-up plan MUST still be provided for and discussed with the patient during the qualifying encounter used to evaluate the numerator. However, documentation of the follow-up plan can occur up to two calendar days after the qualifying encounter, in accordance with the policies of an eligible clinician or provider’s practice or health system. All services should be documented during, or as soon as practicable, after the qualifying encounter in order to maintain an accurate medical record.\n\nThe follow-up plan must be related to a positive depression screening, for example: \"Patient referred for psychiatric evaluation due to positive depression screening.\"\n\nExamples of a follow-up plan include but are not limited to: \n -  Referral to a provider or program for further evaluation for depression, for example, referral to a psychiatrist, psychiatric nurse practitioner, psychologist, clinical social worker, mental health counselor, or other mental health service such as family or group therapy, support group, depression management program, or other service for treatment of depression\n -  Other interventions designed to treat depression such as behavioral health evaluation, psychotherapy, pharmacological interventions, or additional treatment options\n\nShould a patient screen positive for depression, a clinician should:\n-  Only order pharmacological intervention when appropriate and after sufficient diagnostic evaluation. However, for the purposes of this measure, additional screening and assessment during the qualifying encounter will not qualify as a follow-up plan.\n-  Opt to complete a suicide risk assessment when appropriate and based on individual patient characteristics. However, for the purposes of this measure, a suicide risk assessment or an additional screening using a standardized tool will not qualify as a follow-up plan.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS2v13. Please refer to the HL7 QI-Core Implementation Guide (http://hl7.org/fhir/us/qicore/index.html) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (http://hl7.org/fhir/us/qicore/qdm-to-qicore.html).",
-  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets. \n\nCPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organization. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
-  "approvalDate": "2023-11-27",
-  "lastReviewDate": "2023-11-27",
+  "usage": "The intent of the measure is to screen all patients for depression except those with a diagnosis of bipolar disorder. Patients who have ever been diagnosed with bipolar disorder prior to the qualifying encounter will be excluded from the measure regardless of whether the diagnosis is active or not.  A depression screen is completed on the date of the encounter or up to 14 calendar days prior to the date of the encounter using an age-appropriate standardized depression screening tool AND if positive, a follow-up plan must be documented on the date of or up to two calendar days after the date of the encounter, such as referral to a provider for additional evaluation, pharmacological interventions, or other interventions for the treatment of depression. An example to illustrate the follow-up plan documentation timing: if the encounter is on a Monday from 3-4 pm (day 0) and the patient screens positive, the clinician has through anytime on Wednesday (day 2) to complete follow-up plan documentation.  This measure does not require documentation of a specific score, just whether results of the normalized and validated depression screening tool used are considered positive or negative. Each standardized screening tool provides guidance on whether a particular score is considered positive for depression.    This eCQM is a patient-based measure. Depression screening is required once per measurement period, not at all encounters.  Screening Tools:  -  An age-appropriate, standardized, and validated depression screening tool must be used for numerator compliance.  -  The name of the age-appropriate standardized depression screening tool utilized must be documented in the medical record.  -  The depression screening must be reviewed and addressed by the provider, filing the code, on the date of the encounter. Positive pre-screening results indicating a patient is at high risk for self-harm should receive more urgent intervention as determined by the provider practice.  -  The screening should occur during a qualifying encounter or up to 14 calendar days prior to the date of the qualifying encounter.  -  The measure assesses the most recent depression screening completed either during the qualifying encounter or within the 14 calendar days prior to that encounter. Therefore, a clinician would not be able to complete another screening at the time of the encounter to count towards a follow-up, because that would serve as the most recent screening. In order to satisfy the follow-up requirement for a patient screening positively, the eligible clinician would need to provide one of the aforementioned follow-up actions, which does not include use of a standardized depression screening tool.  Follow-Up Plan: The follow-up plan MUST still be provided for and discussed with the patient during the qualifying encounter used to evaluate the numerator. However, documentation of the follow-up plan can occur up to two calendar days after the qualifying encounter, in accordance with the policies of an eligible clinician or provider’s practice or health system. All services should be documented during, or as soon as practicable, after the qualifying encounter in order to maintain an accurate medical record.  The follow-up plan must be related to a positive depression screening, for example: \"Patient referred for psychiatric evaluation due to positive depression screening.\"  Examples of a follow-up plan include but are not limited to:   -  Referral to a provider or program for further evaluation for depression, for example, referral to a psychiatrist, psychiatric nurse practitioner, psychologist, clinical social worker, mental health counselor, or other mental health service such as family or group therapy, support group, depression management program, or other service for treatment of depression  -  Other interventions designed to treat depression such as behavioral health evaluation, psychotherapy, pharmacological interventions, or additional treatment options  Should a patient screen positive for depression, a clinician should: -  Only order pharmacological intervention when appropriate and after sufficient diagnostic evaluation. However, for the purposes of this measure, additional screening and assessment during the qualifying encounter will not qualify as a follow-up plan. -  Opt to complete a suicide risk assessment when appropriate and based on individual patient characteristics. However, for the purposes of this measure, a suicide risk assessment or an additional screening using a standardized tool will not qualify as a follow-up plan.  This FHIR-based measure has been derived from the QDM-based measure: CMS2v14. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the measure specifications for convenience. Users of the proprietary code sets should obtain all necessary licenses from the owners of these code sets.   CPT(R) contained in the Measure specifications is copyright 2004-2023 American Medical Association. LOINC(R) is copyright 2004-2023 Regenstrief Institute, Inc. This material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2023 International Health Terminology Standards Development Organization. ICD-10 is copyright 2023 World Health Organization. All Rights Reserved.",
   "effectivePeriod": {
     "start": "2025-01-01",
     "end": "2025-12-31"
@@ -1068,7 +1038,7 @@
     } ]
   } ],
   "library": [ "https://madie.cms.gov/Library/PCSDepressionScreenAndFollowUpFHIR" ],
-  "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "disclaimer": "These performance measures are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
   "scoring": {
     "coding": [ {
       "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
@@ -1076,8 +1046,8 @@
       "display": "Proportion"
     } ]
   },
-  "rationale": "Depression affects more than two hundred sixty million people across the world and is a leading cause of disability, with a variety of depressive disorders that are independent risk factors for chronic diseases, such as cardiovascular disease and diabetes, lending screening for depression as paramount to identify depressive disorders that can affect the most vulnerable populations (Costantini et al., 2021). Results from a 2018 U.S. survey indicated that 14.4 percent of adolescents (3.5 million adolescents) had a major depressive episode (MDE) in the past year, with nine percent of adolescents (2.4 million adolescents) having one MDE with severe impairment (Substance Abuse and Mental Health Services Administration, 2019). The odds of a diagnosis of depression are believed to be 2.6 times greater for children and adolescents exposed to trauma as compared to those unexposed or less exposed (Vibhakar et al., 2019). Children and teens with major depressive disorder (MDD) have been found to have difficulty carrying out their daily activities, relating to others, growing up healthy, and are at an increased risk of suicide (Siu on behalf of the U.S. Preventive Services Task Force [USPSTF], 2016). \n\nThe same 2018 study indicated that 7.2 percent of adults aged 18 or older (17.7 million adults) had at least one MDE with 4.7 percent of adults (11.5 million adults) having one MDE with severe impairment in the past year (Substance Abuse and Mental Health Services Administration, 2019). Moreover, it is estimated 22.9 percent of adult patients with chronic pain (2.2 million adults) were diagnosed with comorbid depression from 2011 to 2015, with an upward trend of prevalence among Black Americans, patients aged 65 to 84 years old, Medicare and Medicaid insured patients, and patients from zip code areas with low annual household incomes (Orhurhu et al., 2019). \n\nDepression and other mood disorders, such as bipolar disorder and anxiety disorders, especially during the perinatal period, can have devastating effects on women, infants, and families (American College of Obstetricians and Gynecologists, 2018). It's estimated that the global prevalence of antenatal (or perinatal) depression ranges from 15 to 65 percent, with current or previous exposure to abuse and violence, lack of social support, and family history of mental disorders being risk factors. Depressive symptoms measured during pregnancy have been shown to influence the quality of the postpartum mother-infant relationship (Hazell Raine et al., 2020). Additionally, the risk of low birth weight and preterm birth is higher among infants born from depressed mothers (Dadi, Miller, Bisetegn, & Mwanri, 2020).\n\nNegative outcomes associated with depression make it crucial to screen in order to identify and treat depression in its early stages. Multiple social costs of depression have been identified, such as reduced educational achievements, poor financial success and role performance, higher amount of days out of role, and increased risk of job loss (Costantini et al., 2021). Depression also imposes significant economic burden through direct and indirect costs, supporting the need for regular depression screening. \"In the United States, an estimated $22.8 billion was spent on depression treatment in 2009, and lost productivity cost an additional estimated $23 billion in 2011\" (Siu & USPSTF, 2016, p. 383-384). \n\nNumerous studies have found significant disparities in depression prevalence and treatment among racial/ethnic minorities. One study revealed that Indigenous adults are at a high risk for posttraumatic stress disorder, depression, suicide, substance use disorder, and concurrent behavioral health disorders secondary to these initial health problems (Ka’apu and Burnette, 2019). Additionally, though rates of depression are lower among Blacks and Hispanics than among whites, depression among Blacks and Hispanics is likely to be more recurrent. Furthermore, 48 percent of whites receive mental health services, compared to just 31 percent of Blacks and Hispanics, and 22 percent of Asians (American Psychiatric Association, 2017). Asian Americans and Black Americans are also significantly more likely to utilize emergency rooms for depression treatment, which contributes to inconsistent follow-up care (Lee et al., 2014). \n\nWhile primary care providers (PCPs) serve as the first line of defense in the detection of depression, studies show that PCPs fail to recognize up to 46 percent of depressed patients (Borner et al., 2010). \"In nationally representative U.S. surveys, about eight percent of adolescents reported having major depression in the past year. Only 36 percent to 44 percent of children and adolescents with depression receive treatment, suggesting that a majority of depressed youth are undiagnosed and untreated\" (Siu on behalf of USPSTF, 2016). Furthermore, evidence supports that screening for depression in pregnant and postpartum women is of moderate net benefit, and treatment options for positive depression screening should be available for patients twelve and older including pregnant and postpartum women. \n\nThis measure seeks to align with USPSTF clinical guideline recommendations as well as the Healthy People 2030 recommendation to increase the proportion of adolescents and adults who are screened for depression and if positive, receive appropriate treatment (U.S. Preventive Services Task Force, 2016).\n\nFor patients depression, rescreening has been shown to be an effective tool for measuring response to therapy, therefore influencing appropriate care adjustments in the treatment of depression (Anderson et al., 2002). Chen et al. noted that when patients were re-administered a screening tool after at least eight weeks after starting treatment, their \"score gave primary care physicians a clear idea about the nature of patients' depressive symptoms and gave both the patient and the physician an indication of treatment progress\" (Chen et al., 2006).",
-  "clinicalRecommendationStatement": "Adolescent Recommendation (12-18 years):\n\"The USPSTF recommends screening for MDD in adolescents aged 12 to 18 years. Screening should be implemented with adequate systems in place to ensure accurate diagnosis, effective treatment, and appropriate follow-up (B recommendation)\" (Siu on behalf of USPSTF, 2016).\n\nAdult Recommendation (18 years and older):\n\"The USPSTF recommends screening for depression in the general adult population, including pregnant and postpartum women. Screening should be implemented with adequate systems in place to ensure accurate diagnosis, effective treatment, and appropriate follow-up (B recommendation)\" (Siu & USPSTF, 2016).\n\n“The USPSTF recommends that clinicians provide or refer pregnant and postpartum persons who are at increased risk of perinatal depression to counseling interventions (B recommendation)” (U.S. Preventive Services Task Force, 2019). \n\nThe American College of Obstetricians and Gynecologists (ACOG) provides the following recommendation:\n\"All obstetrician–gynecologists and other obstetric care providers should complete a full assessment of mood and emotional well-being (including screening for postpartum depression and anxiety with a validated instrument) during the comprehensive postpartum visit for each patient\" (American College of Obstetricians and Gynecologists, 2018). \n\nThe Institute for Clinical Systems Improvement (ICSI) health care guideline, Adult Depression in Primary Care, provides the following recommendations:\n1. \"Clinicians should routinely screen all adults for depression using a standardized instrument.\"\n2. \"Clinicians should establish and maintain follow-up with patients.\"\n3. \"Clinicians should screen and monitor depression in pregnant and post-partum women\" (Trangle et al., 2016).",
+  "rationale": "Depression affects more than two hundred sixty million people across the world and is a leading cause of disability, with a variety of depressive disorders that are independent risk factors for chronic diseases, such as cardiovascular disease and diabetes, lending screening for depression as paramount to identify depressive disorders that can affect the most vulnerable populations (Costantini et al., 2021). Results from a 2018 U.S. survey indicated that 14.4 percent of adolescents (3.5 million adolescents) had a major depressive episode (MDE) in the past year, with nine percent of adolescents (2.4 million adolescents) having one MDE with severe impairment (Substance Abuse and Mental Health Services Administration, 2019). The odds of a diagnosis of depression are believed to be 2.6 times greater for children and adolescents exposed to trauma as compared to those unexposed or less exposed (Vibhakar et al., 2019). Children and teens with major depressive disorder (MDD) have been found to have difficulty carrying out their daily activities, relating to others, growing up healthy, and are at an increased risk of suicide (Siu on behalf of the U.S. Preventive Services Task Force [USPSTF], 2016).   The same 2018 study indicated that 7.2 percent of adults aged 18 or older (17.7 million adults) had at least one MDE with 4.7 percent of adults (11.5 million adults) having one MDE with severe impairment in the past year (Substance Abuse and Mental Health Services Administration, 2019). Moreover, it is estimated 22.9 percent of adult patients with chronic pain (2.2 million adults) were diagnosed with comorbid depression from 2011 to 2015, with an upward trend of prevalence among Black Americans, patients aged 65 to 84 years old, Medicare and Medicaid insured patients, and patients from zip code areas with low annual household incomes (Orhurhu et al., 2019).   Depression and other mood disorders, such as bipolar disorder and anxiety disorders, especially during the perinatal period, can have devastating effects on women, infants, and families (American College of Obstetricians and Gynecologists, 2018). It's estimated that the global prevalence of antenatal (or perinatal) depression ranges from 15 to 65 percent, with current or previous exposure to abuse and violence, lack of social support, and family history of mental disorders being risk factors. Depressive symptoms measured during pregnancy have been shown to influence the quality of the postpartum mother-infant relationship (Hazell Raine et al., 2020). Additionally, the risk of low birth weight and preterm birth is higher among infants born from depressed mothers (Dadi, Miller, Bisetegn, & Mwanri, 2020).  Negative outcomes associated with depression make it crucial to screen in order to identify and treat depression in its early stages. Multiple social costs of depression have been identified, such as reduced educational achievements, poor financial success and role performance, higher amount of days out of role, and increased risk of job loss (Costantini et al., 2021). Depression also imposes significant economic burden through direct and indirect costs, supporting the need for regular depression screening. \"In the United States, an estimated $22.8 billion was spent on depression treatment in 2009, and lost productivity cost an additional estimated $23 billion in 2011\" (Siu & USPSTF, 2016, p. 383-384).   Numerous studies have found significant disparities in depression prevalence and treatment among racial/ethnic minorities. One study revealed that Indigenous adults are at a high risk for posttraumatic stress disorder, depression, suicide, substance use disorder, and concurrent behavioral health disorders secondary to these initial health problems (Ka’apu and Burnette, 2019). Additionally, though rates of depression are lower among Blacks and Hispanics than among whites, depression among Blacks and Hispanics is likely to be more recurrent. Furthermore, 48 percent of whites receive mental health services, compared to just 31 percent of Blacks and Hispanics, and 22 percent of Asians (American Psychiatric Association, 2017). Asian Americans and Black Americans are also significantly more likely to utilize emergency rooms for depression treatment, which contributes to inconsistent follow-up care (Lee et al., 2014).   While primary care providers (PCPs) serve as the first line of defense in the detection of depression, studies show that PCPs fail to recognize up to 46 percent of depressed patients (Borner et al., 2010). \"In nationally representative U.S. surveys, about eight percent of adolescents reported having major depression in the past year. Only 36 percent to 44 percent of children and adolescents with depression receive treatment, suggesting that a majority of depressed youth are undiagnosed and untreated\" (Siu on behalf of USPSTF, 2016). Furthermore, evidence supports that screening for depression in pregnant and postpartum women is of moderate net benefit, and treatment options for positive depression screening should be available for patients twelve and older including pregnant and postpartum women.   This measure seeks to align with USPSTF clinical guideline recommendations as well as the Healthy People 2030 recommendation to increase the proportion of adolescents and adults who are screened for depression and if positive, receive appropriate treatment (U.S. Preventive Services Task Force, 2016).  For patients depression, rescreening has been shown to be an effective tool for measuring response to therapy, therefore influencing appropriate care adjustments in the treatment of depression (Anderson et al., 2002). Chen et al. noted that when patients were re-administered a screening tool after at least eight weeks after starting treatment, their \"score gave primary care physicians a clear idea about the nature of patients' depressive symptoms and gave both the patient and the physician an indication of treatment progress\" (Chen et al., 2006).",
+  "clinicalRecommendationStatement": "Adolescent Recommendation (12-18 years): \"The USPSTF recommends screening for MDD in adolescents aged 12 to 18 years. Screening should be implemented with adequate systems in place to ensure accurate diagnosis, effective treatment, and appropriate follow-up (B recommendation)\" (Siu on behalf of USPSTF, 2016).  Adult Recommendation (18 years and older): \"The USPSTF recommends screening for depression in the general adult population, including pregnant and postpartum women. Screening should be implemented with adequate systems in place to ensure accurate diagnosis, effective treatment, and appropriate follow-up (B recommendation)\" (Siu & USPSTF, 2016).  “The USPSTF recommends that clinicians provide or refer pregnant and postpartum persons who are at increased risk of perinatal depression to counseling interventions (B recommendation)” (U.S. Preventive Services Task Force, 2019).   The American College of Obstetricians and Gynecologists (ACOG) provides the following recommendation: \"All obstetrician–gynecologists and other obstetric care providers should complete a full assessment of mood and emotional well-being (including screening for postpartum depression and anxiety with a validated instrument) during the comprehensive postpartum visit for each patient\" (American College of Obstetricians and Gynecologists, 2018).   The Institute for Clinical Systems Improvement (ICSI) health care guideline, Adult Depression in Primary Care, provides the following recommendations: 1. \"Clinicians should routinely screen all adults for depression using a standardized instrument.\" 2. \"Clinicians should establish and maintain follow-up with patients.\" 3. \"Clinicians should screen and monitor depression in pregnant and post-partum women\" (Trangle et al., 2016).",
   "group": [ {
     "id": "64ef8dd856d636294b157c6f",
     "extension": [ {
@@ -1099,6 +1069,18 @@
           "system": "http://terminology.hl7.org/CodeSystem/measure-type",
           "code": "process",
           "display": "Process"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
         } ]
       }
     } ],
@@ -1160,18 +1142,6 @@
         "expression": "Numerator"
       }
     }, {
-      "id": "71d99636-b27c-472b-bf96-af9c4e1b246f",
-      "code": {
-        "coding": [ {
-          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
-          "code": "numerator-exclusion",
-          "display": "Numerator Exclusion"
-        } ]
-      },
-      "criteria": {
-        "language": "text/cql-identifier"
-      }
-    }, {
       "id": "0411DA66-4881-4FC9-B4CE-73973320F1DC",
       "code": {
         "coding": [ {
@@ -1180,7 +1150,7 @@
           "display": "Denominator Exception"
         } ]
       },
-      "description": "Patient Reason(s)\nPatient refuses to participate in or complete the depression screening\nOR\nMedical Reason(s)\t\nDocumentation of medical reason for not screening patient for depression (e.g., cognitive, functional, or motivational limitations that may impact accuracy of results; patient is in an urgent or emergent situation where time is of the essence and to delay treatment would jeopardize the patient's health status)",
+      "description": "Patient Reason(s) Patient refuses to participate in or complete the depression screening OR Medical Reason(s)  Documentation of medical reason for not screening patient for depression (e.g., cognitive, functional, or motivational limitations that may impact accuracy of results; patient is in an urgent or emergent situation where time is of the essence and to delay treatment would jeopardize the patient's health status)",
       "criteria": {
         "language": "text/cql-identifier",
         "expression": "Denominator Exceptions"

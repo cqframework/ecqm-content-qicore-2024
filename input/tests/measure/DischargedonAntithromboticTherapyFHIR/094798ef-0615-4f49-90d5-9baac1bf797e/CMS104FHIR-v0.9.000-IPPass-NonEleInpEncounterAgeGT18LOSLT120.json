@@ -77,7 +77,7 @@
       "birthDate": "2002-08-20"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/094798ef-0615-4f49-90d5-9baac1bf797e"
     }
   }, {
@@ -118,16 +118,16 @@
         },
         "use": {
           "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "195155004",
-            "display": "Hemorrhagic Stroke"
+            "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+            "code": "billing",
+            "display": "Billing"
           } ]
         },
         "rank": 1
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/5c954112b8484612c37f277f"
     }
   }, {
@@ -161,8 +161,8 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "version": "2020-09",
-          "code": "195155004",
-          "display": "Subarachnoid hemorrhage from carotid siphon and bifurcation (disorder)",
+          "code": "422504002",
+          "display": "Ischemic Stroke (disorder)",
           "userSelected": true
         } ]
       },
@@ -172,14 +172,14 @@
       "recordedDate": "2025-07-15T08:00:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Condition/hemorrhagic-stroke-7d4b"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Coverage/1",
     "resource": {
       "resourceType": "Coverage",
-      "id": "Coverage-1",
+      "id": "1",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
       },
@@ -188,18 +188,18 @@
         "reference": "Patient/094798ef-0615-4f49-90d5-9baac1bf797e"
       },
       "payor": [ {
-        "reference": "Organization/Org-123456"
+        "reference": "Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Coverage/Coverage-1"
+      "method": "POST",
+      "url": "Coverage/1"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Organization/123456",
     "resource": {
       "resourceType": "Organization",
-      "id": "Org-123456",
+      "id": "123456",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
       },
@@ -232,20 +232,20 @@
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Organization/Org-123456"
+      "method": "POST",
+      "url": "Organization/123456"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/MeasureReport/577ab3d4-6002-4656-8fc2-3a9f3d771c29",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/b1b3b356-c54b-4d15-9846-a70c868b5eb5",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "577ab3d4-6002-4656-8fc2-3a9f3d771c29",
+      "id": "b1b3b356-c54b-4d15-9846-a70c868b5eb5",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "40090008-4840-4025-9a03-660ef8cdf083-parameters",
+        "id": "d18f85ff-568d-4152-b59f-5229a5a04333-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "094798ef-0615-4f49-90d5-9baac1bf797e"
@@ -254,7 +254,7 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#40090008-4840-4025-9a03-660ef8cdf083-parameters"
+          "reference": "#d18f85ff-568d-4152-b59f-5229a5a04333-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
@@ -289,7 +289,7 @@
               "display": "Denominator"
             } ]
           },
-          "count": 0
+          "count": 1
         }, {
           "code": {
             "coding": [ {
@@ -320,20 +320,20 @@
         } ]
       } ],
       "evaluatedResource": [ {
-        "reference": "Patient/094798ef-0615-4f49-90d5-9baac1bf797e"
+        "reference": "https://madie.cms.gov/Patient/094798ef-0615-4f49-90d5-9baac1bf797e"
       }, {
-        "reference": "Encounter/5c954112b8484612c37f277f"
+        "reference": "https://madie.cms.gov/Encounter/5c954112b8484612c37f277f"
       }, {
-        "reference": "Condition/hemorrhagic-stroke-7d4b"
+        "reference": "https://madie.cms.gov/Condition/hemorrhagic-stroke-7d4b"
       }, {
-        "reference": "Coverage/Coverage-1"
+        "reference": "https://madie.cms.gov/Coverage/1"
       }, {
-        "reference": "Organization/Org-123456"
+        "reference": "https://madie.cms.gov/Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/577ab3d4-6002-4656-8fc2-3a9f3d771c29"
+      "method": "POST",
+      "url": "MeasureReport/b1b3b356-c54b-4d15-9846-a70c868b5eb5"
     }
   } ]
 }

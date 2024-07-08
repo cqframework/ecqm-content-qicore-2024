@@ -57,7 +57,7 @@
       "birthDate": "2004-06-18"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Patient/92d6fd00-76fa-4354-8c16-59582a8c7278"
     }
   }, {
@@ -92,7 +92,7 @@
       }
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Encounter/encounter-to-screen-for-blood-pressure-b30d"
     }
   }, {
@@ -142,14 +142,14 @@
       "abatementDateTime": "2025-01-01T00:01:00.000+00:00"
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Condition/diagnosis-of-hypertension-b30e"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Coverage/1",
     "resource": {
       "resourceType": "Coverage",
-      "id": "Coverage-1",
+      "id": "1",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ]
       },
@@ -158,18 +158,18 @@
         "reference": "Patient/92d6fd00-76fa-4354-8c16-59582a8c7278"
       },
       "payor": [ {
-        "reference": "Organization/Org-123456"
+        "reference": "Organization/123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Coverage/Coverage-1"
+      "method": "POST",
+      "url": "Coverage/1"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Organization/123456",
     "resource": {
       "resourceType": "Organization",
-      "id": "Org-123456",
+      "id": "123456",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-organization" ]
       },
@@ -202,8 +202,8 @@
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "Organization/Org-123456"
+      "method": "POST",
+      "url": "Organization/123456"
     }
   }, {
     "fullUrl": "https://madie.cms.gov/Practitioner/practitioner-123456",
@@ -223,20 +223,20 @@
       } ]
     },
     "request": {
-      "method": "PUT",
+      "method": "POST",
       "url": "Practitioner/practitioner-123456"
     }
   }, {
-    "fullUrl": "https://madie.cms.gov/MeasureReport/159227ff-6d99-4f83-bc9a-f32168243d4e",
+    "fullUrl": "https://madie.cms.gov/MeasureReport/c39928ad-5bd3-4668-b456-42959b9a3910",
     "resource": {
       "resourceType": "MeasureReport",
-      "id": "159227ff-6d99-4f83-bc9a-f32168243d4e",
+      "id": "c39928ad-5bd3-4668-b456-42959b9a3910",
       "meta": {
         "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
       },
       "contained": [ {
         "resourceType": "Parameters",
-        "id": "7f0428b7-230c-4fee-a8c4-ea68c4372086-parameters",
+        "id": "cecc13bf-eb7a-457d-a0e2-6dcbda53d6da-parameters",
         "parameter": [ {
           "name": "subject",
           "valueString": "92d6fd00-76fa-4354-8c16-59582a8c7278"
@@ -245,11 +245,11 @@
       "extension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
         "valueReference": {
-          "reference": "#7f0428b7-230c-4fee-a8c4-ea68c4372086-parameters"
+          "reference": "#cecc13bf-eb7a-457d-a0e2-6dcbda53d6da-parameters"
         }
       }, {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
-        "valueMarkdown": "Encounter first day of MP, HTN dx but abated first minute of MP and as such inactive, expected to fail denex."
+        "valueMarkdown": "Encounter first day of MP, HTN dx  abated first minute of MP and as such inactive, but continues to pass denex since logic does not indicate the need to be active at the time of the encounter"
       } ],
       "modifierExtension": [ {
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
@@ -289,7 +289,7 @@
               "display": "Denominator Exclusion"
             } ]
           },
-          "count": 0
+          "count": 1
         }, {
           "code": {
             "coding": [ {
@@ -311,22 +311,22 @@
         } ]
       } ],
       "evaluatedResource": [ {
-        "reference": "Patient/92d6fd00-76fa-4354-8c16-59582a8c7278"
+        "reference": "https://madie.cms.gov/Patient/92d6fd00-76fa-4354-8c16-59582a8c7278"
       }, {
-        "reference": "Encounter/encounter-to-screen-for-blood-pressure-b30d"
+        "reference": "https://madie.cms.gov/Encounter/encounter-to-screen-for-blood-pressure-b30d"
       }, {
-        "reference": "Condition/diagnosis-of-hypertension-b30e"
+        "reference": "https://madie.cms.gov/Condition/diagnosis-of-hypertension-b30e"
       }, {
-        "reference": "Coverage/Coverage-1"
+        "reference": "https://madie.cms.gov/Coverage/1"
       }, {
-        "reference": "Organization/Org-123456"
+        "reference": "https://madie.cms.gov/Organization/123456"
       }, {
-        "reference": "Practitioner/practitioner-123456"
+        "reference": "https://madie.cms.gov/Practitioner/practitioner-123456"
       } ]
     },
     "request": {
-      "method": "PUT",
-      "url": "MeasureReport/159227ff-6d99-4f83-bc9a-f32168243d4e"
+      "method": "POST",
+      "url": "MeasureReport/c39928ad-5bd3-4668-b456-42959b9a3910"
     }
   } ]
 }
