@@ -24,11 +24,17 @@ parameter "Measurement Period" Interval<DateTime>
   default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 context Patient
 
-define "Initial Population":
+define "Age In Measurement Period":
   AgeInYearsAt(date from 
     end of "Measurement Period"
-  ) in Interval[24, 64]
-    and Patient.gender = 'female'
+  )
+
+define "Patient Gender":
+  Patient.gender
+
+define "Initial Population":
+  "Age In Measurement Period" in Interval[24, 64]
+    and "Patient Gender" = 'female'
     and exists "Qualifying Encounters"
 
 define "Qualifying Encounters":
