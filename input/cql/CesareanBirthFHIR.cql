@@ -26,7 +26,6 @@ code "[#] Pregnancies": '11996-6' from "LOINC" display '[#] Pregnancies'
 code "Date and time of obstetric delivery": '93857-1' from "LOINC" display 'Date and time of obstetric delivery'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

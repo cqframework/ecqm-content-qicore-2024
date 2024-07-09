@@ -22,7 +22,6 @@ valueset "Pharmacological Contraindications For Antithrombotic Therapy": 'http:/
 valueset "Thrombolytic tPA Therapy": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.226'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

@@ -28,7 +28,6 @@ code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood 
 code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

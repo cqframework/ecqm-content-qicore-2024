@@ -29,7 +29,6 @@ code "Left (qualifier value)": '7771000' from "SNOMEDCT" display 'Left (qualifie
 code "Right (qualifier value)": '24028007' from "SNOMEDCT" display 'Right (qualifier value)'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

@@ -33,7 +33,6 @@ code "Not detected (qualifier value)": '260415000' from "SNOMEDCT" display 'Not 
 
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

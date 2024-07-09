@@ -49,7 +49,6 @@ code "EMER": 'EMER' from "ActCode" display 'emergency'
 code "Status post administration of tPA (rtPA) in a different facility within the last 24 hours prior to admission to current facility": 'Z92.82' from "ICD10CM" display 'Status post administration of tPA (rtPA) in a different facility within the last 24 hours prior to admission to current facility'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 

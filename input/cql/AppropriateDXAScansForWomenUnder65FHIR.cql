@@ -69,7 +69,6 @@ code "Right (qualifier value)": '24028007' from "SNOMEDCT" display 'Right (quali
 code "Unlisted preventive medicine service": '99429' from "CPT" display 'Unlisted preventive medicine service'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
 
 context Patient
 
