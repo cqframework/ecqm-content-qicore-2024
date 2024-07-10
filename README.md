@@ -1,7 +1,7 @@
 # ecqm-content-qicore-2024
 eCQM Measure Content (Using QICore 4.1.1, based on FHIR R4 v4.0.1)
 
-These draft FHIR-based measures and shared libraries are translated from the QDM-based versions of eCQMs to be published in May 2024 for the 2025 reporting year as they existed in MADiE as of November 2023 or later and may not reflect the current updates from the 2025 AU review cycle of the QDM measures, and have specific versions, especially for the shared libraries, appropriate to the content for that publication update.
+These draft FHIR-based measures and shared libraries are translated from the QDM-based versions of eCQMs that were published in May 2024 for the 2025 reporting year as they existed in MADiE as of June 2024 or later and may not reflect the current updates from the 2025 AU review cycle of the QDM measures, and have specific versions, especially for the shared libraries, appropriate to the content for that publication update.
 
 Commits to this repository will automatically trigger a build of the continuous integration build, available here:
 
@@ -306,9 +306,9 @@ Github Codespaces can also be used in this repository.
 
 ## Content Indexes
 
-* [Libraries](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2023/libraries.html)
-* [Measures](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2023/measures.html)
-* [Artifact Summary](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2023/artifacts.html)
+* [Libraries](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2024/libraries.html)
+* [Measures](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2024/measures.html)
+* [Artifact Summary](https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2024/artifacts.html)
 
 ## Repository Structure
 
@@ -364,7 +364,7 @@ command:
 For example:
 
 ```
-input-cache\tooling-cli-2.5.0.jar -ExtractMATBundle bundles\mat\CLONE124_v6_03-Artifacts\measure-json-bundle.json
+input-cache\tooling-cli-3.0.0.jar -ExtractMATBundle bundles\mat\CLONE124_v6_03-Artifacts\measure-json-bundle.json
 ```
 
 ## Refresh IG Processing
