@@ -74,6 +74,7 @@ code "Anaphylaxis caused by vaccine product containing human poliovirus antigen 
 code "Anaphylaxis caused by vaccine containing Human alphaherpesvirus 3 antigen (disorder)": '471341000124104' from "SNOMEDCT" display 'Anaphylaxis caused by vaccine containing Human alphaherpesvirus 3 antigen (disorder)'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.000Z, @2025-12-31T23:59:59.999Z]
 
 context Patient
 
