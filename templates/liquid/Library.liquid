@@ -37,31 +37,24 @@
                 <b>
                     {% if identifier.type.coding.exists() %}
                         {% if identifier.type.coding.display.exists() %}
-                            {{identifier.type.coding.display}} 
+                            {{identifier.type.coding.display}}{% if identifier.assigner.display.exists() %} ({{identifier.assigner.display}}){% endif %} Identifier:
                         {% else %}
-                            {{identifier.type.coding}} 
+                            {{identifier.type.coding.code}}{% if identifier.assigner.display.exists() %} ({{identifier.assigner.display}}){% endif %} identifier:
                         {% endif %}
                     {% else %}
-                        {{identifier.use}} 
+                        {{identifier.use}}
                     {% endif %}
                 </b>
             </th>
             <td style="padding-left: 4px;">
                 {% if identifier.value.exists() %}
                 <p style="margin-bottom: 5px;">
-                    <b>value: </b> <span>{{identifier.value}}</span>
+                    <span>{{identifier.value}}</span>
                 </p>
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
-
-        {% if Library.name.exists() %}
-        <tr>
-            <th scope="row"><b>Name: </b></th>
-            <td style="padding-left: 4px;">{{Library.name}}</td>
-        </tr>
-        {% endif %}
 
         {% if Library.subtitle.exists() %}
         <tr>
@@ -70,7 +63,7 @@
         </tr>
         {% endif %}
 
-        {% if Library.status.exists() %}
+        {% if Library.status.exists() and Library.status.value != 'active' %}
         <tr>
             <th scope="row"><b>Status: </b></th>
             <td style="padding-left: 4px;">{{Library.status.value}}</td>
@@ -107,7 +100,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                {% if Library.type.coding.exists().not and Library.type.text.exists() %}
+                {% if Library.type.coding.exists().not() and Library.type.text.exists() %}
                     {{Library.type.text}}
                 {% endif %}
             </td>
@@ -138,7 +131,7 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                {% if Library.subject.coding.exists().not and Library.subject.text.exists() %}
+                {% if Library.subject.coding.exists().not() and Library.subject.text.exists() %}
                     {{Library.subject.text}}
                 {% endif %}
             </td>
@@ -213,13 +206,15 @@
             <th scope="row"><b>Use Context: </b></th>
             <td style="padding-left: 4px;">
                 <table class="grid-dict">
-                    <tr><th><b>code</b></th><th><b>value</b></th><th><b>display</b></th></tr>
+                    <tr>
+                        <th><b>code</b></th>
+                        <th><b>value</b></th>
+                    </tr>
                     {% for useContext in Library.useContext %}
-                      <tr>
-                        <td>{{useContext.code.code}}</td>
-                        <td>{{(useContext.value as CodeableConcept).coding.first().code}}</td>
-                        <td>{{(useContext.value as CodeableConcept).coding.first().display}}</td>
-                      </tr>
+                        <tr>
+                            <td>{{useContext.code.code}}</td>
+                            <td>{{useContext.value.text}}</td>
+                        </tr>
                     {% endfor %}
                 </table>
             </td>
@@ -231,6 +226,13 @@
             <th scope="row"><b>Jurisdiction: </b></th>
             <td style="padding-left: 4px;">{{Library.jurisdiction.first().coding.first().code}}</td>
         </tr>
+        {% endif %}
+
+        {% if Library.topic.exists() %}
+            <tr>
+                <th scope="row"><b>Topic: </b></th>
+                <td style="padding-left: 4px;">{{Library.topic.first().coding.first().code}}</td>
+            </tr>
         {% endif %}
 
         {% if Library.purpose.exists() %}
@@ -258,13 +260,6 @@
         <tr>
             <th scope="row"><b>Approval Date: </b></th>
             <td style="padding-left: 4px;">{{Library.approvalDate}}</td>
-        </tr>
-        {% endif %}
-
-        {% if Library.lastReviewDate.exists() %}
-        <tr>
-            <th scope="row"><b>Last Review Date: </b></th>
-            <td style="padding-left: 4px;">{{Library.lastReviewDate}}</td>
         </tr>
         {% endif %}
 

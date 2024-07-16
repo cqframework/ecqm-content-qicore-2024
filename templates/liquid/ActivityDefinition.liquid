@@ -3,21 +3,21 @@
 
         {% if ActivityDefinition.title.exists() %}
         <tr>
-            <th scope="row"><b>eCQM title: </b></th>
+            <th scope="row"><b>Title: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.title}}</td>
         </tr>
         {% endif %}
 
         {% if ActivityDefinition.id.exists() %}
         <tr>
-            <th scope="row"><b>eCQM ID: </b></th>
+            <th scope="row"><b>Id: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.id}}</td>
         </tr>
         {% endif %}
 
         {% if ActivityDefinition.version.exists() %}
         <tr>
-            <th scope="row"><b>eCQM version number: </b></th>
+            <th scope="row"><b>Version: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.version}}</td>
         </tr>
         {% endif %}
@@ -28,19 +28,19 @@
                 <b>
                     {% if identifier.type.coding.exists() %}
                         {% if identifier.type.coding.display.exists() %}
-                            {{identifier.type.coding.display}} 
+                            {{identifier.type.coding.display}}{% if identifier.assigner.display.exists() %} ({{identifier.assigner.display}}){% endif %} Identifier:
                         {% else %}
-                            {{identifier.type.coding}} 
+                            {{identifier.type.coding.code}}{% if identifier.assigner.display.exists() %} ({{identifier.assigner.display}}){% endif %} identifier:
                         {% endif %}
                     {% else %}
-                        {{identifier.use}} 
+                        {{identifier.use}}
                     {% endif %}
                 </b>
             </th>
             <td style="padding-left: 4px;">
                 {% if identifier.value.exists() %}
                 <p style="margin-bottom: 5px;">
-                    <b>value: </b> <span>{{identifier.value}}</span>
+                    <span>{{identifier.value}}</span>
                 </p>
                 {% endif %}
             </td>
@@ -49,12 +49,12 @@
 
         {% if ActivityDefinition.effectivePeriod.exists() %}
         <tr>
-            <th scope="row"><b>Measurement period: </b></th>
+            <th scope="row"><b>Effective Period: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.effectivePeriod.start}}..{{ActivityDefinition.effectivePeriod.end}}</td>
         </tr>
         {% endif %}
 
-        {% if ActivityDefinition.status.exists() %}
+        {% if ActivityDefinition.status.exists() and ActivityDefinition.status.value != 'active' %}
         <tr>
             <th scope="row"><b>Status: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.status.value}}</td>
@@ -77,43 +77,29 @@
 
         {% if ActivityDefinition.approvalDate.exists() %}
         <tr>
-            <th scope="row"><b>Approval date (when the measure was approved by the publisher): </b></th>
+            <th scope="row"><b>Approval date: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.approvalDate}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.lastReviewDate.exists() %}
-        <tr>
-            <th scope="row"><b>Last review date (when the measure was last reviewed): </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.lastReviewDate}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.name.exists() %}
-        <tr>
-            <th scope="row"><b>Short Name: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.name}}</td>
         </tr>
         {% endif %}
 
         {% if ActivityDefinition.publisher.exists() %}
         <tr>
-            <th scope="row"><b>Measure steward: </b></th>
+            <th scope="row"><b>Publisher (steward): </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.publisher}}</td>
         </tr>
         {% endif %}
 
-        {% if ActivityDefinition.author.exists() %}
+        {% if ActivityDefinition.author.exists() and ActivityDefinition.author.name.exists() %}
         <tr>
-            <th scope="row"><b>Measure developer: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.author}}</td>
+            <th scope="row"><b>Author: </b></th>
+            <td style="padding-left: 4px;">{{ActivityDefinition.author.name}}</td>
         </tr>
         {% endif %}
 
-        {% if ActivityDefinition.endorser.exists() %}
+        {% if ActivityDefinition.endorser.exists() and ActivityDefinition.endorser.name.exists() %}
         <tr>
             <th scope="row"><b>Endorsed by: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.endorser}}</td>
+            <td style="padding-left: 4px;">{{ActivityDefinition.endorser.name}}</td>
         </tr>
         {% endif %}
 
@@ -124,73 +110,80 @@
         </tr>
         {% endif %}
 
+        {% if ActivityDefinition.extension.where(url = 'http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeCapability').exists() %}
+        <tr>
+            <th scope="row"><b>Knowledge Capability: </b></th>
+            <td style="padding-left: 4px;">
+                {% for extension in ActivityDefinition.extension.where(url = 'http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeCapability') %}
+                    {{extension.value}}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.extension.where(url = 'http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeRepresentationLevel').exists() %}
+        <tr>
+            <th scope="row"><b>Knowledge Representation Level: </b></th>
+            <td style="padding-left: 4px;">
+                {% for extension in ActivityDefinition.extension.where(url = 'http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeRepresentationLevel') %}
+                    {{extension.value}}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.useContext.exists() %}
+        <tr>
+            <th scope="row"><b>Use Context: </b></th>
+            <td style="padding-left: 4px;">
+                <table class="grid-dict">
+                    <tr>
+                        <th><b>code</b></th>
+                        <th><b>value</b></th>
+                    </tr>
+                    {% for useContext in ActivityDefinition.useContext %}
+                        <tr>
+                            <td>{{useContext.code.code}}</td>
+                            <td>{{useContext.value.text}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.jurisdiction.exists() %}
+        <tr>
+            <th scope="row"><b>Jurisdiction: </b></th>
+            <td style="padding-left: 4px;">{{ActivityDefinition.jurisdiction.first().coding.first().code}}</td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.topic.exists() %}
+        <tr>
+            <th scope="row"><b>Topic: </b></th>
+            <td style="padding-left: 4px;">{{ActivityDefinition.topic.first().coding.first().code}}</td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.purpose.exists() %}
+        <tr>
+            <th scope="row"><b>Purpose: </b></th>
+            <td style="padding-left: 4px;">{{ActivityDefinition.purpose.first().coding.first().code}}</td>
+        </tr>
+        {% endif %}
+
+        {% if ActivityDefinition.usage.exists() %}
+        <tr>
+            <th scope="row"><b>Usage (Guidance): </b></th>
+            <td style="padding-left: 4px;">{{ActivityDefinition.usage.first().coding.first().code}}</td>
+        </tr>
+        {% endif %}
+
         {% if ActivityDefinition.copyright.exists() %}
         <tr>
             <th scope="row"><b>Copyright: </b></th>
             <td style="padding-left: 4px;">{{ActivityDefinition.copyright}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.disclaimer.exists() %}
-        <tr>
-            <th scope="row"><b>Disclaimer: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.disclaimer}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.scoring.exists() %}
-        <tr>
-            <th scope="row"><b>Measure scoring: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.scoring.text}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.type.exists() %}
-        <tr>
-            <th scope="row"><b>Measure type: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.type.text}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.stratifier.exists() %}
-        <tr>
-            <th scope="row"><b>Stratification: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.stratifier.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.riskAdjustment.exists() %}
-        <tr>
-            <th scope="row"><b>Risk adjustment: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.riskAdjustment}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.rateAggregation.exists() %}
-        <tr>
-            <th scope="row"><b>Rate aggregation: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.rateAggregation}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.rationale.exists() %}
-        <tr>
-            <th scope="row"><b>Rationale: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.rationale}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.clinicalRecommendation.exists() %}
-        <tr>
-            <th scope="row"><b>Clinical recommendation statement: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.clinicalRecommendation}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.improvementNotation.exists() %}
-        <tr>
-            <th scope="row"><b>Improvement notation: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.improvementNotation}}</td>
         </tr>
         {% endif %}
 
@@ -207,71 +200,6 @@
         </tr>
         {% endif %}
 
-        {% if ActivityDefinition.population.exists() %}
-        <tr>
-            <th scope="row"><b>Initial Population: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.population.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.denominator.exists() %}
-        <tr>
-            <th scope="row"><b>Denominator: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.denominator.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.denominatorExclusions.exists() %}
-        <tr>
-            <th scope="row"><b>Denominator exclusions: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.denominatorExclusions.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.measureObservations.exists() %}
-        <tr>
-            <th scope="row"><b>Measure observations: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.measureObservations.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.numerator.exists() %}
-        <tr>
-            <th scope="row"><b>Numerator: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.numerator.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.numeratorExclusions.exists() %}
-        <tr>
-            <th scope="row"><b>Numerator exclusions: </b></th>
-            <td style="padding-left: 4px;">{{ActivityDefinition.numeratorExclusions.criteria}}</td>
-        </tr>
-        {% endif %}
-
-        {% if ActivityDefinition.supplementalData.exists() %}
-        <tr>
-            <th scope="row"><b>Supplemental data elements: </b></th>
-            <td style="padding-left: 4px;">
-                <table class="grid-dict">
-                    <tr>
-                        <th><b>Code</b></th>
-                        <th><b>Value</b></th>
-                        <th><b>Display</b></th>
-                    </tr>
-                    {% for supplementalData in ActivityDefinition.supplementalData %}
-                    <tr>
-                        <td>{{ supplementalData.criteria.coding.first().code }}</td>
-                        <td>{{ (supplementalData.value as CodeableConcept).coding.first().code }}</td>
-                        <td>{{ (supplementalData.value as CodeableConcept).coding.first().display }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </td>
-        </tr>
-        {% endif %}
-
-        
         {% if ActivityDefinition.library.exists() %}
         <tr>
             <th scope="row"><b>Libraries: </b></th>
@@ -286,11 +214,10 @@
             </td>
         </tr>
         {% endif %}
-
         
         {% if ActivityDefinition.relatedArtifact.exists() %}
         <tr>
-            <th scope="row"><b>Related Artifact Dependencies: </b></th>
+            <th scope="row"><b>Terminology and Other Dependencies: </b></th>
             <td style="padding-left: 4px;">
                 <ul>
                     {% for artifact in ActivityDefinition.relatedArtifact %}
@@ -305,23 +232,23 @@
 
         {% if ActivityDefinition.code.exists() %}
         <tr>
-            <th scope="row"><b>Direct reference codes: </b></th>
+            <th scope="row"><b>Code: </b></th>
             <td style="padding-left: 4px;">
                 {% if ActivityDefinition.code.coding.exists() %}
-                {% for coding in ActivityDefinition.code.coding %}
-                {% if coding.system.exists() %}
-                <p><b>system: </b><span>{{ coding.system }}</span></p>
+                    {% for coding in ActivityDefinition.code.coding %}
+                        {% if coding.system.exists() %}
+                            <p><b>system: </b><span>{{ coding.system }}</span></p>
+                        {% endif %}
+                        {% if coding.code.exists() %}
+                            <p><b>code: </b><span>{{ coding.code }}</span></p>
+                        {% endif %}
+                        {% if coding.display.exists() %}
+                            <p><b>display: </b><span>{{ coding.display }}</span></p>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-                {% if coding.code.exists() %}
-                <p><b>code: </b><span>{{ coding.code }}</span></p>
-                {% endif %}
-                {% if coding.display.exists() %}
-                <p><b>display: </b><span>{{ coding.display }}</span></p>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-                {% if ActivityDefinition.code.coding.exists().not and ActivityDefinition.code.text.exists() %}
-                {{ ActivityDefinition.code.text }}
+                {% if ActivityDefinition.code.coding.exists().not() and ActivityDefinition.code.text.exists() %}
+                    {{ ActivityDefinition.code.text }}
                 {% endif %}
             </td>
         </tr>
@@ -426,7 +353,7 @@
                 {% endif %}
                 {% endfor %}
                 {% endif %}
-                {% if ActivityDefinition.product.coding.exists().not and ActivityDefinition.product.text.exists() %}
+                {% if ActivityDefinition.product.coding.exists().not() and ActivityDefinition.product.text.exists() %}
                 {{ ActivityDefinition.product.text }}
                 {% endif %}
             </td>
