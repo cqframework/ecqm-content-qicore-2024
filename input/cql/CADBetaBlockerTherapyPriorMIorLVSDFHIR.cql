@@ -48,12 +48,17 @@ parameter "Measurement Period" Interval<DateTime>
 
 context Patient
 
-define "Initial Population":
-  AgeInYearsAt(date from start of "Measurement Period") >= 18
-    and exists ( "Qualifying Encounter During Measurement Period" Encounter1
+define "Age at start of Measurement Period":
+  AgeInYearsAt(date from start of "Measurement Period")
+
+define "Qualifying Encounter":
+  "Qualifying Encounter During Measurement Period" Encounter1
         with "Qualifying Encounter During Measurement Period" Encounter2
           such that Encounter2.id !~ Encounter1.id
-    )
+
+define "Initial Population":
+  "Age at start of Measurement Period" >= 18
+    and exists "Qualifying Encounter"
     and exists "Qualifying CAD Encounter"
 
 define "Denominator 1":
