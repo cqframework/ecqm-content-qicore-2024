@@ -7,14 +7,15 @@ include QICoreCommon version '2.0.000' called QICoreCommon
 
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
 codesystem "AllergyIntoleranceVerificationStatusCodes": 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification'
+codesystem "CERNER": 'https://fhir.cerner.com/7614e3af-e4eb-4094-af40-f129322755cb/codeSet/71'
 
 valueset "Care Services in Long Term Residential Facility": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1014'
-valueset "Ejection Fraction": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1134'
-valueset "Heart Failure": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.376'
-valueset "Heart Transplant": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.33'
-valueset "Heart Transplant Complications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.56'
+valueset "Ejection Fraction Observations": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1134'
+valueset "Heart Failure Conditions": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.376'
+valueset "Heart Transplant Procedures": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.33'
+valueset "Heart Transplant Complication Conditions": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.56'
 valueset "Home Healthcare Services": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016'
-valueset "Left Ventricular Assist Device Complications": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.58'
+valueset "Left Ventricular Assist Device Complication Conditions": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.58'
 valueset "Left Ventricular Assist Device Placement": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1178.61'
 valueset "Moderate or Severe": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1092'
 valueset "Moderate or Severe LVSD": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1090'
@@ -25,6 +26,7 @@ valueset "Patient Provider Interaction": 'http://cts.nlm.nih.gov/fhir/ValueSet/2
 
 code "Left ventricular systolic dysfunction (disorder)": '134401001' from "SNOMEDCT" display 'Left ventricular systolic dysfunction (disorder)'
 code "allergy-entered-in-error": 'entered-in-error' from AllergyIntoleranceVerificationStatusCodes
+code "Clinic": '22282402' from "CERNER" display 'Clinic'
 
 parameter "Measurement Period" Interval<DateTime>default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0 )
 
@@ -36,8 +38,9 @@ define "Heart Failure Outpatient Encounter":
       union [Encounter: "Nursing Facility Visit"]
       union [Encounter: "Office Visit"]
       union [Encounter: "Outpatient Consultation"]
+      union [Encounter: "Clinic"]
      ) QualifyingEncounter
-    with [Condition: "Heart Failure"] HeartFailure
+    with [Condition: "Heart Failure Conditions"] HeartFailure
       such that HeartFailure.prevalenceInterval() overlaps QualifyingEncounter.period
         and HeartFailure.isConfirmedActiveDiagnosis()
     where QualifyingEncounter.period during "Measurement Period"
@@ -45,11 +48,18 @@ define "Heart Failure Outpatient Encounter":
 
 define "Has Heart Transplant Complications":
   exists (
-          [Condition: "Heart Transplant Complications"] HeartTransplantComplications
+          [Condition: "Heart Transplant Complication Conditions"] HeartTransplantComplications
             with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
               such that ( Coalesce( HeartTransplantComplications.recordedDate.toInterval(), HeartTransplantComplications.prevalenceInterval() ) ) starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
             where HeartTransplantComplications.isConfirmedActiveDiagnosis()
           )
+
+define "Heart Transplant Complications":
+  ([Condition: "Heart Transplant Complication Conditions"] HeartTransplantComplications
+    with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
+      such that ( Coalesce( HeartTransplantComplications.recordedDate.toInterval(), HeartTransplantComplications.prevalenceInterval() ) ) starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
+    where HeartTransplantComplications.isConfirmedActiveDiagnosis())
+          
 
 define "Has Left Ventricular Assist Device":
   exists (
@@ -59,14 +69,26 @@ define "Has Left Ventricular Assist Device":
               where LVADOutpatient.status = 'completed'
             )
 
+define "Left Ventricular Assist Device":
+  [Procedure: "Left Ventricular Assist Device Placement"] LVADOutpatient
+    with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
+      such that LVADOutpatient.performed.toInterval() starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
+    where LVADOutpatient.status = 'completed'
+
 define "Has Left Ventricular Assist Device Complications":
   exists (
-            [Condition: "Left Ventricular Assist Device Complications"] LVADComplications
+            [Condition: "Left Ventricular Assist Device Complication Conditions"] LVADComplications
               with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
                 such that ( Coalesce( LVADComplications.recordedDate.toInterval(), LVADComplications.prevalenceInterval() ) ) starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
               where LVADComplications.isConfirmedActiveDiagnosis()
           )
 
+define "Left Ventricular Assist Device Complications":
+  [Condition: "Left Ventricular Assist Device Complication Conditions"] LVADComplications
+    with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
+      such that ( Coalesce( LVADComplications.recordedDate.toInterval(), LVADComplications.prevalenceInterval() ) ) starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
+    where LVADComplications.isConfirmedActiveDiagnosis()
+          
 define "Has Two Qualifying Outpatient Encounters and Heart Failure Outpatient Encounter During the Measurement Period":
   AgeInYearsAt(date from start of "Measurement Period") >= 18
     and exists ( "Qualifying Outpatient Encounter During Measurement Period" Encounter1
@@ -76,7 +98,7 @@ define "Has Two Qualifying Outpatient Encounters and Heart Failure Outpatient En
     and exists "Heart Failure Outpatient Encounter"
 
 define "Moderate or Severe LVSD Findings":
-    ( [Observation: "Ejection Fraction"] EjectionFraction
+    ( [Observation: "Ejection Fraction Observations"] EjectionFraction
         where EjectionFraction.value as Quantity <= 40 '%'
          and EjectionFraction.status in {'final', 'amended', 'corrected'}
       )
@@ -92,17 +114,24 @@ define "Qualifying Outpatient Encounter During Measurement Period":
               union [Encounter: "Office Visit"]
               union [Encounter: "Outpatient Consultation"]
               union [Encounter: "Patient Provider Interaction"]
+              union [Encounter: "Clinic"]
      ) ValidEncounter
       where ValidEncounter.period during "Measurement Period"
         and ValidEncounter.isFinished()
 
 define "Has Heart Transplant":
   exists (
-          [Procedure: "Heart Transplant"] HeartTransplant
+          [Procedure: "Heart Transplant Procedures"] HeartTransplant
             with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
               such that HeartTransplant.performed.toInterval() starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
             where HeartTransplant.status = 'completed'
           )
+
+define "Heart Transplant":
+  [Procedure: "Heart Transplant Procedures"] HeartTransplant
+    with "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD" ModerateOrSevereLVSDHFOutpatientEncounter
+      such that HeartTransplant.performed.toInterval() starts before end of ModerateOrSevereLVSDHFOutpatientEncounter.period
+    where HeartTransplant.status = 'completed'
 
 define "Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD":
     "Heart Failure Outpatient Encounter" HFOutpatientEncounter

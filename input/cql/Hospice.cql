@@ -24,6 +24,30 @@ parameter "Measurement Period" Interval<DateTime>
 
 context Patient
 
+define "Hospice Services":
+    ((([Encounter: "Encounter Inpatient"]).isEncounterPerformed()) InpatientEncounter
+        where (InpatientEncounter.hospitalization.dischargeDisposition ~ "Discharge to home for hospice care (procedure)"
+            or InpatientEncounter.hospitalization.dischargeDisposition ~ "Discharge to healthcare facility for hospice care (procedure)"
+        )
+            and InpatientEncounter.period.toInterval() ends during day of "Measurement Period"
+    )
+    union ((([Encounter: "Hospice Encounter"]).isEncounterPerformed()) HospiceEncounter
+        where HospiceEncounter.period.toInterval() overlaps day of "Measurement Period"
+    )
+    union ((([Observation: "Hospice care [Minimum Data Set]"]).isAssessmentPerformed()) HospiceAssessment
+        where HospiceAssessment.value ~ "Yes (qualifier value)"
+          and HospiceAssessment.effective.toInterval() overlaps day of "Measurement Period"
+    )
+    union ((([ServiceRequest: "Hospice Care Ambulatory"]).isInterventionOrder()) HospiceOrder
+        where HospiceOrder.authoredOn.toInterval() during day of "Measurement Period"
+    )
+    union ((([Procedure: "Hospice Care Ambulatory"]).isInterventionPerformed()) HospicePerformed
+        where HospicePerformed.performed.toInterval() overlaps day of "Measurement Period"
+    )
+    union (([Condition: "Hospice Diagnosis"]) HospiceCareDiagnosis
+        where HospiceCareDiagnosis.prevalenceInterval() overlaps day of "Measurement Period"
+    )
+
 define "Has Hospice Services":
   exists ((([Encounter: "Encounter Inpatient"]).isEncounterPerformed()) InpatientEncounter
       where (InpatientEncounter.hospitalization.dischargeDisposition ~ "Discharge to home for hospice care (procedure)"

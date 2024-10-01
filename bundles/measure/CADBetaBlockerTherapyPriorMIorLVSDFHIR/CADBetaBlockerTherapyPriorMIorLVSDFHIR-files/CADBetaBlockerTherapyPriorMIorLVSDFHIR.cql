@@ -9,6 +9,7 @@ include AHAOverall version '2.6.000' called AHA
 
 codesystem "ActCode": 'http://terminology.hl7.org/CodeSystem/v3-ActCode'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
+codesystem "CERNER": 'https://fhir.cerner.com/7614e3af-e4eb-4094-af40-f129322755cb/codeSet/71'
 
 valueset "Allergy to Beta Blocker Therapy": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1177'
 valueset "Arrhythmia": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.366'
@@ -40,6 +41,7 @@ valueset "Patient Reason": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.1138
 valueset "System Reason": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1009'
 
 code "Left ventricular systolic dysfunction (disorder)": '134401001' from "SNOMEDCT" display 'Left ventricular systolic dysfunction (disorder)'
+code "Clinic": '22282402' from "CERNER" display 'Clinic'
 code "Substance with beta adrenergic receptor antagonist mechanism of action (substance)": '373254001' from "SNOMEDCT" display 'Substance with beta adrenergic receptor antagonist mechanism of action (substance)'
 code "Ambulatory": 'AMB' from "ActCode" display 'ambulatory'
 
@@ -48,12 +50,17 @@ parameter "Measurement Period" Interval<DateTime>
 
 context Patient
 
-define "Initial Population":
-  AgeInYearsAt(date from start of "Measurement Period") >= 18
-    and exists ( "Qualifying Encounter During Measurement Period" Encounter1
+define "Age at start of Measurement Period":
+  AgeInYearsAt(date from start of "Measurement Period")
+
+define "Qualifying Encounter":
+  "Qualifying Encounter During Measurement Period" Encounter1
         with "Qualifying Encounter During Measurement Period" Encounter2
           such that Encounter2.id !~ Encounter1.id
-    )
+
+define "Initial Population":
+  "Age at start of Measurement Period" >= 18
+    and exists "Qualifying Encounter"
     and exists "Qualifying CAD Encounter"
 
 define "Denominator 1":
@@ -337,7 +344,8 @@ define "Outpatient Encounter During Measurement Period":
     union [Encounter: "Outpatient Consultation"]
     union [Encounter: "Care Services in Long-Term Residential Facility"]
     union [Encounter: "Home Healthcare Services"]
-    union [Encounter: "Nursing Facility Visit"] ) QualifyingEncounter
+    union [Encounter: "Nursing Facility Visit"] 
+    union [Encounter: "Clinic"] ) QualifyingEncounter
     where QualifyingEncounter.period during day of "Measurement Period"
       and QualifyingEncounter.status = 'finished'
 
@@ -362,9 +370,12 @@ define "Qualifying Encounter During Measurement Period":
     union [Encounter: "Nursing Facility Visit"]
     union [Encounter: "Care Services in Long-Term Residential Facility"]
     union [Encounter: "Home Healthcare Services"]
-    union [Encounter: "Patient Provider Interaction"] ) ValidEncounter
+    union [Encounter: "Patient Provider Interaction"]
+    union [Encounter: "Clinic"] ) ValidEncounter
     where ValidEncounter.period during day of "Measurement Period"
       and ValidEncounter.status = 'finished'
+
+
 
 define fluent function overlapsDayOfEncounter(Diagnosis Condition, EncounterList List<Encounter>):
   AnyTrue(EncounterList Visit

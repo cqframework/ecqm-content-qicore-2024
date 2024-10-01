@@ -13,6 +13,7 @@ include Status version '1.6.000' called Status
 codesystem "AdministrativeGender": 'http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender'
 codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
+codesystem "CERNER": 'https://fhir.cerner.com/7614e3af-e4eb-4094-af40-f129322755cb/codeSet/71'
 
 valueset "Chlamydia Screening": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.110.12.1052'
 valueset "Complications of Pregnancy, Childbirth and the Puerperium": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.111.12.1012'
@@ -39,6 +40,7 @@ valueset "XRay Study": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3
 code "Female": 'F' from "AdministrativeGender" display 'Female'
 code "Have you ever had vaginal intercourse [PhenX]": '64728-9' from "LOINC" display 'Have you ever had vaginal intercourse [PhenX]'
 code "Yes (qualifier value)": '373066001' from "SNOMEDCT" display 'Yes (qualifier value)'
+code "Clinic": '22282402' from "CERNER" display 'Clinic'
 
 parameter "Measurement Period" Interval<DateTime>
   default Interval[@2025-01-01T00:00:00.0, @2026-01-01T00:00:00.0)
@@ -86,7 +88,8 @@ define "Qualifying Encounters":
       union [Encounter: "Preventive Care, Established Office Visit, 0 to 17"]
       union [Encounter: "Home Healthcare Services"]
       union [Encounter: "Telephone Visits"]
-      union [Encounter: "Online Assessments"] ) ) ValidEncounters
+      union [Encounter: "Online Assessments"]
+      union [Encounter: "Clinic"] ) ) ValidEncounters
       where QICoreCommon."ToInterval" ( ValidEncounters.period ) during day of "Measurement Period"
   )
 
