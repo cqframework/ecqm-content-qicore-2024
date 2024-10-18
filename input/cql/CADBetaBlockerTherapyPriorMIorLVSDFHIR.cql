@@ -9,7 +9,7 @@ include AHAOverall version '2.6.000' called AHA
 
 codesystem "ActCode": 'http://terminology.hl7.org/CodeSystem/v3-ActCode'
 codesystem "SNOMEDCT": 'http://snomed.info/sct'
-codesystem "CERNER": 'https://fhir.cerner.com/7614e3af-e4eb-4094-af40-f129322755cb/codeSet/71'
+codesystem "CERNER": 'https://fhir.cerner.com/24e03c9a-e2fd-45f4-8243-e38cc7e8418d/codeSet/71'
 
 valueset "Allergy to Beta Blocker Therapy": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1177'
 valueset "Arrhythmia": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.366'
@@ -68,44 +68,44 @@ define "Denominator 1":
     and exists "Qualifying CAD Encounter and History of Moderate or Severe LVSD"
 
 define "Numerator 1":
-  "Has Beta Blocker Therapy for LVSD Ordered"
-    or "Is Currently Taking Beta Blocker Therapy for LVSD"
+  exists "Beta Blocker Therapy for LVSD Ordered"
+    or exists "Currently Taking Beta Blocker Therapy for LVSD"
 
 define "Denominator Exceptions 1":
-  "Has Arrhythmia with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Asthma with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Bradycardia with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Hypotension with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    or "Has Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+  exists "Arrhythmia with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Asthma with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Bradycardia with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Hypotension with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+    or exists "Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
       //Issue https://github.com/cqframework/cql-execution/issues/296 tied to https://github.com/projecttacoma/fqm-execution/issues/222
       /*or "Has Medical or Patient Reason for Not Ordering Beta Blocker for LVSD" */
-    
-    
-    or "Has Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD without Cardiac Pacer"
+    or ( exists "Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+      and not exists "Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
+      and not exists "Cardiac Pacer Device Implanted with Qualifying CAD Encounter and History of Moderate or Severe LVSD")
 
 define "Denominator 2":
   "Initial Population"
     and exists "Qualifying CAD Encounter and Prior MI"
 
 define "Numerator 2":
-  "Has Beta Blocker Therapy Ordered"
-    or "Is Currently Taking Beta Blocker Therapy"
+  exists "Beta Blocker Therapy Ordered"
+    or exists "Currently Taking Beta Blocker Therapy"
 
 define "Denominator Exceptions 2":
-  "Has Arrhythmia with Qualifying CAD Encounter and Prior MI"
-    or "Has Asthma with Qualifying CAD Encounter and Prior MI"
-    or "Has Bradycardia with Qualifying CAD Encounter and Prior MI"
-    or "Has Hypotension with Qualifying CAD Encounter and Prior MI"
-    or "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and Prior MI"
-    or "Has Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and Prior MI"
-    or "Has Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and Prior MI"
+  exists "Arrhythmia with Qualifying CAD Encounter and Prior MI"
+    or exists "Asthma with Qualifying CAD Encounter and Prior MI"
+    or exists "Bradycardia with Qualifying CAD Encounter and Prior MI"
+    or exists "Hypotension with Qualifying CAD Encounter and Prior MI"
+    or exists "Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and Prior MI"
+    or exists "Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and Prior MI"
+    or exists "Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and Prior MI"
       //Issue https://github.com/cqframework/cql-execution/issues/296 tied to https://github.com/projecttacoma/fqm-execution/issues/222
       /*or "Has Medical or Patient Reason for Not Ordering Beta Blocker Therapy" */
-    
-    
-    or "Has Atrioventricular Block with Qualifying CAD Encounter and Prior MI without Cardiac Pacer"
+    or (exists "Atrioventricular Block with Qualifying CAD Encounter and Prior MI"
+      and not exists "Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and Prior MI"
+      and not exists "Cardiac Pacer Device Implanted with Qualifying CAD Encounter and Prior MI")
 
 define "SDE Ethnicity":
   SDE."SDE Ethnicity"
@@ -124,86 +124,76 @@ define "Coronary Artery Disease Encounter":
     with [Condition: "Coronary Artery Disease No MI"] CoronaryArteryDisease
       such that CoronaryArteryDisease.overlapsDayOfEncounter ( ValidQualifyingEncounter )
 
-define "Has Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( ( [AllergyIntolerance: "Beta Blocker Therapy Ingredient"]
+define "Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( ( [AllergyIntolerance: "Beta Blocker Therapy Ingredient"]
       union [AllergyIntolerance: "Substance with beta adrenergic receptor antagonist mechanism of action (substance)"] ) BetaBlockerAllergyIntolerance
       where BetaBlockerAllergyIntolerance.overlapsAfterDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and Prior MI":
-  exists ( ( [AllergyIntolerance: "Beta Blocker Therapy Ingredient"]
+define "Allergy or Intolerance to Beta Blocker Therapy Ingredient with Qualifying CAD Encounter and Prior MI":
+  ( ( [AllergyIntolerance: "Beta Blocker Therapy Ingredient"]
       union [AllergyIntolerance: "Substance with beta adrenergic receptor antagonist mechanism of action (substance)"] ) BetaBlockerAllergyIntolerance
       where BetaBlockerAllergyIntolerance.overlapsAfterDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Arrhythmia with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Arrhythmia"] ArrhythmiaDiagnosis
+define "Arrhythmia with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Arrhythmia"] ArrhythmiaDiagnosis
       where ArrhythmiaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Arrhythmia with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Arrhythmia"] ArrhythmiaDiagnosis
+define "Arrhythmia with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Arrhythmia"] ArrhythmiaDiagnosis
       where ArrhythmiaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Asthma with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Asthma"] AsthmaDiagnosis
+define "Asthma with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Asthma"] AsthmaDiagnosis
       where AsthmaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Asthma with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Asthma"] AsthmaDiagnosis
+define "Asthma with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Asthma"] AsthmaDiagnosis
       where AsthmaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Atrioventricular Block"] AtrioventricularBlock
+define "Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Atrioventricular Block"] AtrioventricularBlock
       where AtrioventricularBlock.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD without Cardiac Pacer":
-  "Has Atrioventricular Block with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    and not "Has Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-    and not "Has Cardiac Pacer Device Implanted with Qualifying CAD Encounter and History of Moderate or Severe LVSD"
-
-define "Has Atrioventricular Block with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Atrioventricular Block"] AtrioventricularBlock
+define "Atrioventricular Block with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Atrioventricular Block"] AtrioventricularBlock
       where AtrioventricularBlock.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
-  )
+  )  
 
-define "Has Atrioventricular Block with Qualifying CAD Encounter and Prior MI without Cardiac Pacer":
-  "Has Atrioventricular Block with Qualifying CAD Encounter and Prior MI"
-    and not "Has Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and Prior MI"
-    and not "Has Cardiac Pacer Device Implanted with Qualifying CAD Encounter and Prior MI"
-
-define "Has Beta Blocker Therapy for LVSD Ordered":
-  exists ( [MedicationRequest: medication in "Beta Blocker Therapy for LVSD"] BetaBlockerForLVSDOrdered
+define "Beta Blocker Therapy for LVSD Ordered":
+  ( [MedicationRequest: medication in "Beta Blocker Therapy for LVSD"] BetaBlockerForLVSDOrdered
       where BetaBlockerForLVSDOrdered.authoredDuringDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Beta Blocker Therapy Ordered":
-  exists ( [MedicationRequest: medication in "Beta Blocker Therapy"] BetaBlockerOrdered
+define "Beta Blocker Therapy Ordered":
+  ( [MedicationRequest: medication in "Beta Blocker Therapy"] BetaBlockerOrdered
       where BetaBlockerOrdered.authoredDuringDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Bradycardia with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Bradycardia"] BradycardiaDiagnosis
+define "Bradycardia with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Bradycardia"] BradycardiaDiagnosis
       where BradycardiaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Bradycardia with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Bradycardia"] BradycardiaDiagnosis
+define "Bradycardia with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Bradycardia"] BradycardiaDiagnosis
       where BradycardiaDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Cardiac Pacer Device Implanted with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Procedure: "Cardiac Pacer"] ImplantedCardiacPacer
+define "Cardiac Pacer Device Implanted with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Procedure: "Cardiac Pacer"] ImplantedCardiacPacer
       with "Qualifying CAD Encounter and History of Moderate or Severe LVSD" CADEncounterModerateOrSevereLVSD
         such that ImplantedCardiacPacer.performed.toInterval ( ) starts before end of CADEncounterModerateOrSevereLVSD.period
   )
 
-define "Has Cardiac Pacer Device Implanted with Qualifying CAD Encounter and Prior MI":
-  exists ( [Procedure: "Cardiac Pacer"] ImplantedCardiacPacer
+define "Cardiac Pacer Device Implanted with Qualifying CAD Encounter and Prior MI":
+  ( [Procedure: "Cardiac Pacer"] ImplantedCardiacPacer
       with "Qualifying CAD Encounter and Prior MI" CADEncounterMI
         such that ImplantedCardiacPacer.performed.toInterval ( ) starts before end of CADEncounterMI.period
   )
@@ -214,8 +204,8 @@ define "Has Cardiac Pacer Device Implanted with Qualifying CAD Encounter and Pri
 */
 
 
-define "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( from
+define "Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( from
       ["observation-heartrate"] HeartRate,
       "Qualifying CAD Encounter and History of Moderate or Severe LVSD" CADEncounterModerateOrSevereLVSD
       let PriorHeartRate: Last(["observation-heartrate"] MostRecentPriorHeartRate
@@ -224,8 +214,8 @@ define "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter a
           sort by start of effective.toInterval()
       )
       where HeartRate.effective.toInterval ( ) during CADEncounterModerateOrSevereLVSD.period
-        and HeartRate.value < 50 '/min'
-        and PriorHeartRate.value < 50 '/min'
+        and HeartRate.value as Quantity < 50 '/min'
+        and PriorHeartRate.value as Quantity < 50 '/min'
   )
 /*
 * @code: Heart rate - 8867-4
@@ -233,8 +223,8 @@ define "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter a
 */
 
 
-define "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and Prior MI":
-  exists ( from
+define "Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter and Prior MI":
+  ( from
       ["observation-heartrate"] HeartRate,
       "Qualifying CAD Encounter and Prior MI" CADEncounterMI
       let PriorHeartRate: Last(["observation-heartrate"] MostRecentPriorHeartRate
@@ -245,50 +235,50 @@ define "Has Consecutive Heart Rates Less than 50 with Qualifying CAD Encounter a
       )
       where HeartRate.effective.toInterval ( ) during CADEncounterMI.period
         and HeartRate.status in { 'final', 'amended', 'corrected' }
-        and HeartRate.value < 50 '/min'
-        and PriorHeartRate.value < 50 '/min'
+        and HeartRate.value as Quantity < 50 '/min'
+        and PriorHeartRate.value as Quantity < 50 '/min'
   )
 
-define "Has Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( ( [Condition: "Allergy to Beta Blocker Therapy"]
+define "Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( ( [Condition: "Allergy to Beta Blocker Therapy"]
       union [Condition: "Intolerance to Beta Blocker Therapy"] ) BetaBlockerAllergyOrIntoleranceDiagnosis
       where BetaBlockerAllergyOrIntoleranceDiagnosis.overlapsAfterDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and Prior MI":
-  exists ( ( [Condition: "Allergy to Beta Blocker Therapy"]
+define "Diagnosis of Allergy or Intolerance to Beta Blocker Therapy with Qualifying CAD Encounter and Prior MI":
+  ( ( [Condition: "Allergy to Beta Blocker Therapy"]
       union [Condition: "Intolerance to Beta Blocker Therapy"] ) BetaBlockerAllergyOrIntoleranceDiagnosis
       where BetaBlockerAllergyOrIntoleranceDiagnosis.overlapsAfterDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Cardiac Pacer in Situ"] CardiacPacerDiagnosis
+define "Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Cardiac Pacer in Situ"] CardiacPacerDiagnosis
       where CardiacPacerDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Cardiac Pacer in Situ"] CardiacPacerDiagnosis
+define "Diagnosis of Cardiac Pacer in Situ with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Cardiac Pacer in Situ"] CardiacPacerDiagnosis
       where CardiacPacerDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has History of Cardiac Surgery Prior to Encounter":
+define "History of Cardiac Surgery Prior to Encounter":
   "Outpatient Encounter During Measurement Period" ValidQualifyingEncounter
     with [Procedure: "Cardiac Surgery"] CardiacSurgery
       such that CardiacSurgery.performed.toInterval ( ) starts before end of ValidQualifyingEncounter.period
         and CardiacSurgery.status = 'completed'
 
-define "Has Hypotension with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
-  exists ( [Condition: "Hypotension"] HypotensionDiagnosis
+define "Hypotension with Qualifying CAD Encounter and History of Moderate or Severe LVSD":
+  ( [Condition: "Hypotension"] HypotensionDiagnosis
       where HypotensionDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and History of Moderate or Severe LVSD" )
   )
 
-define "Has Hypotension with Qualifying CAD Encounter and Prior MI":
-  exists ( [Condition: "Hypotension"] HypotensionDiagnosis
+define "Hypotension with Qualifying CAD Encounter and Prior MI":
+  ( [Condition: "Hypotension"] HypotensionDiagnosis
       where HypotensionDiagnosis.overlapsDayOfEncounter ( "Qualifying CAD Encounter and Prior MI" )
   )
 
-define "Has Medical or Patient Reason for Not Ordering Beta Blocker for LVSD":
-  exists ( [MedicationNotRequested: medication in "Beta Blocker Therapy for LVSD"] NoBetaBlockerForLVSDOrdered
+define "Medical or Patient Reason for Not Ordering Beta Blocker for LVSD":
+  ( [MedicationNotRequested: medication in "Beta Blocker Therapy for LVSD"] NoBetaBlockerForLVSDOrdered
       with "Qualifying CAD Encounter and History of Moderate or Severe LVSD" LVSDVisit
         such that NoBetaBlockerForLVSDOrdered.authoredOn during day of LVSDVisit.period
       where NoBetaBlockerForLVSDOrdered.status in { 'active', 'completed' }
@@ -302,8 +292,8 @@ define "Has Medical or Patient Reason for Not Ordering Beta Blocker for LVSD":
 //Issue: https://github.com/cqframework/cql-execution/issues/296 
 
 
-define "Has Medical or Patient Reason for Not Ordering Beta Blocker Therapy":
-  exists ( [MedicationNotRequested: medication in "Beta Blocker Therapy for LVSD"] NoBetaBlockerForLVSDOrdered
+define "Medical or Patient Reason for Not Ordering Beta Blocker Therapy":
+  ( [MedicationNotRequested: medication in "Beta Blocker Therapy for LVSD"] NoBetaBlockerForLVSDOrdered
       with "Qualifying CAD Encounter and Prior MI" PriorMIVisit
         such that NoBetaBlockerForLVSDOrdered.authoredOn during day of PriorMIVisit.period
       where NoBetaBlockerForLVSDOrdered.status in { 'active', 'completed' }
@@ -314,8 +304,8 @@ define "Has Medical or Patient Reason for Not Ordering Beta Blocker Therapy":
         )
   )
 
-define "Is Currently Taking Beta Blocker Therapy":
-  exists ( [MedicationRequest: medication in "Beta Blocker Therapy"] ActiveBetaBlocker
+define "Currently Taking Beta Blocker Therapy":
+  ( [MedicationRequest: medication in "Beta Blocker Therapy"] ActiveBetaBlocker
       with "Qualifying CAD Encounter and Prior MI" CADEncounterMI
         such that First((collapse(ActiveBetaBlocker.dosageInstruction.timing.repeat.bounds DoseTime
               return DoseTime.toInterval()
@@ -327,8 +317,8 @@ define "Is Currently Taking Beta Blocker Therapy":
         and ActiveBetaBlocker.doNotPerform is not true
   )
 
-define "Is Currently Taking Beta Blocker Therapy for LVSD":
-  exists ( [MedicationRequest: medication in "Beta Blocker Therapy"] ActiveBetaBlocker
+define "Currently Taking Beta Blocker Therapy for LVSD":
+  ( [MedicationRequest: medication in "Beta Blocker Therapy"] ActiveBetaBlocker
       with "Qualifying CAD Encounter and History of Moderate or Severe LVSD" CADEncounterModerateOrSevereLVSD
         such that First((collapse(ActiveBetaBlocker.dosageInstruction.timing.repeat.bounds DoseTime
               return DoseTime.toInterval()
@@ -351,7 +341,7 @@ define "Outpatient Encounter During Measurement Period":
 
 define "Qualifying CAD Encounter":
   "Coronary Artery Disease Encounter"
-    union "Has History of Cardiac Surgery Prior to Encounter"
+    union "History of Cardiac Surgery Prior to Encounter"
 
 define "Qualifying CAD Encounter and History of Moderate or Severe LVSD":
   "Qualifying CAD Encounter" EncounterWithCADProxy

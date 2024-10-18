@@ -9,7 +9,7 @@ include Hospice version '6.9.000' called Hospice
 include PalliativeCare version '1.9.000' called PalliativeCare
 include Status version '1.6.000' called Status
 
-codesystem "CERNER": 'https://fhir.cerner.com/7614e3af-e4eb-4094-af40-f129322755cb/codeSet/71'
+codesystem "CERNER": 'https://fhir.cerner.com/24e03c9a-e2fd-45f4-8243-e38cc7e8418d/codeSet/71'
 
 valueset "Congenital or Acquired Absence of Cervix": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.111.12.1016'
 valueset "Home Healthcare Services": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1016'
@@ -71,6 +71,8 @@ define "Absence of Cervix":
     union ( ["Condition": "Congenital or Acquired Absence of Cervix"] NoCervixDiagnosis
         where NoCervixDiagnosis.prevalenceInterval ( ) starts on or before end of "Measurement Period"
     )
+
+
 
 define "Cervical Cytology Within 3 Years":
   ( ( ["Observation": "Pap Test"] ).isLaboratoryTestPerformed ( ) ) CervicalCytology
