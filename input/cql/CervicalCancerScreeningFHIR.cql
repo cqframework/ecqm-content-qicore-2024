@@ -60,6 +60,9 @@ define "Denominator Exclusions":
     or exists "Absence of Cervix"
     or PalliativeCare."Has Palliative Care in the Measurement Period"
 
+define "Potential Denominator Exclusion":
+  exists "Absence of Cervix ignoring dates"
+
 define "Numerator":
   exists "Cervical Cytology Within 3 Years"
     or exists "HPV Test Within 5 Years for Women Age 30 and Older"
@@ -71,6 +74,10 @@ define "Absence of Cervix":
     union ( ["Condition": "Congenital or Acquired Absence of Cervix"] NoCervixDiagnosis
         where NoCervixDiagnosis.prevalenceInterval ( ) starts on or before end of "Measurement Period"
     )
+
+define "Absence of Cervix ignoring dates":
+  ((["Procedure": "Hysterectomy with No Residual Cervix"] ).isProcedurePerformed ( ) ) NoCervixProcedure
+  union ( ["Condition": "Congenital or Acquired Absence of Cervix"] NoCervixDiagnosis)
 
 
 
