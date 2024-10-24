@@ -50,5 +50,5 @@ def convert_valueset(filename: str):
     json.dump(valueset, f, indent=2)
 
 if __name__ == "__main__":
-    # convert_valueset("valueset-2.16.840.1.113883.3.464.1003.198.12.1014.json")
-    convert_valuesets()
+    convert_valueset("valueset-evdm-hysterectomy.json")
+    # convert_valuesets()
