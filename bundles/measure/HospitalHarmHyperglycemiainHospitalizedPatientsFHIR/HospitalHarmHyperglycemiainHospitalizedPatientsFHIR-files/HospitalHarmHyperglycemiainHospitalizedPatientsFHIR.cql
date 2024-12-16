@@ -18,6 +18,7 @@ valueset "Hypoglycemics Treatment Medications": 'http://cts.nlm.nih.gov/fhir/Val
 code "Birth date": '21112-8' from "LOINC" display 'Birth date'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.000Z, @2025-12-31T23:59:59.999Z]
 
 context Patient
 

@@ -46,6 +46,7 @@ code "Tobacco abuse counseling": 'Z71.6' from "ICD10CM" display 'Tobacco abuse c
 code "Unlisted preventive medicine service": '99429' from "CPT" display 'Unlisted preventive medicine service'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.000Z, @2025-12-31T23:59:59.999Z]
 
 context Patient
 

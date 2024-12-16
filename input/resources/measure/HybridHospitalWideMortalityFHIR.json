@@ -929,15 +929,15 @@
       }
     } ]
   }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
+    "valueReference": {
+      "reference": "Device/cqf-tooling"
+    }
+  }, {
     "id": "effective-data-requirements",
     "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
     "valueReference": {
       "reference": "#effective-data-requirements"
-    }
-  }, {
-    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-softwaresystem",
-    "valueReference": {
-      "reference": "Device/cqf-tooling"
     }
   } ],
   "url": "https://madie.cms.gov/Measure/HybridHospitalWideMortalityFHIR",
@@ -1003,7 +1003,7 @@
   "title": "Core Clinical Data Elements for the Hybrid Hospital Wide All Condition All Procedure Risk Standardized Mortality Measure HWMFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2024-07-09T14:53:55+00:00",
+  "date": "2024-12-16T15:57:58+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {
@@ -1034,6 +1034,13 @@
   } ],
   "library": [ "https://madie.cms.gov/Library/HybridHospitalWideMortalityFHIR" ],
   "disclaimer": "These performance specifications are not clinical guidelines and do not establish a standard of medical care, and have not been tested for all potential applications.  THE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  Due to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "scoring": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+      "code": "cohort",
+      "display": "Cohort"
+    } ]
+  },
   "rationale": "The intent of this logic is to extract the FIRST set of clinical data elements from hospital electronic health records (EHRs) for all qualifying hospitalizations. The data will be linked with administrative claims to risk adjust the Hybrid HWM outcome measure. This work addresses stakeholder concerns that clinical data garnered from patients and used by clinicians to guide diagnostic decisions and treatment, are preferable to administrative claims data when profiling hospitals’ case mix. We are calling the list of data elements for extraction the \"HWM-specific core clinical data elements\" (CCDE). The CCDEs are the first set of vital signs and basic laboratory tests resulted from hospitalizations for adult Medicare FFS and MA patients, age 65 through 94 years (Initial Population), after they arrive at the hospital to which they are subsequently admitted. For example, this first set of data values are often captured in the emergency department or in the pre-operative area, sometimes hours before a patient is admitted to that same facility.   Hospitalizations over the age of 94 years are not included to avoid holding hospitals responsible for the survival of the oldest elderly patients, who may be less likely to have survival as a primary goal. While we acknowledge that many elderly patients do have survival beyond 30 days as a primary goal for their hospitalization, with input from our Technical Expert Panel and work groups, we decided to only include hospitalizations between 65 and 94 years of age.  These CCDEs were selected because they: 1. reflect patients' clinical status when they first present to the hospital; 2. are clinically and statistically relevant to patient outcomes; 3. are consistently obtained during adult inpatient hospitalizations based on current clinical practice; 4. are captured with a standard definition and recorded in a standard format across providers; and 5. are entered in structured fields that are feasibly retrieved from current EHR systems (YNHHSC/CORE, 2015).   Additional data called Linking Variables are used to link EHR data files with administrative claims data for CMS to calculate results for the Hybrid HWM measure, which are: CMS Certification Number (CCN); National Provider Identifier (NPI) for MA patients; Medicare Beneficiary Identifier (MBI); Date of Birth; Sex; Inpatient Admission Date; and Discharge Date.",
   "clinicalRecommendationStatement": "The logic is not meant to guide or alter the care patients receive. The purpose of this CCDE logic is to extract clinical data that are already routinely captured in EHRs from hospitalizations for adult patients. It is not intended to require that clinical staff perform additional measurements or tests that are not needed for diagnostic assessment or treatment of patients.",
   "group": [ {

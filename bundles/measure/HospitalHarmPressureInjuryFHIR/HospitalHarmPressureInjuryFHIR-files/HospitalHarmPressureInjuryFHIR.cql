@@ -25,6 +25,7 @@ valueset "Pressure Injury Stage 2, 3, 4, or Unstageable Diagnoses": 'http://cts.
 code "Physical findings of Skin": '8709-8' from "LOINC" display 'Physical findings of Skin'
 
 parameter "Measurement Period" Interval<DateTime>
+  default Interval[@2025-01-01T00:00:00.000Z, @2025-12-31T23:59:59.999Z]
 
 context Patient
 
