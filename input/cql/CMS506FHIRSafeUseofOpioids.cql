@@ -1,4 +1,4 @@
-library CMS506FHIRSafeUseofOpioids version '0.2.001'
+library CMS506FHIRSafeUseofOpioids version '0.2.004'
 
 using QICore version '4.1.1'
 
@@ -28,7 +28,7 @@ valueset "Schedule IV Benzodiazepines": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.
 valueset "Sickle Cell Disease with and without Crisis": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.175'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2026-01-01T00:00:00.000Z, @2026-12-31T23:59:59.999Z]
+  default Interval[@2024-01-01T00:00:00.000Z, @2024-12-31T23:59:59.999Z]
 
 context Patient
 
