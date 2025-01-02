@@ -1,0 +1,1481 @@
+{
+  "resourceType": "Measure",
+  "id": "CMS1244ECCQHOQRFHIR",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Library",
+    "id": "effective-data-requirements",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "M",
+        "display": "Male"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://hl7.org/fhir/administrative-gender",
+        "code": "F",
+        "display": "Female"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "21541000119102",
+        "display": "Patient left without being seen (finding)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "5751000175101",
+        "display": "Patient bed assigned (finding)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+        "code": "billing",
+        "display": "Billing"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:\n  case\n    when Patient.gender = &#39;male&#39; then &quot;M&quot;\n    when Patient.gender = &#39;female&#39; then &quot;F&quot;\n    else null\n  end"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 0
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Sex"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Sex&quot;:\n  SDE.&quot;SDE Sex&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 1
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Encounter"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Encounter&quot;:\n  [Encounter: &quot;Emergency Department Evaluation and Management Visit&quot;] EDEncounter\n    where EDEncounter.period ends during day of &quot;Measurement Period&quot;\n      and EDEncounter.status = &#39;finished&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 2
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Triage"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Triage&quot;:\n  ( [Encounter: &quot;Triage&quot;] EDTriage\n      where EDTriage.period ends during day of &quot;Measurement Period&quot;\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 3
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Initial Population"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Initial Population&quot;:\n  &quot;ED Encounter&quot;\n    union &quot;ED Triage&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 4
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 5
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Time to Treatment Room Greater Than 60 Minutes"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Time to Treatment Room Greater Than 60 Minutes&quot;:\n  &quot;Denominator&quot; EDEncounter\n    where &quot;EDArrivalTime&quot;(EDEncounter) 61 minutes or more before &quot;EDTreatmentRoomTimeArrivalTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 6
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Arrival Left Without Being Seen"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Arrival Left Without Being Seen&quot;:\n  &quot;ED Triage&quot; EDTriage\n    where EDTriage.hospitalization.dischargeDisposition ~ &quot;Patient left without being seen (finding)&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 7
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "Inpatient Encounter"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Inpatient Encounter&quot;:\n  [Encounter: &quot;Encounter Inpatient&quot;] EncounterInpatient\n\t\twhere EncounterInpatient.status = &#39;finished&#39;\n\t\tand EncounterInpatient.period ends during day of &quot;Measurement Period&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 8
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDtoIPOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;EDtoIPOrder&quot;:\n  [ServiceRequest: code in &quot;Decision to Admit to Hospital Inpatient&quot;]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 9
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Decision to Admit Encounter Order"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Decision to Admit Encounter Order&quot;:\n  &quot;Denominator&quot; EDEncounter\n    with CQMCommon.&quot;Inpatient Encounter&quot; EncounterInpatient\n      such that &quot;AdmitDecisionUsingEncounterOrder&quot;(EncounterInpatient) 241 minutes or more before &quot;EDDepartureTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 10
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AssessmentInED"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;AssessmentInED&quot;:\n  [Observation: &quot;Emergency Department Evaluation&quot;]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 11
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Decision to Admit Using Assessment"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Decision to Admit Using Assessment&quot;:\n  &quot;Denominator&quot; EDEncounter\n    with CQMCommon.&quot;Inpatient Encounter&quot; EncounterInpatient\n      such that &quot;AdmitDecisionUsingAssessment&quot;(EncounterInpatient) 241 minutes or more before &quot;EDDepartureTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 12
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "InpatientOrBedAssignmentEncounterOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;InpatientOrBedAssignmentEncounterOrder&quot;:\n  [ServiceRequest: code in &quot;Encounter Inpatient&quot;]\n    union [ServiceRequest: &quot;Patient bed assigned (finding)&quot;]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 13
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Time of Admit Order Or Bed Assignment to Departure Greater Than 241 Minutes"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Time of Admit Order Or Bed Assignment to Departure Greater Than 241 Minutes&quot;:\n  &quot;Denominator&quot; EDEncounter\n    with CQMCommon.&quot;Inpatient Encounter&quot; InpatientEncounter\n      such that &quot;AdmitInpatientOrBedAssignmentOrder&quot;(InpatientEncounter) 241 minutes or more before &quot;EDDepartureTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 14
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Admitted to Inpatient 241 Minutes or More Before Departure"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Admitted to Inpatient 241 Minutes or More Before Departure&quot;:\n  &quot;Denominator&quot; EDEncounter\n    with CQMCommon.&quot;Inpatient Encounter&quot; Inpatient\n      such that &quot;HoldingInEDAfterAdmission&quot;(Inpatient) 241 minutes or more before &quot;EDDepartureTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 15
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Boarded Time Greater Than 240 Minutes"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Boarded Time Greater Than 240 Minutes&quot;:\n  &quot;Decision to Admit Encounter Order&quot;\n    union &quot;Decision to Admit Using Assessment&quot;\n    union &quot;Time of Admit Order Or Bed Assignment to Departure Greater Than 241 Minutes&quot;\n    union &quot;Admitted to Inpatient 241 Minutes or More Before Departure&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 16
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Observation Encounter Status"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Observation Encounter Status&quot;:\n  [Encounter: &quot;Emergency Department Observation&quot;] EDObsEncounter\n    with &quot;Denominator&quot; EDEncounter\n      such that start of EDObsEncounter.period during EDEncounter.period\n        and EDEncounter.status = &#39;finished&#39;\n        and EDObsEncounter.status = &#39;finished&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 17
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Observation Order Status"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Observation Order Status&quot;:\n  [ServiceRequest: code in &quot;Emergency Department Observation&quot;] EDObsOrder\n    with &quot;Denominator&quot; EDEncounter\n      such that EDObsOrder.authoredOn during EDEncounter.period\n        and EDEncounter.status = &#39;finished&#39;\n        and EDObsOrder.status = &#39;active&#39;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 18
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Observation Status"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Observation Status&quot;:\n  ( &quot;ED Observation Encounter Status&quot;\n    union &quot;ED Observation Order Status&quot; ) EDObservation\n    with ( &quot;Denominator&quot; ) EDStay\n      such that EDObservation.period during EDStay.period\n        or ( EDObservation.authoredOn during EDStay.period )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 19
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Boarded Time Greater Than 240 Minutes and No Observation Stay"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Boarded Time Greater Than 240 Minutes and No Observation Stay&quot;:\n  ( &quot;Boarded Time Greater Than 240 Minutes&quot; Boarding\n      where not exists ( &quot;ED Observation Status&quot; EDO\n          where ( EDO.period starts during Boarding.period\n              or EDO.authoredOn during Boarding.period\n          )\n      )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 20
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Length of Stay Greater Than 480 Minutes"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Length of Stay Greater Than 480 Minutes&quot;:\n  &quot;Denominator&quot; EDEncounter\n    where &quot;EDArrivalTime&quot;(EDEncounter) 481 minutes or more before &quot;EDDepartureTime&quot;(EDEncounter)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 21
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Length of Stay Greater Than 480 Minutes and No Observation Stay"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Length of Stay Greater Than 480 Minutes and No Observation Stay&quot;:\n  ( &quot;ED Length of Stay Greater Than 480 Minutes&quot; EDStay\n      where not exists ( &quot;ED Observation Status&quot; EDO\n          where ( EDO.period starts during EDStay.period\n              or EDO.authoredOn during EDStay.period\n          )\n      )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 22
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Numerator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Numerator&quot;:\n  &quot;Time to Treatment Room Greater Than 60 Minutes&quot;\n    union &quot;ED Arrival Left Without Being Seen&quot;\n    union &quot;Boarded Time Greater Than 240 Minutes and No Observation Stay&quot;\n    union &quot;ED Length of Stay Greater Than 480 Minutes and No Observation Stay&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 23
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Encounter or Triage of Patients Less Than 18 Years"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Encounter or Triage of Patients Less Than 18 Years&quot;:\n  &quot;Denominator&quot; EDEncounter\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &lt; 18"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 24
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Stratification 1: Pediatric With No Mental Health Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Stratification 1: Pediatric With No Mental Health Diagnosis&quot;:\n  ( &quot;ED Encounter or Triage of Patients Less Than 18 Years&quot; EDEncounter\n      let ConditionCode: EDEncounter.principalDiagnosis ( ).code\n      where not ( ConditionCode in &quot;Mental Health Diagnosis without Substance Use Disorders&quot; )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 25
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "ED Encounter or Triage of Patients 18 Years and Older"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;ED Encounter or Triage of Patients 18 Years and Older&quot;:\n  &quot;Denominator&quot; EDEncounter\n    where AgeInYearsAt(date from start of &quot;Measurement Period&quot;) &gt;= 18"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 26
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Stratification 4: Adult With Mental Health Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Stratification 4: Adult With Mental Health Diagnosis&quot;:\n  ( &quot;ED Encounter or Triage of Patients 18 Years and Older&quot; EDEncounter\n      let ConditionCode: EDEncounter.principalDiagnosis ( ).code\n      where ( ConditionCode in &quot;Mental Health Diagnosis without Substance Use Disorders&quot; )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 27
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Stratification 2: Adult With No Mental Health Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Stratification 2: Adult With No Mental Health Diagnosis&quot;:\n  ( &quot;ED Encounter or Triage of Patients 18 Years and Older&quot; EDEncounter\n      let ConditionCode: EDEncounter.principalDiagnosis ( ).code\n      where not ( ConditionCode in &quot;Mental Health Diagnosis without Substance Use Disorders&quot; )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 28
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:\n  [Coverage: type in &quot;Payer Type&quot;] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 29
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Payer"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Payer&quot;:\n  SDE.&quot;SDE Payer&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 30
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Stratification 3: Pediatric With Mental Health Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Stratification 3: Pediatric With Mental Health Diagnosis&quot;:\n  ( &quot;ED Encounter or Triage of Patients Less Than 18 Years&quot; EDEncounter\n      let ConditionCode: EDEncounter.principalDiagnosis ( ).code\n      where ( ConditionCode in &quot;Mental Health Diagnosis without Substance Use Disorders&quot; )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 31
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 32
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Ethnicity"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Ethnicity&quot;:\n  SDE.&quot;SDE Ethnicity&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 33
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "SupplementalDataElements"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:\n  Patient.race R\n    return Tuple {\n      codes: R.ombCategory union R.detailed,\n      display: R.text\n    }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 34
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "SDE Race"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;SDE Race&quot;:\n  SDE.&quot;SDE Race&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 35
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDArrivalTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;EDArrivalTime&quot;(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in &quot;Emergency Department Location&quot;\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "getLocation"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the Location resource specified by the given reference.\n*/\ndefine fluent function getLocation(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 37
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "getId"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 38
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToConcept"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 39
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDTreatmentRoomTimeArrivalTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;EDTreatmentRoomTimeArrivalTime&quot;(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in &quot;Emergency Department Treatment Location&quot;\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 40
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitDecisionUsingEncounterOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;AdmitDecisionUsingEncounterOrder&quot;(InpatientEncounter Encounter):\n  Last(&quot;EDtoIPOrder&quot; AdmitOrder\n      let LastEDVisit: &quot;LastEDEncounter&quot;(InpatientEncounter)\n      where AdmitOrder.authoredOn during LastEDVisit.period\n        and AdmitOrder.intent ~ &#39;order&#39;\n        and AdmitOrder.status in { &#39;active&#39;, &#39;completed&#39; }\n      return AdmitOrder.authoredOn\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 41
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "LastEDEncounter"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;LastEDEncounter&quot;(InpatientEncounter Encounter):\n  Last(&quot;ED Encounter&quot; EDVisit\n      where EDVisit.period starts 1 day or less before or on start of InpatientEncounter.period\n        and EDVisit.period starts before start of InpatientEncounter.period\n        and EDVisit.period during &quot;Measurement Period&quot;\n        and EDVisit.status = &#39;finished&#39;\n      sort by \n      end of period ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 42
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDDepartureTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;EDDepartureTime&quot;(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in &quot;Emergency Department Location&quot;\n        and \n        end of Location.period is not null\n      return \n      end of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 43
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitDecisionUsingAssessment"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;AdmitDecisionUsingAssessment&quot;(InpatientEncounter Encounter):\n  Last(&quot;AssessmentInED&quot; EDEvaluation\n      let LastEDVisit: &quot;LastEDEncounter&quot;(InpatientEncounter)\n      where EDEvaluation.effective.toInterval() starts during LastEDVisit.period\n        and EDEvaluation.value as Concept in &quot;Admit Inpatient&quot;\n        and EDEvaluation.status in { &#39;final&#39;, &#39;amended&#39;, &#39;corrected&#39; }\n      return start of EDEvaluation.effective.toInterval()\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 44
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitInpatientOrBedAssignmentOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;AdmitInpatientOrBedAssignmentOrder&quot;(InpatientEncounter Encounter):\n  Last((&quot;InpatientOrBedAssignmentEncounterOrder&quot;) AdmitInpatientOrder\n      let LastEDVisit: &quot;LastEDEncounter&quot;(InpatientEncounter)\n      where AdmitInpatientOrder.authoredOn during LastEDVisit.period\n      return AdmitInpatientOrder.authoredOn\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 45
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "HoldingInEDAfterAdmission"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;HoldingInEDAfterAdmission&quot;(InpatientEncounter Encounter):\n  Last(CQMCommon.&quot;Inpatient Encounter&quot; AdmittedInpatient\n      let LastEDVisit: &quot;LastEDEncounter&quot;(InpatientEncounter)\n      where start of AdmittedInpatient.period during LastEDVisit.period\n      return start of AdmittedInpatient.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 46
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "principalDiagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ &quot;Billing&quot;) PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 47
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 48
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToCode"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 49
+      } ]
+    } ],
+    "name": "EffectiveDataRequirements",
+    "status": "active",
+    "type": {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/library-type",
+        "code": "module-definition"
+      } ]
+    },
+    "relatedArtifact": [ {
+      "type": "depends-on",
+      "display": "Library SDE",
+      "resource": "https://madie.cms.gov/Library/SupplementalDataElements|3.5.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "https://madie.cms.gov/Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library CQMCommon",
+      "resource": "https://madie.cms.gov/Library/CQMCommon|2.2.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library QICoreCommon",
+      "resource": "https://madie.cms.gov/Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system AdministrativeGender",
+      "resource": "http://hl7.org/fhir/administrative-gender"
+    }, {
+      "type": "depends-on",
+      "display": "Code system SNOMEDCT",
+      "resource": "http://snomed.info/sct"
+    }, {
+      "type": "depends-on",
+      "display": "Code system DiagnosisRole",
+      "resource": "http://terminology.hl7.org/CodeSystem/diagnosis-role"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Evaluation and Management Visit",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1010"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Triage",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.279"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Location",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.284"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Treatment Location",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.278"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Encounter Inpatient",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Decision to Admit to Hospital Inpatient",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.294"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Evaluation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.163"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Admit Inpatient",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.164"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Observation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.22"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Mental Health Diagnosis without Substance Use Disorders",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.285"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Payer Type",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+    } ],
+    "parameter": [ {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
+    }, {
+      "name": "Numerator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Sex",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Coding"
+    }, {
+      "name": "SDE Payer",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "SDE Ethnicity",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "SDE Race",
+      "use": "out",
+      "min": 0,
+      "max": "1",
+      "type": "Resource"
+    }, {
+      "name": "Stratification 1: Pediatric With No Mental Health Diagnosis",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Stratification 4: Adult With Mental Health Diagnosis",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Stratification 2: Adult With No Mental Health Diagnosis",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Stratification 3: Pediatric With Mental Health Diagnosis",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    } ],
+    "dataRequirement": [ {
+      "type": "Patient",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
+      "mustSupport": [ "gender", "gender.value", "url", "extension" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "location", "location.type", "status", "status.value", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value", "hospitalization", "hospitalization.dischargeDisposition" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1046.279"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "period", "location", "location.type", "status", "status.value", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "status", "status.value", "location", "location.type", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1010"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period", "location", "location.type", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "status", "status.value", "location", "location.type", "rank", "rank.value", "use", "condition", "condition.reference", "condition.reference.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.22"
+      } ]
+    }, {
+      "type": "Location",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-location" ],
+      "mustSupport": [ "id", "id.value" ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value", "intent", "intent.value", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.294"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://snomed.info/sct",
+          "code": "5751000175101",
+          "display": "Patient bed assigned (finding)"
+        } ]
+      } ]
+    }, {
+      "type": "ServiceRequest",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
+      "mustSupport": [ "code", "authoredOn", "authoredOn.value", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1170.22"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "value", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.163"
+      } ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "id", "id.value", "code" ]
+    }, {
+      "type": "Coverage",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-coverage" ],
+      "mustSupport": [ "type", "period" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.3591"
+      } ]
+    } ]
+  } ],
+  "extension": [ {
+    "id": "supplementalDataGuidance",
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-supplementalDataGuidance",
+    "extension": [ {
+      "url": "guidance",
+      "valueString": "For every patient evaluated by this measure also identify payer, race, ethnicity and sex"
+    }, {
+      "url": "usage",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+          "code": "supplemental-data",
+          "display": "Supplemental Data"
+        } ],
+        "text": "Supplemental Data Guidance"
+      }
+    } ]
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
+    "valueReference": {
+      "reference": "#effective-data-requirements"
+    }
+  } ],
+  "url": "https://madie.cms.gov/Measure/CMS1244ECCQHOQRFHIR",
+  "identifier": [ {
+    "use": "usual",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "short-name",
+        "display": "Short Name"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/shortName",
+    "value": "CMS1244FHIR"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-independent",
+        "display": "Version Independent"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:1d711504-ebec-41de-81b0-d1993115eac2"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-specific",
+        "display": "Version Specific"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:6f1c6332-2a49-4ab8-8fff-7fb07ce7c9e3"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "publisher",
+        "display": "Publisher"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cmsId",
+    "value": "1244FHIR",
+    "assigner": {
+      "display": "CMS"
+    }
+  } ],
+  "version": "0.2.001",
+  "name": "CMS1244ECCQHOQRFHIR",
+  "title": "Emergency Care Capacity and Quality (HOQR) FHIR",
+  "status": "active",
+  "experimental": false,
+  "date": "2024-12-10T23:10:22+00:00",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+  "contact": [ {
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.cms.gov/"
+    } ]
+  } ],
+  "description": "This measure assesses the variation in capacity and quality of emergency care to support hospital quality improvement for patients requiring emergency care in an emergency department (ED). This measure is designed to align with incentives to promote improved care both in EDs and the broader health system to help identify where patients do not receive appropriate or timely access to emergency care.\n\nEmergency care capacity and quality gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.",
+  "purpose": "UNKNOWN",
+  "usage": "Measure Score Calculation\nThe measure score is first calculated at the individual ED level as the proportion of ED visits where any one of the four outcomes occurred, as defined by the numerator. Scores will be standardized z-scores by ED case volume strata (defined in ED visit volume bands of 20,000 visits). For CMS Certification Numbers (CCNs) with more than one ED, volume-adjusted z-scores are then combined as a weighted average for that CCN. A z-score of greater than zero means worse performance and less than zero means better performance, compared to like EDs.\n\nFor the purposes of this measure, a decision to admit can be captured using any of the following: \n  - an evaluation that results in a decision to admit\n  - an order to admit to inpatient\n  - an order for a bed assignment\n  - start of inpatient admission\n\nThis eCQM is an episode-based measure. An episode is defined as an ED visit that ends during the measurement period. \n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS1244v1. \n\nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)",
+  "copyright": "Limited proprietary coding is contained in these specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets.\n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2024 International Health Terminology Standards Development Organisation. All rights reserved.\n\nICD-10 copyright 2024 World Health Organization. All Rights Reserved.\n\nCPT(R) contained in the Measure specifications is copyright 2004-2024 American Medical Association.",
+  "effectivePeriod": {
+    "start": "2026-01-01",
+    "end": "2026-12-31"
+  },
+  "author": [ {
+    "name": "Acumen, LLC",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.acumenllc.com/"
+    } ]
+  } ],
+  "library": [ "https://madie.cms.gov/Library/CMS1244ECCQHOQRFHIR" ],
+  "disclaimer": "These performance specifications are not clinical guidelines, do not establish a standard of medical care, and have not been tested for all potential applications.\n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "rationale": "This measure aims to reduce patient harm and improve outcomes for patients requiring emergency care in an ED by addressing the variation in emergency care and measuring the capacity and quality of emergency care. There are long-standing concerns about parameters that impact the quality and timeliness of care in the ED. Currently, there are no national metrics to assess the proportion of patients impacted by the quality of timely ED care.",
+  "clinicalRecommendationStatement": "The goal of this Emergency Care Capacity and Quality (ECCQ) measure is to assess and improve the safety of the 140 million ED visits that patients experience each year (Centers for Disease Control and Prevention [CDC], 2021). Limitations in capacity and quality of emergency care have been shown to be associated with harm, such as increases in mortality, delays in care, preventable errors, poor patient experience, and staff burnout. These capacity and quality limitations are also associated with increased costs of care. This proposed ECCQ measure is intended for use in CMS’s Hospital Outpatient Quality Reporting (HOQR) program. The numerator is comprised of all ED visits with a quality gap in access as defined in the numerator criteria. Challenges related to emergency care access and capacity have been increasing and have prompted public calls for action. Prior efforts to measure components of this proposed measure (for example, ED boarding, through use of the ED-2 measure) were unsuccessful, likely in part due to the construction of the measure score, which was based on median performance that obscured poor performance (eCQI Resource Center, n.d). Implementation of this proposed measure, which captures multiple components of quality and capacity, will help identify facilities where patients do not receive timely access to emergency care as defined in the numerator criteria. This measure, therefore, could positively impact millions of patients who seek treatment in the ED and help address long-standing disparities in emergency care, including for patients with mental health diagnoses.",
+  "guidance": "Measure Score Calculation\nThe measure score is first calculated at the individual ED level as the proportion of ED visits where any one of the four outcomes occurred, as defined by the numerator. Scores will be standardized z-scores by ED case volume strata (defined in ED visit volume bands of 20,000 visits). For CMS Certification Numbers (CCNs) with more than one ED, volume-adjusted z-scores are then combined as a weighted average for that CCN. A z-score of greater than zero means worse performance and less than zero means better performance, compared to like EDs.\n\nFor the purposes of this measure, a decision to admit can be captured using any of the following: \n  - an evaluation that results in a decision to admit\n  - an order to admit to inpatient\n  - an order for a bed assignment\n  - start of inpatient admission\n\nThis eCQM is an episode-based measure. An episode is defined as an ED visit that ends during the measurement period. \n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS1244v1. \n\nPlease refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html)",
+  "group": [ {
+    "id": "6758b74246b6174510cfef2f",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+          "code": "proportion",
+          "display": "Proportion"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis",
+      "valueCode": "Encounter"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-type",
+          "code": "outcome",
+          "display": "Outcome"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "Decreased score indicates improvement"
+        } ]
+      }
+    } ],
+    "description": "All ED visits that end during the measurement period for all patients",
+    "population": [ {
+      "id": "04becb34-9cb9-4d76-8f49-5ac899733b14",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "description": "All ED visits that end during the measurement period for all patients",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Initial Population"
+      }
+    }, {
+      "id": "172deab2-d282-4e66-a0eb-93403ffeb477",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "description": "Equals Initial Population",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator"
+      }
+    }, {
+      "id": "685c6eac-07b7-4a43-bd29-66c6c9f66af7",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "description": "The numerator is comprised of ED visits meeting the denominator criteria and where the patient experiences any of the following quality gaps in access:\n1. The patient waited longer than 60 minutes (1 hour) after arrival to the ED to be placed in a treatment room or dedicated treatment area that allows for audiovisual privacy during history-taking and physical examination, or \n2. The patient left the ED without being evaluated, or  \n3. The patient boarded (time from Decision to Admit order to ED departure for admitted patients) in the ED for longer than 240 minutes (4 hours), or\n4. The patient had an ED length of stay (LOS) (time from ED arrival to ED departure as defined by the ED departure timestamp indicating when the patient physically left the ED) of longer than 480 minutes (8 hours).\n\nED encounters with ED observation stays are excluded from criteria #3 (boarding) and #4 (ED LOS). To clarify, patients who have a ‘decision to admit’ after an ED observation stay remain excluded from criteria #3 (boarded) calculations. ",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Numerator"
+      }
+    } ],
+    "stratifier": [ {
+      "id": "47720a33-5446-484b-b13e-1fd8cb336c8a",
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "initial-population",
+            "display": "Initial Population"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "denominator",
+            "display": "Denominator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator",
+            "display": "Numerator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator-exclusion",
+            "display": "Numerator Exclusion"
+          } ]
+        }
+      } ],
+      "description": "All patients aged less than 18 years seen in the ED who do not have an ED encounter principal diagnosis consistent with mental health diagnosis.  Patients who have an ED encounter principal diagnosis consistent with substance use disorders will be included in this stratification.",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Stratification 1: Pediatric With No Mental Health Diagnosis"
+      }
+    }, {
+      "id": "aeb743ee-a595-49f5-94ba-2fd492420b24",
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "initial-population",
+            "display": "Initial Population"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "denominator",
+            "display": "Denominator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator",
+            "display": "Numerator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator-exclusion",
+            "display": "Numerator Exclusion"
+          } ]
+        }
+      } ],
+      "description": "All patients aged 18 years and older seen in the ED who do not have an ED encounter principal diagnosis consistent with mental health diagnosis.  Patients who have an ED encounter principal diagnosis consistent with substance use disorders will be included in this stratification.",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Stratification 2: Adult With No Mental Health Diagnosis"
+      }
+    }, {
+      "id": "15ee4011-7c35-46d0-997f-9b23f15af731",
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "initial-population",
+            "display": "Initial Population"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "denominator",
+            "display": "Denominator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator",
+            "display": "Numerator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator-exclusion",
+            "display": "Numerator Exclusion"
+          } ]
+        }
+      } ],
+      "description": "All patients aged less than 18 years seen in the ED who have an ED encounter principal diagnosis consistent with mental health diagnosis.",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Stratification 3: Pediatric With Mental Health Diagnosis"
+      }
+    }, {
+      "id": "603ae99f-c70e-437c-92e7-f47d69581b23",
+      "extension": [ {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "initial-population",
+            "display": "Initial Population"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "denominator",
+            "display": "Denominator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator",
+            "display": "Numerator"
+          } ]
+        }
+      }, {
+        "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-appliesTo",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+            "code": "numerator-exclusion",
+            "display": "Numerator Exclusion"
+          } ]
+        }
+      } ],
+      "description": "All patients aged 18 years and older seen in the ED who have an ED encounter principal diagnosis consistent with mental health diagnosis.",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Stratification 4: Adult With Mental Health Diagnosis"
+      }
+    } ]
+  } ],
+  "supplementalData": [ {
+    "id": "sde-ethnicity",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Ethnicity",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Ethnicity"
+    }
+  }, {
+    "id": "sde-payer",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Payer",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Payer"
+    }
+  }, {
+    "id": "sde-race",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Race",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Race"
+    }
+  }, {
+    "id": "sde-sex",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Sex",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Sex"
+    }
+  }, {
+    "id": "sde-address",
+    "usage": [ {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+        "code": "supplemental-data"
+      } ]
+    } ],
+    "description": "SDE Address",
+    "criteria": {
+      "language": "text/cql-identifier",
+      "expression": "SDE Address"
+    }
+  } ]
+}
