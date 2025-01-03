@@ -1,0 +1,1213 @@
+{
+  "resourceType": "Measure",
+  "id": "CMS1218HHRFFHIR",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/computable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/publishable-measure-cqfm", "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/executable-measure-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Library",
+    "id": "effective-data-requirements",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "103390000",
+        "display": "Elective (qualifier value)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://snomed.info/sct",
+        "code": "271280005",
+        "display": "Removal of endotracheal tube (procedure)"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Elective Inpatient Encounter with Age 18 and Older without ED Visit"
+      }, {
+        "url": "statement",
+        "valueString": "//----------------------  Supporting definitions for Measure Population Definitions --------------------------------------------------//\n\n// Note: defines that are not referenced elsewhere are at the bottom of this file.\n\n// Supports:  Initial Population clause 1\n\n\n\n\ndefine &quot;Elective Inpatient Encounter with Age 18 and Older without ED Visit&quot;:\n  [&quot;Encounter&quot;: &quot;Elective Inpatient Encounter&quot;] ElectiveEncounter\n    where ElectiveEncounter.period ends during day of &quot;Measurement Period&quot;\n      and ElectiveEncounter.priority ~ &quot;Elective (qualifier value)&quot;\n      and AgeInYearsAt(date from start of ElectiveEncounter.period) &gt;= 18\n      and not exists ( [&quot;Encounter&quot;: &quot;Emergency Department Visit&quot;] EDVisit\n          where EDVisit.period ends 1 hour or less before or on start of ElectiveEncounter.period\n      )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 0
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Elective Inpatient Encounter with Age and without Obstetrical Condition"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  Initial Population clause 1\n\n\ndefine &quot;Elective Inpatient Encounter with Age and without Obstetrical Condition&quot;:\n  &quot;Elective Inpatient Encounter with Age 18 and Older without ED Visit&quot; ElectiveEncounter\n    where not exists ElectiveEncounter.diagnosis EncounterDiagnoses\n      where EncounterDiagnoses.condition.getCondition ( ).code in &quot;Obstetrical or Pregnancy Related Conditions&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 1
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Elective Inpatient Encounter with OR Procedure within 3 Days"
+      }, {
+        "url": "statement",
+        "valueString": "//----------------------  Initial Population Clauses --------------------------------------------------//\n\n// Initial Population - clause 1  - (referenced throughout the measure definitions)\n\n\n\ndefine &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot;:\n  &quot;Elective Inpatient Encounter with Age and without Obstetrical Condition&quot; ElectiveEncounter\n    with [&quot;Procedure&quot;: &quot;General and Neuraxial Anesthesia&quot;] SurgeryWithAnesthesia\n      such that SurgeryWithAnesthesia.performed.earliest ( ) during ElectiveEncounter.hospitalizationInterval ( )\n        and SurgeryWithAnesthesia.performed.earliest ( ) 3 days or less after start of ElectiveEncounter.hospitalizationInterval ( )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 2
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "General Anesthesia and MAC"
+      }, {
+        "url": "statement",
+        "valueString": "// Referenced in numerator supporting clauses\n\n\ndefine &quot;General Anesthesia and MAC&quot;:\n  [&quot;Procedure&quot;: &quot;Anesthesia Requiring Monitored Care&quot;] MAC\n    union [&quot;Procedure&quot;: &quot;General and Neuraxial Anesthesia&quot;] GA"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 3
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Anesthesia Procedure List"
+      }, {
+        "url": "statement",
+        "valueString": "//----------------------  End Risk Variable Accessory Functions -----------------------------//\n\n//---------------------- Utility Functions --------------------------------------------------//\n\n// Used exclusively in &quot;FirstProcedure&quot; function, below\n\n\n\n\ndefine &quot;Anesthesia Procedure List&quot;:\n  [&quot;Procedure&quot;: &quot;General and Neuraxial Anesthesia&quot;] AnesthesiaProcedures\n    where AnesthesiaProcedures.performed.latest ( ) during day of &quot;Measurement Period&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 4
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Intubation During General Anesthesia and MAC"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  numerator clause 1\n\n\ndefine &quot;Intubation During General Anesthesia and MAC&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Intubation&quot;] ProceduralIntubation,\n    &quot;General Anesthesia and MAC&quot; ProcedureWithAnesthesia\n    where ProceduralIntubation.startsDuringAnesthesia ( ProcedureWithAnesthesia, EncounterWithSurgery )\n    return ProceduralIntubation"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 5
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Intubation Outside of Procedural Area within 30 Days of End of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "//fix\n\n//----------------------  Numerator Clauses --------------------------------------------------//\n\n// Numerator - clause 1\n\n\n\n\ndefine &quot;Encounter with Intubation Outside of Procedural Area within 30 Days of End of First OR Procedure&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Intubation&quot;] EndotrachealTubeIn\n    let IntubationInterval: EndotrachealTubeIn.interval ( ),\n    LatestAnesthesiaInterval: &quot;LatestGeneralAnesthesiaOrMAC&quot;(EndotrachealTubeIn).interval ( )\n    where EndotrachealTubeIn.starts30DaysOrLessAfterFirstProcedure ( EncounterWithSurgery )\n      and EndotrachealTubeIn.startsDuringHospitalization ( EncounterWithSurgery )\n      and IntubationInterval starts after end of LatestAnesthesiaInterval\n      and EncounterWithSurgery.isNotAtProceduralHospitalLocationDuring ( IntubationInterval )\n      and not ( &quot;Intubation During General Anesthesia and MAC&quot;.id contains EndotrachealTubeIn.id )\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 6
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Noninvasive Oxygen Therapy"
+      }, {
+        "url": "statement",
+        "valueString": "// Referenced in numerator supporting clauses\n\n\ndefine &quot;Noninvasive Oxygen Therapy&quot;:\n  [&quot;Procedure&quot;: &quot;Non Invasive Oxygen Therapy by Nasal Cannula or Mask&quot;]\n    union [&quot;Observation&quot;: &quot;Non Invasive Oxygen Therapy&quot;]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 7
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Mechanical Ventilation Outside of Procedural Area within 30 Days of End of First OR Procedure and Preceded by Non Invasive Oxygen Therapy"
+      }, {
+        "url": "statement",
+        "valueString": "// Numerator - clause 2\n\n\ndefine &quot;Encounter with Mechanical Ventilation Outside of Procedural Area within 30 Days of End of First OR Procedure and Preceded by Non Invasive Oxygen Therapy&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Mechanical Ventilation&quot;] Ventilation,\n    &quot;Noninvasive Oxygen Therapy&quot; OxygenSupport\n    let VentilationInterval: Ventilation.interval ( ),\n    LatestAnesthesiaInterval: &quot;LatestGeneralAnesthesiaOrMAC&quot;(Ventilation).interval ( )\n    where Ventilation.starts30DaysOrLessAfterFirstProcedure ( EncounterWithSurgery )\n      and Ventilation.startsDuringHospitalization ( EncounterWithSurgery )\n      and VentilationInterval starts after end of LatestAnesthesiaInterval\n      and OxygenSupport.interval ( ) starts during Interval[end of LatestAnesthesiaInterval, start of VentilationInterval]\n      and EncounterWithSurgery.isNotAtProceduralHospitalLocationDuring ( VentilationInterval )\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 8
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Extubation with Preceding Noninvasive Oxygen"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  numerator clause 3\n\n\ndefine &quot;Extubation with Preceding Noninvasive Oxygen&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Removal of endotracheal tube (procedure)&quot;] Extubation,\n    &quot;Noninvasive Oxygen Therapy&quot; OxygenSupport\n    let LatestAnesthesia: &quot;LatestGeneralAnesthesiaOrMAC&quot;(Extubation)\n    where Extubation.startsDuringHospitalization ( EncounterWithSurgery )\n      and Extubation.startsAfterAnesthesia ( LatestAnesthesia, EncounterWithSurgery )\n      and OxygenSupport.interval ( ) starts during Interval[end of LatestAnesthesia.interval ( ), start of Extubation.interval ( )]\n    return Extubation"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 9
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Extubation During General Anesthesia"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  numerator clause 3\n\n\ndefine &quot;Extubation During General Anesthesia&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Removal of endotracheal tube (procedure)&quot;] Extubation,\n    &quot;General Anesthesia and MAC&quot; Anesthesia\n    where Extubation.startsDuringAnesthesia ( Anesthesia, EncounterWithSurgery )\n    return Extubation"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 10
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Extubation Outside of Procedural Area within 30 Days of End of First OR Procedure More Than 48 Hours After End of Anesthesia"
+      }, {
+        "url": "statement",
+        "valueString": "//fix\n\n\n// Numerator - clause 3\n\n\n\ndefine &quot;Encounter with Extubation Outside of Procedural Area within 30 Days of End of First OR Procedure More Than 48 Hours After End of Anesthesia&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Removal of endotracheal tube (procedure)&quot;] Extubation\n    let ExtubationInterval: Extubation.interval ( ),\n    LatestAnesthesiaInterval: &quot;LatestGeneralAnesthesiaOrMAC&quot;(Extubation).interval ( )\n    where Extubation.isDuringHospitalization ( EncounterWithSurgery )\n      and Extubation.starts30DaysOrLessAfterFirstProcedure ( EncounterWithSurgery )\n      and ExtubationInterval starts more than 48 hours after end of LatestAnesthesiaInterval\n      and not ( ( &quot;Extubation with Preceding Noninvasive Oxygen&quot;.id contains Extubation.id )\n          and not ( &quot;Extubation During General Anesthesia&quot;.id contains Extubation.id )\n      )\n      and EncounterWithSurgery.isNotAtProceduralHospitalLocation ( )\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 11
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Mechanical Ventilation within 30 Days of End of First OR Procedure and Between 48 and 72 Hours After End of OR Procedure and not Preceded by Non Invasive Oxygen Therapy or Anesthesia"
+      }, {
+        "url": "statement",
+        "valueString": "// Numerator - clause 4\n\n\ndefine &quot;Encounter with Mechanical Ventilation within 30 Days of End of First OR Procedure and Between 48 and 72 Hours After End of OR Procedure and not Preceded by Non Invasive Oxygen Therapy or Anesthesia&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Procedure&quot;: &quot;Mechanical Ventilation&quot;] Ventilation\n    let VentilationInterval: Ventilation.interval ( ),\n    LatestAnesthesiaInterval: &quot;LatestGeneralAnesthesiaOrMAC&quot;(Ventilation).interval ( )\n    where VentilationInterval starts 48 hours or more after end of LatestAnesthesiaInterval\n      and VentilationInterval starts 72 hours or less after end of LatestAnesthesiaInterval\n      and Ventilation.starts30DaysOrLessAfterFirstProcedure ( EncounterWithSurgery )\n      and Ventilation.startsDuringHospitalization ( EncounterWithSurgery )\n      and not ( &quot;Encounter with Mechanical Ventilation Outside of Procedural Area within 30 Days of End of First OR Procedure and Preceded by Non Invasive Oxygen Therapy&quot;.id contains EncounterWithSurgery.id )\n      and EncounterWithSurgery.isNotAtProceduralHospitalLocation ( )\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 12
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Numerator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Numerator&quot;:\n  &quot;Encounter with Intubation Outside of Procedural Area within 30 Days of End of First OR Procedure&quot;\n    union &quot;Encounter with Mechanical Ventilation Outside of Procedural Area within 30 Days of End of First OR Procedure and Preceded by Non Invasive Oxygen Therapy&quot;\n    union &quot;Encounter with Extubation Outside of Procedural Area within 30 Days of End of First OR Procedure More Than 48 Hours After End of Anesthesia&quot;\n    union &quot;Encounter with Mechanical Ventilation within 30 Days of End of First OR Procedure and Between 48 and 72 Hours After End of OR Procedure and not Preceded by Non Invasive Oxygen Therapy or Anesthesia&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 13
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Initial Population"
+      }, {
+        "url": "statement",
+        "valueString": "//----------------------  Measure Population Definitions --------------------------------------------------//\n\n\ndefine &quot;Initial Population&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 14
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator&quot;:\n  &quot;Initial Population&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 15
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Degenerative Neurological Disorder"
+      }, {
+        "url": "statement",
+        "valueString": "//----------------------  Denominator Exclusion Clauses------------------------------------------------//\n\n// Denominator Exclusions - clause 1\n\n\n\ndefine &quot;Encounter with Degenerative Neurological Disorder&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    where exists ( EncounterWithSurgery.diagnosis EncounterDiagnosis\n        where EncounterDiagnosis.condition.getCondition ( ).code in &quot;Degenerative Neurological Disorder&quot;\n    )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 16
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with High Risk to Airway Head Neck and Thoracic Surgery"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 2\n\n\ndefine &quot;Encounter with High Risk to Airway Head Neck and Thoracic Surgery&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    with [&quot;Procedure&quot;: &quot;Head, Neck, and Thoracic Surgeries with High Risk Airway Compromise&quot;] HeadNeckProcedures\n      such that HeadNeckProcedures.startsDuringHospitalization ( EncounterWithSurgery )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 17
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Mechanical Ventilation that Starts More than One Hour Prior to Start of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 3\n\n\ndefine &quot;Encounter with Mechanical Ventilation that Starts More than One Hour Prior to Start of First OR Procedure&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    with [&quot;Procedure&quot;: &quot;Mechanical Ventilation&quot;] Ventilation\n      such that Ventilation.interval ( ) starts more than 1 hour before start of FirstAnesthesiaDuringHospitalization(EncounterWithSurgery).interval ( )\n        and Ventilation.startsDuringHospitalization ( EncounterWithSurgery )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 18
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Neuromuscular Disorder"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 4\n\n\ndefine &quot;Encounter with Neuromuscular Disorder&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    where exists ( EncounterWithSurgery.diagnosis EncounterDiagnosis\n        where EncounterDiagnosis.condition.getCondition ( ).code in &quot;Neuromuscular Disorder&quot;\n    )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 19
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with PaCO2 Greater Than 50 and Arterial pH Less Than 7.30 within 48 Hours Prior to Start of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 5\n\n\ndefine &quot;Encounter with PaCO2 Greater Than 50 and Arterial pH Less Than 7.30 within 48 Hours Prior to Start of First OR Procedure&quot;:\n  from\n    &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery,\n    [&quot;Observation&quot;: &quot;Carbon Dioxide Partial Pressure in Arterial Blood&quot;] CarbonDioxide,\n    [&quot;Observation&quot;: &quot;Arterial Blood pH&quot;] BloodpH\n    let FirstProcedure: FirstAnesthesiaDuringHospitalization(EncounterWithSurgery),\n    FirstProcedureTime: FirstProcedure.interval ( )\n    where CarbonDioxide.interval ( ) starts 48 hours or less before start of FirstProcedureTime\n      and CarbonDioxide.value as Quantity &gt; 50 &#39;mm[Hg]&#39;\n      and BloodpH.interval ( ) starts 48 hours or less before start of FirstProcedureTime\n      and BloodpH.value as Quantity &lt; 7.30 &#39;[pH]&#39;\n      and FirstProcedure is not null\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 20
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with PaO2 Less Than 50 within 48 Hours Prior to Start of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "//fix\n\n// Denominator Exclusions - clause 6\n\n\n\ndefine &quot;Encounter with PaO2 Less Than 50 within 48 Hours Prior to Start of First OR Procedure&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    let FirstProcedure: FirstAnesthesiaDuringHospitalization(EncounterWithSurgery)\n    with [&quot;Observation&quot;: &quot;Oxygen Partial Pressure in Arterial Blood&quot;] Oxygen\n      such that Oxygen.interval ( ) starts 48 hours or less before start of FirstProcedure.interval ( )\n        and Oxygen.value as Quantity &lt; 50 &#39;mm[Hg]&#39;\n        and FirstProcedure is not null\n    return EncounterWithSurgery"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 21
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Principal Diagnosis of Acute Respiratory Failure"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 7\n\n\ndefine &quot;Encounter with Principal Diagnosis of Acute Respiratory Failure&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    where exists ( EncounterWithSurgery.diagnosis Diagnosis\n        where Diagnosis.condition.getCondition ( ).code in &quot;Acute Respiratory Failure&quot;\n          and Diagnosis.rank = 1\n    )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 22
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Diagnosis of Acute Respiratory Failure Present on Admission"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 8\n\n\ndefine &quot;Encounter with Diagnosis of Acute Respiratory Failure Present on Admission&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    where EncounterWithSurgery.diagnosisPresentOnAdmission ( ) in &quot;Present on Admission or Clinically Undetermined&quot;\n      and exists ( EncounterWithSurgery.diagnosis Diagnosis\n          where Diagnosis.condition.getCondition ( ).code in &quot;Acute Respiratory Failure&quot;\n      )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 23
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Tracheostomy Present on Admission"
+      }, {
+        "url": "statement",
+        "valueString": "//fix\n\n// Denominator Exclusions - clause 9\n\n\n\ndefine &quot;Encounter with Tracheostomy Present on Admission&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    where EncounterWithSurgery.diagnosisPresentOnAdmission ( ) in &quot;Present on Admission or Clinically Undetermined&quot;\n      and exists ( EncounterWithSurgery.diagnosis Dx\n          where Dx.condition.getCondition ( ).code in &quot;Tracheostomy Diagnoses&quot;\n      )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 24
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Tracheostomy Before Day of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  denominator exclusions clause 10\n\n\ndefine &quot;Encounter with Tracheostomy Before Day of First OR Procedure&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    let FirstProcedure: FirstAnesthesiaDuringHospitalization(EncounterWithSurgery)\n    with [&quot;Procedure&quot;: &quot;Tracheostomy Procedures&quot;] TracheostomySurgery\n      such that TracheostomySurgery.startsDuringHospitalization ( EncounterWithSurgery )\n        and TracheostomySurgery.interval ( ) starts before day of FirstProcedure.interval ( )\n        and FirstProcedure is not null"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 25
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Tracheostomy Same Day of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "// Supports:  denominator exclusions clause 10\n\n\ndefine &quot;Encounter with Tracheostomy Same Day of First OR Procedure&quot;:\n  &quot;Elective Inpatient Encounter with OR Procedure within 3 Days&quot; EncounterWithSurgery\n    let FirstProcedure: FirstAnesthesiaDuringHospitalization(EncounterWithSurgery)\n    with [&quot;Procedure&quot;: &quot;Tracheostomy Procedures&quot;] TracheostomySurgery\n      such that TracheostomySurgery.startsDuringHospitalization ( EncounterWithSurgery )\n        and TracheostomySurgery.interval ( ) starts during day of FirstProcedure.interval ( )\n        and FirstProcedure is not null"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 26
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Tracheostomy Prior to or on the Same Day of First OR Procedure"
+      }, {
+        "url": "statement",
+        "valueString": "// Denominator Exclusions - clause 10\n\n\ndefine &quot;Encounter with Tracheostomy Prior to or on the Same Day of First OR Procedure&quot;:\n  &quot;Encounter with Tracheostomy Before Day of First OR Procedure&quot;\n    union &quot;Encounter with Tracheostomy Same Day of First OR Procedure&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 27
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "Denominator Exclusions"
+      }, {
+        "url": "statement",
+        "valueString": "define &quot;Denominator Exclusions&quot;:\n  &quot;Encounter with Degenerative Neurological Disorder&quot;\n    union &quot;Encounter with High Risk to Airway Head Neck and Thoracic Surgery&quot;\n    union &quot;Encounter with Mechanical Ventilation that Starts More than One Hour Prior to Start of First OR Procedure&quot;\n    union &quot;Encounter with Neuromuscular Disorder&quot;\n    union &quot;Encounter with PaCO2 Greater Than 50 and Arterial pH Less Than 7.30 within 48 Hours Prior to Start of First OR Procedure&quot;\n    union &quot;Encounter with PaO2 Less Than 50 within 48 Hours Prior to Start of First OR Procedure&quot;\n    union &quot;Encounter with Principal Diagnosis of Acute Respiratory Failure&quot;\n    union &quot;Encounter with Diagnosis of Acute Respiratory Failure Present on Admission&quot;\n    union &quot;Encounter with Tracheostomy Present on Admission&quot;\n    union &quot;Encounter with Tracheostomy Prior to or on the Same Day of First OR Procedure&quot;"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 28
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "getCondition"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the Condition resource for the given reference\n*/\ndefine fluent function getCondition(reference Reference):\n  singleton from ([Condition] C where C.id = reference.reference.getId())"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 29
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "getId"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, &#39;/&#39;))"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 30
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "hospitalizationInterval"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function hospitalizationInterval(enc Encounter):\n  enc.hospitalizationWithObservationAndOutpatientSurgeryService ( )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 31
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "hospitalizationWithObservationAndOutpatientSurgeryService"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter.\n*/\ndefine fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter &quot;Encounter&quot; ):\n  TheEncounter Visit\n\t  let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n\t\t  \twhere LastObs.status = &#39;finished&#39;\n          and LastObs.period ends 1 hour or less on or before start of Visit.period\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    \tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n\t\t\t  where LastED.status = &#39;finished&#39;\n          and LastED.period ends 1 hour or less on or before VisitStart\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),\n    \tOutpatientSurgeryVisit: Last([Encounter: &quot;Outpatient Surgery Service&quot;] LastSurgeryOP\n\t\t\t  where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED\n\t\t\t  sort by\tend of period\n    \t)\n  \treturn Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 32
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "HospitalHarm"
+      }, {
+        "url": "name",
+        "valueString": "interval"
+      }, {
+        "url": "statement",
+        "valueString": "// interval\n// Given an encounter, procedure or observation resource, returns a normalized Interval object, calculated using QICoreCommon.ToInterval for the given type of resource. \n// Usage:   theEncounter.interval()\n\n\ndefine fluent function interval(choice Choice&lt;Procedure,Observation,Encounter&gt;):\n   case\n      when choice is Procedure   then QICoreCommon.ToInterval ( (choice as Procedure).performed ) \n      when choice is Observation then QICoreCommon.ToInterval ( (choice as Observation).effective ) \n      when choice is Encounter   then QICoreCommon.ToInterval ( (choice as Encounter).period ) \n  else null as Interval&lt;DateTime&gt;\n    end"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 33
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval&lt;DateTime&gt;, or Interval&lt;Quantity&gt; types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval&lt;DateTime&gt; or Interval&lt;Quantity&gt;.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn&#39;t have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n@deprecated: This function is deprecated. Use the fluent function `toInterval()` instead\n*/\ndefine function ToInterval(choice Choice&lt;DateTime, Quantity, Interval&lt;DateTime&gt;, Interval&lt;Quantity&gt;, Timing&gt;):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval&lt;DateTime&gt; then\n  \t\tchoice as Interval&lt;DateTime&gt;\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval&lt;Quantity&gt; then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, &#39;NOT_IMPLEMENTED&#39;, &#39;Error&#39;, &#39;Calculation of an interval from a Timing value is not supported&#39;) as Interval&lt;DateTime&gt;\n\t\telse\n\t\t\tnull as Interval&lt;DateTime&gt;\n\tend"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 34
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "LatestGeneralAnesthesiaOrMAC"
+      }, {
+        "url": "statement",
+        "valueString": "define function &quot;LatestGeneralAnesthesiaOrMAC&quot;(event Procedure):\n  Last(&quot;General Anesthesia and MAC&quot; ProcedureList\n      where ProcedureList.interval() ends before start of event.interval()\n      sort by start of QICoreCommon.ToInterval(performed)\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 35
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "starts30DaysOrLessAfterFirstProcedure"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function starts30DaysOrLessAfterFirstProcedure(procedure Procedure, encounter Encounter):\n  procedure.interval ( ) starts 30 days or less after end of FirstAnesthesiaDuringHospitalization(encounter).interval ( )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "FirstAnesthesiaDuringHospitalization"
+      }, {
+        "url": "statement",
+        "valueString": "// Returns the first anesthesia procedure that starts during the hospitalization encounter.\n\n\ndefine function &quot;FirstAnesthesiaDuringHospitalization&quot;(QualifyingEncounter Encounter):\n  First(&quot;Anesthesia Procedure List&quot; anesthesia\n      where anesthesia.startsDuringHospitalization(QualifyingEncounter)\n      sort by start of performed\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 37
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "HospitalHarm"
+      }, {
+        "url": "name",
+        "valueString": "startsDuringHospitalization"
+      }, {
+        "url": "statement",
+        "valueString": "// startsDuringHospitalization\n// Given an encounter, returns true if the calling observation effective time or procedure performed starts during that encounter. \n// The interval of the encounter is\n// determined by calling the CQCommon function &#39;HospitalizationWithObservationAndOutpatientSurgeryService&#39;wth the encounter as the argument.\n// Usage:   theObservation.startsDuringHospitalization(anEncounter)\n\n\ndefine fluent function startsDuringHospitalization(choice Choice&lt;Procedure,Observation&gt;, enc Encounter):\n   case\n      when choice is Procedure then QICoreCommon.ToInterval ( (choice as Procedure).performed ) starts during CQMCommon.&quot;HospitalizationWithObservationAndOutpatientSurgeryService&quot; ( enc )\n      when choice is Observation then QICoreCommon.ToInterval ( (choice as Observation).effective ) starts during CQMCommon.&quot;HospitalizationWithObservationAndOutpatientSurgeryService&quot; ( enc )\nelse false\n    end"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 38
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "HospitalizationWithObservationAndOutpatientSurgeryService"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter.\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservationAndOutpatientSurgeryService()` instead.\n*/\ndefine function &quot;HospitalizationWithObservationAndOutpatientSurgeryService&quot;(TheEncounter &quot;Encounter&quot; ):\n  TheEncounter Visit\n\t  let ObsVisit: Last([Encounter: &quot;Observation Services&quot;] LastObs\n\t\t  \twhere LastObs.status = &#39;finished&#39;\n          and LastObs.period ends 1 hour or less on or before start of Visit.period\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    \tEDVisit: Last([Encounter: &quot;Emergency Department Visit&quot;] LastED\n\t\t\t  where LastED.status = &#39;finished&#39;\n          and LastED.period ends 1 hour or less on or before VisitStart\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),\n    \tOutpatientSurgeryVisit: Last([Encounter: &quot;Outpatient Surgery Service&quot;] LastSurgeryOP\n\t\t\t  where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED\n\t\t\t  sort by\tend of period\n    \t)\n  \treturn Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 39
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "isNotAtProceduralHospitalLocationDuring"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function isNotAtProceduralHospitalLocationDuring(encounter Encounter, intrvl Interval&lt;DateTime&gt;):\n  ( not exists ( encounter.location EncounterLocation\n        where EncounterLocation.location.type in &quot;Procedural Hospital Locations&quot;\n          and EncounterLocation.period starts during intrvl\n    )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 40
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "startsDuringAnesthesia"
+      }, {
+        "url": "statement",
+        "valueString": "// and procedure.startsDuringHospitalization(EncounterWithSurgery)\n\n\ndefine fluent function startsDuringAnesthesia(procedure Procedure, anesthesia Procedure, encounterWithSurgery Encounter):\n  procedure.interval ( ) starts during anesthesia.interval ( )\n    and procedure.startsDuringHospitalization ( encounterWithSurgery )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 41
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "HospitalHarm"
+      }, {
+        "url": "name",
+        "valueString": "isDuringHospitalization"
+      }, {
+        "url": "statement",
+        "valueString": "// isDuringHospitalization\n// Given an encounter, returns true if the calling observation effective time or procedure performed occurs during that encounter. \n// The interval of the encounter is\n// determined by calling the CQCommon function &#39;HospitalizationWithObservationAndOutpatientSurgeryService&#39;wth the encounter as the argument.\n// Usage:   theProcedure.isDuringHospitalization(anEncounter)\n\n\ndefine fluent function isDuringHospitalization(choice Choice&lt;Procedure,Observation&gt;, enc Encounter):\n   case\n      when choice is Procedure then  \n        QICoreCommon.ToInterval ( (choice as Procedure).performed )  during CQMCommon.&quot;HospitalizationWithObservationAndOutpatientSurgeryService&quot; ( enc )\n      when choice is Observation then  \n         QICoreCommon.ToInterval ((choice as Observation).effective ) during CQMCommon.&quot;HospitalizationWithObservationAndOutpatientSurgeryService&quot; ( enc )\nelse false\n    end"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 42
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "startsAfterAnesthesia"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function startsAfterAnesthesia(procedure Procedure, anesthesia Procedure, encounterWithSurgery Encounter):\n  procedure.interval ( ) starts after anesthesia.interval ( )\n    and procedure.startsDuringHospitalization ( encounterWithSurgery )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 43
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1218HHRFFHIR"
+      }, {
+        "url": "name",
+        "valueString": "isNotAtProceduralHospitalLocation"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function isNotAtProceduralHospitalLocation(encounter Encounter):\n  ( not exists ( encounter.location EncounterLocation\n        where EncounterLocation.location.type in &quot;Procedural Hospital Locations&quot;\n    )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 44
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "HospitalHarm"
+      }, {
+        "url": "name",
+        "valueString": "diagnosisPresentOnAdmission"
+      }, {
+        "url": "statement",
+        "valueString": "// diagnosisPresentOnAdmission\n// Given an Encounter, this function returns the Present On Admission code of encounter&#39;s diagnosis, if present. Returns null otherwiese. \n// Usage: anEncouner.diagnosisPresentOnAdmission()\n\ndefine fluent function diagnosisPresentOnAdmission(enc Encounter):\n  (singleton from (\n    enc.diagnosis.extension E where E.url = &#39;http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter-diagnosisPresentOnAdmission&#39;\n  )).value as Concept"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 45
+      } ]
+    } ],
+    "name": "EffectiveDataRequirements",
+    "status": "active",
+    "type": {
+      "coding": [ {
+        "system": "http://terminology.hl7.org/CodeSystem/library-type",
+        "code": "module-definition"
+      } ]
+    },
+    "relatedArtifact": [ {
+      "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "https://madie.cms.gov/Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library CQMCommon",
+      "resource": "https://madie.cms.gov/Library/CQMCommon|2.2.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library QICoreCommon",
+      "resource": "https://madie.cms.gov/Library/QICoreCommon|2.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Library HospitalHarm",
+      "resource": "https://madie.cms.gov/Library/HospitalHarm|1.1.000"
+    }, {
+      "type": "depends-on",
+      "display": "Code system SNOMEDCT",
+      "resource": "http://snomed.info/sct"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Elective Inpatient Encounter",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.85"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Emergency Department Visit",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Obstetrical or Pregnancy Related Conditions",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.263"
+    }, {
+      "type": "depends-on",
+      "display": "Value set General and Neuraxial Anesthesia",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.208"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Observation Services",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Outpatient Surgery Service",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Intubation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.179"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Anesthesia Requiring Monitored Care",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.255"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Procedural Hospital Locations",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.216"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Mechanical Ventilation",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.107"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Non Invasive Oxygen Therapy by Nasal Cannula or Mask",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.209"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Non Invasive Oxygen Therapy",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.213"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Degenerative Neurological Disorder",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.241"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Head, Neck, and Thoracic Surgeries with High Risk Airway Compromise",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.251"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Neuromuscular Disorder",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.239"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Carbon Dioxide Partial Pressure in Arterial Blood",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.95"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Arterial Blood pH",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.96"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Oxygen Partial Pressure in Arterial Blood",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.94"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Acute Respiratory Failure",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.88"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Present on Admission or Clinically Undetermined",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1147.197"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Tracheostomy Diagnoses",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.89"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Tracheostomy Procedures",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.181"
+    } ],
+    "parameter": [ {
+      "name": "Measurement Period",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "Period"
+    }, {
+      "name": "Numerator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Initial Population",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    }, {
+      "name": "Denominator Exclusions",
+      "use": "out",
+      "min": 0,
+      "max": "*",
+      "type": "Resource"
+    } ],
+    "dataRequirement": [ {
+      "type": "Patient",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient" ],
+      "mustSupport": [ "birthDate", "birthDate.value" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "priority", "location", "location.type", "location.type.value", "id", "id.value", "diagnosis", "extension", "url", "url.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.85"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "period", "location", "location.type", "location.type.value", "id", "id.value", "diagnosis", "extension", "url", "url.value" ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "status", "status.value", "period", "location", "location.type", "location.type.value", "id", "id.value", "diagnosis", "extension", "url", "url.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1111.143"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "location", "location.type", "location.type.value", "id", "id.value", "diagnosis", "extension", "url", "url.value", "status", "status.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+      } ]
+    }, {
+      "type": "Encounter",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
+      "mustSupport": [ "type", "period", "location", "location.type", "location.type.value", "id", "id.value", "diagnosis", "extension", "url", "url.value" ],
+      "codeFilter": [ {
+        "path": "type",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1110.38"
+      } ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "id", "id.value" ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.255"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "performed", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.208"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.179"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.209"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "performed", "id", "id.value" ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "code": [ {
+          "system": "http://snomed.info/sct",
+          "code": "271280005",
+          "display": "Removal of endotracheal tube (procedure)"
+        } ]
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.251"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.107"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.181"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.213"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "effective" ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.95"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.96"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1248.94"
+      } ]
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-effectiveDataRequirements",
+    "valueReference": {
+      "reference": "#effective-data-requirements"
+    }
+  } ],
+  "url": "https://madie.cms.gov/Measure/CMS1218HHRFFHIR",
+  "identifier": [ {
+    "use": "usual",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "short-name",
+        "display": "Short Name"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/shortName",
+    "value": "CMS1218FHIR"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-independent",
+        "display": "Version Independent"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:b6857e46-6412-432d-abc8-0508efc0d2d7"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "version-specific",
+        "display": "Version Specific"
+      } ]
+    },
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:447f5c0f-f39c-4a27-a0bc-d5ae918bef10"
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "endorser",
+        "display": "Endorser"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cbeId",
+    "value": "4130e",
+    "assigner": {
+      "display": "CMS Consensus Based Entity"
+    }
+  }, {
+    "use": "official",
+    "type": {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/cqfmeasures/CodeSystem/identifier-type",
+        "code": "publisher",
+        "display": "Publisher"
+      } ]
+    },
+    "system": "https://madie.cms.gov/measure/cmsId",
+    "value": "1218FHIR",
+    "assigner": {
+      "display": "CMS"
+    }
+  } ],
+  "version": "0.0.003",
+  "name": "CMS1218HHRFFHIR",
+  "title": "Hospital Harm - Postoperative Respiratory FailureFHIR",
+  "status": "active",
+  "experimental": false,
+  "date": "2024-12-11T16:39:38+00:00",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+  "contact": [ {
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.cms.gov/"
+    } ]
+  } ],
+  "description": "This measure assesses the number of elective inpatient hospitalizations for patients aged 18 years and older without an obstetrical condition who have a procedure resulting in postoperative respiratory failure (PRF)",
+  "purpose": "UNKNOWN",
+  "usage": "PRF is evaluated using mechanical ventilation (MV) documentation or intubation and extubation documentation to allow for hospital documentation variances. Therefore, if MV documentation is not available, intubation and extubation can serve as a proxy for determining if MV occurred and its duration. To determine that an unplanned initiation of MV occurred, the logic looks for evidence of a non-invasive oxygen therapy assessment such as oxygen via 'nasal canula' or 'breathing room air' prior to the MV occurrence to verify that MV was newly initiated. Additionally, facility location codes are used to determine if MV was initiated outside of a procedural area (e.g., medical floor). Conversely, to determine MV duration, the logic looks for evidence that a non-invasive oxygen therapy assessment or another operating room procedure does not exist prior to the MV occurrence to verify that MV was continued without interruption from a procedural area. \n\t\nThis eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS1218v2. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "copyright": "Limited proprietary coding is contained in the Measure specifications for user convenience. Users of proprietary code sets should obtain all necessary licenses from the owners of the code sets. Mathematica disclaims all liability for use or accuracy of any third-party codes contained in the specifications. LOINC(R) copyright 2004-2024 Regenstrief Institute, Inc. \n\nThis material contains SNOMED Clinical Terms(R) (SNOMED CT[R]) copyright 2004-2024 International Health Terminology Standards Development Organisation. ICD-10 copyright 2024 World Health Organization. All Rights Reserved.",
+  "effectivePeriod": {
+    "start": "2026-01-01",
+    "end": "2026-12-31"
+  },
+  "author": [ {
+    "name": "Mathematica",
+    "telecom": [ {
+      "system": "url",
+      "value": "https://www.mathematica.org/"
+    } ]
+  } ],
+  "library": [ "https://madie.cms.gov/Library/CMS1218HHRFFHIR" ],
+  "disclaimer": "This performance measure is not a clinical guideline, does not establish a standard of medical care, and has not been tested for all potential applications. \n\nTHE MEASURES AND SPECIFICATIONS ARE PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND. \n\nDue to technical limitations, registered trademarks are indicated by (R) or [R] and unregistered trademarks are indicated by (TM) or [TM].",
+  "rationale": "Postoperative respiratory failure (PRF), defined as unplanned endotracheal reintubation, prolonged inability to wean from mechanical ventilation, or inadequate oxygenation and/or ventilation, is the most common serious postoperative pulmonary complication, with an incidence of up to 7.5% (the incidence of any postoperative pulmonary complication ranges from 10-40%) (Arozullah et al., 2000; Canet et al., 2015; Gupta et al., 2011; Kor et al., 2014). This measure addresses the prevalence of PRF and the variance between hospitals in the incidence of PRF. PRF is a serious complication that can increase the risk of morbidity and mortality, with in-hospital mortality resulting from PRF estimated at 25% to 40% (Arozullah et al., 2000; Canet & Gallart, 2014). Surgical procedures complicated by PRF have 3.74 times higher adjusted odds of death than those not complicated by respiratory failure, 1.47 times higher odds of 90-day readmission, and 1.86 times higher odds of an outpatient visit with one of 44 postoperative conditions (e.g., bacterial infection, fluid and electrolyte disorder, abdominal hernia) within 90 days of hospital discharge (Miller et al., 2001; Romano et al, 2009). PRF is additionally associated with prolonged mechanical ventilation and the need for rehabilitation or skilled nursing facility placement upon discharge (Thompson & Lisco, 2018).\n\nThe incidence of PRF varies by hospital, with higher reported rates of PRF in nonteaching hospitals than teaching hospitals (Rahman et al., 2013). Additionally, one study found that the odds of developing PRF increased by 6% for each level increase in hospital size from small to large (Rahman et al., 2013). This suggests that there remains room for improvement in hospitals reporting higher rates of PRF.\n\nThe most widely used current measures of PRF are based on either claims data (CMS Patient Safety Indicator (PSI) 11) or proprietary registry data (National Surgical Quality Improvement Program (NSQIP) of the American College of Surgeons). The eCQM is closely modeled after the NSQIP measure of PRF, which has been widely adopted across American hospitals, and is intended to complement and eventually supplant CMS PSI 11.",
+  "clinicalRecommendationStatement": "Recent studies and current clinical practice guidelines for PRF have identified enhanced recovery pathways, prophylactic mucolytics, postoperative continuous positive airway pressure ventilation, lung protective intraoperative ventilation, prophylactic respiratory physiotherapy, epidural analgesia, and goal directed hemodynamic therapy as evidence-based interventions to reduce the incidence of PRF. Yet, progress in reducing the incidence of PRF has been stymied by lack of consensus regarding the definition of PRF, which patients are most at-risk, which risk factors are potentially modifiable, and which patients are more likely to benefit from targeted interventions of a health care system’s limited resources. This measure would address this gap in data.\n\nRelevant clinical guidelines for preventing postoperative respiratory failure can be found in the following:\n\n- Mohanty, et al. Optimal Perioperative Management of the Geriatric Patient: Best Practices Guideline from ACS NSQIP/AGS, 2016\n- Piraino, et al. AARC Clinical Practice Guideline: Management of Adult Patients with Oxygen in the Acute Care Setting, 2022",
+  "guidance": "PRF is evaluated using mechanical ventilation (MV) documentation or intubation and extubation documentation to allow for hospital documentation variances. Therefore, if MV documentation is not available, intubation and extubation can serve as a proxy for determining if MV occurred and its duration. To determine that an unplanned initiation of MV occurred, the logic looks for evidence of a non-invasive oxygen therapy assessment such as oxygen via 'nasal canula' or 'breathing room air' prior to the MV occurrence to verify that MV was newly initiated. Additionally, facility location codes are used to determine if MV was initiated outside of a procedural area (e.g., medical floor). Conversely, to determine MV duration, the logic looks for evidence that a non-invasive oxygen therapy assessment or another operating room procedure does not exist prior to the MV occurrence to verify that MV was continued without interruption from a procedural area. \n\t\nThis eCQM is an episode-based measure. An episode is defined as each inpatient hospitalization or encounter that ends during the measurement period.\n\nThis FHIR-based measure has been derived from the QDM-based measure: CMS1218v2. Please refer to the HL7 QI-Core Implementation Guide (https://hl7.org/fhir/us/qicore/STU4.1.1/) for more information on QI-Core and mapping recommendations from QDM to QI-Core 4.1.1 (https://hl7.org/fhir/us/qicore/STU4.1.1/qdm-to-qicore.html).",
+  "group": [ {
+    "id": "67520e47670f1c0879cef598",
+    "extension": [ {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-scoring",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-scoring",
+          "code": "proportion",
+          "display": "Proportion"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-populationBasis",
+      "valueCode": "Encounter"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-type",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-type",
+          "code": "outcome",
+          "display": "Outcome"
+        } ]
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-rateAggregation",
+      "valueCode": "None"
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-improvementNotation",
+      "valueCodeableConcept": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-improvement-notation",
+          "code": "decrease",
+          "display": "increase"
+        } ]
+      }
+    } ],
+    "population": [ {
+      "id": "EBD61368-EDA1-4A7F-B134-48A501C47028",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "description": "Elective inpatient hospitalizations with no preceding emergency department visit that end during the measurement period for patients aged 18 and older without an obstetrical condition and at least one surgical procedure was performed within the first 3 days of the encounter",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Initial Population"
+      }
+    }, {
+      "id": "A15EB430-6645-42AC-8FCE-0FF0BF0B4749",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "description": "Equals Initial Population",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator"
+      }
+    }, {
+      "id": "1389AFF6-741D-47CB-BED0-62D858980EE4",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "description": "Inpatient hospitalizations for patients:\n\nWith a diagnosis for a degenerative neurological disorder\n\nWith any selected head, neck, and thoracic surgery involving significant risk of airway compromise or requiring airway protection\n\nWho have mechanical ventilation that starts more than one hour prior to the start of the first operating room (OR) procedure\n\nWith a diagnosis for a neuromuscular disorder\n\nWith arterial partial pressure of carbon dioxide (PaCO2)>50 mmHg combined with an arterial pH<7.30 within 48 hours or less prior to the start of the first OR procedure\n\nWith arterial partial pressure of oxygen (PaO2)<50 mmHg within 48 hours or less prior to the start of the first OR procedure\n\nWith a principal diagnosis for acute respiratory failure\n\nWith a diagnosis for acute respiratory failure present on admission\n\nWith any diagnosis present on admission for the existence of a tracheostomy\n\nWhere a tracheostomy is performed before or on the same day as the first OR procedure",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Denominator Exclusions"
+      }
+    }, {
+      "id": "F1D273B8-1513-4C6E-B65F-22FD939174E6",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "description": "Elective inpatient hospitalizations for patients with postoperative respiratory failure as evidenced by any of the following:\n\nCriterion A: Mechanical ventilation (MV) initiated within 30 days after first OR procedure, as evidenced by:\n\nA.1. Intubation that occurs outside of a procedural area and within 30 days after the end of the first OR procedure of the encounter.\n\nor\n\nA.2. MV that occurs outside of a procedural area within 30 days after the end of the first OR procedure of the encounter and is preceded by a period of non-invasive oxygen therapy between the end of the OR procedure and the MV occurrence, and without a subsequent OR procedure between the non-invasive oxygen therapy and the MV occurrence.\n\nor\n\nCriterion B: MV with a duration of more than 48 hours after the first OR procedure, as evidenced by:\n\nB.1. Extubation that occurs outside of a procedural area more than 48 hours after the end of an OR procedure and within 30 days after the end of the first OR procedure, and is not preceded by a period of non-invasive oxygen therapy or a subsequent OR procedure between the end of the OR procedure and the extubation occurrence.\n\nor\n\nB.2 Mechanical ventilation that occurs between 48 and 72 hours after the end of an OR procedure and within 30 days after the end of the first OR procedure, and is not preceded by a non-invasive oxygen therapy or a subsequent OR procedure between the end of the OR procedure and the MV occurrence. ",
+      "criteria": {
+        "language": "text/cql-identifier",
+        "expression": "Numerator"
+      }
+    } ]
+  } ]
+}
