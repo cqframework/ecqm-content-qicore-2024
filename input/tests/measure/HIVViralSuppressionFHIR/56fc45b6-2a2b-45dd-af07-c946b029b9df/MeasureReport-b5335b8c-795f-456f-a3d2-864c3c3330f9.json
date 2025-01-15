@@ -1,0 +1,80 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "b5335b8c-795f-456f-a3d2-864c3c3330f9",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "7f0e9393-415d-49b4-aed3-a65f269b10d7-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "56fc45b6-2a2b-45dd-af07-c946b029b9df"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#7f0e9393-415d-49b4-aed3-a65f269b10d7-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Patient with a diagnosis of HIV years before start of MP and a qualifying encounter on inside 240 day edge of the MP AND a viral load test during the MP with an empty/missing result "
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/HIVViralSuppressionFHIR",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 0
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "Patient/56fc45b6-2a2b-45dd-af07-c946b029b9df"
+  }, {
+    "reference": "Condition/hiv-7769"
+  }, {
+    "reference": "Encounter/preventive-care-services-initial-office-visit-18-and-up-776a"
+  }, {
+    "reference": "Observation/hiv-viral-load-776b"
+  }, {
+    "reference": "Coverage/1"
+  }, {
+    "reference": "Organization/123456"
+  }, {
+    "reference": "Practitioner/practitioner-123456"
+  } ]
+}

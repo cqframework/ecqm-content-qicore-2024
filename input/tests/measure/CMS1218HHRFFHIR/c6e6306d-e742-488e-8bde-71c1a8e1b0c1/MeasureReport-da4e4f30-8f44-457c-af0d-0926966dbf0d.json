@@ -1,0 +1,83 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "da4e4f30-8f44-457c-af0d-0926966dbf0d",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "814449db-96ed-434a-9c02-00762b6d3013-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "c6e6306d-e742-488e-8bde-71c1a8e1b0c1"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#814449db-96ed-434a-9c02-00762b6d3013-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Elective hospitalization with proc (general anesthesia) within first 3 days of encounter. But has ED visit which ends 1 hour + 1 minute before start of IP enc. Will only fail IPP if ED visit ends < 1 hour or on start of IP start. IPP/Denom Pass."
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/CMS1218HHRFFHIR",
+  "period": {
+    "start": "2026-01-01",
+    "end": "2026-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "count": 0
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 0
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "Encounter/72da995f-1093-4cd3-8f07-552b3aa14541"
+  }, {
+    "reference": "Encounter/7f86bf2d-2feb-4773-bb7d-1bf81fd2df79"
+  }, {
+    "reference": "Patient/c6e6306d-e742-488e-8bde-71c1a8e1b0c1"
+  }, {
+    "reference": "Procedure/aadf55e9-01b4-41b9-8530-c82abf17c1a8"
+  } ]
+}

@@ -1,0 +1,83 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "a5f9dd09-e115-4df6-b01d-fea105dfb6f3",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "61d8a5de-63e7-4050-b091-28465918a61d-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "f9b2fb9f-d553-420c-aac3-8633fb3d4d16"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#61d8a5de-63e7-4050-b091-28465918a61d-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Elective hospitalization with procedure (general anesthesia) within first 3 days of encounter. Mech ventilation starts exactly 48 hours from end of OR proc. Edge case, Numer4 passes. MV must start >= 48 hours after end of proc. "
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/CMS1218HHRFFHIR",
+  "period": {
+    "start": "2026-01-01",
+    "end": "2026-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "count": 0
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 1
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "Encounter/dd40e042-1de1-4987-a942-f6ffec54b143"
+  }, {
+    "reference": "Patient/f9b2fb9f-d553-420c-aac3-8633fb3d4d16"
+  }, {
+    "reference": "Procedure/9b0c9fef-3066-4669-8b78-6f10fbb0d58e"
+  }, {
+    "reference": "Procedure/9ac85517-6981-4ce6-8206-f2e1a7bcd642"
+  } ]
+}

@@ -1,0 +1,89 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "5ae716b2-9aab-46d3-8775-e40682f0abbf",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "7f043c15-5126-41d7-a6fe-dd95db1fd449-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "fe79603f-2876-45eb-a9d0-0be56d3d29a1"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#7f043c15-5126-41d7-a6fe-dd95db1fd449-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Enc 1: Elective hosp with proc (anesthesia) within first 3 days of encounter. PaO2 <50 and within 48 hours of start of procedure. Meets Exc.\nEnc 2: Intubated outside of OR after first procedure. Meets Num 1. \nExc from enc 1 does not impact enc 2."
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/CMS1218HHRFFHIR",
+  "period": {
+    "start": "2026-01-01",
+    "end": "2026-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 2
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 2
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 1
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "Encounter/326f5fe1-2b23-437b-a66a-45717daca9e6"
+  }, {
+    "reference": "Encounter/d003c952-dea5-4f83-83cd-52d9165aeb12"
+  }, {
+    "reference": "Observation/3d5c4939-5310-437f-811a-fb80977da458"
+  }, {
+    "reference": "Patient/fe79603f-2876-45eb-a9d0-0be56d3d29a1"
+  }, {
+    "reference": "Procedure/ebd1ec4a-4c6b-40fd-899a-c1b23570af86"
+  }, {
+    "reference": "Procedure/32f4eef0-a447-48bd-b05f-305c12525873"
+  }, {
+    "reference": "Procedure/46c8b28f-3bf1-4ef9-bf45-82c36d43a834"
+  } ]
+}

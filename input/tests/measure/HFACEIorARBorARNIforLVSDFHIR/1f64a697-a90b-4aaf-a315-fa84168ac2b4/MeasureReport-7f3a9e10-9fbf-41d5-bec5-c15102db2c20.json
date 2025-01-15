@@ -1,0 +1,98 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "7f3a9e10-9fbf-41d5-bec5-c15102db2c20",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "2bf9a35e-76f7-474a-8c91-abaa3640da23-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "1f64a697-a90b-4aaf-a315-fa84168ac2b4"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#2bf9a35e-76f7-474a-8c91-abaa3640da23-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Patient with 2 ambulatory encounters, Heart Failure Dx, and LVEF < 40% falls into Denominator Exception due to Medical Reason for not prescribing an Ace or Arb medication. Note: Denominator Exception deselected for now due to negation issue."
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/HFACEIorARBorARNIforLVSDFHIR",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exclusion",
+          "display": "Denominator Exclusion"
+        } ]
+      },
+      "count": 0
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 0
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator-exception",
+          "display": "Denominator Exception"
+        } ]
+      },
+      "count": 0
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "https://madie.cms.gov/Patient/1f64a697-a90b-4aaf-a315-fa84168ac2b4"
+  }, {
+    "reference": "https://madie.cms.gov/Encounter/79843513118548"
+  }, {
+    "reference": "https://madie.cms.gov/Encounter/7987431310"
+  }, {
+    "reference": "https://madie.cms.gov/Condition/345656131"
+  }, {
+    "reference": "https://madie.cms.gov/Condition/78513132021"
+  }, {
+    "reference": "https://madie.cms.gov/MedicationRequest/316461666686165161631"
+  }, {
+    "reference": "https://madie.cms.gov/Practitioner/78541321313"
+  } ]
+}

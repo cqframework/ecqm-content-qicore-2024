@@ -1,0 +1,80 @@
+{
+  "resourceType": "MeasureReport",
+  "id": "b1dcf974-0677-478c-ab55-7343098c2624",
+  "meta": {
+    "profile": [ "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/test-case-cqfm" ]
+  },
+  "contained": [ {
+    "resourceType": "Parameters",
+    "id": "f2196f9d-0704-4626-af4b-8abf8ba610f0-parameters",
+    "parameter": [ {
+      "name": "subject",
+      "valueString": "7ebb36aa-b8dc-4d22-9c09-3250684e3d30"
+    } ]
+  } ],
+  "extension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-inputParameters",
+    "valueReference": {
+      "reference": "#f2196f9d-0704-4626-af4b-8abf8ba610f0-parameters"
+    }
+  }, {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-testCaseDescription",
+    "valueMarkdown": "Patient with a diagnosis of HIV years before start of MP and a qualifying encounter on inside 240 day edge of the MP AND a viral load test on Dec 31 (edge case) during the MP with a result of 199 (under 200)"
+  } ],
+  "modifierExtension": [ {
+    "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-isTestCase",
+    "valueBoolean": true
+  } ],
+  "status": "complete",
+  "type": "individual",
+  "measure": "https://madie.cms.gov/Measure/HIVViralSuppressionFHIR",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "group": [ {
+    "population": [ {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "initial-population",
+          "display": "Initial Population"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "denominator",
+          "display": "Denominator"
+        } ]
+      },
+      "count": 1
+    }, {
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+          "code": "numerator",
+          "display": "Numerator"
+        } ]
+      },
+      "count": 1
+    } ]
+  } ],
+  "evaluatedResource": [ {
+    "reference": "Patient/7ebb36aa-b8dc-4d22-9c09-3250684e3d30"
+  }, {
+    "reference": "Condition/hiv-d7e1"
+  }, {
+    "reference": "Observation/hiv-viral-load-d7e2"
+  }, {
+    "reference": "Encounter/home-healthcare-services-d7e3"
+  }, {
+    "reference": "Coverage/1"
+  }, {
+    "reference": "Organization/123456"
+  }, {
+    "reference": "Practitioner/practitioner-123456"
+  } ]
+}
