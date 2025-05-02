@@ -3,6 +3,7 @@ eCQM Measure Content (Using QICore 4.1.1, based on FHIR R4 v4.0.1)
 
 These draft FHIR-based measures and shared libraries are translated from the QDM-based versions of eCQMs that were published in May 2024 for the 2025 reporting year as they existed in MADiE as of June 2024 or later and may not reflect the current updates from the 2025 AU review cycle of the QDM measures, and have specific versions, especially for the shared libraries, appropriate to the content for that publication update.
 
+
 Commits to this repository will automatically trigger a build of the continuous integration build, available here:
 
 https://build.fhir.org/ig/cqframework/ecqm-content-qicore-2024
