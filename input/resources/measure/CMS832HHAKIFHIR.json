@@ -378,6 +378,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 24
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "CQMCommon"
       }, {
         "url": "name",
@@ -387,7 +402,7 @@
         "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 24
+        "valueInteger": 25
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -402,7 +417,22 @@
         "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 25
+        "valueInteger": 26
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "hasStart"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Given an interval, return true if the interval has a starting boundary specified\n(i.e. the start of the interval is not null and not the minimum DateTime value)\n*/\ndefine fluent function hasStart(period Interval<DateTime> ):\n  not ( start of period is null\n      or start of period = minimum DateTime\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -417,7 +447,7 @@
         "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueInteger": 26
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -432,7 +462,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 27
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -447,7 +477,7 @@
         "valueString": "define function \"HighestSerumCreatinineResult\"(QualifyingEncounter Encounter):\n  ( Max((from\n          \"Qualifying Creatinine Lab Result by Time\" LabTests\n          let LabResult: LabTests.CrLabResult\n          where LabTests.CrEncInPtId = QualifyingEncounter.id\n      ).CrLabResult\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 28
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -462,7 +492,7 @@
         "valueString": "/*\n@description: Returns true if the given observation is a laboratory observation\n*/\ndefine fluent function isLaboratory(observation Observation):\n  exists (observation.category C\n    where C ~ \"laboratory\"\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -477,7 +507,22 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueInteger": 32
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToCode"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -492,7 +537,7 @@
         "valueString": "define function \"LowestSerumCreatinineResult\"(QualifyingEncounter Encounter):\n  ( Min((from\n          \"Qualifying Creatinine Lab Result by Time\" LabTests\n          let LabResult: LabTests.CrLabResult\n          where LabTests.CrEncInPtId = QualifyingEncounter.id\n      ).CrLabResult\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -507,7 +552,7 @@
         "valueString": "// following functions work with Cr result as Quantity (not decimal, but Quantity value is decimal)\n\n\ndefine function \"1.5IncreaseInCreatinine\"(QualifyingEncounter Encounter):\n  \"HighestSerumCreatinineResult\"(QualifyingEncounter) / 1.5"
       }, {
         "url": "displaySequence",
-        "valueInteger": 32
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -522,7 +567,7 @@
         "valueString": "define function \"2.0IncreaseInCreatinine\"(QualifyingEncounter Encounter):\n  \"HighestSerumCreatinineResult\"(QualifyingEncounter) / 2"
       }, {
         "url": "displaySequence",
-        "valueInteger": 33
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -537,7 +582,7 @@
         "valueString": "define function \"CreatinineLabTestwithResultwithinFirst48Hours\"(QualifyingEncounter Encounter):\n  from\n    [\"Observation\": \"Creatinine Mass Per Volume\"] CreatinineTest\n    where CreatinineTest.value is not null\n      and CreatinineTest.effective.earliest ( ) during Interval[start of QualifyingEncounter.hospitalizationWithObservation ( ), start of QualifyingEncounter.hospitalizationWithObservation ( ) + 48 hours]\n      and CreatinineTest.effective.earliest ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n      and CreatinineTest.status in { 'final', 'amended', 'corrected' }\n    return CreatinineTest"
       }, {
         "url": "displaySequence",
-        "valueInteger": 34
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -552,7 +597,67 @@
         "valueString": "define function \"MaleeGFR\"(QualifyingEncounter Encounter):\n  if Patient.gender = 'male' then ( 142 * Min({(\"IndexCreatinine\"(QualifyingEncounter).value / 0.9), 1 }) ^ ( - 0.302 ) * Max({(\"IndexCreatinine\"(QualifyingEncounter).value / 0.9), 1 }) ^ ( - 1.200 ) * 0.9938 ^ ( AgeInYearsAt(start of QualifyingEncounter.hospitalizationWithObservation()) ) ) \n    else null"
       }, {
         "url": "displaySequence",
-        "valueInteger": 35
+        "valueInteger": 38
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS832HHAKIFHIR"
+      }, {
+        "url": "name",
+        "valueString": "IndexCreatinine"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"IndexCreatinine\"(QualifyingEncounter Encounter):\n  Coalesce(\"LowestSerumCreatinineIn24Hours\"(QualifyingEncounter), singleton from \"FirstSerumCreatinineIn48Hours\"(QualifyingEncounter))"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 39
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS832HHAKIFHIR"
+      }, {
+        "url": "name",
+        "valueString": "LowestSerumCreatinineIn24Hours"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"LowestSerumCreatinineIn24Hours\"(QualifyingEncounter Encounter):\n  Min((from\n        \"Qualifying Creatinine Lab Result by Time\" LabTestsLow\n        let LabResult: LabTestsLow.CrLabResult\n        where LabTestsLow.CrEncInPtId = QualifyingEncounter.id\n          and LabTestsLow.CrLabTime during Interval[start of QualifyingEncounter.hospitalizationWithObservation(), start of QualifyingEncounter.hospitalizationWithObservation() + 24 hours]\n    ).CrLabResult\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 40
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS832HHAKIFHIR"
+      }, {
+        "url": "name",
+        "valueString": "FirstSerumCreatinineIn48Hours"
+      }, {
+        "url": "statement",
+        "valueString": "// find result from earliest time in 48 hrs\n\n\ndefine function \"FirstSerumCreatinineIn48Hours\"(QualifyingEncounter Encounter):\n  from\n    \"Qualifying Creatinine Lab Result by Time\" LabTests\n    let LabResult: LabTests.CrLabResult\n    where ( \"EarliestSerumCreatinineTimeIn48Hours\"(QualifyingEncounter) = LabTests.CrLabTime )\n    return LabResult as Quantity"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 41
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS832HHAKIFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EarliestSerumCreatinineTimeIn48Hours"
+      }, {
+        "url": "statement",
+        "valueString": "// find earliest time in 48 hrs\n\n\ndefine function \"EarliestSerumCreatinineTimeIn48Hours\"(QualifyingEncounter Encounter):\n  ( Min((from\n          \"Qualifying Creatinine Lab Result by Time\" LabTests48\n          let LabResult48: LabTests48.CrLabResult\n          where LabTests48.CrEncInPtId = QualifyingEncounter.id\n            and LabTests48.CrLabTime during Interval[start of QualifyingEncounter.hospitalizationWithObservation(), start of QualifyingEncounter.hospitalizationWithObservation() + 48 hours]\n      ).CrLabTime\n    )\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 42
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -567,7 +672,7 @@
         "valueString": "// eGFR functions return as decimal value rather than Quantity\n\n\ndefine function \"FemaleeGFR\"(QualifyingEncounter Encounter):\n  if Patient.gender = 'female' then ( 142 * Min({(\"IndexCreatinine\"(QualifyingEncounter).value / 0.7), 1 }) ^ ( - 0.241 ) * Max({(\"IndexCreatinine\"(QualifyingEncounter).value / 0.7), 1 }) ^ ( - 1.200 ) * 0.9938 ^ ( AgeInYearsAt(start of QualifyingEncounter.hospitalizationWithObservation()) ) * 1.012 ) \n    else null"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 43
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -582,7 +687,7 @@
         "valueString": "define function \"EarliestSerumCreatinineResult\"(QualifyingEncounter Encounter):\n  from\n    \"Qualifying Creatinine Lab Result by Time\" LabTests\n    let LabResult: LabTests.CrLabResult\n    where ( \"EarliestSerumCreatinineTime\"(QualifyingEncounter) = LabTests.CrLabTime )\n    return LabResult as Quantity"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 44
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -597,7 +702,7 @@
         "valueString": "define function \"EarliestSerumCreatinineTime\"(QualifyingEncounter Encounter):\n  ( Min((from\n          \"Qualifying Creatinine Lab Result by Time\" LabTestsEarly\n          let LabResultEarly: LabTestsEarly.CrLabResult\n          where LabTestsEarly.CrEncInPtId = QualifyingEncounter.id\n      ).CrLabTime\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueInteger": 45
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -906,7 +1011,7 @@
   "title": "Hospital Harm -  Acute Kidney InjuryFHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:06+00:00",
+  "date": "2026-03-13T01:50:41+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {

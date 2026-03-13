@@ -459,6 +459,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 28
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "CMS1264ECCQREHQRFHIR"
       }, {
         "url": "name",
@@ -468,7 +483,7 @@
         "valueString": "define function \"EDArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 28
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -483,7 +498,7 @@
         "valueString": "/*\n@description: Returns the Location resource specified by the given reference.\n*/\ndefine fluent function getLocation(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -498,7 +513,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -513,82 +528,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1264ECCQREHQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "EDTreatmentRoomTimeArrivalTime"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"EDTreatmentRoomTimeArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Treatment Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
         "valueInteger": 32
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1264ECCQREHQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "TransferDecisionUsingOrder"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"TransferDecisionUsingOrder\"():\n  Last([ServiceRequest: code in \"Decision to Transfer\"] TransferOrder\n      with [Encounter: \"Emergency Department Evaluation and Management Visit\"] EDVisit\n        such that TransferOrder.authoredOn during EDVisit.period\n          and TransferOrder.intent = 'order'\n          and TransferOrder.status = 'completed'\n          and EDVisit.status = 'finished'\n      return TransferOrder.authoredOn\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 33
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1264ECCQREHQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "EDDepartureTime"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"EDDepartureTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and \n        end of Location.period is not null\n      return \n      end of Location.period\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 34
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CQMCommon"
-      }, {
-        "url": "name",
-        "valueString": "principalDiagnosis"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 35
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "FHIRHelpers"
-      }, {
-        "url": "name",
-        "valueString": "ToString"
-      }, {
-        "url": "statement",
-        "valueString": "define function ToString(value uri): value.value"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -603,7 +543,82 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
+        "valueInteger": 33
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1264ECCQREHQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDTreatmentRoomTimeArrivalTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"EDTreatmentRoomTimeArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Treatment Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 34
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1264ECCQREHQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "TransferDecisionUsingOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"TransferDecisionUsingOrder\"():\n  Last([ServiceRequest: code in \"Decision to Transfer\"] TransferOrder\n      with [Encounter: \"Emergency Department Evaluation and Management Visit\"] EDVisit\n        such that TransferOrder.authoredOn during EDVisit.period\n          and TransferOrder.intent = 'order'\n          and TransferOrder.status = 'completed'\n          and EDVisit.status = 'finished'\n      return TransferOrder.authoredOn\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 35
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1264ECCQREHQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDDepartureTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"EDDepartureTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and \n        end of Location.period is not null\n      return \n      end of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "principalDiagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
+      }, {
+        "url": "displaySequence",
         "valueInteger": 37
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 38
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -819,7 +834,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "959"
+          "valueString": "1049"
         }, {
           "url": "targetProperty",
           "valueString": "authoredOn.value"
@@ -855,7 +870,7 @@
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-location" ],
       "mustSupport": [ "id", "id.value" ]
     }, {
-      "id": "959",
+      "id": "1049",
       "type": "ServiceRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-servicerequest" ],
       "mustSupport": [ "code", "authoredOn", "authoredOn.value", "intent", "intent.value", "status", "status.value" ],
@@ -983,7 +998,7 @@
   "title": "Emergency Care Capacity and Quality (REHQR) FHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:08+00:00",
+  "date": "2026-03-13T01:50:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {

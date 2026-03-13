@@ -586,6 +586,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "CMS1244ECCQHOQRFHIR"
       }, {
         "url": "name",
@@ -595,7 +610,7 @@
         "valueString": "define function \"EDArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -610,7 +625,7 @@
         "valueString": "/*\n@description: Returns the Location resource specified by the given reference.\n*/\ndefine fluent function getLocation(reference Reference ):\n  singleton from (\n    [Location] L where L.id = reference.reference.getId()\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -625,7 +640,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -640,142 +655,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 39
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "EDTreatmentRoomTimeArrivalTime"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"EDTreatmentRoomTimeArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Treatment Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
         "valueInteger": 40
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "AdmitDecisionUsingEncounterOrder"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"AdmitDecisionUsingEncounterOrder\"(InpatientEncounter Encounter):\n  Last(\"EDtoIPOrder\" AdmitOrder\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where AdmitOrder.authoredOn during LastEDVisit.period\n        and AdmitOrder.intent ~ 'order'\n        and AdmitOrder.status in { 'active', 'completed' }\n      return AdmitOrder.authoredOn\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 41
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "LastEDEncounter"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"LastEDEncounter\"(InpatientEncounter Encounter):\n  Last(\"ED Encounter\" EDVisit\n      where EDVisit.period starts 1 day or less before or on start of InpatientEncounter.period\n        and EDVisit.period starts before start of InpatientEncounter.period\n        and EDVisit.period during \"Measurement Period\"\n        and EDVisit.status = 'finished'\n      sort by \n      end of period ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 42
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "EDDepartureTime"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"EDDepartureTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and \n        end of Location.period is not null\n      return \n      end of Location.period\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 43
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "AdmitDecisionUsingAssessment"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"AdmitDecisionUsingAssessment\"(InpatientEncounter Encounter):\n  Last(\"AssessmentInED\" EDEvaluation\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where EDEvaluation.effective.toInterval() starts during LastEDVisit.period\n        and EDEvaluation.value as Concept in \"Admit Inpatient\"\n        and EDEvaluation.status in { 'final', 'amended', 'corrected' }\n      return start of EDEvaluation.effective.toInterval()\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 44
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "AdmitInpatientOrBedAssignmentOrder"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"AdmitInpatientOrBedAssignmentOrder\"(InpatientEncounter Encounter):\n  Last((\"InpatientOrBedAssignmentEncounterOrder\") AdmitInpatientOrder\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where AdmitInpatientOrder.authoredOn during LastEDVisit.period\n      return AdmitInpatientOrder.authoredOn\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 45
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CMS1244ECCQHOQRFHIR"
-      }, {
-        "url": "name",
-        "valueString": "HoldingInEDAfterAdmission"
-      }, {
-        "url": "statement",
-        "valueString": "define function \"HoldingInEDAfterAdmission\"(InpatientEncounter Encounter):\n  Last(CQMCommon.\"Inpatient Encounter\" AdmittedInpatient\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where start of AdmittedInpatient.period during LastEDVisit.period\n      return start of AdmittedInpatient.period\n      sort ascending\n  )"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 46
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "CQMCommon"
-      }, {
-        "url": "name",
-        "valueString": "principalDiagnosis"
-      }, {
-        "url": "statement",
-        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 47
-      } ]
-    }, {
-      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
-      "extension": [ {
-        "url": "libraryName",
-        "valueString": "FHIRHelpers"
-      }, {
-        "url": "name",
-        "valueString": "ToString"
-      }, {
-        "url": "statement",
-        "valueString": "define function ToString(value uri): value.value"
-      }, {
-        "url": "displaySequence",
-        "valueInteger": 48
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -790,7 +670,142 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
+        "valueInteger": 41
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDTreatmentRoomTimeArrivalTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"EDTreatmentRoomTimeArrivalTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Treatment Location\"\n        and start of Location.period is not null\n      return start of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 42
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitDecisionUsingEncounterOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"AdmitDecisionUsingEncounterOrder\"(InpatientEncounter Encounter):\n  Last(\"EDtoIPOrder\" AdmitOrder\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where AdmitOrder.authoredOn during LastEDVisit.period\n        and AdmitOrder.intent ~ 'order'\n        and AdmitOrder.status in { 'active', 'completed' }\n      return AdmitOrder.authoredOn\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 43
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "LastEDEncounter"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"LastEDEncounter\"(InpatientEncounter Encounter):\n  Last(\"ED Encounter\" EDVisit\n      where EDVisit.period starts 1 day or less before or on start of InpatientEncounter.period\n        and EDVisit.period starts before start of InpatientEncounter.period\n        and EDVisit.period during \"Measurement Period\"\n        and EDVisit.status = 'finished'\n      sort by \n      end of period ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 44
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "EDDepartureTime"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"EDDepartureTime\"(EDEncounter Encounter):\n  Last(EDEncounter.location Location\n      where Location.location.getLocation().type in \"Emergency Department Location\"\n        and \n        end of Location.period is not null\n      return \n      end of Location.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 45
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitDecisionUsingAssessment"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"AdmitDecisionUsingAssessment\"(InpatientEncounter Encounter):\n  Last(\"AssessmentInED\" EDEvaluation\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where EDEvaluation.effective.toInterval() starts during LastEDVisit.period\n        and EDEvaluation.value as Concept in \"Admit Inpatient\"\n        and EDEvaluation.status in { 'final', 'amended', 'corrected' }\n      return start of EDEvaluation.effective.toInterval()\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 46
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "AdmitInpatientOrBedAssignmentOrder"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"AdmitInpatientOrBedAssignmentOrder\"(InpatientEncounter Encounter):\n  Last((\"InpatientOrBedAssignmentEncounterOrder\") AdmitInpatientOrder\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where AdmitInpatientOrder.authoredOn during LastEDVisit.period\n      return AdmitInpatientOrder.authoredOn\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 47
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS1244ECCQHOQRFHIR"
+      }, {
+        "url": "name",
+        "valueString": "HoldingInEDAfterAdmission"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"HoldingInEDAfterAdmission\"(InpatientEncounter Encounter):\n  Last(CQMCommon.\"Inpatient Encounter\" AdmittedInpatient\n      let LastEDVisit: \"LastEDEncounter\"(InpatientEncounter)\n      where start of AdmittedInpatient.period during LastEDVisit.period\n      return start of AdmittedInpatient.period\n      sort ascending\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 48
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CQMCommon"
+      }, {
+        "url": "name",
+        "valueString": "principalDiagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns the condition that is specified as the principal diagnosis for the encounter\n*/\ndefine fluent function principalDiagnosis(Encounter Encounter ):\n\tsingleton from ((Encounter.diagnosis D where D.rank = 1 and D.use ~ \"Billing\") PD\n      return singleton from ([Condition] C where C.id = PD.condition.reference.getId())\n\t)"
+      }, {
+        "url": "displaySequence",
         "valueInteger": 49
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 50
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -1230,7 +1245,7 @@
   "title": "Emergency Care Capacity and Quality (HOQR) FHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:05+00:00",
+  "date": "2026-03-13T01:50:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {

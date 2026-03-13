@@ -621,6 +621,36 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "abatementInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns an interval representing the normalized abatement of a given Condition.\n@comment: If the abatement element of the Condition is represented as a DateTime, the result\nis an interval beginning and ending on that DateTime.\nIf the abatement is represented as a Quantity, the quantity is expected to be a calendar-duration and is interpreted as the age of the patient. The\nresult is an interval from the date the patient turned that age to immediately before one year later.\nIf the abatement is represented as a Quantity Interval, the quantities are expected to be calendar-durations and are interpreted as an age range during\nwhich the abatement occurred. The result is an interval from the date the patient turned the starting age of the quantity interval, and ending immediately\nbefore one year later than the date the patient turned the ending age of the quantity interval.\n*/\ndefine fluent function abatementInterval(condition Condition):\n\tif condition.abatement is DateTime then\n\t  Interval[condition.abatement as DateTime, condition.abatement as DateTime]\n\telse if condition.abatement is Quantity then\n\t\tInterval[Patient.birthDate + (condition.abatement as Quantity),\n\t\t\tPatient.birthDate + (condition.abatement as Quantity) + 1 year)\n\telse if condition.abatement is Interval<Quantity> then\n\t  Interval[Patient.birthDate + (condition.abatement.low as Quantity),\n\t\t  Patient.birthDate + (condition.abatement.high as Quantity) + 1 year)\n\telse if condition.abatement is Interval<DateTime> then\n\t  Interval[condition.abatement.low, condition.abatement.high)\n\telse null as Interval<DateTime>"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 37
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "AHAOverall"
       }, {
         "url": "name",
@@ -630,7 +660,7 @@
         "valueString": "/*\n@description: Returns true if the given Condition is confirmed as active\n*/\ndefine fluent function isConfirmedActiveDiagnosis(condition Condition):\n    condition.isActive()\n        and condition.verificationStatus ~ QICoreCommon.\"confirmed\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -645,7 +675,7 @@
         "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -660,7 +690,7 @@
         "valueString": "/*\n@description: Returns true if the given Encounter is finished\n*/\ndefine fluent function isFinished(Encounter Encounter):\n    Encounter.status = 'finished'"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueInteger": 40
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -675,7 +705,7 @@
         "valueString": "/*\n@overloaded\n@description: Returns true if the given MedicationRequest overlaps after the day of the heart failure outpatient encounter with history of moderate or severe LVSD\n*/                    \ndefine fluent function overlapsAfterHeartFailureOutpatientEncounter(MedicationRequest MedicationRequest): \n  exists ( \"Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD\" ModerateOrSevereLVSDHFOutpatientEncounter\n             where First( ( collapse (MedicationRequest.dosageInstruction.timing.repeat.bounds DoseTime\n                                        return DoseTime.toInterval()) ) DrugPeriods\n                           sort by start of $this ) overlaps after day of ModerateOrSevereLVSDHFOutpatientEncounter.period \n               and MedicationRequest.status in { 'active', 'completed' } \n               and MedicationRequest.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n               /*Issue: The logic commented out below was added to the logic due to an issue described in the authoring patterns for QI-Core: https://github.com/cqframework/CQL-Formatting-and-Usage-Wiki/wiki/Authoring-Patterns---QICore-v4.1.1#medication-ordered. However, when this logic is present, it causes an issue in Coverage calculation for resources that must be QI-Core compliant, because the inverse cannot be tested for a QI-Core MedicationRequest profile instance. This logic was commented out to achieve 100% Coverage. This requirement is really to handle what would happen if a MedicationRequest instance that could be set to 'false' were provided, but this should not happen within a trusted environment where QI-Core profile instances must be provided.*/\n               // and Event.doNotPerform is not true \n          )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 39
+        "valueInteger": 41
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -690,7 +720,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 40
+        "valueInteger": 42
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -705,7 +735,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 41
+        "valueInteger": 43
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -720,7 +750,37 @@
         "valueString": "/*\n@description: Returns true if the given Condition overlaps the heart failure outpatient encounter with history of moderate or severe LVSD at any point\n*/\ndefine fluent function overlapsHeartFailureOutpatientEncounter(Condition Condition): \n  exists ( \"Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD\" ModerateOrSevereLVSDHFOutpatientEncounter\n            where Condition.prevalenceInterval() overlaps day of ModerateOrSevereLVSDHFOutpatientEncounter.period\n              and Condition.isConfirmedActiveDiagnosis()\n          )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 42
+        "valueInteger": 44
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "AHAOverall"
+      }, {
+        "url": "name",
+        "valueString": "overlapsAfterHeartFailureOutpatientEncounter"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@overloaded\n@description: Returns true if the given Condition overlaps after the day of the heart failure outpatient encounter with history of moderate or severe LVSD\n*/\ndefine fluent function overlapsAfterHeartFailureOutpatientEncounter(Condition Condition): \n  exists ( \"Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD\" ModerateOrSevereLVSDHFOutpatientEncounter\n             where Condition.prevalenceInterval() overlaps after day of ModerateOrSevereLVSDHFOutpatientEncounter.period\n               and Condition.isConfirmedActiveDiagnosis()\n          )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 45
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "AHAOverall"
+      }, {
+        "url": "name",
+        "valueString": "overlapsAfterHeartFailureOutpatientEncounter"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@overloaded\n@description: Returns true if the given AllergyIntolerance overlaps after the day of the heart failure outpatient encounter with history of moderate or severe LVSD\n*/                    \ndefine fluent function overlapsAfterHeartFailureOutpatientEncounter(AllergyIntolerance AllergyIntolerance): \n  exists ( \"Heart Failure Outpatient Encounter with History of Moderate or Severe LVSD\" ModerateOrSevereLVSDHFOutpatientEncounter\n             where Interval[start of AllergyIntolerance.onset.toInterval(), AllergyIntolerance.lastOccurrence] overlaps after day of ModerateOrSevereLVSDHFOutpatientEncounter.period\n               and ( /* https://oncprojectracking.healthit.gov/support/browse/BONNIEMAT-1771 - issue with implies operator tied to a non-supported feature in cql-exectuion\n                          ( AllergyIntolerance.clinicalStatus is null implies\n                              AllergyIntolerance.clinicalStatus ~ QICoreCommon.\"allergy-active\" )\n                              or */ AllergyIntolerance.clinicalStatus ~ QICoreCommon.\"allergy-active\" \n                         )\n               and AllergyIntolerance.verificationStatus ~ QICoreCommon.\"allergy-confirmed\" \n          )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 46
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -737,16 +797,16 @@
       "resource": "Library/SupplementalDataElements|3.5.000"
     }, {
       "type": "depends-on",
+      "display": "Library FHIRHelpers",
+      "resource": "Library/FHIRHelpers|4.4.000"
+    }, {
+      "type": "depends-on",
       "display": "Library AHA",
       "resource": "Library/AHAOverall|2.8.000"
     }, {
       "type": "depends-on",
       "display": "Library QICoreCommon",
       "resource": "Library/QICoreCommon|2.1.000"
-    }, {
-      "type": "depends-on",
-      "display": "Library FHIRHelpers",
-      "resource": "Library/FHIRHelpers|4.4.000"
     }, {
       "type": "depends-on",
       "display": "Code system AdministrativeGender",
@@ -1099,15 +1159,23 @@
     }, {
       "type": "Medication",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
+      "mustSupport": [ "id.value", "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1184"
+      } ]
     }, {
       "type": "Medication",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medication" ],
-      "mustSupport": [ "id" ]
+      "mustSupport": [ "id.value", "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.1184"
+      } ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
-      "mustSupport": [ "medication.reference", "timing", "repeat", "bounds" ]
+      "mustSupport": [ "medication.reference.value", "timing", "repeat", "bounds" ]
     }, {
       "type": "MedicationRequest",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationrequest" ],
@@ -1281,7 +1349,7 @@
   "title": "Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)FHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2025-01-14T15:54:06+00:00",
+  "date": "2026-03-13T01:50:42+00:00",
   "publisher": "American Heart Association",
   "contact": [ {
     "telecom": [ {

@@ -472,6 +472,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 27
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "PCMaternal"
       }, {
         "url": "name",
@@ -481,7 +496,7 @@
         "valueString": "/*define function \"HospitalizationWithEDOBTriageObservation\"(Encounter Encounter ):\n  HospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter\n  Encounter Visit\n    let ObsVisit: Last([\"Encounter\": \"Observation Services\"] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = 'finished'\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([\"Encounter\": \"ED Visit and OB Triage\"] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = 'finished'\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]*/\n    \n    \ndefine fluent function hospitalizationWithEDOBTriageObservation (TheEncounter Encounter ):\n  /*hospitalizationWithEDOBTriageObservation returns the total interval from the start of any immediately prior emergency department visit or OB Triage visit through the observation visit to the discharge of the given encounter*/\n  TheEncounter Visit\n    let ObsVisit: Last([\"Encounter\": \"Observation Services\"] LastObs\n        where LastObs.period ends 1 hour or less on or before start of Visit.period\n          and LastObs.status = 'finished'\n        sort by \n        end of period\n    ),\n    VisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    EDOBTriageVisit: Last([\"Encounter\": \"ED Visit and OB Triage\"] LastEDOBTriage\n        where LastEDOBTriage.period ends 1 hour or less on or before VisitStart\n          and LastEDOBTriage.status = 'finished'\n        sort by \n        end of period\n    )\n    return Interval[Coalesce(start of EDOBTriageVisit.period, VisitStart), \n    end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 27
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -496,7 +511,7 @@
         "valueString": "define fluent function calculatedGestationalAge (TheEncounter Encounter ):\n  //Gestational Age = (280-(Estimated Delivery Date minus Reference Date/Delivery Date))/7\n ( 280 - ( difference in days between TheEncounter.lastTimeOfDelivery () and TheEncounter.lastEstimatedDeliveryDate( )) ) div 7"
       }, {
         "url": "displaySequence",
-        "valueInteger": 28
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -511,7 +526,7 @@
         "valueString": "define fluent function lastTimeOfDelivery (TheEncounter Encounter ):\n  Last([\"Observation\": \"Date and time of obstetric delivery\"] TimeOfDelivery\n      where TimeOfDelivery.value as DateTime is not null\n        and TimeOfDelivery.status in { 'final', 'amended', 'corrected' }\n        and TimeOfDelivery.effective.earliest () during TheEncounter.hospitalizationWithEDOBTriageObservation ()\n        and TimeOfDelivery.value as DateTime during TheEncounter.hospitalizationWithEDOBTriageObservation()\n      sort by effective.earliest()\n  ).value as DateTime"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -526,7 +541,22 @@
         "valueString": "/*\n@description: Given an interval, return the starting point if the interval has a starting boundary specified,\notherwise, return the ending point\n*/\ndefine fluent function earliest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasStart\"()) then start of period\n      else end of period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueInteger": 31
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "hasStart"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Given an interval, return true if the interval has a starting boundary specified\n(i.e. the start of the interval is not null and not the minimum DateTime value)\n*/\ndefine fluent function hasStart(period Interval<DateTime> ):\n  not ( start of period is null\n      or start of period = minimum DateTime\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -541,7 +571,7 @@
         "valueString": "/*===============================================================*/\n  /*  03/14/2022 from MATGlobalCommonFunctionsv7.000 - latest QDM  */\n  /*     even though this PCMaternalFHIR was derived from          */\n  /*     PCMaternal=2.1.000 cql, to make next update easier.       */\n  /*     Will need to re-insert \"Global\". in front of these        */\n  /*     function names later (whereever they are directly used.*/\n\ndefine fluent function lastEstimatedDeliveryDate (TheEncounter Encounter ):\n  /*This function identifies the last time the EDD was assessed 42 weeks or less prior to or on delivery and stores the result of that assessment.*/\n  Last([\"Observation\": \"Delivery date Estimated\"] EstimatedDateOfDelivery\n      where EstimatedDateOfDelivery.value as DateTime is not null\n        and EstimatedDateOfDelivery.status in { 'final', 'amended', 'corrected' }\n        and EstimatedDateOfDelivery.effective.earliest ( ) 42 weeks or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ( )\n  ).value as DateTime"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -556,7 +586,7 @@
         "valueString": "/*define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([\"Observation\": \"Estimated Gestational Age at Delivery\"] EstimatedGestationalAge\n      where EstimatedGestationalAge.value is not null\n        and EstimatedGestationalAge.status in { 'final', 'amended', 'corrected' }\n        and EstimatedGestationalAge.effective.earliest() 24 hours or less before or on TheEncounter.lastTimeOfDelivery ()\n      sort by effective.earliest ()\n  ).value as Quantity*/\n  \n  define fluent function lastEstimatedGestationalAge (TheEncounter Encounter ):\n  Last([\"Observation\": \"Estimated Gestational Age at Delivery\"] EstimatedGestationalAge\n  let EGATiming:  EstimatedGestationalAge.effective.earliest() where \n  (EGATiming 24 hours or less before or on TheEncounter.lastTimeOfDelivery () \n  and EstimatedGestationalAge.value is not null \n  and EstimatedGestationalAge.status in { 'final', 'amended', 'corrected' }) or \n      (EGATiming same day as TheEncounter.lastTimeOfDelivery () \n      and EGATiming during TheEncounter.hospitalizationWithEDOBTriageObservation() \n      and EstimatedGestationalAge.value is not null)\n sort by effective.earliest ())\n         .value as Quantity"
       }, {
         "url": "displaySequence",
-        "valueInteger": 32
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -571,7 +601,7 @@
         "valueString": "/*\n@description: Returns the Condition resources referenced by the diagnosis element of the Encounter\n*/\ndefine fluent function encounterDiagnosis(Encounter Encounter ):\n  Encounter.diagnosis D\n    return singleton from ([Condition] C where C.id = D.condition.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueInteger": 33
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -586,7 +616,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 34
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -601,7 +631,7 @@
         "valueString": "//       and EncounterDiagnoses.verificationStatus  ~ FHIRCommon.\"confirmed\"\n\n\ndefine fluent function lastGravida(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Pregnancies\"] Gravida\n      where Gravida.value is not null\n        and Gravida.status in { 'final', 'amended', 'corrected' }\n        and Gravida.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueInteger": 35
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -616,7 +646,7 @@
         "valueString": "define fluent function lastParity(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Parity\"] Parity\n      where Parity.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and Parity.status in { 'final', 'amended', 'corrected' }\n        and Parity.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -631,7 +661,7 @@
         "valueString": "define fluent function lastHistoryPretermBirth(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Births.preterm\"] PretermBirth\n      where PretermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and PretermBirth.status in { 'final', 'amended', 'corrected' }\n        and PretermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -646,7 +676,7 @@
         "valueString": "define fluent function lastHistoryTermBirth(TheEncounter Encounter):\n  Last([\"Observation\": \"[#] Births.term\"] TermBirth\n      where TermBirth.effective.earliest() 42 weeks or less before TheEncounter.lastTimeOfDelivery()\n        and TermBirth.status in { 'final', 'amended', 'corrected' }\n        and TermBirth.value is not null\n      sort by effective.earliest()\n  ).value as Integer"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueInteger": 40
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -661,7 +691,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 39
+        "valueInteger": 41
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -676,7 +706,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 40
+        "valueInteger": 42
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -1114,7 +1144,7 @@
   "title": "Cesarean BirthFHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:07+00:00",
+  "date": "2026-03-13T01:50:40+00:00",
   "publisher": "The Joint Commission",
   "contact": [ {
     "telecom": [ {

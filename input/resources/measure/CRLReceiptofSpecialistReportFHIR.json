@@ -333,10 +333,10 @@
         "valueString": "FHIRHelpers"
       }, {
         "url": "name",
-        "valueString": "ToConcept"
+        "valueString": "ToInterval"
       }, {
         "url": "statement",
-        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
       }, {
         "url": "displaySequence",
         "valueInteger": 18
@@ -348,10 +348,10 @@
         "valueString": "FHIRHelpers"
       }, {
         "url": "name",
-        "valueString": "ToString"
+        "valueString": "ToConcept"
       }, {
         "url": "statement",
-        "valueString": "define function ToString(value uri): value.value"
+        "valueString": "/*\n@description: Converts the given FHIR [CodeableConcept](https://hl7.org/fhir/datatypes.html#CodeableConcept) value to a CQL Concept.\n*/\ndefine function ToConcept(concept FHIR.CodeableConcept):\n    if concept is null then\n        null\n    else\n        System.Concept {\n            codes: concept.coding C return ToCode(C),\n            display: concept.text.value\n        }"
       }, {
         "url": "displaySequence",
         "valueInteger": 19
@@ -370,6 +370,21 @@
       }, {
         "url": "displaySequence",
         "valueInteger": 20
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToString"
+      }, {
+        "url": "statement",
+        "valueString": "define function ToString(value uri): value.value"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 21
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -516,7 +531,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "568"
+          "valueString": "615"
         }, {
           "url": "targetProperty",
           "valueString": "executionPeriod"
@@ -535,7 +550,7 @@
         } ]
       } ]
     }, {
-      "id": "568",
+      "id": "615",
       "type": "Task",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-task" ],
       "mustSupport": [ "code", "executionPeriod", "status", "status.value", "reference", "reference.value" ],
@@ -727,7 +742,7 @@
   "title": "Closing the Referral Loop: Receipt of Specialist ReportFHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2025-01-14T15:54:04+00:00",
+  "date": "2026-03-13T01:50:41+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {

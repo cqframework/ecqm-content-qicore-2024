@@ -460,6 +460,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 29
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "CQMCommon"
       }, {
         "url": "name",
@@ -469,7 +484,7 @@
         "valueString": "/*\n@description: Returns the Condition resource for the given reference\n*/\ndefine fluent function getCondition(reference Reference):\n  singleton from ([Condition] C where C.id = reference.reference.getId())"
       }, {
         "url": "displaySequence",
-        "valueInteger": 29
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -484,7 +499,7 @@
         "valueString": "/*\n@description: Returns the tail of the given uri (i.e. everything after the last slash in the URI).\n@comment: This function can be used to determine the logical id of a given resource. It can be used in\na single-server environment to trace references. However, this function does not attempt to resolve\nor distinguish the base of the given url, and so cannot be used safely in multi-server environments.\n*/\ndefine fluent function getId(uri String):\n  Last(Split(uri, '/'))"
       }, {
         "url": "displaySequence",
-        "valueInteger": 30
+        "valueInteger": 31
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -499,7 +514,7 @@
         "valueString": "define fluent function hospitalizationInterval(enc Encounter):\n  enc.hospitalizationWithObservationAndOutpatientSurgeryService ( )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 31
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -514,7 +529,7 @@
         "valueString": "/*\n@description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter.\n*/\ndefine fluent function hospitalizationWithObservationAndOutpatientSurgeryService(TheEncounter \"Encounter\" ):\n  TheEncounter Visit\n\t  let ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n\t\t  \twhere LastObs.status = 'finished'\n          and LastObs.period ends 1 hour or less on or before start of Visit.period\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    \tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n\t\t\t  where LastED.status = 'finished'\n          and LastED.period ends 1 hour or less on or before VisitStart\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),\n    \tOutpatientSurgeryVisit: Last([Encounter: \"Outpatient Surgery Service\"] LastSurgeryOP\n\t\t\t  where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED\n\t\t\t  sort by\tend of period\n    \t)\n  \treturn Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 32
+        "valueInteger": 33
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -529,7 +544,7 @@
         "valueString": "// interval\n// Given an encounter, procedure or observation resource, returns a normalized Interval object, calculated using QICoreCommon.ToInterval for the given type of resource. \n// Usage:   theEncounter.interval()\n\n\ndefine fluent function interval(choice Choice<Procedure,Observation,Encounter>):\n   case\n      when choice is Procedure   then QICoreCommon.ToInterval ( (choice as Procedure).performed ) \n      when choice is Observation then QICoreCommon.ToInterval ( (choice as Observation).effective ) \n      when choice is Encounter   then QICoreCommon.ToInterval ( (choice as Encounter).period ) \n  else null as Interval<DateTime>\n    end"
       }, {
         "url": "displaySequence",
-        "valueInteger": 33
+        "valueInteger": 34
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -544,7 +559,7 @@
         "valueString": "/*\n@description: Normalizes a value that is a choice of timing-valued types to an equivalent interval\n@comment: Normalizes a choice type of DateTime, Quanitty, Interval<DateTime>, or Interval<Quantity> types\nto an equivalent interval. This selection of choice types is a superset of the majority of choice types that are used as possible\nrepresentations for timing-valued elements in QICore, allowing this function to be used across any resource.\nThe input can be provided as a DateTime, Quantity, Interval<DateTime> or Interval<Quantity>.\nThe intent of this function is to provide a clear and concise mechanism to treat single\nelements that have multiple possible representations as intervals so that logic doesn't have to account\nfor the variability. More complex calculations (such as medication request period or dispense period\ncalculation) need specific guidance and consideration. That guidance may make use of this function, but\nthe focus of this function is on single element calculations where the semantics are unambiguous.\nIf the input is a DateTime, the result a DateTime Interval beginning and ending on that DateTime.\nIf the input is a Quantity, the quantity is expected to be a calendar-duration interpreted as an Age,\nand the result is a DateTime Interval beginning on the Date the patient turned that age and ending immediately before one year later.\nIf the input is a DateTime Interval, the result is the input.\nIf the input is a Quantity Interval, the quantities are expected to be calendar-durations interpreted as an Age, and the result\nis a DateTime Interval beginning on the date the patient turned the age given as the start of the quantity interval, and ending\nimmediately before one year later than the date the patient turned the age given as the end of the quantity interval.\nIf the input is a Timing, an error will be thrown indicating that Timing calculations are not implemented. Any other input will reslt in a null DateTime Interval\n@deprecated: This function is deprecated. Use the fluent function `toInterval()` instead\n*/\ndefine function ToInterval(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>, Timing>):\n  case\n\t  when choice is DateTime then\n    \tInterval[choice as DateTime, choice as DateTime]\n\t\twhen choice is Interval<DateTime> then\n  \t\tchoice as Interval<DateTime>\n\t\twhen choice is Quantity then\n\t\t  Interval[Patient.birthDate + (choice as Quantity),\n\t\t\t  Patient.birthDate + (choice as Quantity) + 1 year)\n\t\twhen choice is Interval<Quantity> then\n\t\t  Interval[Patient.birthDate + (choice.low as Quantity),\n\t\t\t  Patient.birthDate + (choice.high as Quantity) + 1 year)\n\t\twhen choice is Timing then\n      Message(null, true, 'NOT_IMPLEMENTED', 'Error', 'Calculation of an interval from a Timing value is not supported') as Interval<DateTime>\n\t\telse\n\t\t\tnull as Interval<DateTime>\n\tend"
       }, {
         "url": "displaySequence",
-        "valueInteger": 34
+        "valueInteger": 35
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -559,7 +574,7 @@
         "valueString": "define function \"LatestGeneralAnesthesiaOrMAC\"(event Procedure):\n  Last(\"General Anesthesia and MAC\" ProcedureList\n      where ProcedureList.interval() ends before start of event.interval()\n      sort by start of QICoreCommon.ToInterval(performed)\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 35
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -574,7 +589,7 @@
         "valueString": "define fluent function starts30DaysOrLessAfterFirstProcedure(procedure Procedure, encounter Encounter):\n  procedure.interval ( ) starts 30 days or less after end of FirstAnesthesiaDuringHospitalization(encounter).interval ( )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 36
+        "valueInteger": 37
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -589,7 +604,7 @@
         "valueString": "// Returns the first anesthesia procedure that starts during the hospitalization encounter.\n\n\ndefine function \"FirstAnesthesiaDuringHospitalization\"(QualifyingEncounter Encounter):\n  First(\"Anesthesia Procedure List\" anesthesia\n      where anesthesia.startsDuringHospitalization(QualifyingEncounter)\n      sort by start of performed\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 37
+        "valueInteger": 38
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -604,7 +619,7 @@
         "valueString": "// startsDuringHospitalization\n// Given an encounter, returns true if the calling observation effective time or procedure performed starts during that encounter. \n// The interval of the encounter is\n// determined by calling the CQCommon function 'HospitalizationWithObservationAndOutpatientSurgeryService'wth the encounter as the argument.\n// Usage:   theObservation.startsDuringHospitalization(anEncounter)\n\n\ndefine fluent function startsDuringHospitalization(choice Choice<Procedure,Observation>, enc Encounter):\n   case\n      when choice is Procedure then QICoreCommon.ToInterval ( (choice as Procedure).performed ) starts during CQMCommon.\"HospitalizationWithObservationAndOutpatientSurgeryService\" ( enc )\n      when choice is Observation then QICoreCommon.ToInterval ( (choice as Observation).effective ) starts during CQMCommon.\"HospitalizationWithObservationAndOutpatientSurgeryService\" ( enc )\nelse false\n    end"
       }, {
         "url": "displaySequence",
-        "valueInteger": 38
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -619,7 +634,7 @@
         "valueString": "/*\n@description: Hospitalization with Observation and Outpatient Surgery Service returns the total interval from the start of any immediately prior emergency department visit, outpatient surgery visit or observation visit to the discharge of the given encounter.\n@deprecated: This function is deprecated. Use the fluent function `hospitalizationWithObservationAndOutpatientSurgeryService()` instead.\n*/\ndefine function \"HospitalizationWithObservationAndOutpatientSurgeryService\"(TheEncounter \"Encounter\" ):\n  TheEncounter Visit\n\t  let ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n\t\t  \twhere LastObs.status = 'finished'\n          and LastObs.period ends 1 hour or less on or before start of Visit.period\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n    \tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n\t\t\t  where LastED.status = 'finished'\n          and LastED.period ends 1 hour or less on or before VisitStart\n\t\t\t  sort by\tend of period\n    \t),\n    \tVisitStartWithED: Coalesce(start of EDVisit.period, VisitStart),\n    \tOutpatientSurgeryVisit: Last([Encounter: \"Outpatient Surgery Service\"] LastSurgeryOP\n\t\t\t  where LastSurgeryOP.period ends 1 hour or less on or before VisitStartWithED\n\t\t\t  sort by\tend of period\n    \t)\n  \treturn Interval[Coalesce(start of OutpatientSurgeryVisit.period, VisitStartWithED), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 39
+        "valueInteger": 40
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -634,7 +649,7 @@
         "valueString": "define fluent function isNotAtProceduralHospitalLocationDuring(encounter Encounter, intrvl Interval<DateTime>):\n  ( not exists ( encounter.location EncounterLocation\n        where EncounterLocation.location.type in \"Procedural Hospital Locations\"\n          and EncounterLocation.period starts during intrvl\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 40
+        "valueInteger": 41
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -649,7 +664,7 @@
         "valueString": "// and procedure.startsDuringHospitalization(EncounterWithSurgery)\n\n\ndefine fluent function startsDuringAnesthesia(procedure Procedure, anesthesia Procedure, encounterWithSurgery Encounter):\n  procedure.interval ( ) starts during anesthesia.interval ( )\n    and procedure.startsDuringHospitalization ( encounterWithSurgery )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 41
+        "valueInteger": 42
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -664,7 +679,7 @@
         "valueString": "// isDuringHospitalization\n// Given an encounter, returns true if the calling observation effective time or procedure performed occurs during that encounter. \n// The interval of the encounter is\n// determined by calling the CQCommon function 'HospitalizationWithObservationAndOutpatientSurgeryService'wth the encounter as the argument.\n// Usage:   theProcedure.isDuringHospitalization(anEncounter)\n\n\ndefine fluent function isDuringHospitalization(choice Choice<Procedure,Observation>, enc Encounter):\n   case\n      when choice is Procedure then  \n        QICoreCommon.ToInterval ( (choice as Procedure).performed )  during CQMCommon.\"HospitalizationWithObservationAndOutpatientSurgeryService\" ( enc )\n      when choice is Observation then  \n         QICoreCommon.ToInterval ((choice as Observation).effective ) during CQMCommon.\"HospitalizationWithObservationAndOutpatientSurgeryService\" ( enc )\nelse false\n    end"
       }, {
         "url": "displaySequence",
-        "valueInteger": 42
+        "valueInteger": 43
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -679,7 +694,7 @@
         "valueString": "define fluent function startsAfterAnesthesia(procedure Procedure, anesthesia Procedure, encounterWithSurgery Encounter):\n  procedure.interval ( ) starts after anesthesia.interval ( )\n    and procedure.startsDuringHospitalization ( encounterWithSurgery )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 43
+        "valueInteger": 44
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -694,7 +709,7 @@
         "valueString": "define fluent function isNotAtProceduralHospitalLocation(encounter Encounter):\n  ( not exists ( encounter.location EncounterLocation\n        where EncounterLocation.location.type in \"Procedural Hospital Locations\"\n    )\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 44
+        "valueInteger": 45
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -709,7 +724,7 @@
         "valueString": "// diagnosisPresentOnAdmission\n// Given an Encounter, this function returns the Present On Admission code of encounter's diagnosis, if present. Returns null otherwiese. \n// Usage: anEncouner.diagnosisPresentOnAdmission()\n\ndefine fluent function diagnosisPresentOnAdmission(enc Encounter):\n  (singleton from (\n    enc.diagnosis.extension E where E.url = 'http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter-diagnosisPresentOnAdmission'\n  )).value as Concept"
       }, {
         "url": "displaySequence",
-        "valueInteger": 45
+        "valueInteger": 46
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -1176,7 +1191,7 @@
   "title": "Hospital Harm - Postoperative Respiratory FailureFHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:07+00:00",
+  "date": "2026-03-13T01:50:40+00:00",
   "publisher": "Centers for Medicare & Medicaid Services (CMS)",
   "contact": [ {
     "telecom": [ {

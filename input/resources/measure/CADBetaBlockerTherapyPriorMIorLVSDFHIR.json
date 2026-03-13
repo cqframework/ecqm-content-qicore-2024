@@ -809,6 +809,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 49
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "CADBetaBlockerTherapyPriorMIorLVSDFHIR"
       }, {
         "url": "name",
@@ -818,7 +833,7 @@
         "valueString": "define fluent function overlapsDayOfEncounter(Diagnosis Condition, TheEncounter Encounter):\n  TheEncounter Visit\n    where Diagnosis.isConfirmedActiveDiagnosis ( )\n    return Diagnosis.prevalenceInterval ( ) overlaps day of Visit.period"
       }, {
         "url": "displaySequence",
-        "valueInteger": 49
+        "valueInteger": 50
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -833,7 +848,7 @@
         "valueString": "/*\n@description: Returns true if the given Condition is confirmed as active\n*/\ndefine fluent function isConfirmedActiveDiagnosis(condition Condition):\n    condition.isActive()\n        and condition.verificationStatus ~ QICoreCommon.\"confirmed\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 50
+        "valueInteger": 51
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -848,7 +863,7 @@
         "valueString": "/* Candidates for FHIRCommon */\n\n/*\n@description: Returns true if the given condition has a clinical status of active, recurrence, or relapse\n*/\ndefine fluent function isActive(condition Condition):\n  condition.clinicalStatus ~ \"active\"\n    or condition.clinicalStatus ~ \"recurrence\"\n    or condition.clinicalStatus ~ \"relapse\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 51
+        "valueInteger": 52
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -863,7 +878,37 @@
         "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 52
+        "valueInteger": 53
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "abatementInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns an interval representing the normalized abatement of a given Condition.\n@comment: If the abatement element of the Condition is represented as a DateTime, the result\nis an interval beginning and ending on that DateTime.\nIf the abatement is represented as a Quantity, the quantity is expected to be a calendar-duration and is interpreted as the age of the patient. The\nresult is an interval from the date the patient turned that age to immediately before one year later.\nIf the abatement is represented as a Quantity Interval, the quantities are expected to be calendar-durations and are interpreted as an age range during\nwhich the abatement occurred. The result is an interval from the date the patient turned the starting age of the quantity interval, and ending immediately\nbefore one year later than the date the patient turned the ending age of the quantity interval.\n*/\ndefine fluent function abatementInterval(condition Condition):\n\tif condition.abatement is DateTime then\n\t  Interval[condition.abatement as DateTime, condition.abatement as DateTime]\n\telse if condition.abatement is Quantity then\n\t\tInterval[Patient.birthDate + (condition.abatement as Quantity),\n\t\t\tPatient.birthDate + (condition.abatement as Quantity) + 1 year)\n\telse if condition.abatement is Interval<Quantity> then\n\t  Interval[Patient.birthDate + (condition.abatement.low as Quantity),\n\t\t  Patient.birthDate + (condition.abatement.high as Quantity) + 1 year)\n\telse if condition.abatement is Interval<DateTime> then\n\t  Interval[condition.abatement.low, condition.abatement.high)\n\telse null as Interval<DateTime>"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 54
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CADBetaBlockerTherapyPriorMIorLVSDFHIR"
+      }, {
+        "url": "name",
+        "valueString": "overlapsDayOfEncounter"
+      }, {
+        "url": "statement",
+        "valueString": "define fluent function overlapsDayOfEncounter(Diagnosis Condition, EncounterList List<Encounter>):\n  AnyTrue(EncounterList Visit\n      where Diagnosis.isActive()\n      return Diagnosis.prevalenceInterval() overlaps day of Visit.period\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 55
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -878,7 +923,7 @@
         "valueString": "define fluent function overlapsAfterDayOfEncounter(Event Choice<AllergyIntolerance, Condition>, EncounterList List<Encounter>):\n  AnyTrue(EncounterList Visit\n      return case\n        when Event is AllergyIntolerance then Interval[start of Event.onset.toInterval(), Event.lastOccurrence]overlaps after day of Visit.period\n          and(Event.clinicalStatus is null\n              or Event.clinicalStatus ~ QICoreCommon.\"allergy-active\"\n          )\n        when Event is Condition then Event.isConfirmedActiveDiagnosis()\n          and Event.prevalenceInterval() overlaps after day of Visit.period\n          and Event.verificationStatus ~ QICoreCommon.\"confirmed\" \n        else false \n      end\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 53
+        "valueInteger": 56
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -893,7 +938,7 @@
         "valueString": "define fluent function authoredDuringDayOfEncounter(Order Choice<MedicationRequest, MedicationNotRequested>, EncounterList List<Encounter>):\n  AnyTrue(EncounterList Visit\n      return case\n        when Order is MedicationRequest then Order.authoredOn during day of Visit.period\n          and Order.status in { 'active', 'completed' }\n          and Order.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' }\n          and Order.doNotPerform is not true\n        when Order is MedicationNotRequested then Order.authoredOn during day of Visit.period\n          and Order.intent in { 'order', 'original-order', 'reflex-order', 'filler-order', 'instance-order' } \n        else false \n      end\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 54
+        "valueInteger": 57
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -908,7 +953,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 55
+        "valueInteger": 58
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -923,7 +968,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 56
+        "valueInteger": 59
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -1470,7 +1515,7 @@
   "title": "Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF less than or equal to 40%)FHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2025-01-14T15:54:06+00:00",
+  "date": "2026-03-13T01:50:39+00:00",
   "publisher": "American Heart Association",
   "contact": [ {
     "telecom": [ {

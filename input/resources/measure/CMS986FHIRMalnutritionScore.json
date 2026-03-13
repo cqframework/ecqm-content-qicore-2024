@@ -22,6 +22,27 @@
         "display": "Female"
       }
     }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "active",
+        "display": "Active"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "recurrence",
+        "display": "Recurrence"
+      }
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-directReferenceCode",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "relapse",
+        "display": "Relapse"
+      }
+    }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
@@ -145,6 +166,201 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Risk Screening"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Risk Screening\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Malnutrition Risk Screening\"] MalnutritionRiskScreening\n    where ( \"Malnutrition Risk Screening\" contains MalnutritionRiskScreening.code as Concept\n        and MalnutritionRiskScreening.status in { 'final', 'amended', 'corrected' }\n        and MalnutritionRiskScreening.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n        and ( \"Malnutrition Screening Finding of Not At Risk Result\" contains MalnutritionRiskScreening.value as Concept\n            or \"Malnutrition Screening Finding of At Risk Result\" contains MalnutritionRiskScreening.value as Concept\n        )\n    )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 8
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Dietitian Referral"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Dietitian Referral\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Procedure\": \"Hospital Dietitian Referral\"] HospitalDietitianReferral\n    where \"Hospital Dietitian Referral\" contains HospitalDietitianReferral.code as Concept\n      and HospitalDietitianReferral.status in { 'active', 'completed', 'in-progress' }\n      and HospitalDietitianReferral.performed.earliest ( ) during day of QualifyingEncounter.hospitalizationWithObservation ( )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 9
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral\":\n  from\n    \"Measure Population\" QualifyingEncounter\n    where \"Encounter with Malnutrition Risk Screening\" contains QualifyingEncounter\n      or \"Encounter with Dietitian Referral\" contains QualifyingEncounter\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 10
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Risk Screening Not At Risk"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Risk Screening Not At Risk\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Malnutrition Risk Screening\"] MalnutritionRiskScreening\n    where \"Malnutrition Risk Screening\" contains MalnutritionRiskScreening.code as Concept\n      and MalnutritionRiskScreening.status in { 'final', 'amended', 'corrected' }\n      and MalnutritionRiskScreening.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n      and ( \"Malnutrition Screening Finding of Not At Risk Result\" contains MalnutritionRiskScreening.value as Concept )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 11
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\":\n  from\n    \"Measure Population\" QualifyingEncounter\n    where \"Encounter with Malnutrition Risk Screening Not At Risk\" contains QualifyingEncounter\n      and not exists ( \"Encounter with Dietitian Referral\" )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 12
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Risk Screening At Risk"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Risk Screening At Risk\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Malnutrition Risk Screening\"] MalnutritionRiskScreening\n    where \"Malnutrition Risk Screening\" contains MalnutritionRiskScreening.code as Concept\n      and MalnutritionRiskScreening.status in { 'final', 'amended', 'corrected' }\n      and MalnutritionRiskScreening.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n      and ( \"Malnutrition Screening Finding of At Risk Result\" contains MalnutritionRiskScreening.value as Concept )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 13
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\":\n  from\n    \"Measure Population\" QualifyingEncounter\n    where \"Encounter with Malnutrition Risk Screening At Risk\" contains QualifyingEncounter\n      or \"Encounter with Dietitian Referral\" contains QualifyingEncounter\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 14
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Nutrition Assessment Performed"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Nutrition Assessment Performed\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Nutrition Assessment\"] NutritionAssessment\n    let NAssessLatest: NutritionAssessment.effective.latest ( )\n    where \"Nutrition Assessment\" contains NutritionAssessment.code as Concept\n      and NutritionAssessment.status in { 'final', 'amended', 'corrected' }\n      and NutritionAssessment.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n      and NutritionAssessment.value is not null\n    return Tuple {\n      HospEncId: QualifyingEncounter.id,\n      HospitalizationPeriod: QualifyingEncounter.hospitalizationWithObservation ( ),\n      NutrAssessCode: NutritionAssessment.code as Concept,\n      NutrAssessId: NutritionAssessment.id,\n      NutrAssessResult: NutritionAssessment.value,\n      NutrAssessTimingEff: NutritionAssessment.effective,\n      NutrAssessTimingInt: NutritionAssessment.effective.toInterval ( ),\n      NutrAssessTimingLatest: NAssessLatest\n    }\n    sort by NutrAssessTimingLatest asc"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 15
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Most Recent Encounter with Nutrition Assessment and Identified Status"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Most Recent Encounter with Nutrition Assessment and Identified Status\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Nutrition Assessment\"] NutritionAssessment\n    where ( \"Nutrition Assessment\" contains NutritionAssessment.code as Concept\n        and NutritionAssessment.status in { 'final', 'amended', 'corrected' }\n        and NutritionAssessment.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n        and ( \"Nutrition Assessment Status Finding of Well Nourished or Not Malnourished or Mildly Malnourished\" contains NutritionAssessment.value as Concept\n            or ( \"Nutrition Assessment Status Finding of Moderately Malnourished\" contains NutritionAssessment.value as Concept )\n            or ( \"Nutrition Assessment Status Finding of Severely Malnourished\" contains NutritionAssessment.value as Concept )\n        )\n        and ( exists ( \"Encounter with Malnutrition Risk Screening At Risk\" )\n            or exists ( \"Encounter with Dietitian Referral\" )\n        )\n        and NutritionAssessment.effective.latest ( ) same day as \"Last Nutrition Assessment Day During Encounter\"(QualifyingEncounter)\n    )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 16
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Malnutrition Diagnosis"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Malnutrition Diagnosis\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Condition\": \"Malnutrition Diagnosis\"] MalnutritionDiagnosis\n    where \"Malnutrition Diagnosis\" contains MalnutritionDiagnosis.code as Concept\n      and MalnutritionDiagnosis.prevalenceInterval ( ) overlaps QualifyingEncounter.hospitalizationWithObservation ( )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 17
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Nutrition Assessment Not or Mildly Malnourished"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Nutrition Assessment Not or Mildly Malnourished\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Nutrition Assessment\"] NutritionAssessment\n    where ( \"Nutrition Assessment\" contains NutritionAssessment.code as Concept\n        and NutritionAssessment.status in { 'final', 'amended', 'corrected' }\n        and NutritionAssessment.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n        and ( \"Nutrition Assessment Status Finding of Well Nourished or Not Malnourished or Mildly Malnourished\" contains NutritionAssessment.value as Concept )\n        and NutritionAssessment.effective.latest ( ) same day as \"Last Nutrition Assessment Day During Encounter\"(QualifyingEncounter)\n    )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 18
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Observation\": \"Nutrition Assessment\"] NutritionAssessment\n    where ( \"Nutrition Assessment\" contains NutritionAssessment.code as Concept\n        and NutritionAssessment.status in { 'final', 'amended', 'corrected' }\n        and NutritionAssessment.effective.toInterval ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n        and ( \"Nutrition Assessment Status Finding of Moderately Malnourished\" contains NutritionAssessment.value as Concept\n            or \"Nutrition Assessment Status Finding of Severely Malnourished\" contains NutritionAssessment.value as Concept\n        )\n        and NutritionAssessment.effective.latest ( ) same day as \"Last Nutrition Assessment Day During Encounter\"(QualifyingEncounter)\n    )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 19
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Encounter with Nutrition Care Plan"
+      }, {
+        "url": "statement",
+        "valueString": "define \"Encounter with Nutrition Care Plan\":\n  from\n    \"Measure Population\" QualifyingEncounter,\n    [\"Procedure\": \"Nutrition Care Plan\"] NutritionCarePlan\n    where \"Nutrition Care Plan\" contains NutritionCarePlan.code as Concept\n      and NutritionCarePlan.status in { 'completed', 'in-progress' }\n      and NutritionCarePlan.performed.earliest ( ) during QualifyingEncounter.hospitalizationWithObservation ( )\n    return QualifyingEncounter"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 20
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "SupplementalDataElements"
       }, {
         "url": "name",
@@ -154,7 +370,7 @@
         "valueString": "define \"SDE Payer\":\n  [Coverage: type in \"Payer Type\"] Payer\n    return {\n      code: Payer.type,\n      period: Payer.period\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 8
+        "valueInteger": 21
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -169,7 +385,7 @@
         "valueString": "define \"SDE Payer Type\":\n  SDE.\"SDE Payer\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 9
+        "valueInteger": 22
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -184,7 +400,7 @@
         "valueString": "define \"Initial Population\":\n  \"Measure Population\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 10
+        "valueInteger": 23
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -199,7 +415,7 @@
         "valueString": "define \"SDE Ethnicity\":\n  Patient.ethnicity E\n    return Tuple {\n      codes: { E.ombCategory } union E.detailed,\n      display: E.text\n    }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 11
+        "valueInteger": 24
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -214,7 +430,22 @@
         "valueString": "define \"SDE Ethnicity\":\n  SDE.\"SDE Ethnicity\""
       }, {
         "url": "displaySequence",
-        "valueInteger": 12
+        "valueInteger": 25
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 26
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -229,7 +460,7 @@
         "valueString": "/*\n@description: Hospitalization with Observation returns the total interval from the start of any immediately prior emergency department visit through the observation visit to the discharge of the given encounter\n*/\ndefine fluent function hospitalizationWithObservation(TheEncounter Encounter ):\n  TheEncounter Visit\n  \t\tlet ObsVisit: Last([Encounter: \"Observation Services\"] LastObs\n  \t\t\t\twhere LastObs.status = 'finished'\n            and LastObs.period ends 1 hour or less on or before start of Visit.period\n  \t\t\t\tsort by end of period\n  \t\t\t),\n  \t\t\tVisitStart: Coalesce(start of ObsVisit.period, start of Visit.period),\n  \t\t\tEDVisit: Last([Encounter: \"Emergency Department Visit\"] LastED\n  \t\t\t\twhere LastED.status = 'finished'\n            and LastED.period ends 1 hour or less on or before VisitStart\n  \t\t\t\tsort by end of period\n  \t\t\t)\n  \t\treturn Interval[Coalesce(start of EDVisit.period, VisitStart), end of Visit.period]"
       }, {
         "url": "displaySequence",
-        "valueInteger": 13
+        "valueInteger": 27
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -244,7 +475,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 14
+        "valueInteger": 28
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -259,7 +490,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 15
+        "valueInteger": 29
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -274,7 +505,7 @@
         "valueString": "define function \"Measure Observation 1\"(MalnutritionRiskScreening Encounter):\n  if \"Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral\" contains MalnutritionRiskScreening then 1 \n    else 0"
       }, {
         "url": "displaySequence",
-        "valueInteger": 16
+        "valueInteger": 30
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -289,7 +520,22 @@
         "valueString": "define function \"Measure Observation Total Malnutrition Components Score\"(QualifyingEncounter Encounter):\n  Sum({ \"Measure Observation 1\"(QualifyingEncounter), \"Measure Observation 2\"(QualifyingEncounter), \"Measure Observation 3\"(QualifyingEncounter), \"Measure Observation 4\"(QualifyingEncounter) })"
       }, {
         "url": "displaySequence",
-        "valueInteger": 17
+        "valueInteger": 31
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Measure Observation 1"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Measure Observation 1\"(MalnutritionRiskScreening Encounter):\n  if \"Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral\" contains MalnutritionRiskScreening then 1 \n    else 0"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 32
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -304,7 +550,52 @@
         "valueString": "define function \"Measure Observation 2\"(NutritionAssessment Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains NutritionAssessment then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains NutritionAssessment then if \"Most Recent Encounter with Nutrition Assessment and Identified Status\" contains NutritionAssessment then 1 \n    else 0 \n    else 0"
       }, {
         "url": "displaySequence",
-        "valueInteger": 18
+        "valueInteger": 33
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "latest"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Given an interval, returns the ending point if the interval has an ending boundary specified,\notherwise, returns the starting point\n*/\ndefine fluent function latest(choice Choice<DateTime, Quantity, Interval<DateTime>, Interval<Quantity>> ):\n  (choice.toInterval()) period\n    return\n      if (period.\"hasEnd\"()) then end of period\n      else start of period"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 34
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "hasEnd"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Given an interval, returns true if the interval has an ending boundary specified\n(i.e. the end of the interval is not null and not the maximum DateTime value)\n*/\ndefine fluent function hasEnd(period Interval<DateTime> ):\n  not (\n    end of period is null\n      or end of period = maximum DateTime\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 35
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Last Nutrition Assessment Day During Encounter"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Last Nutrition Assessment Day During Encounter\"(QualifyingEncounter Encounter):\n  Last(\"Nutrition Assessment Performed\" NutritionAssessmentTuple\n      where NutritionAssessmentTuple.HospEncId = QualifyingEncounter.id\n      return NutritionAssessmentTuple.NutrAssessTimingLatest\n      sort asc\n  )"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 36
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -319,7 +610,37 @@
         "valueString": "define function \"Measure Observation 3\"(MalnutritionDiagnosis Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains MalnutritionDiagnosis then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains MalnutritionDiagnosis then if \"Encounter with Malnutrition Diagnosis\" contains MalnutritionDiagnosis then if \"Encounter with Nutrition Assessment Not or Mildly Malnourished\" contains MalnutritionDiagnosis then 0 \n    else if \"Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished\" contains MalnutritionDiagnosis then 1 \n    else 0 \n    else 0 \n    else 0"
       }, {
         "url": "displaySequence",
-        "valueInteger": 19
+        "valueInteger": 37
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "prevalenceInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns an interval representing the normalized prevalence period of a given Condition.\n@comment: Uses the ToInterval and ToAbatementInterval functions to determine the widest potential interval from\nonset to abatement as specified in the given Condition. If the condition is active, or has an abatement date the resulting \ninterval will have a closed ending boundary. Otherwise, the resulting interval will have an open ending boundary.\n*/\ndefine fluent function prevalenceInterval(condition Condition):\nif condition.clinicalStatus ~ \"active\"\n  or condition.clinicalStatus ~ \"recurrence\"\n  or condition.clinicalStatus ~ \"relapse\" then\n  Interval[start of condition.onset.toInterval(), end of condition.abatementInterval()]\nelse\n    (end of condition.abatementInterval()) abatementDate\n    return if abatementDate is null then\n      Interval[start of condition.onset.toInterval(), abatementDate)\n    else\n      Interval[start of condition.onset.toInterval(), abatementDate]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 38
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "QICoreCommon"
+      }, {
+        "url": "name",
+        "valueString": "abatementInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Returns an interval representing the normalized abatement of a given Condition.\n@comment: If the abatement element of the Condition is represented as a DateTime, the result\nis an interval beginning and ending on that DateTime.\nIf the abatement is represented as a Quantity, the quantity is expected to be a calendar-duration and is interpreted as the age of the patient. The\nresult is an interval from the date the patient turned that age to immediately before one year later.\nIf the abatement is represented as a Quantity Interval, the quantities are expected to be calendar-durations and are interpreted as an age range during\nwhich the abatement occurred. The result is an interval from the date the patient turned the starting age of the quantity interval, and ending immediately\nbefore one year later than the date the patient turned the ending age of the quantity interval.\n*/\ndefine fluent function abatementInterval(condition Condition):\n\tif condition.abatement is DateTime then\n\t  Interval[condition.abatement as DateTime, condition.abatement as DateTime]\n\telse if condition.abatement is Quantity then\n\t\tInterval[Patient.birthDate + (condition.abatement as Quantity),\n\t\t\tPatient.birthDate + (condition.abatement as Quantity) + 1 year)\n\telse if condition.abatement is Interval<Quantity> then\n\t  Interval[Patient.birthDate + (condition.abatement.low as Quantity),\n\t\t  Patient.birthDate + (condition.abatement.high as Quantity) + 1 year)\n\telse if condition.abatement is Interval<DateTime> then\n\t  Interval[condition.abatement.low, condition.abatement.high)\n\telse null as Interval<DateTime>"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 39
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -334,7 +655,52 @@
         "valueString": "define function \"Measure Observation 4\"(NutritionCarePlan Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains NutritionCarePlan then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains NutritionCarePlan then if \"Encounter with Nutrition Care Plan\" contains NutritionCarePlan then if \"Encounter with Nutrition Assessment Not or Mildly Malnourished\" contains NutritionCarePlan then 0 \n    else if \"Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished\" contains NutritionCarePlan then 1 \n    else 0 \n    else 0 \n    else 0"
       }, {
         "url": "displaySequence",
-        "valueInteger": 20
+        "valueInteger": 40
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Measure Observation 3"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Measure Observation 3\"(MalnutritionDiagnosis Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains MalnutritionDiagnosis then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains MalnutritionDiagnosis then if \"Encounter with Malnutrition Diagnosis\" contains MalnutritionDiagnosis then if \"Encounter with Nutrition Assessment Not or Mildly Malnourished\" contains MalnutritionDiagnosis then 0 \n    else if \"Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished\" contains MalnutritionDiagnosis then 1 \n    else 0 \n    else 0 \n    else 0"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 41
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Measure Observation 2"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Measure Observation 2\"(NutritionAssessment Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains NutritionAssessment then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains NutritionAssessment then if \"Most Recent Encounter with Nutrition Assessment and Identified Status\" contains NutritionAssessment then 1 \n    else 0 \n    else 0"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 42
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Measure Observation 4"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Measure Observation 4\"(NutritionCarePlan Encounter):\n  if \"Encounter with Malnutrition Not At Risk Screening and without Hospital Dietitian Referral\" contains NutritionCarePlan then 0 \n    else if \"Encounter with Malnutrition Risk Screening At Risk or with Hospital Dietitian Referral\" contains NutritionCarePlan then if \"Encounter with Nutrition Care Plan\" contains NutritionCarePlan then if \"Encounter with Nutrition Assessment Not or Mildly Malnourished\" contains NutritionCarePlan then 0 \n    else if \"Encounter with Nutrition Assessment Status Moderately Or Severely Malnourished\" contains NutritionCarePlan then 1 \n    else 0 \n    else 0 \n    else 0"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 43
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -349,7 +715,22 @@
         "valueString": "define function \"Measure Observation Total Malnutrition Care Score as Percentage\"(QualifyingEncounter Encounter):\n  100 * ( \"Measure Observation Total Malnutrition Components Score\"(QualifyingEncounter) / \"Total Malnutrition Care Score Eligible Occurrences\"(QualifyingEncounter) )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 21
+        "valueInteger": 44
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
+        "valueString": "CMS986FHIRMalnutritionScore"
+      }, {
+        "url": "name",
+        "valueString": "Measure Observation Total Malnutrition Components Score"
+      }, {
+        "url": "statement",
+        "valueString": "define function \"Measure Observation Total Malnutrition Components Score\"(QualifyingEncounter Encounter):\n  Sum({ \"Measure Observation 1\"(QualifyingEncounter), \"Measure Observation 2\"(QualifyingEncounter), \"Measure Observation 3\"(QualifyingEncounter), \"Measure Observation 4\"(QualifyingEncounter) })"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 45
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -364,7 +745,7 @@
         "valueString": "define function \"Total Malnutrition Care Score Eligible Occurrences\"(QualifyingEncounter Encounter):\n  if ( ( \"Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral\" contains QualifyingEncounter )\n      and ( \"Encounter with Malnutrition Risk Screening Not At Risk\" contains QualifyingEncounter )\n  )\n    and not ( \"Encounter with Dietitian Referral\" contains QualifyingEncounter ) then 1 \n    else if ( ( ( \"Encounter with Malnutrition Risk Screening or with Hospital Dietitian Referral\" contains QualifyingEncounter )\n        and ( \"Encounter with Malnutrition Risk Screening At Risk\" contains QualifyingEncounter )\n    )\n      or ( \"Encounter with Dietitian Referral\" contains QualifyingEncounter )\n  )\n    and ( \"Encounter with Nutrition Assessment Not or Mildly Malnourished\" contains QualifyingEncounter )\n    or not ( \"Most Recent Encounter with Nutrition Assessment and Identified Status\" contains QualifyingEncounter ) then 2 \n    else 4"
       }, {
         "url": "displaySequence",
-        "valueInteger": 22
+        "valueInteger": 46
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -397,6 +778,10 @@
       "resource": "http://hl7.org/fhir/administrative-gender"
     }, {
       "type": "depends-on",
+      "display": "Code system ConditionClinicalStatusCodes",
+      "resource": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+    }, {
+      "type": "depends-on",
       "display": "Value set Encounter Inpatient",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
     }, {
@@ -415,6 +800,46 @@
       "type": "depends-on",
       "display": "Value set Emergency Department Visit",
       "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.292"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Malnutrition Risk Screening",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Malnutrition Screening Finding of Not At Risk Result",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.34"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Malnutrition Screening Finding of At Risk Result",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.89"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Hospital Dietitian Referral",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.91"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Nutrition Assessment",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Nutrition Assessment Status Finding of Well Nourished or Not Malnourished or Mildly Malnourished",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.96"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Nutrition Assessment Status Finding of Moderately Malnourished",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.47"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Nutrition Assessment Status Finding of Severely Malnourished",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.43"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Malnutrition Diagnosis",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.55"
+    }, {
+      "type": "depends-on",
+      "display": "Value set Nutrition Care Plan",
+      "resource": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.93"
     }, {
       "type": "depends-on",
       "display": "Value set Payer Type",
@@ -539,7 +964,7 @@
     }, {
       "type": "Encounter",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter" ],
-      "mustSupport": [ "type", "period", "status", "status.value" ],
+      "mustSupport": [ "type", "period", "status", "status.value", "id", "id.value" ],
       "codeFilter": [ {
         "path": "type",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
@@ -576,6 +1001,108 @@
       "codeFilter": [ {
         "path": "code",
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.101"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "status", "status.value", "performed" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.91"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.91"
+      } ]
+    }, {
+      "type": "Procedure",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-procedure" ],
+      "mustSupport": [ "code", "status", "status.value", "performed" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.93"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.93"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "status", "status.value", "effective", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "status", "status.value", "effective", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.34"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "status", "status.value", "effective", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.92"
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.89"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "effective", "status", "status.value", "value", "id", "id.value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "status", "status.value", "effective", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+      }, {
+        "path": "value",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.96"
+      } ]
+    }, {
+      "type": "Observation",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
+      "mustSupport": [ "code", "status", "status.value", "effective", "value" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.21"
+      } ]
+    }, {
+      "type": "Condition",
+      "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition" ],
+      "mustSupport": [ "code" ],
+      "codeFilter": [ {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.55"
+      }, {
+        "path": "code",
+        "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1095.55"
       } ]
     }, {
       "type": "Coverage",
@@ -684,7 +1211,7 @@
   "title": "Malnutrition Care ScoreFHIR",
   "status": "active",
   "experimental": false,
-  "date": "2025-01-14T15:54:04+00:00",
+  "date": "2026-03-13T01:50:41+00:00",
   "publisher": "Academy of Nutrition and Dietetics",
   "contact": [ {
     "telecom": [ {

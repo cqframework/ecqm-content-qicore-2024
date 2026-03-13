@@ -2,17 +2,17 @@
 #DO NOT EDIT WITH WINDOWS
 #exit 1
 
-r=snapshots
+r=releases
 g=org.opencds.cqf
 a=tooling-cli
-v=3.0.0-SNAPSHOT
+v=3.8.0
 
 dlurl='https://oss.sonatype.org/service/local/artifact/maven/redirect?r='${r}'&g='${g}'&a='${a}'&v='${v}''
 
 echo ${dlurl}
 
 input_cache_path=./input-cache/
-tooling_jar=tooling-cli-3.0.0.jar
+tooling_jar=tooling-cli-3.8.0.jar
 
 set -e
 if ! type "curl" > /dev/null; then

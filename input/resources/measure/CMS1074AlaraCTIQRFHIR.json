@@ -404,6 +404,21 @@
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
       "extension": [ {
         "url": "libraryName",
+        "valueString": "FHIRHelpers"
+      }, {
+        "url": "name",
+        "valueString": "ToInterval"
+      }, {
+        "url": "statement",
+        "valueString": "/*\n@description: Converts the given [Period](https://hl7.org/fhir/datatypes.html#Period)\nvalue to a CQL DateTime Interval\n@comment: If the start value of the given period is unspecified, the starting\nboundary of the resulting interval will be open (meaning the start of the interval\nis unknown, as opposed to interpreted as the beginning of time).\n*/\ndefine function ToInterval(period FHIR.Period):\n    if period is null then\n        null\n    else\n        if period.\"start\" is null then\n            Interval(period.\"start\".value, period.\"end\".value]\n        else\n            Interval[period.\"start\".value, period.\"end\".value]"
+      }, {
+        "url": "displaySequence",
+        "valueInteger": 15
+      } ]
+    }, {
+      "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
+      "extension": [ {
+        "url": "libraryName",
         "valueString": "AlaraCommonFunctions"
       }, {
         "url": "name",
@@ -413,7 +428,7 @@
         "valueString": "define function \"Global Noise Value\"(Obs Observation ):\n  singleton from ( Obs.component C\n      where C.code ~ \"Calculated CT global noise\"\n        and ( C.value as Quantity ).unit = '[hnsf\\'U]'\n      return (C.value as Quantity).value\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 15
+        "valueInteger": 16
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -428,7 +443,7 @@
         "valueString": "define function \"Size Adjusted Value\"(Obs Observation ):\n  singleton from ( Obs.component C\n      where C.code ~ \"Calculated CT size-adjusted dose\"\n        and ( C.value as Quantity ).unit = 'mGy.cm'\n      return (C.value as Quantity).value\n  )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 16
+        "valueInteger": 17
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -443,7 +458,7 @@
         "valueString": "define function \"CT Scan Qualifies\"(Obs Observation ):\n  \"Qualifies\"(Obs, \"Abdomen and Pelvis Low Dose\", 64, 598)\n    or \"Qualifies\"(Obs, \"Abdomen and Pelvis Routine Dose\", 29, 644)\n    or \"Qualifies\"(Obs, \"Abdomen and Pelvis High Dose\", 29, 1260)\n    or \"Qualifies\"(Obs, \"Cardiac Low Dose\", 55, 93)\n    or \"Qualifies\"(Obs, \"Cardiac Routine Dose\", 32, 576)\n    or \"Qualifies\"(Obs, \"Chest Low Dose\", 55, 377)\n    or \"Qualifies\"(Obs, \"Chest Routine Dose\", 49, 377)\n    or \"Qualifies\"(Obs, \"Cardiac High Dose or Chest High Dose\", 49, 1282)\n    or \"Qualifies\"(Obs, \"Head Low Dose\", 115, 582)\n    or \"Qualifies\"(Obs, \"Head Routine Dose\", 115, 1025)\n    or \"Qualifies\"(Obs, \"Head High Dose\", 115, 1832)\n    or \"Qualifies\"(Obs, \"Extremity\", 73, 320)\n    or \"Qualifies\"(Obs, \"Neck or Cervical Spine\", 25, 1260)\n    or \"Qualifies\"(Obs, \"Thoracic or Lumbar Spine\", 25, 1260)\n    or \"Qualifies\"(Obs, \"Simultaneous Chest and Abdomen and Pelvis\", 29, 1637)\n    or \"Qualifies\"(Obs, \"Simultaneous Thoracic and Lumbar Spine\", 25, 2520)\n    or \"Qualifies\"(Obs, \"Simultaneous Head and Neck Routine Dose\", 25, 2285)\n    or \"Qualifies\"(Obs, \"Simultaneous Head and Neck High Dose\", 25, 3092)"
       }, {
         "url": "displaySequence",
-        "valueInteger": 17
+        "valueInteger": 18
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -458,7 +473,7 @@
         "valueString": "define function \"Qualifies\"(Obs Observation, code System.Code, noiseThreshold Decimal, sizeDoseThreshold Decimal ):\n  (Obs.value as Concept).codes contains code\n    and ( \"Global Noise Value\"(Obs)>= noiseThreshold\n        or \"Size Adjusted Value\"(Obs)>= sizeDoseThreshold\n    )"
       }, {
         "url": "displaySequence",
-        "valueInteger": 18
+        "valueInteger": 19
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -473,7 +488,7 @@
         "valueString": "define function ToString(value uri): value.value"
       }, {
         "url": "displaySequence",
-        "valueInteger": 19
+        "valueInteger": 20
       } ]
     }, {
       "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-logicDefinition",
@@ -488,7 +503,7 @@
         "valueString": "/*\n@description: Converts the given FHIR [Coding](https://hl7.org/fhir/datatypes.html#Coding) value to a CQL Code.\n*/\ndefine function ToCode(coding FHIR.Coding):\n    if coding is null then\n        null\n    else\n        System.Code {\n          code: coding.code.value,\n          system: coding.system.value,\n          version: coding.version.value,\n          display: coding.display.value\n        }"
       }, {
         "url": "displaySequence",
-        "valueInteger": 20
+        "valueInteger": 21
       } ]
     } ],
     "name": "EffectiveDataRequirements",
@@ -604,7 +619,7 @@
         "url": "http://hl7.org/fhir/us/cqfmeasures/StructureDefinition/cqfm-relatedRequirement",
         "extension": [ {
           "url": "targetId",
-          "valueString": "302"
+          "valueString": "322"
         }, {
           "url": "targetProperty",
           "valueString": "effective"
@@ -618,7 +633,7 @@
         "valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.307"
       } ]
     }, {
-      "id": "302",
+      "id": "322",
       "type": "Observation",
       "profile": [ "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation" ],
       "mustSupport": [ "code", "effective", "value", "value.unit", "value.value", "value.codes" ],
@@ -749,7 +764,7 @@
   "title": "Excessive Radiation Dose or Inadequate Image Quality for Diagnostic Computed Tomography in Adults - Facility IQR FHIR",
   "status": "draft",
   "experimental": false,
-  "date": "2025-01-14T15:54:04+00:00",
+  "date": "2026-03-13T01:50:40+00:00",
   "publisher": "Alara Imaging, Inc.",
   "contact": [ {
     "telecom": [ {
